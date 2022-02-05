@@ -7,7 +7,7 @@
 ## General
 
 Base URL:
-* production: `https://www.shift2bikes.org/api/`
+* production: `https://www.bikeslist.org/api/`
 * local development: `https://localhost:4443/api/`
 
 Most responses are in JSON format, except for:
@@ -69,7 +69,7 @@ Example response:
           "webname": "shift",
           "image": "/eventimages/6245.jpg",
           "audience": "G",
-          "tinytitle": "shift2pedalpalooza",
+          "tinytitle": "bikeslist-calenar",
           "printdescr": "learn how to get involved with shift and pedalpalooza",
           "datestype": "O",
           "area": "P",
@@ -83,7 +83,7 @@ Example response:
           "contact": null,
           "date": "2017-06-05",
           "caldaily_id": "9300",
-          "shareable": "https://shift2bikes.org/calendar/event-9300",
+          "shareable": "https://bikeslist.org/calendar/event-9300",
           "cancelled": false,
           "newsflash": null,
           "endtime": "20:00:00"
@@ -153,8 +153,8 @@ Example response:
         <head>
             <title>Shift to Pedalpalooza Ride</title>
             <meta property="og:title" content="Shift to Pedalpalooza Ride">
-            <meta property="og:url" content="https://www.shift2bikes.org/calendar/event-9300">
-            <meta property="og:image" content="https://www.shift2bikes.org/eventimages/6245.jpg">
+            <meta property="og:url" content="https://www.bikeslist.org/calendar/event-9300">
+            <meta property="og:image" content="https://www.bikeslist.org/eventimages/6245.jpg">
             <meta property="og:type" content="article">
             <meta property="og:description" content="Have you ever wondered how Pedalpalooza happens every year...and did you know we have a team of programmers who work on the shift calendar and website.  There is a lot of rewarding volunteer work that goes on behind the scenes and we are recruiting for new folks who are interested in helping out next year and beyond.  Come on this ride and we will talk a little bit about the history of shift and try to find you a place to help out in the future.  We will end at a family friendly watering hole.  First round of drinks is on shift.  We will be done by 8 so you can check out other rides.">
             <meta property="og:site_name" content="SHIFT to Bikes">
@@ -165,7 +165,7 @@ Example response:
             <h2>Mon, Jun 5th, 6:00 PM - Shift to Pedalpalooza Ride</h2>
             <p>Have you ever wondered how Pedalpalooza happens every year...and did you know we have a team of programmers who work on the shift calendar and website.  There is a lot of rewarding volunteer work that goes on behind the scenes and we are recruiting for new folks who are interested in helping out next year and beyond.  Come on this ride and we will talk a little bit about the history of shift and try to find you a place to help out in the future.  We will end at a family friendly watering hole.  First round of drinks is on shift.  We will be done by 8 so you can check out other rides.</p>
             <p>877 SW park</p>
-            <img src="https://www.shift2bikes.org/eventimages/6245.jpg">
+            <img src="https://www.bikeslist.org/eventimages/6245.jpg">
         </body>
     </html>
 
@@ -214,7 +214,7 @@ Example response:
       "webname": "shift",
       "image": "\\/eventimages\\/6245.jpg",
       "audience": "G",
-      "tinytitle": "shift2pedalpalooza",
+      "tinytitle": "bikeslist-calenar",
       "printdescr": "learn how to get involved with shift and pedalpalooza",
       "datestype": "O",
       "area": "P",

@@ -68,7 +68,7 @@ In 2002, Portland hosted [Bike Summer](https://criticalmass.wikia.com/wiki/Bike_
 
 *   [2007](/archive/pedalpalooza/pedalpalooza-2007/)
 
-    The printed calendar had 130 events, and the online calendar ended up with 140\. That's may sound a hair's breadth smaller than PP2006, but actually most of the events attracted far more people in 2007\. Yea Bikes! Go Team! Rah! Rah! [Ride Reports (PDF)](http://www.shift2bikes.org/pedalpalooza/ridereports/pp_reports_2007.pdf)
+    The printed calendar had 130 events, and the online calendar ended up with 140\. That's may sound a hair's breadth smaller than PP2006, but actually most of the events attracted far more people in 2007\. Yea Bikes! Go Team! Rah! Rah! [Ride Reports (PDF)](http://www.bikeslist.org/pedalpalooza/ridereports/pp_reports_2007.pdf)
 
 *   [2006](/archive/pedalpalooza/pedalpalooza-2006/)
 

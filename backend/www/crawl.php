@@ -1,6 +1,6 @@
 <?php
 include('../init.php');
-$defaultImage = 'https://www.shift2bikes.org/images/shiftLogo_plain.gif';
+$defaultImage = 'https://www.bikeslist.org/images/shiftLogo_plain.gif';
 
 function addOgTag($property, $content) {
 	$content = htmlspecialchars($content);
@@ -9,7 +9,7 @@ function addOgTag($property, $content) {
 
 
 if (!array_key_exists('id', $_GET)) {
-	$title = 'Shift/Pedalpalooza Calendar';
+	$title = 'BikesList Calendar';
 	$description = 'Find fun bike events and make new friends! Shift helps groups and individuals to promote their "bike fun" events.';
 	echo <<< EOT
 <html>

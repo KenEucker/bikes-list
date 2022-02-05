@@ -6,7 +6,7 @@ echo "This script is intended to be run by root on the host computer"
 PROJECT_DIR="/opt/shift-docs/"
 
 WEBROOT="/tmp/letsencrypt-auto"
-DOMAIN="api.shift2bikes.org"
+DOMAIN="api.bikeslist.org"
 CERTDIR="/etc/letsencrypt/live/${DOMAIN}"
 CERTDST="${PROJECT_DIR}/services/nginx/ssl"
 

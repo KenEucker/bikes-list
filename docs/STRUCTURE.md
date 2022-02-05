@@ -68,7 +68,7 @@ On startup nginx runs `entrypoint.sh` which creates a self-signed ssl cert at `.
 
 #### Letsencrypt
 
-*this script will only work on the production machine at `api.shift2bikes.org`*
+*this script will only work on the production machine at `api.bikeslist.org`*
 
 1. For production the script `certbot.sh` contains hardcoded project directory `/opt/shift-docs`
 2. The script creates the directory on the host `/tmp/letsencrypt-auto`, which is mapped into the container at `/tmp/letsencrypt-auto`

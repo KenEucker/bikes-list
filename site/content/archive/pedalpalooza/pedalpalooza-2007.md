@@ -57,7 +57,7 @@ Nearly all events are free.
     <tr valign="top">
       <td colspan="4" valign="middle" align="center">
 	<font size="+3">June 2007</font>
-	<a href="http://www.shift2bikes.org/pedalpalooza/ppaudience.html" target="_BLANK" onclick="window.open('ppaudience.html', 'audience', 'width=600, height=500, menubar=no, status=no, location=no, toolbar=no, scrollbars=yes'); return false;">
+	<a href="http://www.bikeslist.org/pedalpalooza/ppaudience.html" target="_BLANK" onclick="window.open('ppaudience.html', 'audience', 'width=600, height=500, menubar=no, status=no, location=no, toolbar=no, scrollbars=yes'); return false;">
 	  <div style="color: green;">Family Friendly events have <strong>green</strong> times</div>
 	  <div style="color: red;">Adult Only (21+) events have <strong>red</strong> times</div>
 	  <div style="color: blue;">Vancouver events have titles listed in <strong>blue</strong></div>
@@ -217,14 +217,14 @@ Bridges with this ride.
 other bikey folks and enjoy better views than any coffee shop in town.
 A year-round tradition since 2003, but more of it - Every Friday during
 Pedalpalooza!</em>
-<br>Timo, t<span>imolandia<img src="pp07images/at.gif" alt=" at " border="0">gmail<img src="pp07images/dotcom.gif" alt=" daht comm" border="0"></span>, <a href="http://shift2bikes.org/breakfast.shtml">shift2bikes.org/breakfast.shtml</a>, 503-805-1321
+<br>Timo, t<span>imolandia<img src="pp07images/at.gif" alt=" at " border="0">gmail<img src="pp07images/dotcom.gif" alt=" daht comm" border="0"></span>, <a href="http://bikeslist.org/breakfast.shtml">bikeslist.org/breakfast.shtml</a>, 503-805-1321
 </dd>
 <dt><a name="58">MOCKTAILS ON HAWTHORNE</a>
 <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd>East end of Hawthorne Bridge
 <br>4:00pm - 6:30pm
 <br><em>Stop on a by for a relaxing on non-alcoholic cocktail and snacks.</em>
-<br>Dat Nguyen, d<span>ontbecreepy<img src="pp07images/at.gif" alt=" at " border="0">gmail<img src="pp07images/dotcom.gif" alt=" daht comm" border="0"></span>, <a href="http://www.shift2bikes.org/">www.shift2bikes.org</a>
+<br>Dat Nguyen, d<span>ontbecreepy<img src="pp07images/at.gif" alt=" at " border="0">gmail<img src="pp07images/dotcom.gif" alt=" daht comm" border="0"></span>, <a href="http://www.bikeslist.org/">www.bikeslist.org</a>
 </dd>
 <dt><a name="125">FREE BI-STATE BIKE MAPS: PDX &amp; VAN</a>
 </dt><dd>East end of Hawthorne Bridge
@@ -464,7 +464,7 @@ apple. </em>
 business casual and be prepared to dance your assets off in Organics To
 You's 10,000 sq foot warehouse. Please download fliers from the webpage
 and give to anyone on a bicycle. NOTE: This is an 18+ event <strong>Please bring your ID</strong>.</em>
-<br>Shift, <a href="http://www.shift2bikes.org/wiki/pedalpalooza:dance_party">Volunteers Needed!!!</a>
+<br>Shift, <a href="http://www.bikeslist.org/wiki/pedalpalooza:dance_party">Volunteers Needed!!!</a>
 </dd>
 <dt>
 <img src="pp07images/22.jpg" alt="" width="205" height="200" align="right">
@@ -476,7 +476,7 @@ for more info. The ride will leave from the Pedalpalooza Kick Off Dance
 Party at 11:59 PM and return for more dancing. Portland has the largest
 naked ride in North America ... the ride is as naked as you want to be.
 Note: To be admitted to the party you must be 18 and older. <strong>Please bring your ID</strong> if you want to get into the party.</em>
-<font color="magenta"> </font><br>Shift, <a href="http://www.shift2bikes.org/wiki/pedalpalooza:dance_party:your_first">Your First Naked Ride</a>
+<font color="magenta"> </font><br>Shift, <a href="http://www.bikeslist.org/wiki/pedalpalooza:dance_party:your_first">Your First Naked Ride</a>
 </dd>
 </dl>
 
@@ -922,7 +922,7 @@ party!! bring <strong>bike lights</strong> and a helmet.</em>
 other bikey folks and enjoy better views than any coffee shop in town.
 A year-round tradition since 2003, but more of it - Every Friday during
 Pedalpalooza!</em>
-<br>Dat Nguyen, d<span>ontbecreepy<img src="pp07images/at.gif" alt=" at " border="0">gmail<img src="pp07images/dotcom.gif" alt=" daht comm" border="0"></span>, <a href="http://shift2bikes.org/breakfast.shtml">http://shift2bikes.org/breakfast.shtml</a>, 503-805-1321
+<br>Dat Nguyen, d<span>ontbecreepy<img src="pp07images/at.gif" alt=" at " border="0">gmail<img src="pp07images/dotcom.gif" alt=" daht comm" border="0"></span>, <a href="http://bikeslist.org/breakfast.shtml">http://bikeslist.org/breakfast.shtml</a>, 503-805-1321
 </dd>
 <dt>
 <img src="pp07images/75.jpg" alt="" width="144" height="200" align="right">
@@ -1364,7 +1364,7 @@ the bad and end with the good.... So, we're going to start with the
 horrendous westside Willamette Greenway Trail and end with the
 Springwater Corridor. We're starting from Salmon Fountain, but the end
 will be at the top of the Eastbank Esplanade, so those going to the
-Twin Spin can continue on to NE Shaver.</font><br>Matt Picio, <a href="http://www.shift2bikes.org/pedalpalooza/%5C%5Cnorthwestwanderer.blogspot.com">Wanderlust - A Cycling Journal of the Pacific Northwest</a>
+Twin Spin can continue on to NE Shaver.</font><br>Matt Picio, <a href="http://www.bikeslist.org/pedalpalooza/%5C%5Cnorthwestwanderer.blogspot.com">Wanderlust - A Cycling Journal of the Pacific Northwest</a>
 </dd>
 <dt><a name="46">GELATO ANYONE?</a>
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=5329+NE+Sandy+Blvd" target="_BLANK">5329 NE Sandy Blvd</a> (Hollywood Bike Gallery)
@@ -1702,7 +1702,7 @@ and obey all traffic laws.</em>
 other bikey folks and enjoy better views than any coffee shop in town.
 A year-round tradition since 2003, but more of it - Every Friday during
 Pedalpalooza!</em>
-<br>Dat Nguyen, <a href="http://shift2bikes.org/breakfast.shtml">shift2bikes.org/breakfast.shtml</a>
+<br>Dat Nguyen, <a href="http://bikeslist.org/breakfast.shtml">bikeslist.org/breakfast.shtml</a>
 </dd>
 <dt>
 <img src="pp07images/144.jpg" alt="" width="200" height="200" align="right">
@@ -1813,7 +1813,7 @@ PDOT for your help too! (One map per person.)</em>
 bike fun. &nbsp;Bring your friend. &nbsp;Bring your bike. &nbsp;Bring
 your sunscreen. &nbsp;Bring your camera. &nbsp;Bring your best game.
 &nbsp;Bring your bandages. &nbsp;Bring your bike fun.</em>
-<br>Shift, <a href="http://www.shift2bikes.org/mcbf">Multnomah County Bike Fair on the Shift website</a>
+<br>Shift, <a href="http://www.bikeslist.org/mcbf">Multnomah County Bike Fair on the Shift website</a>
 </dd>
 </dl>
 </div>

@@ -1,6 +1,6 @@
 # Overview
 
-The purpose of the Shift/Pedalpalooza Calendar is to empower citizens to create and view bike events and to spread bike fun.
+The purpose of the BikesList Calendar is to empower citizens to create and view bike events and to spread bike fun.
 
 # Software
 
@@ -9,11 +9,11 @@ built using:
 - docker
 - [hugo v0.37.1](https://gohugo.io) 
 - && the theme ["Universal"](https://themes.gohugo.io/hugo-universal-theme/)
-- && the content from [the legacy shift website](https://old.shift2bikes.org)
+- && the content from [the legacy shift website](https://old.bikeslist.org)
 - && [Netlify web hosting](https://www.netlify.com) to serve the content
 - && [the Netlify CMS](https://www.netlifycms.org)
 
-You can see the live site here:  https://www.shift2bikes.org
+You can see the live site here:  https://www.bikeslist.org
 
 ## Contributing
 

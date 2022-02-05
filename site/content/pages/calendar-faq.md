@@ -86,4 +86,4 @@ If you're rescheduling to a new date, click on the new date in the date picker t
 
 ### I'm having trouble posting a ride or making changes. Who do I contact?
 
-Email the [Shift calendar crew](mailto:bikecal@shift2bikes.org) if you need help.
+Email the [Shift calendar crew](mailto:bikecal@bikeslist.org) if you need help.

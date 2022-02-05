@@ -171,8 +171,8 @@ class Event extends fActiveRecord {
         $secret = $this->getPassword();
         $secret_url = "$base/addevent/edit-$event_id-$secret";
 
-        $headers = 'From: bikefun@shift2bikes.org' . "\r\n" .  'Reply-To: bikefun@shift2bikes.org' . "\r\n";
-        $subject = "Shift2Bikes Secret URL for " . $this->getTitle();
+        $headers = 'From: bikefun@bikeslist.org' . "\r\n" .  'Reply-To: bikefun@bikeslist.org' . "\r\n";
+        $subject = "BikesList Secret URL for " . $this->getTitle();
         $message = "Dear " . $this->getName();
         $message = $message . ", \r\n\r\nThank you for adding your event, " . $this->getTitle();
         $message = $message . ", to the Shift Calendar. To activate the event listing, you must visit " . $secret_url . " and publish it.";

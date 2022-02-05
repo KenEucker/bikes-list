@@ -24,9 +24,9 @@ new instance ubuntu setup details:
 
 for temporary setup with different hostname:
 - set hostname via 3 changes here: https://linuxize.com/post/how-to-change-hostname-on-ubuntu-18-04/
-- change hostname to `newshiftapi.shift2bikes.org` in DOMAIN="newshiftapi.shift2bikes.org"
+- change hostname to `newshiftapi.bikeslist.org` in DOMAIN="newshiftapi.bikeslist.org"
 - edit /opt/shift-docs/services/nginx/certbot.sh to include flags to certbot execution: 
-	`--agree-tos --email  bikecal@shift2bikes.org`
+	`--agree-tos --email  bikecal@bikeslist.org`
 
 ---- in the end ----
 - `shift up` should just work.

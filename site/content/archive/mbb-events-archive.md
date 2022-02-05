@@ -16,7 +16,7 @@ weight:
 Sat. Oct 31, 11am leaving from ~44 and NE Going, headed to 35 and Alberta.  Exactly 1 (flat) mile. **Costumes encouraged**.   I have a lot of books, etc: dense heavy boxes, and not a ton of Bound bamboo trailer-worthy furniture and bike parts.  If you like hauling a lot of heavy stuff a short distance, this is the move for you. We could use all the help we can get.  Will have all the usual sweets and savories, uppers and downers, vegan and GF.  We will burn things at the end. **Costumes still encouraged**.  An RSVP on facebook or email would be appreciated so I have a vague idea of how much food to get.
 
 * <a href="https://www.facebook.com/events/1118046878225133">FB listing</a>
-* <a href="http://www.shift2bikes.org/cal/viewmonth.php?month=10&year=2015#31-5325">Calendar Listing</a>
+* <a href="http://www.bikeslist.org/cal/viewmonth.php?month=10&year=2015#31-5325">Calendar Listing</a>
 
 ## Ron's Rawk'n Bike Move!
 

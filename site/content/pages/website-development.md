@@ -3,12 +3,12 @@ title: website development
 date: 2018-02-24T21:33:57.063Z
 weight: '13'
 ---
-## We're updating the content and creating a new website to share the content from [http://shift2bikes.org](http://shift2bikes.org).
+## We're updating the content and creating a new website to share the content from [http://bikeslist.org](http://bikeslist.org).
 
 
-[This GitHub repository](https://github.com/Shift2Bikes/shift-docs) contains the existing content and a [hugo](https://gohugo.io)-based website to help navigate the content.  However, all content is stored as [markdown](https://daringfireball.net/projects/markdown/) and should be usable with minimal modifications in any other modern site framework, should someone with more energy and a strong opinion about the architecture for the website come along who is interested in creating something fancier.
+[This GitHub repository](https://github.com/keneucker/shift-docs) contains the existing content and a [hugo](https://gohugo.io)-based website to help navigate the content.  However, all content is stored as [markdown](https://daringfireball.net/projects/markdown/) and should be usable with minimal modifications in any other modern site framework, should someone with more energy and a strong opinion about the architecture for the website come along who is interested in creating something fancier.
 
-Instructions for contribution and modification are in the [README for the GitHub Repository storing the content for this site](https://github.com/Shift2Bikes/shift-docs#overview)
+Instructions for contribution and modification are in the [README for the GitHub Repository storing the content for this site](https://github.com/keneucker/shift-docs#overview)
 
 If you see something that could be improved, just do it!
 

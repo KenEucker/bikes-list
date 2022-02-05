@@ -23,7 +23,7 @@ Also, check the [calendar](/calendar/) to avoid a conflict with other rides, and
 
 Wanting to give moving by bicycle a try? Here are some tips to get you started:
 
-1. Broadcast the bike move far and wide! Add it to your local bike group's calendar, post it on a blog, do anything you can think of to get the word out. (In Portland, people add it to [Shift's calendar](http://shift2bikes.org/fun), announce it on the [Shift mailing list](/pages/email-list/), and also send a reminder on that list the day before the move.) It can help to have a theme, like fancy dress, distinguished tie, or puppet/costume. It really is a party on wheels but you have to make this clear in the invitation, because it's not intuitive. Advertise it as a sort of barn-raising.
+1. Broadcast the bike move far and wide! Add it to your local bike group's calendar, post it on a blog, do anything you can think of to get the word out. (In Portland, people add it to [Shift's calendar](http://bikeslist.org/fun), announce it on the [Shift mailing list](/pages/email-list/), and also send a reminder on that list the day before the move.) It can help to have a theme, like fancy dress, distinguished tie, or puppet/costume. It really is a party on wheels but you have to make this clear in the invitation, because it's not intuitive. Advertise it as a sort of barn-raising.
 
 2. Be really, really well prepared day-of so that people can just load-up their bikes and ride. 45 minutes is a pretty good loading-up time to shoot for, allowing plenty of time for people to drink coffee and to accomodate latecomers.
 

@@ -17,7 +17,7 @@ poster-image: "/images/pp/pp2006.jpg"
     <table>
     <tbody><tr>
       <td rowspan="2" width="400">
-<a href="http://shift2bikes.org/pedalpalooza/images/pp2006colorbig.jpg" title="Click for full-size image"><img src="images/pp2006.gif" alt="Pedalpalooza" border="0"></a>
+<a href="http://bikeslist.org/pedalpalooza/images/pp2006colorbig.jpg" title="Click for full-size image"><img src="images/pp2006.gif" alt="Pedalpalooza" border="0"></a>
       </td>
       <td>
 	<h1 style="margin: 0pt;">Pedalpalooza</h1>
@@ -96,7 +96,7 @@ poster-image: "/images/pp/pp2006.jpg"
 	<div class="tiny"><a href="#135" title="Scrap Thursday" style="color: black;"><strong style="color: black;">2:00pm</strong>&nbsp;Scrap Thursday</a></div><div class="tiny"><a href="#152" title="Bike Kiss In" style="color: black;"><strong style="color: black;">4:30pm</strong>&nbsp;Kiss In</a></div><div class="tiny"><a href="#20" title="Transportation Geek Ride II" style="color: black;"><strong style="color: black;">6:00pm</strong>&nbsp;Geek Ride</a></div><div class="tiny"><a href="#107" title="Polo 101" style="color: black;"><strong style="color: black;">6:30pm</strong>&nbsp;Polo 101</a></div><div class="tiny"><a href="#99" title="Vancouver Downtown Heritage Tree Tour" style="color: blue;"><strong style="color: green;">7:00pm</strong>&nbsp;Vancouver Heritage Trees</a></div><div class="tiny"><a href="#123" title="Council Crest Carny (zoo)Bomb" style="color: black;"><strong style="color: black;">7:00pm</strong>&nbsp;Council Crest Bomb</a></div><div class="tiny"><a href="#138" title="Women's Volunteer Night at the Community Cycling Center" style="color: black;"><strong style="color: black;">7:00pm</strong>&nbsp;Women's Volunteer Night</a></div>      </td>
       <td id="cal23" class="weeks"><font size="+1"><a href="#June23">23</a></font>
 	<div class="tiny"><a href="#122" title="Breakfast.  on the Bridges" style="color: black;"><strong style="color: green;">7:00am</strong>&nbsp;BonB</a></div><div class="tiny"><a href="#35" title=" Glamour and Fame Museum Tour" style="color: black;"><strong style="color: black;">2:00pm</strong>&nbsp;Glamour &amp; Fame Museum Tour</a></div><div class="tiny"><a href="#171" title="Tour de PDX Bikestation Sites" style="color: black;"><strong style="color: red;">5:30pm</strong>&nbsp;Tour de Bikestation</a></div><div class="tiny"><a href="#47" title="Bike-In Movie at Hawthorne Hostel" style="color: black;"><strong style="color: black;">7:00pm</strong>&nbsp;Bike-In Movie</a></div><div class="tiny"><a href="#58" title="Portland Pirate Pedal" style="color: black;"><strong style="color: red;">10:30pm</strong>&nbsp;Portland Pirate Pedal</a></div><div class="tiny"><a href="#132" title="Serve Me or Arrest Me - Drive Thru Equity" style="color: black;"><strong style="color: red;">11:59pm</strong>&nbsp;Drive Thru Equity</a></div>      </td>
-      <td id="cal24" style="background: rgb(224, 255, 224) url(http://shift2bikes.org/pedalpalooza/images/mcbf_bg-green.gif) no-repeat scroll 0%; -moz-background-clip: initial; -moz-background-origin: initial;">
+      <td id="cal24" style="background: rgb(224, 255, 224) url(http://bikeslist.org/pedalpalooza/images/mcbf_bg-green.gif) no-repeat scroll 0%; -moz-background-clip: initial; -moz-background-origin: initial;">
 	<font size="+1"><a href="#June24">24</a></font>
 	<div class="tiny"><a href="#39" title="Tour D'Organics Bike Ride" style="color: black;"><strong style="color: black;">7:30am</strong>&nbsp;Tour D'Organics</a></div><div class="tiny"><a href="#42" title="Women on Bikes Ride" style="color: black;"><strong style="color: black;">9:00am</strong>&nbsp;Downtown/Esplanade</a></div><div class="tiny"><a href="#116" title="Intermediate-Advance Road Ride" style="color: black;"><strong style="color: red;">9:00am</strong>&nbsp;Intermediate-Advance</a></div><div class="tiny"><a href="#28" title="Slug Velo Annual Rose Ride" style="color: black;"><strong style="color: black;">11:00am</strong>&nbsp;Slug Velo Rose Ride</a></div><div><a href="#19" title="Multnomah County Bike Fair" style="color: black;"><strong style="color: black;">2:00pm</strong>&nbsp;MCBF</a></div>      </td>
     </tr>
@@ -169,7 +169,7 @@ bike movies for your heckling</em>
 other bikey folks and enjoy better views than any coffee shop in town.
 A year-round tradition since 2003, but more of it - Every Friday during
 Pedalpalooza!</em>
-<br>Cap'n Pastry, timolandia<img src="images/at.gif" alt="[at]">gmail.com, <a href="http://shift2bikes.org/breakfast.shtml">http://shift2bikes.org/breakfast.shtml</a></dd><dt class="eventdetail"><a name="110">BREAKFAST ON THE OVERPASS</a>
+<br>Cap'n Pastry, timolandia<img src="images/at.gif" alt="[at]">gmail.com, <a href="http://bikeslist.org/breakfast.shtml">http://bikeslist.org/breakfast.shtml</a></dd><dt class="eventdetail"><a name="110">BREAKFAST ON THE OVERPASS</a>
 <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><img src="pp06images/110.jpg" alt="" width="111" height="83" align="left">
 <a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=NE+Halsey+and+42nd" target="_BLANK">NE Halsey and 42nd</a> (Hollywood Transit Center pedestrian overpass)

@@ -16,6 +16,6 @@ This is 1/7th of the bike parking setup demonstrating some different placement m
 
 ![Shift bike racks](/images/bikeracks.jpg)
 
-Got questions? There are some higher resolution pictures I can share.  [Email for more info](mailto:bikeracks@shift2bikes.org).
+Got questions? There are some higher resolution pictures I can share.  [Email for more info](mailto:bikeracks@bikeslist.org).
 
 We typically only loan these out to nonprofits or other community organizations for a few days at a time, and you must retrieve them from (and return them to) a location in NoPo near Peninsula Park.

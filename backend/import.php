@@ -5,7 +5,7 @@
  * Takes one argument, number of days of events to import. Default is 10.
  */
 include('init.php');
-const URL = 'http://shift2bikes.org/betacal/events.php';
+const URL = 'http://bikeslist.org/betacal/events.php';
 if (count($argv) > 1) {
     $futureDays = intval($argv[1]) - 1;
 } else {
@@ -27,4 +27,4 @@ foreach ($eventArrays as $eventArray) {
     EventTime::matchEventTimesToDates($event, $dates);
 }
 $num = count($eventArrays);
-print("Imported $num events from shift2bikes.org\n");
+print("Imported $num events from bikeslist.org\n");

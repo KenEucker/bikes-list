@@ -144,7 +144,7 @@
                         'Thank you! A link with a URL to edit and manage the ' +
                             'event has been emailed to ' + postVars.email + '. ' +
                             'You must follow this link and publish the event for it to become visible. ' +
-                            'If you don\'t receive that email within 20 minutes, please contact bikecal@shift2bikes.org for help.' :
+                            'If you don\'t receive that email within 20 minutes, please contact bikecal@bikeslist.org for help.' :
                         'Your event has been updated!';
                     if (returnVal.published) {
                         $('.unpublished-event').remove();

@@ -43,7 +43,7 @@ if [ ! -z "$SMTP_HOST" ]; then
     "smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt" \
     "smtp_generic_maps = hash:/etc/postfix/generic"
 
-    echo "www-data@shift2bikes.org bikefun@shift2bikes.org" > /etc/postfix/generic
+    echo "www-data@bikeslist.org bikefun@bikeslist.org" > /etc/postfix/generic
     postmap /etc/postfix/generic
 
     echo "[$SMTP_HOST]:587 $SMTP_USER:$SMTP_PASS" > /etc/postfix/sasl_passwd
