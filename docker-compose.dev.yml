@@ -26,8 +26,10 @@ services:
     ports:
       - "3001:3001"
     depends_on:
-      - deps
-      - db
+      deps:
+        condition: service_completed_successfully
+      db:
+        condition: service_started
 
   web:
     image: node:20-alpine
@@ -42,8 +44,10 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - deps
-      - api
+      deps:
+        condition: service_completed_successfully
+      api:
+        condition: service_started
 
   admin:
     image: node:20-alpine
@@ -58,8 +62,10 @@ services:
     ports:
       - "3002:3002"
     depends_on:
-      - deps
-      - api
+      deps:
+        condition: service_completed_successfully
+      api:
+        condition: service_started
 
   deps:
     image: node:20-alpine
@@ -68,6 +74,7 @@ services:
       - .:/app
       - node_modules:/app/node_modules
     command: sh -c "npm install && touch /app/.deps_installed"
+    restart: "no"
 
 volumes:
   db_data:
