@@ -1,0 +1,19 @@
+{
+  "name": "bikes-list",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run -ws dev",
+    "dev:docker": "docker compose -f docker-compose.dev.yml up --build",
+    "build": "npm run -ws build",
+    "start": "npm run -ws start"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.5"
+  }
+}

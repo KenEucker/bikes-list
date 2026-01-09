@@ -1,0 +1,74 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: bikes
+      POSTGRES_PASSWORD: bikes
+      POSTGRES_DB: bikeslist
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  api:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    environment:
+      PORT: 3001
+      DATABASE_URL: postgres://bikes:bikes@db:5432/bikeslist
+      LOG_LEVEL: info
+    command: sh -c "while [ ! -f /app/.deps_installed ]; do sleep 1; done; npm run -w apps/api dev"
+    ports:
+      - "3001:3001"
+    depends_on:
+      - deps
+      - db
+
+  web:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    environment:
+      PORT: 3000
+      PUBLIC_API_URL: http://api:3001
+    command: sh -c "while [ ! -f /app/.deps_installed ]; do sleep 1; done; npm run -w apps/web dev -- --host 0.0.0.0 --port 3000"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - deps
+      - api
+
+  admin:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    environment:
+      PORT: 3002
+      PUBLIC_API_URL: http://api:3001
+    command: sh -c "while [ ! -f /app/.deps_installed ]; do sleep 1; done; npm run -w apps/admin dev -- --host 0.0.0.0 --port 3002"
+    ports:
+      - "3002:3002"
+    depends_on:
+      - deps
+      - api
+
+  deps:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    command: sh -c "npm install && touch /app/.deps_installed"
+
+volumes:
+  db_data:
+  node_modules:
