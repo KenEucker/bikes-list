@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="BikesList">
+  <section class="flex flex-col gap-6">
+    <p class="text-sm uppercase tracking-[0.25em] text-slate-400">Phase 0</p>
+    <h1 class="text-4xl font-semibold text-white sm:text-5xl">
+      BikesList public site
+    </h1>
+    <p class="text-lg text-slate-300">
+      The core foundation is live. This SSR site shares a common Tailwind setup
+      with the admin panel and connects to the API service.
+    </p>
+    <div class="flex flex-wrap gap-3 text-sm text-slate-300">
+      <span class="rounded-full border border-slate-700 px-3 py-1">
+        Astro SSR
+      </span>
+      <span class="rounded-full border border-slate-700 px-3 py-1">
+        Tailwind UI
+      </span>
+      <span class="rounded-full border border-slate-700 px-3 py-1">
+        Docker-ready
+      </span>
+    </div>
+  </section>
+</BaseLayout>
