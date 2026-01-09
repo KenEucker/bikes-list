@@ -2,9 +2,24 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const apiBase = import.meta.env.PUBLIC_API_URL ?? "http://localhost:3001";
-const response = await fetch(`${apiBase}/cities`);
-const data = response.ok ? await response.json() : { cities: [] };
-const cities = data.cities ?? [];
+let cities: Array<{
+  id: string;
+  name: string;
+  slug: string;
+  country_code: string;
+  region?: string | null;
+  timezone: string;
+  is_active: boolean;
+}> = [];
+let loadError = "";
+
+try {
+  const response = await fetch(`${apiBase}/cities`);
+  const data = response.ok ? await response.json() : { cities: [] };
+  cities = data.cities ?? [];
+} catch (error) {
+  loadError = error instanceof Error ? error.message : "Unable to load cities.";
+}
 ---
 
 <BaseLayout title="BikesList Admin">
@@ -26,7 +41,11 @@ const cities = data.cities ?? [];
           Toggle city availability and keep core metadata aligned.
         </p>
         <div class="mt-6 space-y-4">
-          {cities.length ? (
+          {loadError ? (
+            <div class="rounded-xl border border-rose-500/40 bg-rose-500/10 p-4 text-sm text-rose-200">
+              Failed to load cities from the API. {loadError}
+            </div>
+          ) : cities.length ? (
             cities.map((city) => (
               <div
                 class="flex flex-col gap-3 rounded-xl border border-slate-800 bg-slate-950/60 p-4 sm:flex-row sm:items-center sm:justify-between"

@@ -50,7 +50,9 @@ server.get("/health", async (request) => ({
 server.get("/", async (request) => ({
   status: "ok",
   requestId: request.id,
-  service: "api"
+  service: "api",
+  message: "BikesList API is online",
+  docs: "/docs"
 }));
 
 server.get("/cities", async () => {
