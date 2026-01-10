@@ -451,11 +451,10 @@ const validateOauthState = (request: FastifyRequest, state: string | null) => {
   return Boolean(state && stored && state === stored);
 };
 
-const fetchDiscordProfile = async (code: string) => {
+const fetchDiscordProfile = async (code: string, redirectUri: string) => {
   const clientId = process.env.DISCORD_CLIENT_ID;
   const clientSecret = process.env.DISCORD_CLIENT_SECRET;
-  const redirectUri = process.env.DISCORD_REDIRECT_URL;
-  if (!clientId || !clientSecret || !redirectUri) {
+  if (!clientId || !clientSecret) {
     throw new Error("Discord OAuth environment variables are missing.");
   }
 
@@ -500,11 +499,10 @@ const fetchDiscordProfile = async (code: string) => {
   };
 };
 
-const fetchGoogleProfile = async (code: string) => {
+const fetchGoogleProfile = async (code: string, redirectUri: string) => {
   const clientId = process.env.GOOGLE_CLIENT_ID;
   const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-  const redirectUri = process.env.GOOGLE_REDIRECT_URL;
-  if (!clientId || !clientSecret || !redirectUri) {
+  if (!clientId || !clientSecret) {
     throw new Error("Google OAuth environment variables are missing.");
   }
 
@@ -674,11 +672,22 @@ server.get("/auth/magic-link/:token", async (request, reply) => {
 
 server.get("/auth/discord", async (request, reply) => {
   const clientId = process.env.DISCORD_CLIENT_ID;
+  const clientSecret = process.env.DISCORD_CLIENT_SECRET;
   const redirectUri =
     process.env.DISCORD_REDIRECT_URL ?? `${buildRequestAuthBase(request)}/auth/discord/callback`;
-  if (!clientId || !redirectUri) {
+  const missing = [];
+  if (!clientId) {
+    missing.push("DISCORD_CLIENT_ID");
+  }
+  if (!clientSecret) {
+    missing.push("DISCORD_CLIENT_SECRET");
+  }
+  if (!redirectUri) {
+    missing.push("DISCORD_REDIRECT_URL");
+  }
+  if (missing.length) {
     reply.code(500);
-    return { message: "Discord OAuth not configured" };
+    return { message: "Discord OAuth not configured", missing };
   }
   const state = buildOauthState();
   setOauthStateCookie(reply, state);
@@ -704,7 +713,9 @@ server.get("/auth/discord/callback", async (request, reply) => {
     return { message: "Invalid OAuth state" };
   }
 
-  const profile = await fetchDiscordProfile(code);
+  const redirectUri =
+    process.env.DISCORD_REDIRECT_URL ?? `${buildRequestAuthBase(request)}/auth/discord/callback`;
+  const profile = await fetchDiscordProfile(code, redirectUri);
   if (!profile.email) {
     reply.code(400);
     return { message: "Discord did not return an email address" };
@@ -723,11 +734,22 @@ server.get("/auth/discord/callback", async (request, reply) => {
 
 server.get("/auth/google", async (request, reply) => {
   const clientId = process.env.GOOGLE_CLIENT_ID;
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
   const redirectUri =
     process.env.GOOGLE_REDIRECT_URL ?? `${buildRequestAuthBase(request)}/auth/google/callback`;
-  if (!clientId || !redirectUri) {
+  const missing = [];
+  if (!clientId) {
+    missing.push("GOOGLE_CLIENT_ID");
+  }
+  if (!clientSecret) {
+    missing.push("GOOGLE_CLIENT_SECRET");
+  }
+  if (!redirectUri) {
+    missing.push("GOOGLE_REDIRECT_URL");
+  }
+  if (missing.length) {
     reply.code(500);
-    return { message: "Google OAuth not configured" };
+    return { message: "Google OAuth not configured", missing };
   }
   const state = buildOauthState();
   setOauthStateCookie(reply, state);
@@ -755,7 +777,9 @@ server.get("/auth/google/callback", async (request, reply) => {
     return { message: "Invalid OAuth state" };
   }
 
-  const profile = await fetchGoogleProfile(code);
+  const redirectUri =
+    process.env.GOOGLE_REDIRECT_URL ?? `${buildRequestAuthBase(request)}/auth/google/callback`;
+  const profile = await fetchGoogleProfile(code, redirectUri);
   if (!profile.email) {
     reply.code(400);
     return { message: "Google did not return an email address" };
