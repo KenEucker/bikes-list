@@ -102,7 +102,12 @@ services:
     volumes:
       - .:/app
       - node_modules:/app/node_modules
-    command: sh -c "apt-get update && apt-get install -y --no-install-recommends openssl libssl1.1 && rm -rf /var/lib/apt/lists/* && npm install && touch /app/.deps_installed"
+    environment:
+      NPM_CONFIG_FETCH_RETRIES: 5
+      NPM_CONFIG_FETCH_RETRY_MINTIMEOUT: 20000
+      NPM_CONFIG_FETCH_RETRY_MAXTIMEOUT: 120000
+      NPM_CONFIG_FETCH_TIMEOUT: 300000
+    command: sh -c "apt-get update && apt-get install -y --no-install-recommends openssl libssl1.1 && rm -rf /var/lib/apt/lists/* && npm install --no-audit --progress=false && touch /app/.deps_installed"
     restart: "no"
 
   mailhog:
