@@ -125,8 +125,7 @@ try {
   </section>
 </BaseLayout>
 
-<script>
-  const apiBase = "${apiBase}";
+<script define:vars={{ apiBase }}>
   const adminHeaders = { "x-admin": "true" };
 
   const createForm = document.querySelector("#create-city");
