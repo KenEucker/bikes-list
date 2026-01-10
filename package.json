@@ -10,7 +10,8 @@
     "dev": "npm run -ws dev",
     "dev:docker": "docker compose -f docker-compose.dev.yml up --build",
     "build": "npm run -ws build",
-    "start": "npm run -ws start"
+    "start": "npm run -ws start",
+    "seed:docker": "docker compose exec api npm run -w apps/api seed"
   },
   "devDependencies": {
     "tsx": "^4.7.0",
