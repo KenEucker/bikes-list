@@ -372,6 +372,24 @@ const ensureSuperAdmin = async (user: User) => {
   });
 };
 
+const buildRequestOrigin = (request: FastifyRequest) => {
+  const forwardedProto = request.headers["x-forwarded-proto"];
+  const forwardedHost = request.headers["x-forwarded-host"];
+  const host = forwardedHost ?? request.headers.host;
+  const protocol = typeof forwardedProto === "string" ? forwardedProto : "http";
+  if (!host) {
+    return publicBaseUrl;
+  }
+  return `${protocol}://${host}`;
+};
+
+const buildRequestAuthBase = (request: FastifyRequest) => {
+  const origin = buildRequestOrigin(request);
+  const forwardedPrefix = request.headers["x-forwarded-prefix"];
+  const prefix = typeof forwardedPrefix === "string" ? forwardedPrefix : "";
+  return `${origin}${prefix}`;
+};
+
 const sendSessionResponse = async (
   request: FastifyRequest,
   reply: FastifyReply,
@@ -591,6 +609,13 @@ server.post("/auth/magic-link", async (request, reply) => {
     }
 
     const email = body.email.trim().toLowerCase();
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+    if (!existingUser) {
+      const signupUrl = `${buildRequestOrigin(request)}/signup`;
+      reply.code(404);
+      return { message: "User not found", signup_url: signupUrl };
+    }
+
     const user = await findOrCreateUser(email);
     await ensureSuperAdmin(user);
 
@@ -610,7 +635,8 @@ server.post("/auth/magic-link", async (request, reply) => {
     });
 
     const redirect = body.redirect ? `?redirect=${encodeURIComponent(body.redirect)}` : "";
-    const link = `${publicBaseUrl}/auth/magic-link/${token}${redirect}`;
+    const authBase = buildRequestAuthBase(request);
+    const link = `${authBase}/auth/magic-link/${token}${redirect}`;
     request.log.info({ email, link }, "Generated magic link");
 
     const emailSent = await sendMagicLinkEmail(email, link);
@@ -648,7 +674,8 @@ server.get("/auth/magic-link/:token", async (request, reply) => {
 
 server.get("/auth/discord", async (request, reply) => {
   const clientId = process.env.DISCORD_CLIENT_ID;
-  const redirectUri = process.env.DISCORD_REDIRECT_URL;
+  const redirectUri =
+    process.env.DISCORD_REDIRECT_URL ?? `${buildRequestAuthBase(request)}/auth/discord/callback`;
   if (!clientId || !redirectUri) {
     reply.code(500);
     return { message: "Discord OAuth not configured" };
@@ -696,7 +723,8 @@ server.get("/auth/discord/callback", async (request, reply) => {
 
 server.get("/auth/google", async (request, reply) => {
   const clientId = process.env.GOOGLE_CLIENT_ID;
-  const redirectUri = process.env.GOOGLE_REDIRECT_URL;
+  const redirectUri =
+    process.env.GOOGLE_REDIRECT_URL ?? `${buildRequestAuthBase(request)}/auth/google/callback`;
   if (!clientId || !redirectUri) {
     reply.code(500);
     return { message: "Google OAuth not configured" };

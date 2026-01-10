@@ -204,6 +204,10 @@ try {
       if (response.ok) {
         const data = await response.json();
         status.textContent = `Magic link ready. Open: ${data.link}`;
+      } else if (response.status === 404) {
+        const data = await response.json();
+        const link = data.signup_url ?? "/signup";
+        status.innerHTML = `No account found. <a class="underline" href="${link}">Sign up</a>.`;
       } else {
         status.textContent = "Failed to create magic link.";
       }

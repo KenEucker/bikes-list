@@ -68,7 +68,10 @@ try {
   const data = response.ok ? await response.json() : { users: [] };
   users = data.users ?? [];
   if (!response.ok) {
-    userLoadError = data.message ?? "Unable to load users.";
+    userLoadError =
+      response.status === 401
+        ? "Sign in with an admin account to manage users."
+        : data.message ?? "Unable to load users.";
   }
 } catch (error) {
   userLoadError = error instanceof Error ? error.message : "Unable to load users.";
@@ -421,6 +424,10 @@ try {
       if (response.ok) {
         const data = await response.json();
         magicStatus.textContent = `Magic link ready. Open: ${data.link}`;
+      } else if (response.status === 404) {
+        const data = await response.json();
+        const link = data.signup_url ?? "/signup";
+        magicStatus.innerHTML = `No account found. <a class="underline" href="${link}">Sign up</a>.`;
       } else {
         magicStatus.textContent = "Failed to create magic link.";
       }

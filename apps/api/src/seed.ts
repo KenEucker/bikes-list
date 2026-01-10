@@ -110,6 +110,33 @@ const seed = async () => {
     )
   );
 
+  const defaultUser = await prisma.user.upsert({
+    where: { email: "keneucker@gmail.com" },
+    update: {},
+    create: {
+      email: "keneucker@gmail.com",
+      display_name: "Kene Ucker"
+    }
+  });
+
+  await prisma.roleAssignment.upsert({
+    where: {
+      user_id_role_city_id_module: {
+        user_id: defaultUser.id,
+        role: "SUPER_ADMIN",
+        city_id: null,
+        module: null
+      }
+    },
+    update: {},
+    create: {
+      user_id: defaultUser.id,
+      role: "SUPER_ADMIN",
+      city_id: null,
+      module: null
+    }
+  });
+
   console.log(`Seeded ${results.length} cities.`);
 };
 
