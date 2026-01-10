@@ -487,13 +487,18 @@ const fetchDiscordProfile = async (code: string, redirectUri: string) => {
     })
   });
 
-  const tokenData = (await tokenResponse.json()) as {
+  const tokenData = (await tokenResponse.json().catch(() => ({}))) as {
     access_token?: string;
     token_type?: string;
+    error?: string;
+    error_description?: string;
   };
 
-  if (!tokenData.access_token) {
-    throw new Error("Failed to fetch Discord access token.");
+  if (!tokenResponse.ok || !tokenData.access_token) {
+    const details = tokenData.error
+      ? `${tokenData.error}${tokenData.error_description ? `: ${tokenData.error_description}` : ""}`
+      : `status ${tokenResponse.status}`;
+    throw new Error(`Failed to fetch Discord access token (${details}).`);
   }
 
   const profileResponse = await fetch("https://discord.com/api/users/@me", {
