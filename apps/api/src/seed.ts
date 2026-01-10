@@ -119,23 +119,25 @@ const seed = async () => {
     }
   });
 
-  await prisma.roleAssignment.upsert({
+  const existingRole = await prisma.roleAssignment.findFirst({
     where: {
-      user_id_role_city_id_module: {
-        user_id: defaultUser.id,
-        role: "SUPER_ADMIN",
-        city_id: null,
-        module: null
-      }
-    },
-    update: {},
-    create: {
       user_id: defaultUser.id,
       role: "SUPER_ADMIN",
       city_id: null,
       module: null
     }
   });
+
+  if (!existingRole) {
+    await prisma.roleAssignment.create({
+      data: {
+        user_id: defaultUser.id,
+        role: "SUPER_ADMIN",
+        city_id: null,
+        module: null
+      }
+    });
+  }
 
   console.log(`Seeded ${results.length} cities.`);
 };
