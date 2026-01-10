@@ -167,7 +167,7 @@ const createModerationAction =
   });
 
 const admin = new AdminJS({
-  rootPath: "/admin",
+  rootPath: "/",
   branding: {
     companyName: "BikesList Admin",
     withMadeWithLove: false,

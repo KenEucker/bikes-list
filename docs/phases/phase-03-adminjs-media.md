@@ -1,14 +1,14 @@
 # Phase 3 — AdminJS + Media pipeline + Moderation
 
 ## Outcomes
-- AdminJS is mounted in `apps/api` at `/admin` with branded UI.
+- AdminJS is mounted in `apps/api` at `/` with branded UI.
 - CRUD coverage for cities, settings, users, and role assignments.
 - Media upload flow is backed by S3-compatible storage and moderation actions.
 - Approved media is the only publicly visible media.
 - Astro UI follows Tailwind + WebCoreUI conventions.
 
 ## Architecture (locked)
-- AdminJS runs inside the Fastify API (`apps/api`) at `/admin`.
+- AdminJS runs inside the Fastify API (`apps/api`) at `/`.
 - AdminJS uses its own UI system (no Tailwind overrides).
 - Astro apps (`apps/web`, `apps/admin`) use Tailwind utilities and WebCoreUI components.
 

@@ -1,7 +1,7 @@
 # AdminJS
 
 ## Location
-- Mounted in `apps/api` at `/admin`.
+- Mounted in `apps/api` at `/`.
 - Served by Fastify alongside the public API.
 
 ## Authentication
