@@ -403,7 +403,10 @@ const buildRequestOrigin = (request: FastifyRequest) => {
 const buildRequestAuthBase = (request: FastifyRequest) => {
   const origin = buildRequestOrigin(request);
   const forwardedPrefix = request.headers["x-forwarded-prefix"];
-  const prefix = typeof forwardedPrefix === "string" ? forwardedPrefix : "";
+  const hasForwardedPrefix = typeof forwardedPrefix === "string" && forwardedPrefix.length > 0;
+  const requestPath = request.url ?? "";
+  const inferredPrefix = requestPath.startsWith("/api/") ? "/api" : "";
+  const prefix = hasForwardedPrefix ? forwardedPrefix : inferredPrefix;
   return `${origin}${prefix}`;
 };
 
