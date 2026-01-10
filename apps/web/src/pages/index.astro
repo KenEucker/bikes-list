@@ -1,27 +1,78 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const apiBase = import.meta.env.PUBLIC_API_URL ?? "http://localhost:3001";
+let cities: Array<{
+  name: string;
+  slug: string;
+  is_active: boolean;
+  country_code: string;
+  region?: string | null;
+}> = [];
+let loadError = "";
+
+try {
+  const response = await fetch(`${apiBase}/cities`);
+  const data = response.ok ? await response.json() : { cities: [] };
+  cities = data.cities ?? [];
+} catch (error) {
+  loadError = error instanceof Error ? error.message : "Unable to load cities.";
+}
 ---
 
 <BaseLayout title="BikesList">
-  <section class="flex flex-col gap-6">
-    <p class="text-sm uppercase tracking-[0.25em] text-slate-400">Phase 0</p>
-    <h1 class="text-4xl font-semibold text-white sm:text-5xl">
-      BikesList public site
-    </h1>
-    <p class="text-lg text-slate-300">
-      The core foundation is live. This SSR site shares a common Tailwind setup
-      with the admin panel and connects to the API service.
-    </p>
-    <div class="flex flex-wrap gap-3 text-sm text-slate-300">
-      <span class="rounded-full border border-slate-700 px-3 py-1">
-        Astro SSR
-      </span>
-      <span class="rounded-full border border-slate-700 px-3 py-1">
-        Tailwind UI
-      </span>
-      <span class="rounded-full border border-slate-700 px-3 py-1">
-        Docker-ready
-      </span>
+  <section class="flex flex-col gap-8">
+    <header class="flex flex-col gap-3">
+      <p class="text-sm uppercase tracking-[0.25em] text-slate-400">Phase 1</p>
+      <h1 class="text-4xl font-semibold text-white sm:text-5xl">
+        BikesList city directory
+      </h1>
+      <p class="text-lg text-slate-300">
+        Browse active and upcoming cities. Each city now has its own route and
+        lifecycle state.
+      </p>
+    </header>
+
+    <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-semibold text-white">Cities</h2>
+        <span class="text-sm text-slate-400">{cities.length} total</span>
+      </div>
+      {loadError ? (
+        <div class="mt-4 rounded-xl border border-rose-500/40 bg-rose-500/10 p-4 text-sm text-rose-200">
+          Failed to load cities from the API. {loadError}
+        </div>
+      ) : cities.length ? (
+        <div class="mt-6 grid gap-4 md:grid-cols-2">
+          {cities.map((city) => (
+            <a
+              class="flex flex-col gap-3 rounded-xl border border-slate-800 bg-slate-950/60 p-4 transition hover:border-slate-600"
+              href={`/${city.slug}`}
+            >
+              <div class="flex items-center justify-between text-sm uppercase tracking-[0.2em] text-slate-500">
+                <span>{city.slug}</span>
+                <span
+                  class={`rounded-full px-2 py-1 text-xs font-semibold ${
+                    city.is_active
+                      ? "bg-emerald-500/10 text-emerald-200"
+                      : "bg-amber-500/10 text-amber-200"
+                  }`}
+                >
+                  {city.is_active ? "Active" : "Coming Soon"}
+                </span>
+              </div>
+              <h3 class="text-lg font-semibold text-white">{city.name}</h3>
+              <p class="text-sm text-slate-400">
+                {city.region ? `${city.region}, ` : ""}{city.country_code}
+              </p>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div class="mt-4 rounded-xl border border-dashed border-slate-700 bg-slate-950/40 p-6 text-sm text-slate-400">
+          No cities are available yet. Check back soon.
+        </div>
+      )}
     </div>
   </section>
 </BaseLayout>

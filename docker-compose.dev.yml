@@ -11,7 +11,7 @@ services:
       - db_data:/var/lib/postgresql/data
 
   api:
-    image: node:20-alpine
+    image: node:20-bullseye-slim
     working_dir: /app
     volumes:
       - .:/app
@@ -20,7 +20,7 @@ services:
       PORT: 3001
       DATABASE_URL: postgres://bikes:bikes@db:5432/bikeslist
       LOG_LEVEL: info
-    command: sh -c "while [ ! -f /app/.deps_installed ]; do sleep 1; done; npm run -w apps/api dev"
+    command: sh -c "apt-get update && apt-get install -y --no-install-recommends openssl libssl1.1 && rm -rf /var/lib/apt/lists/* && while [ ! -f /app/.deps_installed ]; do sleep 1; done; npm run -w apps/api migrate:deploy && npm run -w apps/api seed && npm run -w apps/api dev"
     ports:
       - "3001:3001"
     depends_on:
@@ -30,7 +30,7 @@ services:
         condition: service_started
 
   web:
-    image: node:20-alpine
+    image: node:20-bullseye-slim
     working_dir: /app
     volumes:
       - .:/app
@@ -48,7 +48,7 @@ services:
         condition: service_started
 
   admin:
-    image: node:20-alpine
+    image: node:20-bullseye-slim
     working_dir: /app
     volumes:
       - .:/app
@@ -66,12 +66,12 @@ services:
         condition: service_started
 
   deps:
-    image: node:20-alpine
+    image: node:20-bullseye-slim
     working_dir: /app
     volumes:
       - .:/app
       - node_modules:/app/node_modules
-    command: sh -c "npm install && touch /app/.deps_installed"
+    command: sh -c "apt-get update && apt-get install -y --no-install-recommends openssl libssl1.1 && rm -rf /var/lib/apt/lists/* && npm install && touch /app/.deps_installed"
     restart: "no"
 
 volumes:

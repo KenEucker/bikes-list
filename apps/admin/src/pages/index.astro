@@ -1,30 +1,225 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const apiBase = import.meta.env.PUBLIC_API_URL ?? "http://localhost:3001";
+let cities: Array<{
+  id: string;
+  name: string;
+  slug: string;
+  country_code: string;
+  region?: string | null;
+  timezone: string;
+  is_active: boolean;
+}> = [];
+let loadError = "";
+
+try {
+  const response = await fetch(`${apiBase}/cities`);
+  const data = response.ok ? await response.json() : { cities: [] };
+  cities = data.cities ?? [];
+} catch (error) {
+  loadError = error instanceof Error ? error.message : "Unable to load cities.";
+}
 ---
 
 <BaseLayout title="BikesList Admin">
-  <section class="flex flex-col gap-6">
-    <p class="text-sm uppercase tracking-[0.25em] text-slate-400">Admin SSR</p>
-    <h1 class="text-4xl font-semibold text-white sm:text-5xl">
-      BikesList super-admin panel
-    </h1>
-    <p class="text-lg text-slate-300">
-      This SSR admin shell is ready for future management tooling and shares the
-      same Tailwind foundation as the public site.
-    </p>
-    <div class="grid gap-4 sm:grid-cols-2">
-      <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-5">
-        <h2 class="text-lg font-semibold text-white">Operations</h2>
+  <section class="flex flex-col gap-8">
+    <header class="flex flex-col gap-3">
+      <p class="text-sm uppercase tracking-[0.25em] text-slate-400">Admin SSR</p>
+      <h1 class="text-4xl font-semibold text-white sm:text-5xl">
+        BikesList super-admin panel
+      </h1>
+      <p class="text-lg text-slate-300">
+        Manage cities, import/export data, and keep city availability up to date.
+      </p>
+    </header>
+
+    <section class="grid gap-6 lg:grid-cols-[minmax(0,_2fr)_minmax(0,_1fr)]">
+      <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6">
+        <h2 class="text-xl font-semibold text-white">Cities</h2>
         <p class="text-sm text-slate-300">
-          Placeholder sections for upcoming dashboards.
+          Toggle city availability and keep core metadata aligned.
         </p>
+        <div class="mt-6 space-y-4">
+          {loadError ? (
+            <div class="rounded-xl border border-rose-500/40 bg-rose-500/10 p-4 text-sm text-rose-200">
+              Failed to load cities from the API. {loadError}
+            </div>
+          ) : cities.length ? (
+            cities.map((city) => (
+              <div
+                class="flex flex-col gap-3 rounded-xl border border-slate-800 bg-slate-950/60 p-4 sm:flex-row sm:items-center sm:justify-between"
+              >
+                <div>
+                  <p class="text-sm uppercase tracking-[0.2em] text-slate-500">
+                    {city.slug}
+                  </p>
+                  <h3 class="text-lg font-semibold text-white">{city.name}</h3>
+                  <p class="text-sm text-slate-400">
+                    {city.region ? `${city.region}, ` : ""}{city.country_code} · {city.timezone}
+                  </p>
+                </div>
+                <button
+                  class={`toggle-city inline-flex items-center justify-center rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                    city.is_active
+                      ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-200"
+                      : "border-amber-500/40 bg-amber-500/10 text-amber-200"
+                  }`}
+                  data-city-id={city.id}
+                  data-is-active={city.is_active}
+                  type="button"
+                >
+                  {city.is_active ? "Active" : "Inactive"}
+                </button>
+              </div>
+            ))
+          ) : (
+            <div class="rounded-xl border border-dashed border-slate-700 bg-slate-950/40 p-6 text-sm text-slate-400">
+              No cities yet. Create the first city to activate routing.
+            </div>
+          )}
+        </div>
       </div>
-      <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-5">
-        <h2 class="text-lg font-semibold text-white">Configuration</h2>
-        <p class="text-sm text-slate-300">
-          Environment-ready settings and tools.
-        </p>
+
+      <div class="flex flex-col gap-6">
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6">
+          <h2 class="text-xl font-semibold text-white">Create city</h2>
+          <p class="text-sm text-slate-300">Add a new market with its canonical slug.</p>
+          <form id="create-city" class="mt-4 flex flex-col gap-3">
+            <input class="rounded-lg border border-slate-800 bg-slate-950/60 px-3 py-2 text-sm text-white" name="name" placeholder="City name" required />
+            <input class="rounded-lg border border-slate-800 bg-slate-950/60 px-3 py-2 text-sm text-white" name="slug" placeholder="city-slug" required />
+            <input class="rounded-lg border border-slate-800 bg-slate-950/60 px-3 py-2 text-sm text-white" name="country_code" placeholder="Country code (US)" required />
+            <input class="rounded-lg border border-slate-800 bg-slate-950/60 px-3 py-2 text-sm text-white" name="region" placeholder="Region (optional)" />
+            <input class="rounded-lg border border-slate-800 bg-slate-950/60 px-3 py-2 text-sm text-white" name="timezone" placeholder="Timezone (America/New_York)" required />
+            <button class="rounded-lg bg-emerald-500/80 px-3 py-2 text-sm font-semibold text-emerald-950" type="submit">
+              Create city
+            </button>
+          </form>
+        </div>
+
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6">
+          <h2 class="text-xl font-semibold text-white">Import / Export</h2>
+          <p class="text-sm text-slate-300">
+            Import city lists or export the current inventory as JSON or CSV.
+          </p>
+          <div class="mt-4 flex flex-col gap-3">
+            <label class="flex flex-col gap-2 text-sm text-slate-300">
+              Import file (JSON or CSV)
+              <input class="rounded-lg border border-slate-800 bg-slate-950/60 px-3 py-2 text-sm text-white" id="import-file" type="file" accept=".json,.csv" />
+            </label>
+            <button class="rounded-lg border border-slate-700 px-3 py-2 text-sm font-semibold text-slate-200" id="import-button" type="button">
+              Import cities
+            </button>
+            <div class="flex flex-wrap gap-2">
+              <button class="export-button rounded-lg border border-slate-700 px-3 py-2 text-sm font-semibold text-slate-200" data-format="json" type="button">
+                Export JSON
+              </button>
+              <button class="export-button rounded-lg border border-slate-700 px-3 py-2 text-sm font-semibold text-slate-200" data-format="csv" type="button">
+                Export CSV
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   </section>
 </BaseLayout>
+
+<script>
+  const apiBase = "${apiBase}";
+  const adminHeaders = { "x-admin": "true" };
+
+  const createForm = document.querySelector("#create-city");
+  createForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const formData = new FormData(createForm);
+    const payload = Object.fromEntries(formData.entries());
+
+    const response = await fetch(`${apiBase}/admin/cities`, {
+      method: "POST",
+      headers: {
+        ...adminHeaders,
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (response.ok) {
+      window.location.reload();
+    } else {
+      alert("Failed to create city.");
+    }
+  });
+
+  document.querySelectorAll(".toggle-city").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const cityId = button.getAttribute("data-city-id");
+      const isActive = button.getAttribute("data-is-active") === "true";
+
+      const response = await fetch(`${apiBase}/admin/cities/${cityId}`, {
+        method: "PATCH",
+        headers: {
+          ...adminHeaders,
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({ is_active: !isActive })
+      });
+
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        alert("Failed to update city status.");
+      }
+    });
+  });
+
+  const importButton = document.querySelector("#import-button");
+  importButton?.addEventListener("click", async () => {
+    const input = document.querySelector("#import-file");
+    if (!(input instanceof HTMLInputElement) || !input.files?.length) {
+      alert("Select a file to import.");
+      return;
+    }
+
+    const file = input.files[0];
+    const content = await file.text();
+    const isCsv = file.name.endsWith(".csv");
+
+    const response = await fetch(`${apiBase}/admin/cities/import`, {
+      method: "POST",
+      headers: {
+        ...adminHeaders,
+        "content-type": isCsv ? "text/csv" : "application/json"
+      },
+      body: isCsv ? content : content
+    });
+
+    if (response.ok) {
+      window.location.reload();
+    } else {
+      alert("Failed to import cities.");
+    }
+  });
+
+  document.querySelectorAll(".export-button").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const format = button.getAttribute("data-format") ?? "json";
+      const response = await fetch(`${apiBase}/admin/cities/export?format=${format}`, {
+        headers: adminHeaders
+      });
+
+      if (!response.ok) {
+        alert("Failed to export cities.");
+        return;
+      }
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `cities.${format}`;
+      link.click();
+      URL.revokeObjectURL(url);
+    });
+  });
+</script>

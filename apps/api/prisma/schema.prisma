@@ -1,0 +1,37 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.1.x"]
+}
+
+model City {
+  id           String          @id @default(uuid()) @db.Uuid
+  country_code String
+  region       String?
+  name         String
+  slug         String          @unique
+  timezone     String
+  is_active    Boolean         @default(true)
+  created_at   DateTime        @default(now())
+  updated_at   DateTime        @updatedAt
+  settings     SystemSetting[]
+
+  @@map("cities")
+}
+
+model SystemSetting {
+  id         String   @id @default(uuid()) @db.Uuid
+  key        String
+  value      String
+  city_id    String?  @db.Uuid
+  city       City?    @relation(fields: [city_id], references: [id], onDelete: Cascade)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@unique([key, city_id])
+  @@map("system_settings")
+}
