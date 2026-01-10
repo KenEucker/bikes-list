@@ -480,7 +480,7 @@ Docs
 
 docs/features/orgs.md
 
-Phase 11 — Discord Integration
+# Phase 11 — Discord Integration
 
 Codex Prompt — Phase 11
 
