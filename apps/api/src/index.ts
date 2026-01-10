@@ -6,7 +6,7 @@ import { prisma } from "./prisma.js";
 
 const server = buildServer();
 
-const publicBaseUrl = process.env.PUBLIC_BASE_URL ?? "http://localhost:3001";
+const publicBaseUrl = process.env.PUBLIC_BASE_URL || "http://localhost:3001";
 
 const buildSchema = <T extends FastifySchema>(schema: T) => schema;
 
