@@ -8,10 +8,13 @@
   ],
   "scripts": {
     "dev": "npm run -ws dev",
-    "dev:docker": "docker compose -f docker-compose.dev.yml up --build",
+    "dev:up": "docker compose -f docker-compose.dev.yml up --build",
+    "dev:up-d": "docker compose -f docker-compose.dev.yml up --build -d",
+    "dev:down": "docker compose -f docker-compose.dev.yml down",
+    "dev:down-v": "docker compose -f docker-compose.dev.yml down -v",
     "build": "npm run -ws build",
     "start": "npm run -ws start",
-    "seed:docker": "docker compose exec api npm run -w apps/api migrate:deploy && docker compose exec api npm run -w apps/api seed"
+    "dev:seed": "docker compose exec api npm run -w apps/api migrate:deploy && docker compose exec api npm run -w apps/api seed"
   },
   "devDependencies": {
     "tsx": "^4.7.0",
