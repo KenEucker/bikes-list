@@ -372,13 +372,20 @@ const ensureSuperAdmin = async (user: User) => {
   });
 };
 
+const normalizeUrl = (value: string) => {
+  if (!value) {
+    return "http://localhost:3001";
+  }
+  return value.startsWith("http://") || value.startsWith("https://") ? value : `http://${value}`;
+};
+
 const buildRequestOrigin = (request: FastifyRequest) => {
   const forwardedProto = request.headers["x-forwarded-proto"];
   const forwardedHost = request.headers["x-forwarded-host"];
   const host = forwardedHost ?? request.headers.host;
   const protocol = typeof forwardedProto === "string" ? forwardedProto : "http";
   if (!host) {
-    return publicBaseUrl;
+    return normalizeUrl(publicBaseUrl);
   }
   return `${protocol}://${host}`;
 };
@@ -673,8 +680,9 @@ server.get("/auth/magic-link/:token", async (request, reply) => {
 server.get("/auth/discord", async (request, reply) => {
   const clientId = process.env.DISCORD_CLIENT_ID;
   const clientSecret = process.env.DISCORD_CLIENT_SECRET;
-  const redirectUri =
-    process.env.DISCORD_REDIRECT_URL ?? `${buildRequestAuthBase(request)}/auth/discord/callback`;
+  const redirectUri = normalizeUrl(
+    process.env.DISCORD_REDIRECT_URL ?? `${buildRequestAuthBase(request)}/auth/discord/callback`
+  );
   const missing = [];
   if (!clientId) {
     missing.push("DISCORD_CLIENT_ID");
@@ -710,8 +718,9 @@ server.get("/auth/discord/callback", async (request, reply) => {
     return { message: "Invalid OAuth state" };
   }
 
-  const redirectUri =
-    process.env.DISCORD_REDIRECT_URL ?? `${buildRequestAuthBase(request)}/auth/discord/callback`;
+  const redirectUri = normalizeUrl(
+    process.env.DISCORD_REDIRECT_URL ?? `${buildRequestAuthBase(request)}/auth/discord/callback`
+  );
   const profile = await fetchDiscordProfile(code, redirectUri);
   if (!profile.email) {
     reply.code(400);
@@ -732,8 +741,9 @@ server.get("/auth/discord/callback", async (request, reply) => {
 server.get("/auth/google", async (request, reply) => {
   const clientId = process.env.GOOGLE_CLIENT_ID;
   const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-  const redirectUri =
-    process.env.GOOGLE_REDIRECT_URL ?? `${buildRequestAuthBase(request)}/auth/google/callback`;
+  const redirectUri = normalizeUrl(
+    process.env.GOOGLE_REDIRECT_URL ?? `${buildRequestAuthBase(request)}/auth/google/callback`
+  );
   const missing = [];
   if (!clientId) {
     missing.push("GOOGLE_CLIENT_ID");
@@ -771,8 +781,9 @@ server.get("/auth/google/callback", async (request, reply) => {
     return { message: "Invalid OAuth state" };
   }
 
-  const redirectUri =
-    process.env.GOOGLE_REDIRECT_URL ?? `${buildRequestAuthBase(request)}/auth/google/callback`;
+  const redirectUri = normalizeUrl(
+    process.env.GOOGLE_REDIRECT_URL ?? `${buildRequestAuthBase(request)}/auth/google/callback`
+  );
   const profile = await fetchGoogleProfile(code, redirectUri);
   if (!profile.email) {
     reply.code(400);
