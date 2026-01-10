@@ -50,8 +50,18 @@ The admin panel at `/` includes:
 - Import JSON/CSV file.
 - Export JSON/CSV file.
 
+## Seeder
+
+Run `npm run -w apps/api seed` to populate the Phase 1 city list (idempotent upserts by slug).
+
 ## Web routing
 
 City pages are served at `/<citySlug>`.
 
 Inactive cities display a "Coming Soon" message.
+
+## Timezone and timestamp strategy
+
+- All timestamps are stored in Postgres as `timestamptz` (UTC by default).
+- Each city stores an IANA timezone (e.g., `America/Los_Angeles`) for localized rendering.
+- API responses should return ISO 8601 timestamps; clients convert to city-local time using the city timezone.
