@@ -24,7 +24,7 @@ services:
       PORT: ${PORT:-3001}
       DATABASE_URL: ${DATABASE_URL:-postgres://bikes:bikes@db:5432/bikeslist}
       LOG_LEVEL: ${LOG_LEVEL:-info}
-      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-http://api:3001}
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-http://localhost:3001}
       SUPER_ADMIN_EMAILS: ${SUPER_ADMIN_EMAILS:-}
       DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID:-}
       DISCORD_CLIENT_SECRET: ${DISCORD_CLIENT_SECRET:-}
@@ -58,7 +58,7 @@ services:
       - .env
     environment:
       PORT: ${WEB_PORT:-3000}
-      PUBLIC_API_URL: ${PUBLIC_API_URL:-http://api:3001}
+      PUBLIC_API_URL: ${PUBLIC_API_URL:-http://localhost:3001}
     command: sh -c "while [ ! -f /app/.deps_installed ]; do sleep 1; done; npm run -w apps/web dev"
     ports:
       - "${WEB_PORT:-3000}:3000"
@@ -78,7 +78,7 @@ services:
       - .env
     environment:
       PORT: ${ADMIN_PORT:-3002}
-      PUBLIC_API_URL: ${PUBLIC_API_URL:-http://api:3001}
+      PUBLIC_API_URL: ${PUBLIC_API_URL:-http://localhost:3001}
     command: sh -c "while [ ! -f /app/.deps_installed ]; do sleep 1; done; npm run -w apps/admin dev"
     ports:
       - "${ADMIN_PORT:-3002}:3002"

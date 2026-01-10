@@ -49,7 +49,7 @@ services:
       - .env
     environment:
       PORT: ${WEB_PORT:-3000}
-      PUBLIC_API_URL: ${PUBLIC_API_URL:-http://api:3001}
+      PUBLIC_API_URL: ${PUBLIC_API_URL:-http://localhost:3001}
     ports:
       - "${WEB_PORT:-3000}:3000"
     depends_on:
@@ -63,7 +63,7 @@ services:
       - .env
     environment:
       PORT: ${ADMIN_PORT:-3002}
-      PUBLIC_API_URL: ${PUBLIC_API_URL:-http://api:3001}
+      PUBLIC_API_URL: ${PUBLIC_API_URL:-http://localhost:3001}
     ports:
       - "${ADMIN_PORT:-3002}:3002"
     depends_on:
