@@ -23,7 +23,6 @@ await server.register(swagger, {
 });
 
 server.get("/openapi.json", async (_request, reply) => reply.send(server.swagger()));
-server.get("/docs/json", async (_request, reply) => reply.send(server.swagger()));
 
 server.addHook("onRequest", async (request, reply) => {
   if (request.raw.url === "/docs") {
