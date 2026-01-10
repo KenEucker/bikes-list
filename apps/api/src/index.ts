@@ -27,7 +27,8 @@ await server.register(swagger, {
           name: "x-admin"
         }
       }
-    }
+    },
+    security: [{ adminHeader: [] }]
   }
 });
 
