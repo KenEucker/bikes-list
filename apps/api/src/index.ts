@@ -615,7 +615,10 @@ server.post("/auth/logout", async (request, reply) => {
   return { status: "ok" };
 });
 
-server.post("/auth/magic-link", async (request, reply) => {
+const createMagicLinkHandler = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
   try {
     const body = request.body as { email?: string; redirect?: string };
     if (!body?.email) {
@@ -669,9 +672,15 @@ server.post("/auth/magic-link", async (request, reply) => {
       message: "Failed to create magic link. Check API logs for details."
     };
   }
-});
+};
 
-server.get("/auth/magic-link/:token", async (request, reply) => {
+server.post("/auth/magic-link", createMagicLinkHandler);
+server.post("/api/auth/magic-link", createMagicLinkHandler);
+
+const consumeMagicLinkHandler = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
   const { token } = request.params as { token: string };
   const session = await prisma.session.findUnique({ where: { token } });
   if (!session || session.revoked_at || session.expires_at.getTime() < Date.now()) {
@@ -685,9 +694,15 @@ server.get("/auth/magic-link/:token", async (request, reply) => {
     data: { last_used_at: new Date(), expires_at: refreshedExpiry }
   });
   await sendSessionResponse(request, reply, refreshedSession);
-});
+};
 
-server.get("/auth/discord", async (request, reply) => {
+server.get("/auth/magic-link/:token", consumeMagicLinkHandler);
+server.get("/api/auth/magic-link/:token", consumeMagicLinkHandler);
+
+const startDiscordAuthHandler = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
   const clientId = process.env.DISCORD_CLIENT_ID;
   const clientSecret = process.env.DISCORD_CLIENT_SECRET;
   const redirectUri = buildRedirectUri(
@@ -721,9 +736,15 @@ server.get("/auth/discord", async (request, reply) => {
     state
   }).toString();
   reply.redirect(url.toString());
-});
+};
 
-server.get("/auth/discord/callback", async (request, reply) => {
+server.get("/auth/discord", startDiscordAuthHandler);
+server.get("/api/auth/discord", startDiscordAuthHandler);
+
+const discordCallbackHandler = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
   const { code, state } = request.query as { code?: string; state?: string };
   if (!code || !validateOauthState(request, state ?? null)) {
     reply.code(400);
@@ -749,9 +770,15 @@ server.get("/auth/discord/callback", async (request, reply) => {
 
   const session = await createSession(user, "DISCORD", request);
   await sendSessionResponse(request, reply, session);
-});
+};
 
-server.get("/auth/google", async (request, reply) => {
+server.get("/auth/discord/callback", discordCallbackHandler);
+server.get("/api/auth/discord/callback", discordCallbackHandler);
+
+const startGoogleAuthHandler = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
   const clientId = process.env.GOOGLE_CLIENT_ID;
   const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
   const redirectUri = buildRedirectUri(
@@ -787,9 +814,15 @@ server.get("/auth/google", async (request, reply) => {
     prompt: "consent"
   }).toString();
   reply.redirect(url.toString());
-});
+};
 
-server.get("/auth/google/callback", async (request, reply) => {
+server.get("/auth/google", startGoogleAuthHandler);
+server.get("/api/auth/google", startGoogleAuthHandler);
+
+const googleCallbackHandler = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
   const { code, state } = request.query as { code?: string; state?: string };
   if (!code || !validateOauthState(request, state ?? null)) {
     reply.code(400);
@@ -815,7 +848,10 @@ server.get("/auth/google/callback", async (request, reply) => {
 
   const session = await createSession(user, "GOOGLE", request);
   await sendSessionResponse(request, reply, session);
-});
+};
+
+server.get("/auth/google/callback", googleCallbackHandler);
+server.get("/api/auth/google/callback", googleCallbackHandler);
 
 server.get("/cities", async () => {
   const cities = await prisma.city.findMany({ orderBy: { name: "asc" } });
