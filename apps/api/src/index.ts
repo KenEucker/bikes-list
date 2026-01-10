@@ -682,9 +682,6 @@ server.get("/auth/discord", async (request, reply) => {
   if (!clientSecret) {
     missing.push("DISCORD_CLIENT_SECRET");
   }
-  if (!redirectUri) {
-    missing.push("DISCORD_REDIRECT_URL");
-  }
   if (missing.length) {
     reply.code(500);
     return { message: "Discord OAuth not configured", missing };
@@ -743,9 +740,6 @@ server.get("/auth/google", async (request, reply) => {
   }
   if (!clientSecret) {
     missing.push("GOOGLE_CLIENT_SECRET");
-  }
-  if (!redirectUri) {
-    missing.push("GOOGLE_REDIRECT_URL");
   }
   if (missing.length) {
     reply.code(500);
