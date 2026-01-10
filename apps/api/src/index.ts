@@ -51,7 +51,7 @@ server.get("/openapi.json", async (_request, reply) => reply.send(server.swagger
 
 server.addHook("onRequest", async (request, reply) => {
   if (request.raw.url === "/docs") {
-    return reply.redirect(302, "/docs/");
+    return reply.redirect("/docs/", 302);
   }
 });
 
@@ -426,12 +426,12 @@ const sendSessionResponse = async (
   const queryRedirect = (request.query as { redirect?: string }).redirect;
   const redirect = queryRedirect ?? getOauthRedirectCookie(request);
   if (redirect) {
-    reply.redirect(302, redirect);
+    reply.redirect(redirect, 302);
     return;
   }
   const accept = request.headers.accept ?? "";
   if (accept.includes("text/html")) {
-    reply.redirect(302, "/");
+    reply.redirect("/", 302);
     return;
   }
   reply.send({ user, roles });
@@ -743,7 +743,7 @@ const startDiscordAuthHandler = async (
     redirect_uri: redirectUri,
     state
   }).toString();
-  reply.redirect(302, url.toString());
+  reply.redirect(url.toString(), 302);
 };
 
 server.get("/auth/discord", startDiscordAuthHandler);
@@ -821,7 +821,7 @@ const startGoogleAuthHandler = async (
     access_type: "online",
     prompt: "consent"
   }).toString();
-  reply.redirect(302, url.toString());
+  reply.redirect(url.toString(), 302);
 };
 
 server.get("/auth/google", startGoogleAuthHandler);
