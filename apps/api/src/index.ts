@@ -1003,24 +1003,27 @@ server.post(
     }
     const role = normalizeRole(body.role);
     const moduleValue = body.module ? normalizeModule(body.module) : null;
+    const cityId = body.city_id && body.city_id.length ? body.city_id : null;
 
-    const assignment = await prisma.roleAssignment.upsert({
+    const existingAssignment = await prisma.roleAssignment.findFirst({
       where: {
-        user_id_role_city_id_module: {
-          user_id: id,
-          role,
-          city_id: body.city_id ?? null,
-          module: moduleValue
-        }
-      },
-      update: {},
-      create: {
         user_id: id,
         role,
-        city_id: body.city_id ?? null,
+        city_id: cityId,
         module: moduleValue
       }
     });
+
+    const assignment =
+      existingAssignment ??
+      (await prisma.roleAssignment.create({
+        data: {
+          user_id: id,
+          role,
+          city_id: cityId,
+          module: moduleValue
+        }
+      }));
     reply.code(201);
     return { assignment };
   }
@@ -1048,11 +1051,12 @@ server.delete(
     }
     const role = normalizeRole(body.role);
     const moduleValue = body.module ? normalizeModule(body.module) : null;
+    const cityId = body.city_id && body.city_id.length ? body.city_id : null;
     await prisma.roleAssignment.deleteMany({
       where: {
         user_id: id,
         role,
-        city_id: body.city_id ?? null,
+        city_id: cityId,
         module: moduleValue
       }
     });
