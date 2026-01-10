@@ -8,6 +8,30 @@ generator client {
   binaryTargets = ["native", "debian-openssl-1.1.x"]
 }
 
+enum Role {
+  USER
+  MAINTAINER
+  AMBASSADOR
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum Module {
+  EVENTS
+  SHOPS
+  ORGS
+  FORSALE
+  IMAGES
+  ADS
+  DISCORD
+}
+
+enum AuthProvider {
+  DISCORD
+  GOOGLE
+  MAGIC_LINK
+}
+
 model City {
   id           String          @id @default(uuid()) @db.Uuid
   country_code String
@@ -18,9 +42,58 @@ model City {
   is_active    Boolean         @default(true)
   created_at   DateTime        @default(now())
   updated_at   DateTime        @updatedAt
+  role_assignments RoleAssignment[]
   settings     SystemSetting[]
 
   @@map("cities")
+}
+
+model User {
+  id            String          @id @default(uuid()) @db.Uuid
+  email         String          @unique
+  display_name  String?
+  avatar_url    String?
+  discord_id    String?         @unique
+  google_id     String?         @unique
+  created_at    DateTime        @default(now())
+  updated_at    DateTime        @updatedAt
+  last_login_at DateTime?
+  sessions      Session[]
+  role_assignments RoleAssignment[]
+
+  @@map("users")
+}
+
+model Session {
+  id          String       @id @default(uuid()) @db.Uuid
+  user_id     String       @db.Uuid
+  user        User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  token       String       @unique
+  provider    AuthProvider
+  created_at  DateTime     @default(now())
+  expires_at  DateTime
+  revoked_at  DateTime?
+  last_used_at DateTime?
+  ip_address  String?
+  user_agent  String?
+
+  @@index([user_id])
+  @@map("sessions")
+}
+
+model RoleAssignment {
+  id         String   @id @default(uuid()) @db.Uuid
+  user_id    String   @db.Uuid
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  role       Role
+  city_id    String?  @db.Uuid
+  city       City?    @relation(fields: [city_id], references: [id], onDelete: Cascade)
+  module     Module?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@unique([user_id, role, city_id, module])
+  @@map("role_assignments")
 }
 
 model SystemSetting {

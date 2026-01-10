@@ -5,7 +5,7 @@ const apiBase = import.meta.env.PUBLIC_API_URL ?? "http://localhost:3001";
 export const ALL: APIRoute = async ({ params, request }) => {
   const path = Array.isArray(params.path) ? params.path.join("/") : params.path ?? "";
   const requestUrl = new URL(request.url);
-  const targetUrl = new URL(`${apiBase}/admin/${path}`);
+  const targetUrl = new URL(`${apiBase}/auth/${path}`);
   targetUrl.search = requestUrl.search;
 
   const headers = new Headers(request.headers);

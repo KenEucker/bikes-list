@@ -2,6 +2,8 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const apiBase = import.meta.env.PUBLIC_API_URL ?? "http://localhost:3001";
+const cookieHeader = Astro.request.headers.get("cookie") ?? "";
+const appOrigin = new URL(Astro.request.url).origin;
 let cities: Array<{
   name: string;
   slug: string;
@@ -10,6 +12,19 @@ let cities: Array<{
   region?: string | null;
 }> = [];
 let loadError = "";
+let currentUser:
+  | {
+      id: string;
+      email: string;
+      display_name?: string | null;
+    }
+  | null = null;
+let roles: Array<{
+  role: string;
+  city?: { name: string; slug: string } | null;
+  module?: string | null;
+}> = [];
+let authError = "";
 
 try {
   const response = await fetch(`${apiBase}/cities`);
@@ -17,6 +32,21 @@ try {
   cities = data.cities ?? [];
 } catch (error) {
   loadError = error instanceof Error ? error.message : "Unable to load cities.";
+}
+
+try {
+  const response = await fetch(`${apiBase}/me`, {
+    headers: {
+      cookie: cookieHeader
+    }
+  });
+  if (response.ok) {
+    const data = await response.json();
+    currentUser = data.user;
+    roles = data.roles ?? [];
+  }
+} catch (error) {
+  authError = error instanceof Error ? error.message : "Unable to load session.";
 }
 ---
 
@@ -32,6 +62,80 @@ try {
         lifecycle state.
       </p>
     </header>
+
+    <section class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6">
+      <div class="flex flex-col gap-2">
+        <h2 class="text-xl font-semibold text-white">Account</h2>
+        {authError ? (
+          <p class="text-sm text-rose-300">Session error: {authError}</p>
+        ) : currentUser ? (
+          <div class="flex flex-col gap-3">
+            <div>
+              <p class="text-sm uppercase tracking-[0.2em] text-slate-500">Signed in</p>
+              <p class="text-lg font-semibold text-white">
+                {currentUser.display_name ?? currentUser.email}
+              </p>
+              <p class="text-sm text-slate-400">{currentUser.email}</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              {roles.length ? (
+                roles.map((assignment) => (
+                  <span class="rounded-full border border-slate-700 px-3 py-1 text-xs uppercase text-slate-200">
+                    {assignment.role}
+                    {assignment.city ? ` · ${assignment.city.name}` : ""}
+                    {assignment.module ? ` · ${assignment.module}` : ""}
+                  </span>
+                ))
+              ) : (
+                <span class="text-sm text-slate-400">No roles assigned yet.</span>
+              )}
+            </div>
+            <button
+              class="logout-button w-fit rounded-lg border border-slate-700 px-3 py-2 text-sm font-semibold text-slate-200"
+              type="button"
+            >
+              Log out
+            </button>
+          </div>
+        ) : (
+          <div class="flex flex-col gap-4">
+            <p class="text-sm text-slate-300">
+              Sign in to unlock role-aware experiences across BikesList.
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <a
+                class="rounded-lg border border-slate-700 px-3 py-2 text-sm font-semibold text-slate-200"
+                href={`/api/auth/discord?redirect=${appOrigin}/`}
+              >
+                Continue with Discord
+              </a>
+              <a
+                class="rounded-lg border border-slate-700 px-3 py-2 text-sm font-semibold text-slate-200"
+                href={`/api/auth/google?redirect=${appOrigin}/`}
+              >
+                Continue with Google
+              </a>
+            </div>
+            <form class="magic-link-form flex flex-col gap-3">
+              <input
+                class="rounded-lg border border-slate-800 bg-slate-950/60 px-3 py-2 text-sm text-white"
+                name="email"
+                placeholder="you@example.com"
+                type="email"
+                required
+              />
+              <button
+                class="rounded-lg bg-emerald-500/80 px-3 py-2 text-sm font-semibold text-emerald-950"
+                type="submit"
+              >
+                Email me a magic link
+              </button>
+              <p class="magic-link-status text-sm text-slate-400"></p>
+            </form>
+          </div>
+        )}
+      </div>
+    </section>
 
     <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6">
       <div class="flex items-center justify-between">
@@ -76,3 +180,39 @@ try {
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  const magicForm = document.querySelector(".magic-link-form");
+  const status = document.querySelector(".magic-link-status");
+  magicForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!(magicForm instanceof HTMLFormElement)) {
+      return;
+    }
+    const formData = new FormData(magicForm);
+    const payload = Object.fromEntries(formData.entries());
+    payload.redirect = window.location.origin + "/";
+    if (status instanceof HTMLElement) {
+      status.textContent = "Sending magic link...";
+    }
+    const response = await fetch("/api/auth/magic-link", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+    if (status instanceof HTMLElement) {
+      if (response.ok) {
+        const data = await response.json();
+        status.textContent = `Magic link ready. Open: ${data.link}`;
+      } else {
+        status.textContent = "Failed to create magic link.";
+      }
+    }
+  });
+
+  const logoutButton = document.querySelector(".logout-button");
+  logoutButton?.addEventListener("click", async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    window.location.reload();
+  });
+</script>
