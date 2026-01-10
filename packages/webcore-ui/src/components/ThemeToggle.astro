@@ -1,0 +1,17 @@
+---
+import Button from "./Button.astro";
+
+const { class: className } = Astro.props;
+---
+
+<Button
+  class={`theme-toggle ${className ?? ""}`}
+  data-theme-toggle
+  type="button"
+  variant="outline"
+  size="sm"
+>
+  <span class="sr-only">Toggle theme</span>
+  <span data-theme-icon aria-hidden="true">🌙</span>
+  <span data-theme-label>Dark</span>
+</Button>

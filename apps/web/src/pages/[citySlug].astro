@@ -1,5 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Badge from "@bikes-list/webcore-ui/Badge";
+import Card from "@bikes-list/webcore-ui/Card";
 
 const { citySlug } = Astro.params;
 const apiBase = import.meta.env.PUBLIC_API_URL ?? "http://localhost:3001";
@@ -28,35 +30,44 @@ const pageTitle = city ? `${city.name} | BikesList` : "City Not Found | BikesLis
   <section class="flex flex-col gap-6">
     {city ? (
       <>
-        <p class="text-sm uppercase tracking-[0.25em] text-slate-400">{city.slug}</p>
-        <h1 class="text-4xl font-semibold text-white sm:text-5xl">{city.name}</h1>
-        <p class="text-lg text-slate-300">
+        <Badge tone="outline" size="sm">{city.slug}</Badge>
+        <h1 class="text-4xl font-semibold text-[var(--text-primary)] sm:text-5xl">
+          {city.name}
+        </h1>
+        <p class="text-lg text-[var(--text-secondary)]">
           {city.region ? `${city.region}, ` : ""}
           {city.country_code} · {city.timezone}
         </p>
         {city.is_active ? (
-          <div class="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-6 text-emerald-100">
+          <Card
+            class="border-[var(--status-positive-border)] bg-[var(--status-positive-bg)] text-[var(--status-positive-text)]"
+            padding="md"
+          >
             <h2 class="text-lg font-semibold">City listings are live</h2>
-            <p class="text-sm text-emerald-100/80">
+            <p class="text-sm opacity-80">
               This city is active. Listings and events will appear here in the next phase.
             </p>
-          </div>
+          </Card>
         ) : (
-          <div class="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-6 text-amber-100">
+          <Card
+            class="border-[var(--status-warning-border)] bg-[var(--status-warning-bg)] text-[var(--status-warning-text)]"
+            padding="md"
+          >
             <h2 class="text-lg font-semibold">Coming Soon</h2>
-            <p class="text-sm text-amber-100/80">
+            <p class="text-sm opacity-80">
               We are onboarding this city. Check back soon for listings.
             </p>
-          </div>
+          </Card>
         )}
       </>
     ) : (
-      <div class="rounded-2xl border border-rose-500/30 bg-rose-500/10 p-6 text-rose-100">
+      <Card
+        class="border-[var(--status-danger-border)] bg-[var(--status-danger-bg)] text-[var(--status-danger-text)]"
+        padding="md"
+      >
         <h1 class="text-lg font-semibold">City Not Found</h1>
-        <p class="text-sm text-rose-100/80">
-          We could not locate a city with that slug.
-        </p>
-      </div>
+        <p class="text-sm opacity-80">We could not locate a city with that slug.</p>
+      </Card>
     )}
   </section>
 </BaseLayout>
