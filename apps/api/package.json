@@ -15,7 +15,7 @@
     "seed": "tsx src/seed.ts"
   },
   "dependencies": {
-    "@adminjs/fastify": "^5.0.2",
+    "@adminjs/fastify": "^4.2.0",
     "@adminjs/prisma": "^5.0.3",
     "@aws-sdk/client-s3": "^3.658.1",
     "@aws-sdk/s3-request-presigner": "^3.658.1",
