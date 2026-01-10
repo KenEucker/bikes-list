@@ -3,7 +3,7 @@ FROM node:20-bullseye-slim
 WORKDIR /app
 
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends openssl \
+  && apt-get install -y --no-install-recommends openssl libssl1.1 \
   && rm -rf /var/lib/apt/lists/*
 
 COPY package.json package-lock.json* ./
