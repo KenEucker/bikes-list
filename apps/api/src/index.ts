@@ -58,7 +58,7 @@ server.addHook("onRequest", async (request, reply) => {
 await server.register(swaggerUi, {
   routePrefix: "/docs",
   uiConfig: {
-    url: "/docs/json"
+    url: "/openapi.json"
   }
 });
 
