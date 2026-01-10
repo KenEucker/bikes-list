@@ -683,6 +683,7 @@ server.get("/auth/discord", async (request, reply) => {
   const redirectUri = normalizeUrl(
     process.env.DISCORD_REDIRECT_URL ?? `${buildRequestAuthBase(request)}/auth/discord/callback`
   );
+  request.log.info({ redirectUri }, "Discord OAuth redirect URI");
   const missing = [];
   if (!clientId) {
     missing.push("DISCORD_CLIENT_ID");
@@ -744,6 +745,7 @@ server.get("/auth/google", async (request, reply) => {
   const redirectUri = normalizeUrl(
     process.env.GOOGLE_REDIRECT_URL ?? `${buildRequestAuthBase(request)}/auth/google/callback`
   );
+  request.log.info({ redirectUri }, "Google OAuth redirect URI");
   const missing = [];
   if (!clientId) {
     missing.push("GOOGLE_CLIENT_ID");
