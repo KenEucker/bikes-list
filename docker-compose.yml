@@ -18,6 +18,7 @@ services:
       PORT: 3001
       DATABASE_URL: postgres://bikes:bikes@db:5432/bikeslist
       LOG_LEVEL: info
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-}
     command: sh -c "npm run -w apps/api migrate:deploy && npm run -w apps/api seed && npm run -w apps/api start"
     ports:
       - "3001:3001"

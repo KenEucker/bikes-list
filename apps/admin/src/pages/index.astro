@@ -126,8 +126,8 @@ try {
 </BaseLayout>
 
 <script>
-  const apiBase = "${apiBase}";
   const adminHeaders = { "x-admin": "true" };
+  const adminApiBase = "/api/admin";
 
   const createForm = document.querySelector("#create-city");
   createForm?.addEventListener("submit", async (event) => {
@@ -135,7 +135,7 @@ try {
     const formData = new FormData(createForm);
     const payload = Object.fromEntries(formData.entries());
 
-    const response = await fetch(`${apiBase}/admin/cities`, {
+    const response = await fetch(`${adminApiBase}/cities`, {
       method: "POST",
       headers: {
         ...adminHeaders,
@@ -156,7 +156,7 @@ try {
       const cityId = button.getAttribute("data-city-id");
       const isActive = button.getAttribute("data-is-active") === "true";
 
-      const response = await fetch(`${apiBase}/admin/cities/${cityId}`, {
+      const response = await fetch(`${adminApiBase}/cities/${cityId}`, {
         method: "PATCH",
         headers: {
           ...adminHeaders,
@@ -185,7 +185,7 @@ try {
     const content = await file.text();
     const isCsv = file.name.endsWith(".csv");
 
-    const response = await fetch(`${apiBase}/admin/cities/import`, {
+    const response = await fetch(`${adminApiBase}/cities/import`, {
       method: "POST",
       headers: {
         ...adminHeaders,
@@ -204,7 +204,7 @@ try {
   document.querySelectorAll(".export-button").forEach((button) => {
     button.addEventListener("click", async () => {
       const format = button.getAttribute("data-format") ?? "json";
-      const response = await fetch(`${apiBase}/admin/cities/export?format=${format}`, {
+      const response = await fetch(`${adminApiBase}/cities/export?format=${format}`, {
         headers: adminHeaders
       });
 
