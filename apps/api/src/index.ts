@@ -1,7 +1,41 @@
+import swagger from "@fastify/swagger";
+import swaggerUi from "@fastify/swagger-ui";
+import type { FastifySchema } from "fastify";
 import { buildServer } from "./server.js";
 import { prisma } from "./prisma.js";
 
 const server = buildServer();
+
+const publicBaseUrl = process.env.PUBLIC_BASE_URL ?? "http://localhost:3001";
+
+const buildSchema = <T extends FastifySchema>(schema: T) => schema;
+
+await server.register(swagger, {
+  openapi: {
+    info: {
+      title: "BikesList API",
+      description: "Public API for BikesList city and admin data.",
+      version: "1.0.0"
+    },
+    servers: [{ url: publicBaseUrl }],
+    tags: [{ name: "default" }]
+  }
+});
+
+server.get("/openapi.json", async (_request, reply) => reply.send(server.swagger()));
+
+server.addHook("onRequest", async (request, reply) => {
+  if (request.raw.url === "/docs") {
+    return reply.redirect(302, "/docs/");
+  }
+});
+
+await server.register(swaggerUi, {
+  routePrefix: "/docs",
+  uiConfig: {
+    url: "/openapi.json"
+  }
+});
 
 server.addContentTypeParser(["text/csv", "application/csv"], { parseAs: "string" }, (_req, body, done) => {
   if (typeof body === "string") {
@@ -42,10 +76,28 @@ const parseCsv = (payload: string) => {
   });
 };
 
-server.get("/health", async (request) => ({
-  status: "ok",
-  requestId: request.id
-}));
+server.get(
+  "/health",
+  {
+    schema: buildSchema({
+      tags: ["default"],
+      response: {
+        200: {
+          type: "object",
+          properties: {
+            status: { type: "string" },
+            requestId: { type: "string" }
+          },
+          required: ["status", "requestId"]
+        }
+      }
+    })
+  },
+  async (request) => ({
+    status: "ok",
+    requestId: request.id
+  })
+);
 
 server.get("/", async (request) => ({
   status: "ok",
