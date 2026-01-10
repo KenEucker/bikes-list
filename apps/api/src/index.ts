@@ -743,7 +743,7 @@ const startDiscordAuthHandler = async (
     redirect_uri: redirectUri,
     state
   }).toString();
-  reply.redirect(url.toString());
+  reply.redirect(302, url.toString());
 };
 
 server.get("/auth/discord", startDiscordAuthHandler);
@@ -821,7 +821,7 @@ const startGoogleAuthHandler = async (
     access_type: "online",
     prompt: "consent"
   }).toString();
-  reply.redirect(url.toString());
+  reply.redirect(302, url.toString());
 };
 
 server.get("/auth/google", startGoogleAuthHandler);
