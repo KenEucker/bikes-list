@@ -20,7 +20,10 @@ services:
       PORT: 3001
       DATABASE_URL: postgres://bikes:bikes@db:5432/bikeslist
       LOG_LEVEL: info
-      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-}
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-http://api:3001}
+      SMTP_HOST: ${SMTP_HOST:-mailhog}
+      SMTP_PORT: ${SMTP_PORT:-1025}
+      SMTP_FROM: ${SMTP_FROM:-BikesList <no-reply@bikeslist.dev>}
     command: sh -c "apt-get update && apt-get install -y --no-install-recommends openssl libssl1.1 && rm -rf /var/lib/apt/lists/* && while [ ! -f /app/.deps_installed ]; do sleep 1; done; npm run -w apps/api migrate:deploy && npm run -w apps/api seed && npm run -w apps/api dev"
     ports:
       - "3001:3001"
@@ -28,6 +31,8 @@ services:
       deps:
         condition: service_completed_successfully
       db:
+        condition: service_started
+      mailhog:
         condition: service_started
 
   web:
@@ -74,6 +79,12 @@ services:
       - node_modules:/app/node_modules
     command: sh -c "apt-get update && apt-get install -y --no-install-recommends openssl libssl1.1 && rm -rf /var/lib/apt/lists/* && npm install && touch /app/.deps_installed"
     restart: "no"
+
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    ports:
+      - "8025:8025"
+      - "1025:1025"
 
 volumes:
   db_data:

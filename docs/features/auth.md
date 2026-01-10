@@ -35,6 +35,15 @@ Module scopes are optional and include: `events`, `shops`, `orgs`, `forsale`, `i
 | `GOOGLE_CLIENT_SECRET` | Google OAuth client secret |
 | `GOOGLE_REDIRECT_URL` | Callback URL for Google OAuth |
 | `SUPER_ADMIN_EMAILS` | Comma-separated list of emails that auto-receive `SUPER_ADMIN` |
+| `SMTP_HOST` | SMTP host for sending magic link emails |
+| `SMTP_PORT` | SMTP port for sending magic link emails |
+| `SMTP_USER` | SMTP user (if required) |
+| `SMTP_PASS` | SMTP password (if required) |
+| `SMTP_FROM` | From address for magic link emails |
+
+## Local email testing
+
+The dev docker-compose file ships with MailHog. When running via `docker-compose.dev.yml`, magic link emails are delivered to MailHog and can be viewed at `http://localhost:8025`.
 
 ## API endpoints
 

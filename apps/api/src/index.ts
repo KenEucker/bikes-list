@@ -5,6 +5,7 @@ import { randomUUID } from "crypto";
 import { buildServer } from "./server.js";
 import { prisma } from "./prisma.js";
 import type { AuthProvider, Module, Role, RoleAssignment, Session, User } from "@prisma/client";
+import net from "net";
 
 declare module "fastify" {
   interface FastifyRequest {
@@ -223,6 +224,73 @@ const parseCsv = (payload: string) => {
 
 const sessionDurationDays = 30;
 const magicLinkDurationMinutes = 30;
+const smtpHost = process.env.SMTP_HOST;
+const smtpPort = process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : undefined;
+const smtpUser = process.env.SMTP_USER;
+const smtpPass = process.env.SMTP_PASS;
+const smtpFrom = process.env.SMTP_FROM;
+
+const canSendEmail = Boolean(smtpHost && smtpPort && smtpFrom);
+
+const waitForResponse = (socket: net.Socket) =>
+  new Promise<string>((resolve) => {
+    const onData = (chunk: Buffer) => {
+      const response = chunk.toString();
+      socket.off("data", onData);
+      resolve(response);
+    };
+    socket.on("data", onData);
+  });
+
+const sendCommand = async (socket: net.Socket, command: string) => {
+  socket.write(`${command}\r\n`);
+  return waitForResponse(socket);
+};
+
+const sendMagicLinkEmail = async (email: string, link: string) => {
+  if (!canSendEmail || !smtpHost || !smtpPort || !smtpFrom) {
+    return false;
+  }
+
+  const socket = net.createConnection({ host: smtpHost, port: smtpPort });
+  const cleanup = () => {
+    socket.end();
+    socket.destroy();
+  };
+
+  const payload = [
+    `From: ${smtpFrom}`,
+    `To: ${email}`,
+    "Subject: Your BikesList magic link",
+    "Content-Type: text/plain; charset=utf-8",
+    "",
+    `Use this link to sign in: ${link}`,
+    ""
+  ].join("\r\n");
+
+  try {
+    await waitForResponse(socket);
+    await sendCommand(socket, "EHLO bikeslist.local");
+
+    if (smtpUser && smtpPass) {
+      const authToken = Buffer.from(`\u0000${smtpUser}\u0000${smtpPass}`).toString("base64");
+      await sendCommand(socket, "AUTH PLAIN");
+      await sendCommand(socket, authToken);
+    }
+
+    await sendCommand(socket, `MAIL FROM:<${smtpFrom}>`);
+    await sendCommand(socket, `RCPT TO:<${email}>`);
+    await sendCommand(socket, "DATA");
+    socket.write(`${payload}\r\n.\r\n`);
+    await waitForResponse(socket);
+    await sendCommand(socket, "QUIT");
+    cleanup();
+    return true;
+  } catch (error) {
+    cleanup();
+    throw error;
+  }
+};
 
 const createSession = async (
   user: User,
@@ -515,35 +583,51 @@ server.post("/auth/logout", async (request, reply) => {
 });
 
 server.post("/auth/magic-link", async (request, reply) => {
-  const body = request.body as { email?: string; redirect?: string };
-  if (!body?.email) {
-    reply.code(400);
-    return { message: "Email required" };
-  }
-
-  const email = body.email.trim().toLowerCase();
-  const user = await findOrCreateUser(email);
-  await ensureSuperAdmin(user);
-
-  const token = randomUUID();
-  const expiresAt = new Date();
-  expiresAt.setMinutes(expiresAt.getMinutes() + magicLinkDurationMinutes);
-
-  await prisma.session.create({
-    data: {
-      user_id: user.id,
-      token,
-      provider: "MAGIC_LINK",
-      expires_at: expiresAt,
-      ip_address: request.ip,
-      user_agent: request.headers["user-agent"] ?? null
+  try {
+    const body = request.body as { email?: string; redirect?: string };
+    if (!body?.email) {
+      reply.code(400);
+      return { message: "Email required" };
     }
-  });
 
-  const redirect = body.redirect ? `?redirect=${encodeURIComponent(body.redirect)}` : "";
-  const link = `${publicBaseUrl}/auth/magic-link/${token}${redirect}`;
-  request.log.info({ email, link }, "Generated magic link");
-  return { link, expires_at: expiresAt };
+    const email = body.email.trim().toLowerCase();
+    const user = await findOrCreateUser(email);
+    await ensureSuperAdmin(user);
+
+    const token = randomUUID();
+    const expiresAt = new Date();
+    expiresAt.setMinutes(expiresAt.getMinutes() + magicLinkDurationMinutes);
+
+    await prisma.session.create({
+      data: {
+        user_id: user.id,
+        token,
+        provider: "MAGIC_LINK",
+        expires_at: expiresAt,
+        ip_address: request.ip,
+        user_agent: request.headers["user-agent"] ?? null
+      }
+    });
+
+    const redirect = body.redirect ? `?redirect=${encodeURIComponent(body.redirect)}` : "";
+    const link = `${publicBaseUrl}/auth/magic-link/${token}${redirect}`;
+    request.log.info({ email, link }, "Generated magic link");
+
+    const emailSent = await sendMagicLinkEmail(email, link);
+    if (emailSent) {
+      request.log.info({ email }, "Magic link email sent");
+    } else {
+      request.log.info({ email }, "Magic link email not sent (SMTP not configured)");
+    }
+
+    return { link, expires_at: expiresAt, email_sent: emailSent };
+  } catch (error) {
+    request.log.error({ error }, "Failed to create magic link");
+    reply.code(500);
+    return {
+      message: "Failed to create magic link. Check API logs for details."
+    };
+  }
 });
 
 server.get("/auth/magic-link/:token", async (request, reply) => {
