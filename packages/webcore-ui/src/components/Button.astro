@@ -1,0 +1,45 @@
+---
+const {
+  href,
+  type = "button",
+  variant = "primary",
+  size = "md",
+  class: className,
+  ...rest
+} = Astro.props;
+
+const base =
+  "inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--page-bg)] disabled:cursor-not-allowed disabled:opacity-60";
+
+const variants = {
+  primary:
+    "bg-[var(--button-primary-bg)] text-[var(--button-primary-text)] hover:bg-[var(--button-primary-bg-hover)]",
+  secondary:
+    "bg-[var(--button-secondary-bg)] text-[var(--button-secondary-text)] hover:bg-[var(--button-secondary-bg-hover)]",
+  outline:
+    "border border-[var(--border-color)] bg-transparent text-[var(--text-primary)] hover:bg-[var(--surface-muted)]",
+  ghost: "bg-transparent text-[var(--text-primary)] hover:bg-[var(--surface-muted)]",
+  danger:
+    "bg-[var(--button-danger-bg)] text-[var(--button-danger-text)] hover:bg-[var(--button-danger-bg-hover)]"
+};
+
+const sizes = {
+  sm: "px-3 py-1.5 text-xs",
+  md: "px-4 py-2 text-sm",
+  lg: "px-5 py-2.5 text-base"
+};
+
+const classes = [base, variants[variant] ?? variants.primary, sizes[size] ?? sizes.md, className]
+  .filter(Boolean)
+  .join(" ");
+---
+
+{href ? (
+  <a href={href} class={classes} {...rest}>
+    <slot />
+  </a>
+) : (
+  <button type={type} class={classes} {...rest}>
+    <slot />
+  </button>
+)}

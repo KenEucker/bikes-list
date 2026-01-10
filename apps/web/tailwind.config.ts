@@ -3,5 +3,8 @@ import sharedConfig from "../../packages/shared/tailwind.config";
 
 export default {
   ...sharedConfig,
-  content: ["./src/**/*.{astro,html,js,jsx,ts,tsx}"]
+  content: [
+    "./src/**/*.{astro,html,js,jsx,ts,tsx}",
+    "../../packages/webcore-ui/src/**/*.{astro,html,js,jsx,ts,tsx}"
+  ]
 } satisfies Config;

@@ -10,6 +10,7 @@
   "dependencies": {
     "@astrojs/node": "^8.2.0",
     "@astrojs/tailwind": "^5.1.0",
+    "@bikes-list/webcore-ui": "file:../../packages/webcore-ui",
     "astro": "^4.12.0",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.38",

@@ -1,0 +1,14 @@
+{
+  "name": "@bikes-list/webcore-ui",
+  "private": true,
+  "type": "module",
+  "version": "0.0.0",
+  "exports": {
+    "./Badge": "./src/components/Badge.astro",
+    "./Button": "./src/components/Button.astro",
+    "./Card": "./src/components/Card.astro",
+    "./Input": "./src/components/Input.astro",
+    "./Select": "./src/components/Select.astro",
+    "./ThemeToggle": "./src/components/ThemeToggle.astro"
+  }
+}

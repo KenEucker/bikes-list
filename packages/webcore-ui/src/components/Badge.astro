@@ -1,0 +1,36 @@
+---
+const { class: className, tone = "neutral", size = "md", ...rest } = Astro.props;
+
+const tones = {
+  neutral:
+    "border border-[var(--border-color)] bg-[var(--surface-muted)] text-[var(--text-secondary)]",
+  success:
+    "border border-[var(--status-positive-border)] bg-[var(--status-positive-bg)] text-[var(--status-positive-text)]",
+  warning:
+    "border border-[var(--status-warning-border)] bg-[var(--status-warning-bg)] text-[var(--status-warning-text)]",
+  danger:
+    "border border-[var(--status-danger-border)] bg-[var(--status-danger-bg)] text-[var(--status-danger-text)]",
+  info:
+    "border border-[var(--status-info-border)] bg-[var(--status-info-bg)] text-[var(--status-info-text)]",
+  outline: "border border-[var(--border-color)] text-[var(--text-primary)]"
+};
+
+const sizes = {
+  sm: "px-2 py-0.5 text-[0.65rem]",
+  md: "px-3 py-1 text-xs",
+  lg: "px-3.5 py-1.5 text-sm"
+};
+
+const classes = [
+  "inline-flex items-center rounded-full font-semibold uppercase tracking-[0.15em]",
+  tones[tone] ?? tones.neutral,
+  sizes[size] ?? sizes.md,
+  className
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<span class={classes} {...rest}>
+  <slot />
+</span>
