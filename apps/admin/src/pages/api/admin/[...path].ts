@@ -12,10 +12,12 @@ export const ALL: APIRoute = async ({ params, request }) => {
   headers.set("x-admin", "true");
   headers.delete("host");
 
+  const hasBody = request.method !== "GET" && request.method !== "HEAD";
   const response = await fetch(targetUrl, {
     method: request.method,
     headers,
-    body: request.method === "GET" || request.method === "HEAD" ? undefined : request.body,
+    body: hasBody ? request.body : undefined,
+    ...(hasBody ? { duplex: "half" } : {}),
     redirect: "manual"
   });
 
