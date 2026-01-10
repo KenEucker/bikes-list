@@ -32,6 +32,26 @@ enum AuthProvider {
   MAGIC_LINK
 }
 
+enum MediaOwnerType {
+  FOR_SALE
+  EVENT
+  SHOP
+  ORG
+  AD
+  USER_AVATAR
+}
+
+enum MediaVerificationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum ModerationActionType {
+  APPROVE
+  REJECT
+}
+
 model City {
   id           String          @id @default(uuid()) @db.Uuid
   country_code String
@@ -44,6 +64,8 @@ model City {
   updated_at   DateTime        @updatedAt
   role_assignments RoleAssignment[]
   settings     SystemSetting[]
+  media_objects MediaObject[]
+  moderation_actions ModerationAction[]
 
   @@map("cities")
 }
@@ -60,6 +82,8 @@ model User {
   last_login_at DateTime?
   sessions      Session[]
   role_assignments RoleAssignment[]
+  media_uploads MediaObject[]   @relation("MediaUploader")
+  moderation_actions ModerationAction[] @relation("ModerationActor")
 
   @@map("users")
 }
@@ -107,4 +131,46 @@ model SystemSetting {
 
   @@unique([key, city_id])
   @@map("system_settings")
+}
+
+model MediaObject {
+  id                  String                  @id @default(uuid()) @db.Uuid
+  owner_type          MediaOwnerType
+  owner_id            String
+  city_id             String?                 @db.Uuid
+  city                City?                   @relation(fields: [city_id], references: [id], onDelete: SetNull)
+  uploader_user_id    String?                 @db.Uuid
+  uploader_user       User?                   @relation("MediaUploader", fields: [uploader_user_id], references: [id], onDelete: SetNull)
+  bucket              String
+  key                 String
+  content_type        String
+  byte_size           Int
+  width               Int?
+  height              Int?
+  sha256              String?
+  verification_status MediaVerificationStatus @default(PENDING)
+  rejection_reason    String?
+  created_at          DateTime                @default(now())
+  updated_at          DateTime                @updatedAt
+
+  @@index([owner_type, owner_id])
+  @@index([verification_status])
+  @@map("media_objects")
+}
+
+model ModerationAction {
+  id            String                @id @default(uuid()) @db.Uuid
+  actor_user_id String                @db.Uuid
+  actor_user    User                  @relation("ModerationActor", fields: [actor_user_id], references: [id], onDelete: Cascade)
+  action_type   ModerationActionType
+  entity_type   String
+  entity_id     String
+  city_id       String?               @db.Uuid
+  city          City?                 @relation(fields: [city_id], references: [id], onDelete: SetNull)
+  note          String?
+  created_at    DateTime              @default(now())
+  updated_at    DateTime              @updatedAt
+
+  @@index([entity_type, entity_id])
+  @@map("moderation_actions")
 }

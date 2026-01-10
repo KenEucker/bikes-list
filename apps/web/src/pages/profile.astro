@@ -1,0 +1,301 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Badge from "@bikes-list/webcore-ui/Badge";
+import Button from "@bikes-list/webcore-ui/Button";
+import Card from "@bikes-list/webcore-ui/Card";
+import Input from "@bikes-list/webcore-ui/Input";
+
+const apiBase = import.meta.env.PUBLIC_API_URL ?? "http://localhost:3001";
+const cookieHeader = Astro.request.headers.get("cookie") ?? "";
+const appOrigin = new URL(Astro.request.url).origin;
+let currentUser:
+  | {
+      id: string;
+      email: string;
+      display_name?: string | null;
+    }
+  | null = null;
+let roles: Array<{
+  role: string;
+  city?: { name: string } | null;
+  module?: string | null;
+}> = [];
+let authError = "";
+
+try {
+  const response = await fetch(`${apiBase}/me`, {
+    headers: {
+      cookie: cookieHeader
+    }
+  });
+  if (response.ok) {
+    const data = await response.json();
+    currentUser = data.user;
+    roles = data.roles ?? [];
+  }
+} catch (error) {
+  authError = error instanceof Error ? error.message : "Unable to load session.";
+}
+---
+
+<BaseLayout title="BikesList Profile">
+  <section class="flex flex-col gap-8">
+    <header class="flex flex-col gap-3">
+      <p class="text-xs uppercase tracking-[0.25em] text-[var(--text-muted)]">Profile</p>
+      <h1 class="text-4xl font-semibold text-[var(--text-primary)] sm:text-5xl">
+        Manage your avatar
+      </h1>
+      <p class="text-lg text-[var(--text-secondary)]">
+        Upload a new avatar image. Images are reviewed by moderators before they are publicly
+        visible.
+      </p>
+    </header>
+
+    <Card>
+      <h2 class="text-xl font-semibold text-[var(--text-primary)]">Account</h2>
+      {authError ? (
+        <p class="mt-3 text-sm text-[var(--status-danger-text)]">Session error: {authError}</p>
+      ) : currentUser ? (
+        <div class="mt-4 flex flex-col gap-3">
+          <div>
+            <p class="text-xs uppercase tracking-[0.2em] text-[var(--text-muted)]">Signed in</p>
+            <p class="text-lg font-semibold text-[var(--text-primary)]">
+              {currentUser.display_name ?? currentUser.email}
+            </p>
+            <p class="text-sm text-[var(--text-secondary)]">{currentUser.email}</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            {roles.length ? (
+              roles.map((assignment) => (
+                <Badge tone="outline" size="sm">
+                  {assignment.role}
+                  {assignment.city ? ` · ${assignment.city.name}` : ""}
+                  {assignment.module ? ` · ${assignment.module}` : ""}
+                </Badge>
+              ))
+            ) : (
+              <span class="text-sm text-[var(--text-muted)]">No roles assigned yet.</span>
+            )}
+          </div>
+        </div>
+      ) : (
+        <div class="mt-4 flex flex-col gap-4">
+          <p class="text-sm text-[var(--text-secondary)]">
+            Sign in to upload your avatar and track moderation status.
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <Button
+              href={`/api/auth/discord?redirect=${appOrigin}/profile`}
+              variant="outline"
+              size="sm"
+            >
+              Continue with Discord
+            </Button>
+            <Button
+              href={`/api/auth/google?redirect=${appOrigin}/profile`}
+              variant="outline"
+              size="sm"
+            >
+              Continue with Google
+            </Button>
+          </div>
+        </div>
+      )}
+    </Card>
+
+    <Card>
+      <div class="flex flex-col gap-6 lg:flex-row lg:items-start">
+        <div class="flex-1 space-y-4">
+          <div class="space-y-2">
+            <p class="text-xs uppercase tracking-[0.2em] text-[var(--text-muted)]">Preview</p>
+            <div
+              class="avatar-preview flex h-40 w-40 items-center justify-center rounded-2xl border border-dashed border-[var(--border-color)] bg-[var(--surface-muted)] text-center text-sm text-[var(--text-muted)]"
+            >
+              Awaiting upload
+            </div>
+          </div>
+          <div class="space-y-2">
+            <p class="text-xs uppercase tracking-[0.2em] text-[var(--text-muted)]">Status</p>
+            <p class="avatar-status text-sm text-[var(--text-secondary)]">
+              Upload an image to begin moderation.
+            </p>
+          </div>
+        </div>
+        <form
+          class="avatar-form flex flex-1 flex-col gap-4"
+          data-api-base={apiBase}
+          data-user-id={currentUser?.id ?? ""}
+        >
+          <div class="space-y-2">
+            <label class="text-xs uppercase tracking-[0.2em] text-[var(--text-muted)]">
+              Avatar file
+            </label>
+            <Input
+              name="avatar"
+              type="file"
+              accept="image/*"
+              required
+            />
+            <p class="text-xs text-[var(--text-muted)]">
+              PNG or JPG, up to 5MB. Uploads are reviewed before they appear publicly.
+            </p>
+          </div>
+          <Button type="submit" variant="primary" size="sm">
+            Upload avatar
+          </Button>
+        </form>
+      </div>
+    </Card>
+  </section>
+</BaseLayout>
+
+<script>
+  const form = document.querySelector(".avatar-form");
+  const status = document.querySelector(".avatar-status");
+  const preview = document.querySelector(".avatar-preview");
+
+  const setStatus = (message, tone = "secondary") => {
+    if (!(status instanceof HTMLElement)) {
+      return;
+    }
+    status.textContent = message;
+    status.className = `avatar-status text-sm ${{
+      secondary: "text-[var(--text-secondary)]",
+      muted: "text-[var(--text-muted)]",
+      danger: "text-[var(--status-danger-text)]",
+      success: "text-[var(--status-success-text)]"
+    }[tone] ?? "text-[var(--text-secondary)]"}`;
+  };
+
+  const updatePreview = (url, label) => {
+    if (!(preview instanceof HTMLElement)) {
+      return;
+    }
+    if (url) {
+      preview.innerHTML = `<img src="${url}" alt="Avatar preview" class="h-full w-full rounded-2xl object-cover" />`;
+    } else {
+      preview.textContent = label ?? "Awaiting upload";
+    }
+  };
+
+  const fetchMediaStatus = async (apiBase, mediaId) => {
+    const response = await fetch(`${apiBase}/media/${mediaId}`, {
+      credentials: "include"
+    });
+    if (!response.ok) {
+      setStatus(
+        response.status === 403
+          ? "Pending moderation. Your avatar will appear once approved."
+          : "Unable to load media status.",
+        response.status === 403 ? "muted" : "danger"
+      );
+      return;
+    }
+    const data = await response.json();
+    if (data.public_url) {
+      updatePreview(data.public_url, "");
+      setStatus("Approved and visible to everyone.", "success");
+      return;
+    }
+    setStatus("Pending moderation. Your avatar will appear once approved.", "muted");
+  };
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!(form instanceof HTMLFormElement)) {
+      return;
+    }
+
+    const apiBase = form.dataset.apiBase ?? "http://localhost:3001";
+    const userId = form.dataset.userId ?? "";
+    if (!userId) {
+      setStatus("Sign in to upload an avatar.", "danger");
+      return;
+    }
+
+    const fileInput = form.querySelector("input[type='file']");
+    if (!(fileInput instanceof HTMLInputElement) || !fileInput.files?.[0]) {
+      setStatus("Choose an image file before uploading.", "danger");
+      return;
+    }
+
+    const file = fileInput.files[0];
+    if (file.size > 5 * 1024 * 1024) {
+      setStatus("File is larger than 5MB. Choose a smaller image.", "danger");
+      return;
+    }
+
+    setStatus("Requesting upload URL...", "muted");
+
+    try {
+      const presignResponse = await fetch(`${apiBase}/media/presign-upload`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({
+          owner_type: "USER_AVATAR",
+          owner_id: userId,
+          content_type: file.type || "application/octet-stream",
+          byte_size: file.size
+        })
+      });
+
+      if (!presignResponse.ok) {
+        const errorPayload = await presignResponse.json().catch(() => ({}));
+        setStatus(errorPayload.message ?? "Unable to start upload.", "danger");
+        return;
+      }
+
+      const presignData = await presignResponse.json();
+      const upload = presignData.upload;
+      const mediaId = presignData.media?.id;
+      if (!upload?.url || !mediaId) {
+        setStatus("Upload URL missing. Try again.", "danger");
+        return;
+      }
+
+      setStatus("Uploading image...", "muted");
+      const uploadResponse = await fetch(upload.url, {
+        method: "PUT",
+        headers: upload.headers ?? {
+          "Content-Type": file.type
+        },
+        body: file
+      });
+
+      if (!uploadResponse.ok) {
+        setStatus("Upload failed. Please retry.", "danger");
+        return;
+      }
+
+      const imageUrl = URL.createObjectURL(file);
+      updatePreview(imageUrl, "");
+      const image = new Image();
+      image.src = imageUrl;
+      await image.decode();
+
+      await fetch(`${apiBase}/media/complete-upload`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({
+          media_id: mediaId,
+          width: image.width,
+          height: image.height
+        })
+      });
+
+      setStatus("Upload complete. Awaiting moderation.", "muted");
+      await fetchMediaStatus(apiBase, mediaId);
+    } catch (error) {
+      setStatus(
+        error instanceof Error ? error.message : "Upload failed unexpectedly.",
+        "danger"
+      );
+    }
+  });
+</script>

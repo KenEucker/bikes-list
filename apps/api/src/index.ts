@@ -1,10 +1,25 @@
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
+import AdminJS from "adminjs";
+import { buildRouter } from "@adminjs/fastify";
+import { Database, Resource } from "@adminjs/prisma";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import type { FastifySchema, FastifyReply, FastifyRequest } from "fastify";
 import { randomUUID } from "crypto";
 import { buildServer } from "./server.js";
 import { prisma } from "./prisma.js";
-import type { AuthProvider, Module, Role, RoleAssignment, Session, User } from "@prisma/client";
+import type {
+  AuthProvider,
+  MediaOwnerType,
+  MediaVerificationStatus,
+  ModerationActionType,
+  Module,
+  Role,
+  RoleAssignment,
+  Session,
+  User
+} from "@prisma/client";
 import net from "net";
 
 declare module "fastify" {
@@ -19,7 +34,198 @@ const server = buildServer();
 
 const publicBaseUrl = process.env.PUBLIC_BASE_URL || "http://localhost:3001";
 
+const s3Config = {
+  endpoint: process.env.S3_ENDPOINT,
+  region: process.env.S3_REGION,
+  bucket: process.env.S3_BUCKET,
+  accessKeyId: process.env.S3_ACCESS_KEY_ID,
+  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  publicBaseUrl: process.env.S3_PUBLIC_BASE_URL
+};
+
+const getS3Client = () => {
+  if (
+    !s3Config.region ||
+    !s3Config.bucket ||
+    !s3Config.accessKeyId ||
+    !s3Config.secretAccessKey
+  ) {
+    throw new Error("S3 configuration is incomplete.");
+  }
+  return new S3Client({
+    region: s3Config.region,
+    endpoint: s3Config.endpoint,
+    forcePathStyle: Boolean(s3Config.endpoint),
+    credentials: {
+      accessKeyId: s3Config.accessKeyId,
+      secretAccessKey: s3Config.secretAccessKey
+    }
+  });
+};
+
+const buildPublicMediaUrl = (key: string) => {
+  if (!s3Config.publicBaseUrl) {
+    return null;
+  }
+  const base = s3Config.publicBaseUrl.endsWith("/")
+    ? s3Config.publicBaseUrl
+    : `${s3Config.publicBaseUrl}/`;
+  return `${base}${key}`;
+};
+
 const buildSchema = <T extends FastifySchema>(schema: T) => schema;
+
+AdminJS.registerAdapter({ Database, Resource });
+
+const adminNavigation = {
+  platform: { name: "Platform", icon: "Location" },
+  identity: { name: "Identity", icon: "User" },
+  moderation: { name: "Moderation", icon: "Shield" }
+};
+
+const createModerationAction =
+  (actionType: ModerationActionType, options?: { requiresReason?: boolean }) =>
+  ({
+    actionType: "record",
+    icon: actionType === "APPROVE" ? "Checkmark" : "Close",
+    guard:
+      actionType === "APPROVE"
+        ? "Approve this media asset?"
+        : "Reject this media asset? Provide a rejection reason before continuing.",
+    handler: async (request: { payload?: Record<string, unknown> }, _response: unknown, context: any) => {
+      const record = context.record;
+      if (!record) {
+        return {
+          notice: { message: "Media record not found.", type: "error" }
+        };
+      }
+
+      const actorId =
+        context.currentAdmin?.id ??
+        context.request?.raw?.user?.id ??
+        context.request?.user?.id;
+
+      if (!actorId) {
+        return {
+          notice: { message: "Admin session missing. Please sign in again.", type: "error" }
+        };
+      }
+
+      const currentStatus = record.params?.verification_status as MediaVerificationStatus | undefined;
+      if (currentStatus === "APPROVED" && actionType === "APPROVE") {
+        return {
+          notice: { message: "Media is already approved.", type: "info" }
+        };
+      }
+
+      const payloadReason =
+        typeof request.payload?.rejection_reason === "string"
+          ? request.payload.rejection_reason.trim()
+          : "";
+      const existingReason =
+        typeof record.params?.rejection_reason === "string"
+          ? record.params.rejection_reason.trim()
+          : "";
+      const rejectionReason = payloadReason || existingReason;
+
+      if (options?.requiresReason && !rejectionReason) {
+        return {
+          notice: {
+            message: "Rejection requires a reason. Update the rejection reason and try again.",
+            type: "error"
+          }
+        };
+      }
+
+      const updatedRecord = await record.update({
+        verification_status: actionType === "APPROVE" ? "APPROVED" : "REJECTED",
+        rejection_reason: actionType === "REJECT" ? rejectionReason : null
+      });
+
+      await prisma.moderationAction.create({
+        data: {
+          actor_user_id: actorId,
+          action_type: actionType,
+          entity_type: "MEDIA_OBJECT",
+          entity_id: record.params.id,
+          city_id: record.params.city_id ?? null,
+          note: actionType === "REJECT" ? rejectionReason : null
+        }
+      });
+
+      return {
+        record: updatedRecord.toJSON(context.currentAdmin),
+        notice: {
+          message:
+            actionType === "APPROVE"
+              ? "Media approved and logged."
+              : "Media rejected and logged.",
+          type: "success"
+        }
+      };
+    }
+  });
+
+const admin = new AdminJS({
+  rootPath: "/admin",
+  branding: {
+    companyName: "BikesList Admin",
+    withMadeWithLove: false,
+    theme: {
+      colors: {
+        primary100: "#1d4ed8",
+        primary80: "#2563eb",
+        primary60: "#3b82f6"
+      }
+    }
+  },
+  resources: [
+    {
+      resource: { model: prisma.city, client: prisma },
+      options: { navigation: adminNavigation.platform }
+    },
+    {
+      resource: { model: prisma.systemSetting, client: prisma },
+      options: { navigation: adminNavigation.platform }
+    },
+    {
+      resource: { model: prisma.user, client: prisma },
+      options: { navigation: adminNavigation.identity }
+    },
+    {
+      resource: { model: prisma.roleAssignment, client: prisma },
+      options: { navigation: adminNavigation.identity }
+    },
+    {
+      resource: { model: prisma.mediaObject, client: prisma },
+      options: {
+        navigation: adminNavigation.moderation,
+        properties: {
+          rejection_reason: { type: "textarea" }
+        },
+        actions: {
+          approve: createModerationAction("APPROVE"),
+          reject: createModerationAction("REJECT", { requiresReason: true })
+        }
+      }
+    },
+    {
+      resource: { model: prisma.moderationAction, client: prisma },
+      options: {
+        navigation: adminNavigation.moderation,
+        actions: {
+          new: { isAccessible: false },
+          edit: { isAccessible: false },
+          delete: { isAccessible: false }
+        }
+      }
+    }
+  ]
+});
+
+await admin.initialize();
+const adminRouter = await buildRouter(admin);
+await server.register(adminRouter, { prefix: admin.options.rootPath });
 
 await server.register(swagger, {
   openapi: {
@@ -165,6 +371,16 @@ const hasRole = (
   });
 };
 
+const isAdminAssignment = (assignments: RoleAssignment[]) =>
+  hasRole(assignments, "ADMIN") || hasRole(assignments, "SUPER_ADMIN");
+
+const requireAuth = async (request: FastifyRequest, reply: FastifyReply) => {
+  if (!request.user) {
+    reply.code(401);
+    return reply.send({ message: "Authentication required" });
+  }
+};
+
 const requireRoles =
   (roles: Role[], options?: { allowSelf?: boolean }) =>
   async (request: FastifyRequest, reply: FastifyReply) => {
@@ -187,17 +403,26 @@ const requireRoles =
     }
   };
 
-server.addHook("preHandler", async (request) => {
+server.addHook("preHandler", async (request, reply) => {
   const session = await loadSession(request);
   if (!session) {
     request.user = null;
     request.session = null;
     request.roleAssignments = [];
+    if (request.raw.url?.startsWith("/admin")) {
+      reply.code(401);
+      return reply.send({ message: "Authentication required" });
+    }
     return;
   }
   request.user = session.user;
   request.session = session;
   request.roleAssignments = await loadRoleAssignments(session.user_id);
+
+  if (request.raw.url?.startsWith("/admin") && !isAdminAssignment(request.roleAssignments)) {
+    reply.code(403);
+    return reply.send({ message: "Insufficient permissions" });
+  }
 });
 
 const parseCsv = (payload: string) => {
@@ -221,6 +446,9 @@ const parseCsv = (payload: string) => {
     }, {});
   });
 };
+
+const buildMediaKey = (ownerType: MediaOwnerType, ownerId: string) =>
+  `media/${ownerType.toLowerCase()}/${ownerId}/${randomUUID()}`;
 
 const sessionDurationDays = 30;
 const magicLinkDurationMinutes = 30;
@@ -877,6 +1105,301 @@ server.get("/cities/:slug", async (request, reply) => {
 
   return { city };
 });
+
+server.post(
+  "/media/presign-upload",
+  {
+    schema: buildSchema({
+      tags: ["default"],
+      security: [{ sessionCookie: [] }, { bearerAuth: [] }]
+    }),
+    preHandler: requireAuth
+  },
+  async (request, reply) => {
+    const body = request.body as {
+      owner_type?: MediaOwnerType;
+      owner_id?: string;
+      city_id?: string | null;
+      content_type?: string;
+      byte_size?: number;
+    };
+
+    if (!body?.owner_type || !body?.owner_id || !body?.content_type || !body?.byte_size) {
+      reply.code(400);
+      return { message: "Missing required fields" };
+    }
+
+    if (body.owner_type === "USER_AVATAR" && body.owner_id !== request.user?.id) {
+      reply.code(403);
+      return { message: "User avatar uploads must target the current user." };
+    }
+
+    if (!s3Config.bucket) {
+      reply.code(500);
+      return { message: "Media storage is not configured." };
+    }
+
+    if (body.city_id) {
+      const cityExists = await prisma.city.findUnique({ where: { id: body.city_id } });
+      if (!cityExists) {
+        reply.code(400);
+        return { message: "Invalid city id." };
+      }
+    }
+
+    const key = buildMediaKey(body.owner_type, body.owner_id);
+    const media = await prisma.mediaObject.create({
+      data: {
+        owner_type: body.owner_type,
+        owner_id: body.owner_id,
+        city_id: body.city_id ?? null,
+        uploader_user_id: request.user?.id ?? null,
+        bucket: s3Config.bucket,
+        key,
+        content_type: body.content_type,
+        byte_size: body.byte_size,
+        verification_status: "PENDING"
+      }
+    });
+
+    try {
+      const s3Client = getS3Client();
+      const uploadUrl = await getSignedUrl(
+        s3Client,
+        new PutObjectCommand({
+          Bucket: s3Config.bucket,
+          Key: key,
+          ContentType: body.content_type
+        }),
+        { expiresIn: 900 }
+      );
+      reply.code(201);
+      return {
+        media,
+        upload: {
+          url: uploadUrl,
+          method: "PUT",
+          headers: {
+            "Content-Type": body.content_type
+          }
+        }
+      };
+    } catch (error) {
+      request.log.error({ error }, "Failed to generate presigned upload URL");
+      reply.code(500);
+      return { message: "Failed to prepare upload URL" };
+    }
+  }
+);
+
+server.post(
+  "/media/complete-upload",
+  {
+    schema: buildSchema({
+      tags: ["default"],
+      security: [{ sessionCookie: [] }, { bearerAuth: [] }]
+    }),
+    preHandler: requireAuth
+  },
+  async (request, reply) => {
+    const body = request.body as {
+      media_id?: string;
+      width?: number;
+      height?: number;
+      sha256?: string;
+    };
+
+    if (!body?.media_id) {
+      reply.code(400);
+      return { message: "media_id is required" };
+    }
+
+    const media = await prisma.mediaObject.findUnique({ where: { id: body.media_id } });
+    if (!media) {
+      reply.code(404);
+      return { message: "Media not found" };
+    }
+
+    const canUpdate =
+      media.uploader_user_id === request.user?.id ||
+      isAdminAssignment(request.roleAssignments ?? []);
+
+    if (!canUpdate) {
+      reply.code(403);
+      return { message: "Not authorized to update this media" };
+    }
+
+    const updated = await prisma.mediaObject.update({
+      where: { id: media.id },
+      data: {
+        width: typeof body.width === "number" ? body.width : undefined,
+        height: typeof body.height === "number" ? body.height : undefined,
+        sha256: body.sha256 ?? undefined
+      }
+    });
+
+    return {
+      media: updated,
+      public_url:
+        updated.verification_status === "APPROVED" ? buildPublicMediaUrl(updated.key) : null
+    };
+  }
+);
+
+server.get("/media/:id", async (request, reply) => {
+  const { id } = request.params as { id: string };
+  const media = await prisma.mediaObject.findUnique({ where: { id } });
+
+  if (!media) {
+    reply.code(404);
+    return { message: "Media not found" };
+  }
+
+  const isOwner = request.user && media.uploader_user_id === request.user.id;
+  const isAdmin = isAdminAssignment(request.roleAssignments ?? []);
+  const isApproved = media.verification_status === "APPROVED";
+
+  if (!isApproved && !isOwner && !isAdmin) {
+    reply.code(403);
+    return { message: "Media pending approval" };
+  }
+
+  return {
+    media,
+    public_url: isApproved ? buildPublicMediaUrl(media.key) : null
+  };
+});
+
+server.get(
+  "/cities/:slug/media/pending",
+  {
+    schema: buildSchema({
+      tags: ["admin"],
+      security: [{ sessionCookie: [] }, { bearerAuth: [] }]
+    }),
+    preHandler: requireRoles(["ADMIN", "SUPER_ADMIN"])
+  },
+  async (request, reply) => {
+    const { slug } = request.params as { slug: string };
+    const city = await prisma.city.findUnique({ where: { slug } });
+
+    if (!city) {
+      reply.code(404);
+      return { message: "City not found" };
+    }
+
+    const media = await prisma.mediaObject.findMany({
+      where: {
+        city_id: city.id,
+        verification_status: "PENDING"
+      },
+      orderBy: { created_at: "desc" }
+    });
+
+    return { city, media };
+  }
+);
+
+server.post(
+  "/media/:id/approve",
+  {
+    schema: buildSchema({
+      tags: ["admin"],
+      security: [{ sessionCookie: [] }, { bearerAuth: [] }]
+    }),
+    preHandler: requireRoles(["ADMIN", "SUPER_ADMIN"])
+  },
+  async (request, reply) => {
+    const { id } = request.params as { id: string };
+    const media = await prisma.mediaObject.findUnique({ where: { id } });
+
+    if (!media) {
+      reply.code(404);
+      return { message: "Media not found" };
+    }
+
+    if (!request.user?.id) {
+      reply.code(401);
+      return { message: "Authentication required" };
+    }
+
+    const updated = await prisma.mediaObject.update({
+      where: { id },
+      data: {
+        verification_status: "APPROVED",
+        rejection_reason: null
+      }
+    });
+
+    await prisma.moderationAction.create({
+      data: {
+        actor_user_id: request.user.id,
+        action_type: "APPROVE",
+        entity_type: "MEDIA_OBJECT",
+        entity_id: id,
+        city_id: media.city_id ?? null,
+        note: null
+      }
+    });
+
+    return {
+      media: updated,
+      public_url: buildPublicMediaUrl(updated.key)
+    };
+  }
+);
+
+server.post(
+  "/media/:id/reject",
+  {
+    schema: buildSchema({
+      tags: ["admin"],
+      security: [{ sessionCookie: [] }, { bearerAuth: [] }]
+    }),
+    preHandler: requireRoles(["ADMIN", "SUPER_ADMIN"])
+  },
+  async (request, reply) => {
+    const { id } = request.params as { id: string };
+    const body = request.body as { reason?: string };
+
+    if (!body?.reason) {
+      reply.code(400);
+      return { message: "Rejection reason required" };
+    }
+
+    const media = await prisma.mediaObject.findUnique({ where: { id } });
+    if (!media) {
+      reply.code(404);
+      return { message: "Media not found" };
+    }
+
+    if (!request.user?.id) {
+      reply.code(401);
+      return { message: "Authentication required" };
+    }
+
+    const updated = await prisma.mediaObject.update({
+      where: { id },
+      data: {
+        verification_status: "REJECTED",
+        rejection_reason: body.reason
+      }
+    });
+
+    await prisma.moderationAction.create({
+      data: {
+        actor_user_id: request.user.id,
+        action_type: "REJECT",
+        entity_type: "MEDIA_OBJECT",
+        entity_id: id,
+        city_id: media.city_id ?? null,
+        note: body.reason
+      }
+    });
+
+    return { media: updated };
+  }
+);
 
 server.post(
   "/admin/cities",
