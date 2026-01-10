@@ -1,10 +1,12 @@
 services:
   db:
     image: postgres:16-alpine
+    env_file:
+      - .env
     environment:
-      POSTGRES_USER: bikes
-      POSTGRES_PASSWORD: bikes
-      POSTGRES_DB: bikeslist
+      POSTGRES_USER: ${POSTGRES_USER:-bikes}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-bikes}
+      POSTGRES_DB: ${POSTGRES_DB:-bikeslist}
     ports:
       - "5432:5432"
     volumes:
@@ -14,14 +16,28 @@ services:
     build:
       context: .
       dockerfile: apps/api/Dockerfile
+    env_file:
+      - .env
     environment:
-      PORT: 3001
-      DATABASE_URL: postgres://bikes:bikes@db:5432/bikeslist
-      LOG_LEVEL: info
+      PORT: ${PORT:-3001}
+      DATABASE_URL: ${DATABASE_URL:-postgres://bikes:bikes@db:5432/bikeslist}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
       PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-}
+      SUPER_ADMIN_EMAILS: ${SUPER_ADMIN_EMAILS:-}
+      DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID:-}
+      DISCORD_CLIENT_SECRET: ${DISCORD_CLIENT_SECRET:-}
+      DISCORD_REDIRECT_URL: ${DISCORD_REDIRECT_URL:-}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      GOOGLE_REDIRECT_URL: ${GOOGLE_REDIRECT_URL:-}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM: ${SMTP_FROM:-}
     command: sh -c "npm run -w apps/api migrate:deploy && npm run -w apps/api seed && npm run -w apps/api start"
     ports:
-      - "3001:3001"
+      - "${PORT:-3001}:3001"
     depends_on:
       - db
 
@@ -29,11 +45,13 @@ services:
     build:
       context: .
       dockerfile: apps/web/Dockerfile
+    env_file:
+      - .env
     environment:
-      PORT: 3000
-      PUBLIC_API_URL: http://api:3001
+      PORT: ${WEB_PORT:-3000}
+      PUBLIC_API_URL: ${PUBLIC_API_URL:-http://api:3001}
     ports:
-      - "3000:3000"
+      - "${WEB_PORT:-3000}:3000"
     depends_on:
       - api
 
@@ -41,11 +59,13 @@ services:
     build:
       context: .
       dockerfile: apps/admin/Dockerfile
+    env_file:
+      - .env
     environment:
-      PORT: 3002
-      PUBLIC_API_URL: http://api:3001
+      PORT: ${ADMIN_PORT:-3002}
+      PUBLIC_API_URL: ${PUBLIC_API_URL:-http://api:3001}
     ports:
-      - "3002:3002"
+      - "${ADMIN_PORT:-3002}:3002"
     depends_on:
       - api
 

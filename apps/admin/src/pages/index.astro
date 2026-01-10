@@ -2,6 +2,8 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const apiBase = import.meta.env.PUBLIC_API_URL ?? "http://localhost:3001";
+const cookieHeader = Astro.request.headers.get("cookie") ?? "";
+const appOrigin = new URL(Astro.request.url).origin;
 let cities: Array<{
   id: string;
   name: string;
@@ -12,6 +14,31 @@ let cities: Array<{
   is_active: boolean;
 }> = [];
 let loadError = "";
+let currentUser:
+  | {
+      id: string;
+      email: string;
+      display_name?: string | null;
+    }
+  | null = null;
+let roles: Array<{
+  role: string;
+  city?: { name: string } | null;
+  module?: string | null;
+}> = [];
+let authError = "";
+let users: Array<{
+  id: string;
+  email: string;
+  display_name?: string | null;
+  created_at: string;
+  role_assignments: Array<{
+    role: string;
+    city?: { id: string; name: string } | null;
+    module?: string | null;
+  }>;
+}> = [];
+let userLoadError = "";
 
 try {
   const response = await fetch(`${apiBase}/cities`);
@@ -19,6 +46,35 @@ try {
   cities = data.cities ?? [];
 } catch (error) {
   loadError = error instanceof Error ? error.message : "Unable to load cities.";
+}
+
+try {
+  const response = await fetch(`${apiBase}/me`, {
+    headers: { cookie: cookieHeader }
+  });
+  if (response.ok) {
+    const data = await response.json();
+    currentUser = data.user;
+    roles = data.roles ?? [];
+  }
+} catch (error) {
+  authError = error instanceof Error ? error.message : "Unable to load session.";
+}
+
+try {
+  const response = await fetch(`${apiBase}/admin/users`, {
+    headers: { cookie: cookieHeader }
+  });
+  const data = response.ok ? await response.json() : { users: [] };
+  users = data.users ?? [];
+  if (!response.ok) {
+    userLoadError =
+      response.status === 401
+        ? "Sign in with an admin account to manage users."
+        : data.message ?? "Unable to load users.";
+  }
+} catch (error) {
+  userLoadError = error instanceof Error ? error.message : "Unable to load users.";
 }
 ---
 
@@ -33,6 +89,218 @@ try {
         Manage cities, import/export data, and keep city availability up to date.
       </p>
     </header>
+
+    <section class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6">
+      <h2 class="text-xl font-semibold text-white">Admin session</h2>
+      {authError ? (
+        <p class="text-sm text-rose-300">Session error: {authError}</p>
+      ) : currentUser ? (
+        <div class="mt-4 flex flex-col gap-3">
+          <div>
+            <p class="text-sm uppercase tracking-[0.2em] text-slate-500">Signed in</p>
+            <p class="text-lg font-semibold text-white">
+              {currentUser.display_name ?? currentUser.email}
+            </p>
+            <p class="text-sm text-slate-400">{currentUser.email}</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            {roles.length ? (
+              roles.map((assignment) => (
+                <span class="rounded-full border border-slate-700 px-3 py-1 text-xs uppercase text-slate-200">
+                  {assignment.role}
+                  {assignment.city ? ` · ${assignment.city.name}` : ""}
+                  {assignment.module ? ` · ${assignment.module}` : ""}
+                </span>
+              ))
+            ) : (
+              <span class="text-sm text-slate-400">No roles assigned yet.</span>
+            )}
+          </div>
+          <button
+            class="logout-button w-fit rounded-lg border border-slate-700 px-3 py-2 text-sm font-semibold text-slate-200"
+            type="button"
+          >
+            Log out
+          </button>
+        </div>
+      ) : (
+        <div class="mt-4 flex flex-col gap-4">
+          <p class="text-sm text-slate-300">
+            Sign in to manage BikesList roles and ambassadors.
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <a
+              class="rounded-lg border border-slate-700 px-3 py-2 text-sm font-semibold text-slate-200"
+              href={`/api/auth/discord?redirect=${appOrigin}/`}
+            >
+              Continue with Discord
+            </a>
+            <a
+              class="rounded-lg border border-slate-700 px-3 py-2 text-sm font-semibold text-slate-200"
+              href={`/api/auth/google?redirect=${appOrigin}/`}
+            >
+              Continue with Google
+            </a>
+          </div>
+          <form class="magic-link-form flex flex-col gap-3">
+            <input
+              class="rounded-lg border border-slate-800 bg-slate-950/60 px-3 py-2 text-sm text-white"
+              name="email"
+              placeholder="you@example.com"
+              type="email"
+              required
+            />
+            <button
+              class="rounded-lg bg-emerald-500/80 px-3 py-2 text-sm font-semibold text-emerald-950"
+              type="submit"
+            >
+              Email me a magic link
+            </button>
+            <p class="magic-link-status text-sm text-slate-400"></p>
+          </form>
+        </div>
+      )}
+    </section>
+
+    <section class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-semibold text-white">User management</h2>
+        <span class="text-sm text-slate-400">{users.length} users</span>
+      </div>
+      {userLoadError ? (
+        <div class="mt-4 rounded-xl border border-rose-500/40 bg-rose-500/10 p-4 text-sm text-rose-200">
+          {userLoadError}
+        </div>
+      ) : (
+        <div class="mt-6 grid gap-6 lg:grid-cols-[minmax(0,_1.5fr)_minmax(0,_1fr)]">
+          <div class="space-y-4">
+            {users.length ? (
+              users.map((user) => (
+                <div class="rounded-xl border border-slate-800 bg-slate-950/60 p-4">
+                  <div class="flex flex-col gap-2">
+                    <div>
+                      <p class="text-sm uppercase tracking-[0.2em] text-slate-500">{user.id}</p>
+                      <h3 class="text-lg font-semibold text-white">
+                        {user.display_name ?? user.email}
+                      </h3>
+                      <p class="text-sm text-slate-400">{user.email}</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                      {user.role_assignments.length ? (
+                        user.role_assignments.map((assignment) => (
+                          <button
+                            class="role-pill rounded-full border border-slate-700 px-3 py-1 text-xs uppercase text-slate-200"
+                            data-user-id={user.id}
+                            data-role={assignment.role}
+                            data-city-id={assignment.city?.id ?? ""}
+                            data-module={assignment.module ?? ""}
+                            type="button"
+                          >
+                            {assignment.role}
+                            {assignment.city ? ` · ${assignment.city.name}` : ""}
+                            {assignment.module ? ` · ${assignment.module}` : ""}
+                          </button>
+                        ))
+                      ) : (
+                        <span class="text-sm text-slate-400">No roles assigned.</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div class="rounded-xl border border-dashed border-slate-700 bg-slate-950/40 p-6 text-sm text-slate-400">
+                No users yet. Create the first account to assign roles.
+              </div>
+            )}
+          </div>
+
+          <div class="flex flex-col gap-6">
+            <div class="rounded-2xl border border-slate-800 bg-slate-950/60 p-4">
+              <h3 class="text-lg font-semibold text-white">Create user</h3>
+              <form id="create-user" class="mt-4 flex flex-col gap-3">
+                <input
+                  class="rounded-lg border border-slate-800 bg-slate-950/60 px-3 py-2 text-sm text-white"
+                  name="email"
+                  placeholder="user@example.com"
+                  type="email"
+                  required
+                />
+                <input
+                  class="rounded-lg border border-slate-800 bg-slate-950/60 px-3 py-2 text-sm text-white"
+                  name="display_name"
+                  placeholder="Display name"
+                />
+                <button
+                  class="rounded-lg bg-emerald-500/80 px-3 py-2 text-sm font-semibold text-emerald-950"
+                  type="submit"
+                >
+                  Create user
+                </button>
+              </form>
+            </div>
+
+            <div class="rounded-2xl border border-slate-800 bg-slate-950/60 p-4">
+              <h3 class="text-lg font-semibold text-white">Assign role</h3>
+              <form id="assign-role" class="mt-4 flex flex-col gap-3">
+                <select
+                  class="rounded-lg border border-slate-800 bg-slate-950/60 px-3 py-2 text-sm text-white"
+                  name="user_id"
+                  required
+                >
+                  <option value="">Select user</option>
+                  {users.map((user) => (
+                    <option value={user.id}>{user.display_name ?? user.email}</option>
+                  ))}
+                </select>
+                <select
+                  class="rounded-lg border border-slate-800 bg-slate-950/60 px-3 py-2 text-sm text-white"
+                  name="role"
+                  required
+                >
+                  <option value="USER">User</option>
+                  <option value="MAINTAINER">Maintainer</option>
+                  <option value="AMBASSADOR">Ambassador</option>
+                  <option value="ADMIN">Admin</option>
+                  <option value="SUPER_ADMIN">Super admin</option>
+                </select>
+                <select
+                  class="rounded-lg border border-slate-800 bg-slate-950/60 px-3 py-2 text-sm text-white"
+                  name="city_id"
+                >
+                  <option value="">All cities</option>
+                  {cities.map((city) => (
+                    <option value={city.id}>{city.name}</option>
+                  ))}
+                </select>
+                <select
+                  class="rounded-lg border border-slate-800 bg-slate-950/60 px-3 py-2 text-sm text-white"
+                  name="module"
+                >
+                  <option value="">All modules</option>
+                  <option value="EVENTS">Events</option>
+                  <option value="SHOPS">Shops</option>
+                  <option value="ORGS">Orgs</option>
+                  <option value="FORSALE">For sale</option>
+                  <option value="IMAGES">Images</option>
+                  <option value="ADS">Ads</option>
+                  <option value="DISCORD">Discord</option>
+                </select>
+                <button
+                  class="rounded-lg bg-slate-100 px-3 py-2 text-sm font-semibold text-slate-900"
+                  type="submit"
+                >
+                  Assign role
+                </button>
+              </form>
+              <p class="mt-3 text-xs text-slate-400">
+                Tip: click a role pill to remove it.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+    </section>
 
     <section class="grid gap-6 lg:grid-cols-[minmax(0,_2fr)_minmax(0,_1fr)]">
       <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6">
@@ -126,8 +394,45 @@ try {
 </BaseLayout>
 
 <script>
-  const adminHeaders = { "x-admin": "true" };
   const adminApiBase = "/api/admin";
+
+  const logoutButton = document.querySelector(".logout-button");
+  logoutButton?.addEventListener("click", async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    window.location.reload();
+  });
+
+  const magicForm = document.querySelector(".magic-link-form");
+  const magicStatus = document.querySelector(".magic-link-status");
+  magicForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!(magicForm instanceof HTMLFormElement)) {
+      return;
+    }
+    const formData = new FormData(magicForm);
+    const payload = Object.fromEntries(formData.entries());
+    payload.redirect = window.location.origin + "/";
+    if (magicStatus instanceof HTMLElement) {
+      magicStatus.textContent = "Sending magic link...";
+    }
+    const response = await fetch("/api/auth/magic-link", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+    if (magicStatus instanceof HTMLElement) {
+      if (response.ok) {
+        const data = await response.json();
+        magicStatus.textContent = `Magic link ready. Open: ${data.link}`;
+      } else if (response.status === 404) {
+        const data = await response.json();
+        const link = data.signup_url ?? "/signup";
+        magicStatus.innerHTML = `No account found. <a class="underline" href="${link}">Sign up</a>.`;
+      } else {
+        magicStatus.textContent = "Failed to create magic link.";
+      }
+    }
+  });
 
   const createForm = document.querySelector("#create-city");
   createForm?.addEventListener("submit", async (event) => {
@@ -138,7 +443,6 @@ try {
     const response = await fetch(`${adminApiBase}/cities`, {
       method: "POST",
       headers: {
-        ...adminHeaders,
         "content-type": "application/json"
       },
       body: JSON.stringify(payload)
@@ -159,7 +463,6 @@ try {
       const response = await fetch(`${adminApiBase}/cities/${cityId}`, {
         method: "PATCH",
         headers: {
-          ...adminHeaders,
           "content-type": "application/json"
         },
         body: JSON.stringify({ is_active: !isActive })
@@ -188,7 +491,6 @@ try {
     const response = await fetch(`${adminApiBase}/cities/import`, {
       method: "POST",
       headers: {
-        ...adminHeaders,
         "content-type": isCsv ? "text/csv" : "application/json"
       },
       body: isCsv ? content : content
@@ -204,9 +506,7 @@ try {
   document.querySelectorAll(".export-button").forEach((button) => {
     button.addEventListener("click", async () => {
       const format = button.getAttribute("data-format") ?? "json";
-      const response = await fetch(`${adminApiBase}/cities/export?format=${format}`, {
-        headers: adminHeaders
-      });
+      const response = await fetch(`${adminApiBase}/cities/export?format=${format}`);
 
       if (!response.ok) {
         alert("Failed to export cities.");
@@ -220,6 +520,83 @@ try {
       link.download = `cities.${format}`;
       link.click();
       URL.revokeObjectURL(url);
+    });
+  });
+
+  const createUserForm = document.querySelector("#create-user");
+  createUserForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!(createUserForm instanceof HTMLFormElement)) {
+      return;
+    }
+    const formData = new FormData(createUserForm);
+    const payload = Object.fromEntries(formData.entries());
+    const response = await fetch(`${adminApiBase}/users`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+    if (response.ok) {
+      window.location.reload();
+    } else {
+      alert("Failed to create user.");
+    }
+  });
+
+  const assignRoleForm = document.querySelector("#assign-role");
+  assignRoleForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!(assignRoleForm instanceof HTMLFormElement)) {
+      return;
+    }
+    const formData = new FormData(assignRoleForm);
+    const userId = formData.get("user_id");
+    if (!userId) {
+      alert("Select a user.");
+      return;
+    }
+    const payload = Object.fromEntries(formData.entries());
+    const response = await fetch(`${adminApiBase}/users/${userId}/roles`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+    if (response.ok) {
+      window.location.reload();
+    } else {
+      alert("Failed to assign role.");
+    }
+  });
+
+  document.querySelectorAll(".role-pill").forEach((pill) => {
+    pill.addEventListener("click", async () => {
+      const userId = pill.getAttribute("data-user-id");
+      const role = pill.getAttribute("data-role");
+      const cityId = pill.getAttribute("data-city-id");
+      const module = pill.getAttribute("data-module");
+      if (!userId || !role) {
+        return;
+      }
+      const response = await fetch(`${adminApiBase}/users/${userId}/roles`, {
+        method: "DELETE",
+        headers: {
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({
+          role,
+          city_id: cityId || null,
+          module: module || null
+        })
+      });
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        alert("Failed to remove role.");
+      }
     });
   });
 </script>
