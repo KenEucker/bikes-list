@@ -1,8 +1,0 @@
-{
-  "compilerOptions": {
-    "types": ["astro/client"],
-    "jsx": "preserve",
-    "jsxImportSource": "astro"
-  },
-  "include": ["src"]
-}
