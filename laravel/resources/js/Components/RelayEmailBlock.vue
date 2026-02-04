@@ -24,21 +24,21 @@ const mailtoHref = computed(() => {
 </script>
 
 <template>
-    <div class="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
-        <p class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ label }} (email relay)</p>
-        <p v-if="note" class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ note }}</p>
+    <div class="rounded-token-md border border-border bg-card p-4">
+        <p class="text-sm font-medium text-fg">{{ label }} (email relay)</p>
+        <p v-if="note" class="mt-1 text-sm text-muted">{{ note }}</p>
         <div class="mt-2 flex flex-wrap items-center gap-2">
-            <code class="flex-1 min-w-0 rounded bg-gray-100 px-2 py-1.5 text-sm dark:bg-gray-700">{{ email }}</code>
+            <code class="flex-1 min-w-0 rounded-token-sm bg-muted/30 px-2 py-1.5 text-sm text-fg">{{ email }}</code>
             <button
                 type="button"
-                class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-700"
+                class="rounded-token-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-fg hover:opacity-90"
                 @click="copy"
             >
                 {{ copied ? 'Copied!' : 'Copy' }}
             </button>
             <a
                 :href="mailtoHref"
-                class="rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300"
+                class="rounded-token-md border border-border bg-card px-3 py-1.5 text-sm font-medium text-fg hover:opacity-90 underline"
             >
                 Open mailto
             </a>

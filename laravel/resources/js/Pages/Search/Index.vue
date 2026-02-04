@@ -31,35 +31,35 @@ function doSearch() {
 
 <template>
     <Head :title="`Search – ${city.name}`" />
-    <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div class="min-h-screen bg-page">
         <CityNav :city="city" :city-base-url="cityBaseUrl" breadcrumb="Search">
             <template #nav-right>
-                <a :href="cityBaseUrl" class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Back to city</a>
+                <a :href="cityBaseUrl" class="text-sm text-muted hover:text-fg underline">Back to city</a>
             </template>
         </CityNav>
 
         <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Search</h1>
+            <h1 class="text-2xl font-bold text-fg">Search</h1>
             <form class="mt-4 flex gap-2" @submit.prevent="doSearch">
                 <input
                     v-model="q"
                     type="search"
                     placeholder="Search listings, events, pages..."
-                    class="block w-full max-w-md rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                    class="block w-full max-w-md rounded-token-md border border-border bg-input text-fg shadow-sm focus:border-focus focus:ring-focus"
                 />
                 <button
                     type="submit"
-                    class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+                    class="rounded-token-md bg-primary px-4 py-2 text-sm font-medium text-primary-fg hover:opacity-90"
                 >
                     Search
                 </button>
             </form>
 
-            <div class="mt-6 flex gap-4 border-b border-gray-200 dark:border-gray-700">
+            <div class="mt-6 flex gap-4 border-b border-border">
                 <button
                     type="button"
                     class="border-b-2 px-2 py-2 text-sm font-medium"
-                    :class="currentTab === 'listings' ? 'border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400' : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'"
+                    :class="currentTab === 'listings' ? 'border-primary text-primary' : 'border-transparent text-muted hover:text-fg'"
                     @click="currentTab = 'listings'"
                 >
                     Listings
@@ -67,7 +67,7 @@ function doSearch() {
                 <button
                     type="button"
                     class="border-b-2 px-2 py-2 text-sm font-medium"
-                    :class="currentTab === 'events' ? 'border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400' : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'"
+                    :class="currentTab === 'events' ? 'border-primary text-primary' : 'border-transparent text-muted hover:text-fg'"
                     @click="currentTab = 'events'"
                 >
                     Events
@@ -75,7 +75,7 @@ function doSearch() {
                 <button
                     type="button"
                     class="border-b-2 px-2 py-2 text-sm font-medium"
-                    :class="currentTab === 'pages' ? 'border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400' : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'"
+                    :class="currentTab === 'pages' ? 'border-primary text-primary' : 'border-transparent text-muted hover:text-fg'"
                     @click="currentTab = 'pages'"
                 >
                     Pages
@@ -84,9 +84,9 @@ function doSearch() {
 
             <div class="mt-6">
                 <div v-show="currentTab === 'listings'" class="space-y-4">
-                    <p v-if="!query" class="text-gray-500 dark:text-gray-400">Enter a search term and click Search.</p>
+                    <p v-if="!query" class="text-muted">Enter a search term and click Search.</p>
                     <template v-else>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ listings.length }} result(s)</p>
+                        <p class="text-sm text-muted">{{ listings.length }} result(s)</p>
                         <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                             <li v-for="listing in listings" :key="listing.id">
                                 <ListingCard
@@ -99,9 +99,9 @@ function doSearch() {
                     </template>
                 </div>
                 <div v-show="currentTab === 'events'" class="space-y-4">
-                    <p v-if="!query" class="text-gray-500 dark:text-gray-400">Enter a search term and click Search.</p>
+                    <p v-if="!query" class="text-muted">Enter a search term and click Search.</p>
                     <template v-else>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ events.length }} result(s)</p>
+                        <p class="text-sm text-muted">{{ events.length }} result(s)</p>
                         <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                             <li v-for="event in events" :key="event.id">
                                 <EventCard
@@ -114,9 +114,9 @@ function doSearch() {
                     </template>
                 </div>
                 <div v-show="currentTab === 'pages'" class="space-y-4">
-                    <p v-if="!query" class="text-gray-500 dark:text-gray-400">Enter a search term and click Search.</p>
+                    <p v-if="!query" class="text-muted">Enter a search term and click Search.</p>
                     <template v-else>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ pages.length }} result(s)</p>
+                        <p class="text-sm text-muted">{{ pages.length }} result(s)</p>
                         <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                             <li v-for="page in pages" :key="page.id">
                                 <PageCard

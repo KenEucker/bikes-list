@@ -1,7 +1,9 @@
 # BikesList Platform Pillars Specification
 
 **Status:** Draft
+
 **Audience:** Product, platform, and community stakeholders
+
 **Scope:** High-level description of BikesList’s core product pillars and feature boundaries
 
 ---

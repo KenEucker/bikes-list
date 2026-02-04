@@ -2,6 +2,17 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
+        <script>
+            (function() {
+                var cookie = document.cookie.match(/\bbikeslist_theme=(\w+)/);
+                var stored = typeof localStorage !== 'undefined' && localStorage.getItem('bikeslist_theme');
+                var theme = (cookie && cookie[1]) || stored || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                theme = theme === 'dark' ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', theme);
+                if (typeof document.cookie !== 'undefined') document.cookie = 'bikeslist_theme=' + theme + ';path=/;max-age=31536000;samesite=lax';
+                if (typeof localStorage !== 'undefined') try { localStorage.setItem('bikeslist_theme', theme); } catch (e) {}
+            })();
+        </script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/png" href="{{ asset('bikeslist.png') }}">
@@ -20,7 +31,7 @@
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
     </head>
-    <body class="font-sans antialiased">
+    <body class="js-enabled govuk-frontend-supported font-sans antialiased bg-page text-fg">
         @inertia
     </body>
 </html>

@@ -1,9 +1,11 @@
+import 'govuk-frontend/dist/govuk/govuk-frontend.min.css';
 import '../css/app.css';
 import './bootstrap';
 
 import { createInertiaApp, router } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, h } from 'vue';
+import { GovUkVue } from 'govuk-vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
 const appName = import.meta.env.VITE_APP_NAME || 'BikesList';
@@ -36,6 +38,7 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         return createApp({ render: () => h(App, props) })
             .use(plugin)
+            .use(GovUkVue)
             .use(ZiggyVue)
             .mount(el);
     },

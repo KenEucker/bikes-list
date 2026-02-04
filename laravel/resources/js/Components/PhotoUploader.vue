@@ -49,19 +49,19 @@ function triggerInput() {
 
 <template>
     <div class="space-y-2">
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label class="block text-sm font-medium text-fg">
             Photos ({{ min }}-{{ max }})
         </label>
         <div class="flex flex-wrap gap-3">
             <template v-for="(item, index) in previews" :key="item.id ?? index">
-                <div class="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-gray-100 dark:border-gray-600 dark:bg-gray-700">
+                <div class="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-token-md border border-border bg-muted/30">
                     <img
                         v-if="item.url"
                         :src="item.url"
                         alt="Preview"
                         class="h-full w-full object-cover"
                     />
-                    <div v-else class="flex h-full items-center justify-center text-gray-400">?</div>
+                    <div v-else class="flex h-full items-center justify-center text-muted">?</div>
                     <button
                         v-if="!disabled"
                         type="button"
@@ -76,7 +76,7 @@ function triggerInput() {
             <button
                 v-if="previews.length < max && !disabled"
                 type="button"
-                class="flex h-24 w-24 flex-shrink-0 items-center justify-center rounded-lg border-2 border-dashed border-gray-300 text-gray-400 hover:border-gray-400 hover:text-gray-600 dark:border-gray-600 dark:hover:border-gray-500"
+                class="flex h-24 w-24 flex-shrink-0 items-center justify-center rounded-token-md border-2 border-dashed border-border text-muted hover:border-primary hover:text-fg"
                 @click="triggerInput"
             >
                 <span class="text-2xl">+</span>

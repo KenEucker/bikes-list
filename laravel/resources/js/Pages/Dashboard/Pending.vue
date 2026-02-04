@@ -15,44 +15,44 @@ defineProps({
 
 <template>
     <Head title="Pending" />
-    <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div class="min-h-screen bg-page">
         <CityNav :city="city" :city-base-url="cityBaseUrl" :breadcrumb="['Dashboard', 'Pending']">
             <template #nav-right>
-                <Link :href="`${cityBaseUrl}/dashboard`" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">Dashboard</Link>
-                <Link :href="$page.props.urls?.accountSettings || '/account/settings'" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">Account</Link>
+                <Link :href="`${cityBaseUrl}/dashboard`" class="text-sm text-muted hover:text-fg underline">Dashboard</Link>
+                <Link :href="$page.props.urls?.accountSettings || '/account/settings'" class="text-sm text-muted hover:text-fg underline">Account</Link>
             </template>
         </CityNav>
         <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Pending review</h1>
-            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">These items will be published or approved automatically if not reviewed by a moderator.</p>
+            <h1 class="text-2xl font-bold text-fg">Pending review</h1>
+            <p class="mt-2 text-sm text-muted">These items will be published or approved automatically if not reviewed by a moderator.</p>
             <section v-if="listings.length" class="mt-6">
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Listings</h2>
+                <h2 class="text-lg font-semibold text-fg">Listings</h2>
                 <ul class="mt-2 space-y-2">
-                    <li v-for="listing in listings" :key="listing.id" class="flex items-center justify-between rounded border border-gray-200 bg-white px-4 py-2 dark:border-gray-700 dark:bg-gray-800">
-                        <a :href="`${cityBaseUrl}/listings/${listing.id}`" class="font-medium text-indigo-600 dark:text-indigo-400">{{ listing.title }}</a>
+                    <li v-for="listing in listings" :key="listing.id" class="flex items-center justify-between rounded-token-md border border-border bg-card px-4 py-2">
+                        <a :href="`${cityBaseUrl}/listings/${listing.id}`" class="font-medium text-primary underline">{{ listing.title }}</a>
                         <StatusChip status="pending_review" />
                     </li>
                 </ul>
             </section>
             <section v-if="events.length" class="mt-6">
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Events</h2>
+                <h2 class="text-lg font-semibold text-fg">Events</h2>
                 <ul class="mt-2 space-y-2">
-                    <li v-for="event in events" :key="event.id" class="flex items-center justify-between rounded border border-gray-200 bg-white px-4 py-2 dark:border-gray-700 dark:bg-gray-800">
-                        <a :href="`${cityBaseUrl}/events/${event.id}`" class="font-medium text-indigo-600 dark:text-indigo-400">{{ event.title }}</a>
+                    <li v-for="event in events" :key="event.id" class="flex items-center justify-between rounded-token-md border border-border bg-card px-4 py-2">
+                        <a :href="`${cityBaseUrl}/events/${event.id}`" class="font-medium text-primary underline">{{ event.title }}</a>
                         <StatusChip status="pending_review" />
                     </li>
                 </ul>
             </section>
             <section v-if="pages.length" class="mt-6">
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Community pages</h2>
+                <h2 class="text-lg font-semibold text-fg">Community pages</h2>
                 <ul class="mt-2 space-y-2">
-                    <li v-for="page in pages" :key="page.id" class="flex items-center justify-between rounded border border-gray-200 bg-white px-4 py-2 dark:border-gray-700 dark:bg-gray-800">
-                        <a :href="`${cityBaseUrl}/community/${page.slug}`" class="font-medium text-indigo-600 dark:text-indigo-400">{{ page.name }}</a>
+                    <li v-for="page in pages" :key="page.id" class="flex items-center justify-between rounded-token-md border border-border bg-card px-4 py-2">
+                        <a :href="`${cityBaseUrl}/community/${page.slug}`" class="font-medium text-primary underline">{{ page.name }}</a>
                         <StatusChip status="pending" />
                     </li>
                 </ul>
             </section>
-            <p v-if="!listings.length && !events.length && !pages.length" class="mt-6 text-gray-500 dark:text-gray-400">No pending items.</p>
+            <p v-if="!listings.length && !events.length && !pages.length" class="mt-6 text-muted">No pending items.</p>
         </main>
     </div>
 </template>

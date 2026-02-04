@@ -21,7 +21,7 @@ const groupedByDay = computed(() => {
 <template>
     <div class="space-y-6">
         <section v-for="group in groupedByDay" :key="group.key" class="space-y-2">
-            <h3 class="text-sm font-semibold uppercase tracking text-gray-500 dark:text-gray-400">
+            <h3 class="text-sm font-semibold uppercase tracking text-muted">
                 {{ group.label }}
             </h3>
             <ul class="space-y-2">
@@ -33,11 +33,11 @@ const groupedByDay = computed(() => {
                     <slot name="event" :event="event">
                         <a
                             :href="event.url"
-                            class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400"
+                            class="font-medium text-primary underline"
                         >
                             {{ event.title }}
                         </a>
-                        <span class="text-sm text-gray-500 dark:text-gray-400">
+                        <span class="text-sm text-muted">
                             {{ event.starts_at ? new Date(event.starts_at).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }) : '' }}
                         </span>
                     </slot>

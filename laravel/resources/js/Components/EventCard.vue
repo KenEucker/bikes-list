@@ -11,10 +11,10 @@ defineProps({
 <template>
     <a
         :href="url"
-        class="block rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition hover:border-indigo-300 hover:shadow dark:border-gray-700 dark:bg-gray-800 dark:hover:border-indigo-600"
+        class="block rounded-token-md border border-border bg-card p-4 shadow-sm transition hover:border-primary hover:shadow underline"
     >
-        <h3 class="font-medium text-gray-900 dark:text-white line-clamp-1">{{ event.title }}</h3>
-        <p class="mt-0.5 text-sm text-gray-500 dark:text-gray-400">
+        <h3 class="font-medium text-fg line-clamp-1">{{ event.title }}</h3>
+        <p class="mt-0.5 text-sm text-muted">
             {{ event.starts_at ? new Date(event.starts_at).toLocaleDateString() : '' }}
             {{ event.starts_at ? new Date(event.starts_at).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }) : '' }}
         </p>

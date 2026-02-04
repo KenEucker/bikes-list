@@ -1,0 +1,33 @@
+/**
+ * Minimal Orchid admin overrides to align with BikesList tokens.
+ * Does not rewrite Orchid; only maps main surfaces and text to tokens.
+ */
+body {
+    background: rgb(var(--bg)) !important;
+    color: rgb(var(--fg)) !important;
+}
+
+.navbar,
+[class*="navbar"],
+.bg-body,
+.bg-dark {
+    background: rgb(var(--card)) !important;
+    color: rgb(var(--fg)) !important;
+    border-color: rgb(var(--border)) !important;
+}
+
+.text-body,
+.text-body-emphasis,
+.text-reset {
+    color: rgb(var(--fg)) !important;
+}
+
+.text-muted {
+    color: rgb(var(--muted)) !important;
+}
+
+.border-bottom,
+.border-top,
+[class*="border"] {
+    border-color: rgb(var(--border)) !important;
+}

@@ -2,6 +2,8 @@
 import 'leaflet/dist/leaflet.css';
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import { ref, onMounted, computed } from 'vue';
+import ThemeToggle from '@/Components/ThemeToggle.vue';
+import Footer from '@/Components/Footer.vue';
 
 const props = defineProps({
     cities: { type: Array, default: () => [] },
@@ -62,23 +64,24 @@ onMounted(async () => {
 
 <template>
     <Head title="BikesList – Cities" />
-    <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-        <nav class="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
+    <div class="min-h-screen flex flex-col bg-page">
+        <nav class="border-b border-border bg-card">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="flex h-16 justify-between items-center">
                     <div class="flex items-center gap-2">
-                        <Link :href="urls.home || '/'" class="flex items-center gap-2">
+                        <Link :href="urls.home || '/'" class="flex items-center gap-2 no-underline">
                             <img :src="logo" alt="BikesList" class="h-8 w-auto object-contain" />
-                            <span class="text-xl font-semibold text-gray-800 dark:text-white">BikesList</span>
+                            <span class="text-xl font-semibold text-fg">BikesList</span>
                         </Link>
                     </div>
                     <div class="flex items-center gap-4">
-                        <Link :href="urls.terms || '/terms'" class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Terms</Link>
-                        <Link :href="urls.privacy || '/privacy'" class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Privacy</Link>
-                        <Link v-if="$page.props.auth.user" :href="urls.accountSettings || '/account/settings'" class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Account</Link>
+                        <ThemeToggle />
+                        <Link :href="urls.terms || '/terms'" class="text-sm text-muted hover:text-fg underline">Terms</Link>
+                        <Link :href="urls.privacy || '/privacy'" class="text-sm text-muted hover:text-fg underline">Privacy</Link>
+                        <Link v-if="$page.props.auth.user" :href="urls.accountSettings || '/account/settings'" class="text-sm text-muted hover:text-fg underline">Account</Link>
                         <template v-else>
-                            <Link :href="urls.signIn || '/account/sign-in'" class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Sign in</Link>
-                            <Link :href="urls.signUp || '/account/sign-up'" class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Sign up</Link>
+                            <Link :href="urls.signIn || '/account/sign-in'" class="text-sm text-muted hover:text-fg underline">Sign in</Link>
+                            <Link :href="urls.signUp || '/account/sign-up'" class="text-sm text-muted hover:text-fg underline">Sign up</Link>
                         </template>
                     </div>
                 </div>
@@ -86,38 +89,38 @@ onMounted(async () => {
         </nav>
 
         <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">BikesList</h1>
-            <p class="mt-2 text-gray-600 dark:text-gray-400">Choose a city to view listings, events, and community pages.</p>
+            <h1 class="text-3xl font-bold text-fg">BikesList</h1>
+            <p class="mt-2 text-muted">Choose a city to view listings, events, and community pages.</p>
 
-            <div class="mt-6 h-[400px] w-full overflow-hidden rounded-lg border border-gray-200 bg-gray-100 dark:border-gray-700 dark:bg-gray-800">
+            <div class="mt-6 h-[400px] w-full overflow-hidden rounded-token-md border border-border bg-card">
                 <div ref="mapRef" class="h-full w-full" />
             </div>
 
             <div class="mt-8">
-                <label for="city-search" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Search cities</label>
+                <label for="city-search" class="block text-sm font-medium text-fg">Search cities</label>
                 <input
                     id="city-search"
                     v-model="searchQuery"
                     type="text"
                     placeholder="Type to filter..."
-                    class="mt-1 block w-full max-w-md rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                    class="mt-1 block w-full max-w-md rounded-token-md border border-border bg-input text-fg shadow-sm focus:border-focus focus:ring-focus"
                 />
             </div>
 
             <div class="mt-8 space-y-8">
                 <template v-for="(group, gIndex) in filteredGrouped" :key="gIndex">
                     <section v-if="(group.cities && group.cities.length)" class="space-y-2">
-                        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+                        <h2 class="text-lg font-semibold text-fg">
                             {{ group.country }}{{ group.state_province ? ` → ${group.state_province}` : '' }}
                         </h2>
                         <ul class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
                             <li v-for="city in group.cities" :key="city.id">
                                 <a
                                     :href="cityUrl(city.slug)"
-                                    class="block rounded-lg border border-gray-200 bg-white px-4 py-2 shadow-sm transition hover:border-indigo-300 hover:shadow dark:border-gray-700 dark:bg-gray-800 dark:hover:border-indigo-600"
+                                    class="block rounded-token-md border border-border bg-card px-4 py-2 shadow-sm transition hover:border-primary hover:shadow underline"
                                 >
-                                    <span class="font-medium text-gray-900 dark:text-white">{{ city.name }}</span>
-                                    <p v-if="city.description" class="mt-0.5 text-sm text-gray-500 dark:text-gray-400 line-clamp-1">{{ city.description }}</p>
+                                    <span class="font-medium text-fg">{{ city.name }}</span>
+                                    <p v-if="city.description" class="mt-0.5 text-sm text-muted line-clamp-1">{{ city.description }}</p>
                                 </a>
                             </li>
                         </ul>
@@ -125,5 +128,6 @@ onMounted(async () => {
                 </template>
             </div>
         </main>
+        <Footer />
     </div>
 </template>

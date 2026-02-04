@@ -2,8 +2,6 @@
 
 **Status:** Draft
 
-**Version:** 0.1.0
-
 **Audience:** BikesList platform contributors, frontend engineers, UX designers
 
 **Scope:** Defines the frontend user interface, routes, roles, forms, and moderation UX for the BikesList platform.

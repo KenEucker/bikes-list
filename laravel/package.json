@@ -8,6 +8,8 @@
         "dev": "vite"
     },
     "dependencies": {
+        "govuk-frontend": "^5.14.0",
+        "govuk-vue": "^1.1.0",
         "leaflet": "^1.9.4"
     },
     "devDependencies": {

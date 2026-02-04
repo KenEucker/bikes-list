@@ -5,6 +5,7 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import ThemeToggle from '@/Components/ThemeToggle.vue';
 import { Link, usePage } from '@inertiajs/vue3';
 
 const showingNavigationDropdown = ref(false);
@@ -18,9 +19,9 @@ const logoutUrl = computed(() => urls.value.logout || '/logout');
 
 <template>
     <div>
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen bg-page">
             <nav
-                class="border-b border-gray-100 bg-white"
+                class="border-b border-border bg-card"
             >
                 <!-- Primary Navigation Menu -->
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -30,7 +31,7 @@ const logoutUrl = computed(() => urls.value.logout || '/logout');
                             <div class="flex shrink-0 items-center">
                                 <Link :href="dashboardUrl">
                                     <ApplicationLogo
-                                        logo-class="block h-9 w-auto object-contain text-gray-800"
+                                        logo-class="block h-9 w-auto object-contain text-fg"
                                     />
                                 </Link>
                             </div>
@@ -48,7 +49,8 @@ const logoutUrl = computed(() => urls.value.logout || '/logout');
                             </div>
                         </div>
 
-                        <div class="hidden sm:ms-6 sm:flex sm:items-center">
+                        <div class="hidden sm:ms-6 sm:flex sm:items-center sm:gap-4">
+                            <ThemeToggle />
                             <!-- Settings Dropdown -->
                             <div class="relative ms-3">
                                 <Dropdown align="right" width="48">
@@ -56,7 +58,7 @@ const logoutUrl = computed(() => urls.value.logout || '/logout');
                                         <span class="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
+                                                class="inline-flex items-center rounded-token-md border border-transparent bg-card px-3 py-2 text-sm font-medium leading-4 text-muted transition duration-150 ease-in-out hover:text-fg focus:outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2"
                                             >
                                                 {{ $page.props.auth?.user?.name ?? 'Account' }}
 
@@ -101,7 +103,7 @@ const logoutUrl = computed(() => urls.value.logout || '/logout');
                                     showingNavigationDropdown =
                                         !showingNavigationDropdown
                                 "
-                                class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none"
+                                class="inline-flex items-center justify-center rounded-token-md p-2 text-muted transition duration-150 ease-in-out hover:bg-muted/20 hover:text-fg focus:bg-muted/20 focus:text-fg focus:outline-none"
                             >
                                 <svg
                                     class="h-6 w-6"
@@ -160,11 +162,11 @@ const logoutUrl = computed(() => urls.value.logout || '/logout');
                     >
                         <div class="px-4">
                             <div
-                                class="text-base font-medium text-gray-800"
+                                class="text-base font-medium text-fg"
                             >
                                 {{ $page.props.auth?.user?.name ?? 'Account' }}
                             </div>
-                            <div class="text-sm font-medium text-gray-500">
+                            <div class="text-sm font-medium text-muted">
                                 {{ $page.props.auth?.user?.email ?? '' }}
                             </div>
                         </div>
@@ -187,7 +189,7 @@ const logoutUrl = computed(() => urls.value.logout || '/logout');
 
             <!-- Page Heading -->
             <header
-                class="bg-white shadow"
+                class="bg-card border-b border-border shadow-sm"
                 v-if="$slots.header"
             >
                 <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">

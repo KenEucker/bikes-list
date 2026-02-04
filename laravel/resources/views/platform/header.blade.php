@@ -9,8 +9,7 @@
           rel="icon"
     >
 
-    <!-- For Safari on iOS -->
-    <meta name="theme-color" content="#21252a">
+    <!-- theme-color can be set dynamically via JS to match data-theme -->
 @endpush
 
 <div class="h2 d-flex align-items-center gap-2">

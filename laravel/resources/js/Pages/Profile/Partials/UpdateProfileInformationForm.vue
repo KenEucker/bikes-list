@@ -1,17 +1,9 @@
 <script setup>
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 
 defineProps({
-    mustVerifyEmail: {
-        type: Boolean,
-    },
-    status: {
-        type: String,
-    },
+    mustVerifyEmail: { type: Boolean },
+    status: { type: String },
 });
 
 const page = usePage();
@@ -23,92 +15,75 @@ const form = useForm({
     name: user?.name ?? '',
     email: user?.email ?? '',
 });
+
+const hasErrors = () => Object.keys(form.errors).length > 0;
 </script>
 
 <template>
     <section>
         <header>
-            <h2 class="text-lg font-medium text-gray-900">
-                Profile Information
-            </h2>
-
-            <p class="mt-1 text-sm text-gray-600">
+            <h2 class="govuk-heading-l">Profile Information</h2>
+            <p class="govuk-body">
                 Update your account's profile information and email address.
             </p>
         </header>
 
-        <form
-            @submit.prevent="form.patch(profileUpdateUrl)"
-            class="mt-6 space-y-6"
-        >
-            <div>
-                <InputLabel for="name" value="Name" />
-
-                <TextInput
-                    id="name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    v-model="form.name"
-                    required
-                    autofocus
-                    autocomplete="name"
+        <form @submit.prevent="form.patch(profileUpdateUrl)">
+            <gv-error-summary v-if="hasErrors()" title="There is a problem">
+                <gv-error-link
+                    v-for="(message, field) in form.errors"
+                    :key="field"
+                    :target-id="field"
+                    :text="message"
                 />
+            </gv-error-summary>
 
-                <InputError class="mt-2" :message="form.errors.name" />
-            </div>
+            <gv-input
+                id="name"
+                v-model="form.name"
+                label="Name"
+                type="text"
+                autocomplete="name"
+                :error-message="form.errors.name"
+            />
 
-            <div>
-                <InputLabel for="email" value="Email" />
+            <gv-input
+                id="email"
+                v-model="form.email"
+                label="Email"
+                type="email"
+                autocomplete="username"
+                :error-message="form.errors.email"
+            />
 
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autocomplete="username"
-                />
-
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
-
-            <div v-if="mustVerifyEmail && user.email_verified_at === null">
-                <p class="mt-2 text-sm text-gray-800">
+            <div v-if="mustVerifyEmail && user?.email_verified_at === null" class="govuk-!-margin-top-4">
+                <p class="govuk-body">
                     Your email address is unverified.
                     <Link
                         :href="verificationSendUrl"
                         method="post"
                         as="button"
-                        class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        class="govuk-link"
                     >
                         Click here to re-send the verification email.
                     </Link>
                 </p>
-
-                <div
-                    v-show="status === 'verification-link-sent'"
-                    class="mt-2 text-sm font-medium text-green-600"
+                <gv-notification-banner
+                    v-if="status === 'verification-link-sent'"
+                    type="success"
+                    title="Success"
                 >
-                    A new verification link has been sent to your email address.
-                </div>
+                    <p class="govuk-body">A new verification link has been sent to your email address.</p>
+                </gv-notification-banner>
             </div>
 
-            <div class="flex items-center gap-4">
-                <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
-
-                <Transition
-                    enter-active-class="transition ease-in-out"
-                    enter-from-class="opacity-0"
-                    leave-active-class="transition ease-in-out"
-                    leave-to-class="opacity-0"
-                >
-                    <p
-                        v-if="form.recentlySuccessful"
-                        class="text-sm text-gray-600"
-                    >
-                        Saved.
-                    </p>
-                </Transition>
+            <div class="govuk-button-group govuk-!-margin-top-6">
+                <gv-button type="submit" variant="primary" :disabled="form.processing">
+                    Save
+                </gv-button>
+                <p v-if="form.recentlySuccessful" class="govuk-body govuk-!-margin-0">
+                    Saved.
+                </p>
             </div>
         </form>
     </section>

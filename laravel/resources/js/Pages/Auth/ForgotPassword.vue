@@ -1,15 +1,9 @@
 <script setup>
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 
 defineProps({
-    status: {
-        type: String,
-    },
+    status: { type: String },
 });
 
 const form = useForm({
@@ -19,49 +13,51 @@ const form = useForm({
 const submit = () => {
     form.post(route('password.email'));
 };
+
+const hasErrors = () => Object.keys(form.errors).length > 0;
 </script>
 
 <template>
     <GuestLayout>
         <Head title="Forgot Password" />
 
-        <div class="mb-4 text-sm text-gray-600">
+        <p class="govuk-body">
             Forgot your password? No problem. Just let us know your email
             address and we will email you a password reset link that will allow
             you to choose a new one.
-        </div>
+        </p>
 
-        <div
-            v-if="status"
-            class="mb-4 text-sm font-medium text-green-600"
-        >
-            {{ status }}
-        </div>
+        <gv-notification-banner v-if="status" type="success" title="Success">
+            <p class="govuk-body">{{ status }}</p>
+        </gv-notification-banner>
 
         <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" value="Email" />
-
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autofocus
-                    autocomplete="username"
+            <gv-error-summary v-if="hasErrors()" title="There is a problem">
+                <gv-error-link
+                    v-for="(message, field) in form.errors"
+                    :key="field"
+                    :target-id="field"
+                    :text="message"
                 />
+            </gv-error-summary>
 
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
+            <gv-input
+                id="email"
+                v-model="form.email"
+                label="Email"
+                type="email"
+                autocomplete="username"
+                :error-message="form.errors.email"
+            />
 
-            <div class="mt-4 flex items-center justify-end">
-                <PrimaryButton
-                    :class="{ 'opacity-25': form.processing }"
+            <div class="govuk-!-margin-top-6">
+                <gv-button
+                    type="submit"
+                    variant="primary"
                     :disabled="form.processing"
                 >
                     Email Password Reset Link
-                </PrimaryButton>
+                </gv-button>
             </div>
         </form>
     </GuestLayout>

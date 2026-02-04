@@ -126,8 +126,13 @@ return [
      */
 
     'resource' => [
-        'stylesheets' => [],
-        'scripts'     => [],
+        'stylesheets' => [
+            '/css/admin-tokens.css',
+            '/css/admin-overrides.css',
+        ],
+        'scripts' => [
+            '/js/theme-init.js',
+        ],
     ],
 
     /*
