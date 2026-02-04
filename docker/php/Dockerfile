@@ -1,0 +1,44 @@
+FROM php:8.4-fpm-alpine
+
+WORKDIR /var/www/html
+
+RUN apk add --no-cache \
+        bash \
+        curl \
+        git \
+        icu-dev \
+        libzip-dev \
+        nodejs \
+        npm \
+        postgresql-client \
+        postgresql-dev \
+        unzip \
+    && docker-php-ext-install \
+        intl \
+        pdo_pgsql \
+        pgsql \
+        zip
+
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Pre-build frontend assets so the image has a fallback when manifest is missing at runtime
+# Install PHP deps first so vendor/tightenco/ziggy exists (app.js imports it)
+COPY laravel/composer.json laravel/composer.lock ./
+COPY laravel/app ./app
+COPY laravel/bootstrap ./bootstrap
+COPY laravel/config ./config
+COPY laravel/database ./database
+RUN composer install --no-dev --no-scripts --no-interaction --prefer-dist
+
+COPY laravel/package.json laravel/package-lock.json* laravel/vite.config.js laravel/tailwind.config.js laravel/postcss.config.js laravel/jsconfig.json ./
+COPY laravel/resources ./resources
+COPY laravel/public ./public
+RUN if [ -f package.json ]; then \
+      npm install --no-audit --no-fund && npm run build && cp -r public/build /tmp/vite-build; \
+    fi
+
+COPY docker/php/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+
