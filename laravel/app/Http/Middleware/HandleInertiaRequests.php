@@ -34,6 +34,8 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'logo' => asset('bikeslist.png'),
+            'appName' => config('app.name'),
         ];
     }
 }

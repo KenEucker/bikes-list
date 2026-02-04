@@ -1,5 +1,5 @@
 <script setup>
-import { Head } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 
 defineProps({
     city: {
@@ -11,6 +11,8 @@ defineProps({
         default: '/',
     },
 });
+
+const logo = usePage().props.logo || '/bikeslist.png';
 </script>
 
 <template>
@@ -22,9 +24,10 @@ defineProps({
                     <div class="flex items-center gap-6">
                         <a
                             :href="homeUrl"
-                            class="text-xl font-semibold text-gray-800 dark:text-white"
+                            class="flex items-center gap-2 text-xl font-semibold text-gray-800 dark:text-white"
                         >
-                            Bikes
+                            <img :src="logo" alt="BikesList" class="h-8 w-auto object-contain" />
+                            <span>BikesList</span>
                         </a>
                         <span class="text-gray-500 dark:text-gray-400">/ {{ city.name }}</span>
                     </div>

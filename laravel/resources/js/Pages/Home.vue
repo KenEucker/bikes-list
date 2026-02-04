@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 
 defineProps({
     cities: {
@@ -7,6 +7,8 @@ defineProps({
         required: true,
     },
 });
+
+const logo = usePage().props.logo || '/bikeslist.png';
 
 function cityUrl(slug) {
     const host = window.location.hostname;
@@ -21,9 +23,10 @@ function cityUrl(slug) {
         <nav class="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="flex h-16 justify-between">
-                    <div class="flex items-center">
-                        <Link :href="route('home')" class="text-xl font-semibold text-gray-800 dark:text-white">
-                            Bikes
+                    <div class="flex items-center gap-2">
+                        <Link :href="route('home')" class="flex items-center gap-2">
+                            <img :src="logo" alt="BikesList" class="h-8 w-auto object-contain" />
+                            <span class="text-xl font-semibold text-gray-800 dark:text-white">BikesList</span>
                         </Link>
                     </div>
                     <div class="flex items-center gap-4">

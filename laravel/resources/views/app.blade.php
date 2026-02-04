@@ -4,10 +4,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="icon" type="image/png" href="/bikeslist.png">
-        <link rel="shortcut icon" type="image/png" href="/bikeslist.png">
+        <link rel="icon" type="image/png" href="{{ asset('bikeslist.png') }}">
+        <link rel="shortcut icon" type="image/png" href="{{ asset('bikeslist.png') }}">
 
-        <title inertia>{{ config('app.name', 'Laravel') }}</title>
+        <title inertia>{{ config('app.name', 'BikesList') }}</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
