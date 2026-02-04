@@ -40,6 +40,36 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.systems.cities')
                 ->permission('platform.systems.cities'),
 
+            Menu::make(__('Listings'))
+                ->icon('bs.list-ul')
+                ->route('platform.systems.listings')
+                ->permission('platform.systems.listings'),
+
+            Menu::make(__('Events'))
+                ->icon('bs.calendar-event')
+                ->route('platform.systems.events')
+                ->permission('platform.systems.events'),
+
+            Menu::make(__('Flagged listings'))
+                ->icon('bs.flag')
+                ->route('platform.moderation.flagged')
+                ->permission('platform.moderation.flagged'),
+
+            Menu::make(__('Guidelines'))
+                ->icon('bs.journal-text')
+                ->route('platform.systems.guidelines')
+                ->permission('platform.systems.guidelines'),
+
+            Menu::make(__('Community pages'))
+                ->icon('bs.people')
+                ->route('platform.systems.community-pages')
+                ->permission('platform.systems.community-pages'),
+
+            Menu::make(__('Claim requests'))
+                ->icon('bs.arrow-right-circle')
+                ->route('platform.moderation.claims')
+                ->permission('platform.moderation.claims'),
+
             Menu::make(__('Users'))
                 ->icon('bs.people')
                 ->route('platform.systems.users')
@@ -63,8 +93,18 @@ class PlatformProvider extends OrchidServiceProvider
         return [
             ItemPermission::group(__('System'))
                 ->addPermission('platform.systems.cities', __('Cities'))
+                ->addPermission('platform.systems.listings', __('Listings'))
+                ->addPermission('platform.systems.events', __('Events'))
+                ->addPermission('platform.systems.guidelines', __('Guidelines'))
                 ->addPermission('platform.systems.roles', __('Roles'))
                 ->addPermission('platform.systems.users', __('Users')),
+            ItemPermission::group(__('Moderation'))
+                ->addPermission('platform.moderation.flagged', __('Flagged listings'))
+                ->addPermission('platform.moderation.claims', __('Claim requests')),
+            ItemPermission::group(__('Content'))
+                ->addPermission('content.create.listing', __('Create listings'))
+                ->addPermission('content.create.event', __('Create events'))
+                ->addPermission('content.create.community_page', __('Create community pages')),
         ];
     }
 }

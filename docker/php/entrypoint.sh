@@ -23,9 +23,20 @@ if [ -n "${DB_HOST:-}" ]; then
   done
 fi
 
-# Run migrations + seed (idempotent)
-php artisan migrate --force --ansi
-php artisan db:seed --force --ansi
+# Copy city seed JSON into app so CitySeeder can find it when only laravel is mounted
+if [ -f /tmp/locations.json ]; then
+  mkdir -p database/data
+  if [ ! -f database/data/locations.json ]; then
+    cp /tmp/locations.json database/data/
+    echo "Copied locations.json to database/data/."
+  fi
+fi
+
+# Run migrations + seed (idempotent) unless explicitly disabled
+if [ "${RUN_MIGRATIONS:-true}" = "true" ]; then
+  php artisan migrate --force --ansi
+  php artisan db:seed --force --ansi
+fi
 
 # Ensure Vite manifest exists: use pre-built assets from image or run build
 if [ -f "package.json" ] && [ ! -f "public/build/manifest.json" ]; then

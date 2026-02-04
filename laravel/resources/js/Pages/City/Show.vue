@@ -37,9 +37,36 @@ defineProps({
             <p v-if="city.description" class="mt-4 text-gray-600 dark:text-gray-400">
                 {{ city.description }}
             </p>
-            <p class="mt-6 text-sm text-gray-500 dark:text-gray-500">
-                This is a placeholder page for {{ city.name }}.
-            </p>
+            <nav class="mt-8 flex flex-wrap gap-4">
+                <a
+                    :href="cityBaseUrl + '/listings'"
+                    class="inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+                >
+                    Listings
+                </a>
+                <a
+                    :href="cityBaseUrl + '/events'"
+                    class="inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+                >
+                    Events
+                </a>
+                <a
+                    :href="cityBaseUrl + '/community'"
+                    class="inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+                >
+                    Community (shops &amp; clubs)
+                </a>
+            </nav>
+            <section v-if="upcomingEvents.length" class="mt-8">
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Upcoming events</h2>
+                <ul class="mt-2 space-y-2">
+                    <li v-for="event in upcomingEvents" :key="event.id">
+                        <a :href="cityBaseUrl + '/events/' + event.id" class="text-indigo-600 hover:text-indigo-500 dark:text-indigo-400">{{ event.title }}</a>
+                        <span class="text-sm text-gray-500 dark:text-gray-400"> – {{ new Date(event.starts_at).toLocaleDateString() }}</span>
+                    </li>
+                </ul>
+                <a :href="cityBaseUrl + '/events'" class="mt-2 inline-block text-sm text-indigo-600 hover:text-indigo-500 dark:text-indigo-400">View all events</a>
+            </section>
             <a
                 :href="homeUrl"
                 class="mt-8 inline-block text-gray-600 underline hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"

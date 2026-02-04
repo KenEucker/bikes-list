@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Orchid\Screens\City;
 
 use App\Models\City;
+use App\Models\User;
 use App\Orchid\Layouts\City\CityEditLayout;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -17,12 +18,27 @@ class CityEditScreen extends Screen
 {
     public ?City $city = null;
 
+    /** @var \Illuminate\Support\Collection<int, \App\Models\User> */
+    public $usersForModerator;
+
     public function query(?City $city = null): iterable
     {
         $this->city = $city ?? new City();
+        if ($this->city->exists) {
+            $this->city->load('moderators');
+            $moderatorIds = $this->city->moderators->pluck('id')->all();
+            $this->usersForModerator = User::query()
+                ->orderBy('name')
+                ->when(!empty($moderatorIds), fn ($q) => $q->whereNotIn('id', $moderatorIds))
+                ->limit(500)
+                ->get();
+        } else {
+            $this->usersForModerator = collect();
+        }
 
         return [
             'city' => $this->city,
+            'usersForModerator' => $this->usersForModerator ?? collect(),
         ];
     }
 
@@ -92,5 +108,26 @@ class CityEditScreen extends Screen
         Toast::info(__('City was removed.'));
 
         return redirect()->route('platform.systems.cities');
+    }
+
+    public function addModerator(Request $request)
+    {
+        $city = City::findOrFail($request->input('city_id'));
+        $userId = $request->input('user_id');
+        if (!User::find($userId)) {
+            Toast::error(__('User not found.'));
+            return back();
+        }
+        $city->moderators()->syncWithoutDetaching([$userId => ['role' => 'moderator']]);
+        Toast::info(__('User added as city moderator.'));
+        return back();
+    }
+
+    public function removeModerator(Request $request)
+    {
+        $city = City::findOrFail($request->input('city_id'));
+        $city->moderators()->detach($request->input('user_id'));
+        Toast::info(__('User removed from city moderators.'));
+        return back();
     }
 }

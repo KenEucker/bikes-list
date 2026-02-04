@@ -37,6 +37,9 @@ RUN if [ -f package.json ]; then \
       npm install --no-audit --no-fund && npm run build && cp -r public/build /tmp/vite-build; \
     fi
 
+# Copy city seed data into image so entrypoint can place it under mounted app dir
+COPY docs/locations.json /tmp/locations.json
+
 COPY docker/php/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 

@@ -4,6 +4,17 @@ declare(strict_types=1);
 
 use App\Orchid\Screens\City\CityEditScreen;
 use App\Orchid\Screens\City\CityListScreen;
+use App\Orchid\Screens\CommunityPage\ClaimListScreen;
+use App\Orchid\Screens\CommunityPage\CommunityPageCreateScreen;
+use App\Orchid\Screens\CommunityPage\CommunityPageEditScreen;
+use App\Orchid\Screens\CommunityPage\CommunityPageListScreen;
+use App\Orchid\Screens\Event\EventEditScreen;
+use App\Orchid\Screens\Event\EventListScreen;
+use App\Orchid\Screens\Guideline\GuidelineEditScreen;
+use App\Orchid\Screens\Guideline\GuidelineListScreen;
+use App\Orchid\Screens\Listing\FlaggedListingsScreen;
+use App\Orchid\Screens\Listing\ListingEditScreen;
+use App\Orchid\Screens\Listing\ListingListScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
@@ -35,6 +46,80 @@ Route::screen('cities', CityListScreen::class)
     ->breadcrumbs(fn (Trail $trail) => $trail
         ->parent('platform.index')
         ->push(__('Cities'), route('platform.systems.cities')));
+
+// Listings
+Route::screen('listings', ListingListScreen::class)
+    ->name('platform.systems.listings')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push(__('Listings'), route('platform.systems.listings')));
+
+Route::screen('listings/{listing}/edit', ListingEditScreen::class)
+    ->name('platform.systems.listings.edit')
+    ->breadcrumbs(fn (Trail $trail, $listing) => $trail
+        ->parent('platform.systems.listings')
+        ->push($listing->title ?? __('Listing'), route('platform.systems.listings.edit', $listing)));
+
+Route::screen('events', EventListScreen::class)
+    ->name('platform.systems.events')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push(__('Events'), route('platform.systems.events')));
+
+Route::screen('events/{event}/edit', EventEditScreen::class)
+    ->name('platform.systems.events.edit')
+    ->breadcrumbs(fn (Trail $trail, $event) => $trail
+        ->parent('platform.systems.events')
+        ->push($event->title ?? __('Event'), route('platform.systems.events.edit', $event)));
+
+Route::screen('moderation/flagged-listings', FlaggedListingsScreen::class)
+    ->name('platform.moderation.flagged')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push(__('Flagged listings'), route('platform.moderation.flagged')));
+
+// Guidelines
+Route::screen('guidelines/create', GuidelineEditScreen::class)
+    ->name('platform.systems.guidelines.create')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.systems.guidelines')
+        ->push(__('Create'), route('platform.systems.guidelines.create')));
+
+Route::screen('guidelines/{guideline}/edit', GuidelineEditScreen::class)
+    ->name('platform.systems.guidelines.edit')
+    ->breadcrumbs(fn (Trail $trail, $guideline) => $trail
+        ->parent('platform.systems.guidelines')
+        ->push($guideline->name ?? __('Guideline'), route('platform.systems.guidelines.edit', $guideline)));
+
+Route::screen('guidelines', GuidelineListScreen::class)
+    ->name('platform.systems.guidelines')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push(__('Guidelines'), route('platform.systems.guidelines')));
+
+Route::screen('community-pages/create', CommunityPageCreateScreen::class)
+    ->name('platform.systems.community-pages.create')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.systems.community-pages')
+        ->push(__('Create'), route('platform.systems.community-pages.create')));
+
+Route::screen('community-pages/{communityPage}/edit', CommunityPageEditScreen::class)
+    ->name('platform.systems.community-pages.edit')
+    ->breadcrumbs(fn (Trail $trail, $communityPage) => $trail
+        ->parent('platform.systems.community-pages')
+        ->push($communityPage->name ?? __('Page'), route('platform.systems.community-pages.edit', $communityPage)));
+
+Route::screen('community-pages', CommunityPageListScreen::class)
+    ->name('platform.systems.community-pages')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push(__('Community pages'), route('platform.systems.community-pages')));
+
+Route::screen('moderation/claims', ClaimListScreen::class)
+    ->name('platform.moderation.claims')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push(__('Claim requests'), route('platform.moderation.claims')));
 
 // Profile
 Route::screen('profile', UserProfileScreen::class)

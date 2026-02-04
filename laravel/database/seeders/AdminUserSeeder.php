@@ -12,7 +12,7 @@ class AdminUserSeeder extends Seeder
 {
     public function run(): void
     {
-        $user = User::query()->updateOrCreate(
+        $adminUser = User::query()->updateOrCreate(
             ['email' => 'admin@example.com'],
             [
                 'name'              => 'Admin',
@@ -21,20 +21,54 @@ class AdminUserSeeder extends Seeder
             ]
         );
 
-        $role = Role::query()->updateOrCreate(
+        $adminRole = Role::query()->updateOrCreate(
             ['slug' => 'admin'],
             [
                 'name'        => 'Admin',
                 'permissions' => [
                     'platform.index' => true,
                     'platform.systems.cities' => true,
+                    'platform.systems.listings' => true,
+                    'platform.systems.events' => true,
+                    'platform.systems.guidelines' => true,
+                    'platform.systems.community-pages' => true,
                     'platform.systems.users' => true,
                     'platform.systems.roles' => true,
+                    'platform.moderation.flagged' => true,
+                    'platform.moderation.claims' => true,
+                ],
+            ]
+        );
+        $adminRole->users()->syncWithoutDetaching([$adminUser->getKey()]);
+
+        Role::query()->updateOrCreate(
+            ['slug' => 'moderator'],
+            [
+                'name'        => 'Moderator',
+                'permissions' => [
+                    'platform.index' => true,
+                    'platform.systems.cities' => true,
+                    'platform.systems.listings' => true,
+                    'platform.systems.events' => true,
+                    'platform.systems.guidelines' => true,
+                    'platform.systems.community-pages' => true,
+                    'platform.moderation.flagged' => true,
+                    'platform.moderation.claims' => true,
                 ],
             ]
         );
 
-        $role->users()->syncWithoutDetaching([$user->getKey()]);
+        Role::query()->updateOrCreate(
+            ['slug' => 'user'],
+            [
+                'name'        => 'User',
+                'permissions' => [
+                    'content.create.listing' => true,
+                    'content.create.event' => true,
+                    'content.create.community_page' => true,
+                ],
+            ]
+        );
     }
 }
 

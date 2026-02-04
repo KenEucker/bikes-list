@@ -4,24 +4,41 @@ namespace Database\Seeders;
 
 use App\Models\City;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\File;
 
 class CitySeeder extends Seeder
 {
     public function run(): void
     {
-        $cities = [
-            ['name' => 'Austin', 'slug' => 'austin', 'description' => 'Capital of Texas.'],
-            ['name' => 'Portland', 'slug' => 'portland', 'description' => 'City in Oregon.'],
-            ['name' => 'Denver', 'slug' => 'denver', 'description' => 'Capital of Colorado.'],
-            ['name' => 'Seattle', 'slug' => 'seattle', 'description' => 'Largest city in Washington.'],
-            ['name' => 'Minneapolis', 'slug' => 'minneapolis', 'description' => 'Largest city in Minnesota.'],
-        ];
+        $path = base_path('../docs/locations.json');
+        if (!File::exists($path)) {
+            $path = database_path('data/locations.json');
+        }
+        if (!File::exists($path)) {
+            $this->command->warn('Locations JSON not found. Tried: ' . base_path('../docs/locations.json') . ' and ' . database_path('data/locations.json') . '. Skipping city seed.');
+            return;
+        }
 
-        foreach ($cities as $city) {
+        $items = json_decode(File::get($path), true);
+        if (!is_array($items)) {
+            $this->command->error('Invalid JSON in locations.json');
+            return;
+        }
+
+        foreach ($items as $item) {
             City::query()->updateOrCreate(
-                ['slug' => $city['slug']],
-                $city
+                ['slug' => $item['slug']],
+                [
+                    'name' => $item['city'],
+                    'description' => null,
+                    'latitude' => $item['latitude'] ?? null,
+                    'longitude' => $item['longitude'] ?? null,
+                    'state_province' => $item['state_province'] ?? null,
+                    'country' => $item['country'] ?? null,
+                ]
             );
         }
+
+        $this->command->info('Seeded ' . count($items) . ' cities.');
     }
 }

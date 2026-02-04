@@ -115,4 +115,14 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Listing Reply Relay Domain
+    |--------------------------------------------------------------------------
+    |
+    | Domain used for Craigslist-style email relay addresses (e.g. reply-xxx@this-domain).
+    |
+    */
+    'relay_domain' => env('MAIL_RELAY_DOMAIN', 'reply.bikeslist.example.com'),
+
 ];

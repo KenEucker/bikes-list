@@ -16,7 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
         ]);
 
-        //
+        $middleware->validateCsrfTokens(except: ['relay/inbound']);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

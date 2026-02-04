@@ -20,8 +20,14 @@ services:
       DB_DATABASE: laravel
       DB_USERNAME: laravel
       DB_PASSWORD: laravel
+
+      SCOUT_DRIVER: meilisearch
+      MEILISEARCH_HOST: http://meilisearch:7700
+
+      RUN_MIGRATIONS: "true"
     depends_on:
       - db
+      - meilisearch
 
   web:
     image: nginx:1.27-alpine
@@ -42,5 +48,37 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  meilisearch:
+    image: getmeili/meilisearch:v1.11
+    environment:
+      MEILI_MASTER_KEY: ''
+      MEILI_ENV: development
+    ports:
+      - "7700:7700"
+    volumes:
+      - meilisearch_data:/data
+
+  queue:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    working_dir: /var/www/html
+    command: php artisan queue:work --tries=3
+    volumes:
+      - ./laravel:/var/www/html
+    environment:
+      APP_ENV: local
+      DB_CONNECTION: pgsql
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: laravel
+      DB_USERNAME: laravel
+      DB_PASSWORD: laravel
+
+      RUN_MIGRATIONS: "false"
+    depends_on:
+      - db
+
 volumes:
   pgdata:
+  meilisearch_data:
