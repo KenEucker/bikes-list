@@ -6,6 +6,11 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
+const props = defineProps({
+    submitUrl: { type: String, default: '' },
+    signInUrl: { type: String, default: '' },
+});
+
 const form = useForm({
     name: '',
     email: '',
@@ -13,8 +18,9 @@ const form = useForm({
     password_confirmation: '',
 });
 
+const formSubmitUrl = () => props.submitUrl || (typeof window !== 'undefined' ? window.location.origin + '/register' : '/register');
 const submit = () => {
-    form.post(route('register'), {
+    form.post(formSubmitUrl(), {
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
 };
@@ -94,7 +100,7 @@ const submit = () => {
 
             <div class="mt-4 flex items-center justify-end">
                 <Link
-                    :href="route('login')"
+                    :href="props.signInUrl || $page.props.urls?.signIn || '/account/sign-in'"
                     class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
                     Already registered?
@@ -105,7 +111,7 @@ const submit = () => {
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Register
+                    Sign up
                 </PrimaryButton>
             </div>
         </form>

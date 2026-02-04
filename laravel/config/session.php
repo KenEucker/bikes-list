@@ -18,7 +18,7 @@ return [
     |
     */
 
-    'driver' => env('SESSION_DRIVER', 'database'),
+    'driver' => env('SESSION_DRIVER', env('APP_ENV') === 'local' ? 'database' : 'file'),
 
     /*
     |--------------------------------------------------------------------------
@@ -156,7 +156,13 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN'),
+    'domain' => env('SESSION_DOMAIN') !== null && env('SESSION_DOMAIN') !== ''
+        ? env('SESSION_DOMAIN')
+        : (env('APP_ENV') === 'local' && env('APP_DOMAIN')
+            ? '.' . trim((string) env('APP_DOMAIN'), '.')
+            : (env('APP_ENV') === 'local' && env('SESSION_DRIVER') === 'database'
+                ? '.localhost'
+                : null)),
 
     /*
     |--------------------------------------------------------------------------

@@ -6,10 +6,14 @@ services:
     working_dir: /var/www/html
     volumes:
       - ./laravel:/var/www/html
+      - .:/var/project:ro
+    env_file:
+      - laravel/.env
     environment:
       APP_ENV: local
       APP_DEBUG: "true"
-      APP_URL: http://localhost
+      APP_URL: ${APP_URL:-http://localhost}
+      APP_DOMAIN: ${APP_DOMAIN:-}
       PLATFORM_PREFIX: /admin
 
       LOG_CHANNEL: stderr
@@ -25,6 +29,11 @@ services:
       MEILISEARCH_HOST: http://meilisearch:7700
 
       RUN_MIGRATIONS: "true"
+      VITE_WATCH: "1"
+
+      # Session in DB so login persists after server restart
+      SESSION_DRIVER: database
+      SESSION_DOMAIN: ${SESSION_DOMAIN:-.localhost}
     depends_on:
       - db
       - meilisearch
@@ -66,8 +75,14 @@ services:
     command: php artisan queue:work --tries=3
     volumes:
       - ./laravel:/var/www/html
+      - .:/var/project:ro
+    env_file:
+      - laravel/.env
     environment:
       APP_ENV: local
+      APP_URL: ${APP_URL:-http://localhost}
+      APP_DOMAIN: ${APP_DOMAIN:-}
+      SESSION_DOMAIN: ${SESSION_DOMAIN:-.localhost}
       DB_CONNECTION: pgsql
       DB_HOST: db
       DB_PORT: 5432

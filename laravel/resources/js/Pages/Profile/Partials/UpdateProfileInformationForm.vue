@@ -14,11 +14,14 @@ defineProps({
     },
 });
 
-const user = usePage().props.auth.user;
+const page = usePage();
+const user = page.props.auth?.user;
+const profileUpdateUrl = page.props.urls?.accountSettingsUpdate ?? '/account/settings';
+const verificationSendUrl = page.props.urls?.verificationSend ?? '/email/verification-notification';
 
 const form = useForm({
-    name: user.name,
-    email: user.email,
+    name: user?.name ?? '',
+    email: user?.email ?? '',
 });
 </script>
 
@@ -35,7 +38,7 @@ const form = useForm({
         </header>
 
         <form
-            @submit.prevent="form.patch(route('profile.update'))"
+            @submit.prevent="form.patch(profileUpdateUrl)"
             class="mt-6 space-y-6"
         >
             <div>
@@ -73,7 +76,7 @@ const form = useForm({
                 <p class="mt-2 text-sm text-gray-800">
                     Your email address is unverified.
                     <Link
-                        :href="route('verification.send')"
+                        :href="verificationSendUrl"
                         method="post"
                         as="button"
                         class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"

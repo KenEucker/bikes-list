@@ -22,7 +22,7 @@ class CommunityPagePolicy
 
     public function create(User $user): bool
     {
-        return $user->hasAccess('content.create.community_page');
+        return true;
     }
 
     public function update(User $user, CommunityPage $page): bool

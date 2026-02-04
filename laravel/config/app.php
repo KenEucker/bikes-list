@@ -56,6 +56,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application domain (for session cookie sharing across subdomains)
+    |--------------------------------------------------------------------------
+    |
+    | Set this to a two-part domain (e.g. bikeslist.test) so login on the main
+    | site is valid on city subdomains (dubai.bikeslist.test). Browsers do not
+    | reliably share cookies for Domain=.localhost with *.localhost subdomains.
+    | Add to /etc/hosts: 127.0.0.1 bikeslist.test and 127.0.0.1 dubai.bikeslist.test
+    | then set APP_URL=http://bikeslist.test and APP_DOMAIN=bikeslist.test.
+    |
+    */
+    'domain' => env('APP_DOMAIN'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |

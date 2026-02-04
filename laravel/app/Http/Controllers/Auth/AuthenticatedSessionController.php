@@ -18,9 +18,13 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): Response
     {
+        $base = request()->getSchemeAndHttpHost();
         return Inertia::render('Auth/Login', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
+            'submitUrl' => $base . (request()->is('account/*') ? '/account/sign-in' : '/login'),
+            'signUpUrl' => $base . (request()->is('account/*') ? '/account/sign-up' : '/register'),
+            'passwordRequestUrl' => $base . '/forgot-password',
         ]);
     }
 
@@ -33,7 +37,16 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $intended = $request->session()->pull('url.intended', null);
+        if ($intended) {
+            return redirect()->to($intended);
+        }
+        $base = $request->getSchemeAndHttpHost();
+        $host = $request->getHost();
+        if (str_contains($host, '.') && $host !== 'localhost') {
+            return redirect()->to($base . '/dashboard');
+        }
+        return redirect()->to($base . '/');
     }
 
     /**

@@ -1,11 +1,13 @@
 <script setup>
 import { Head, usePage } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import CityNav from '@/Components/CityNav.vue';
 
 const page = usePage();
 const props = defineProps({
     city: { type: Object, required: true },
     guidelines: { type: Array, required: true },
+    managedCommunityPages: { type: Array, default: () => [] },
     eventTags: { type: Object, default: () => ({}) },
     homeUrl: { type: String, default: '/' },
     cityBaseUrl: { type: String, required: true },
@@ -18,6 +20,10 @@ const form = ref({
     organizer_email_hidden: false,
     location_address: '',
     route_description: '',
+    route_link: '',
+    external_link: '',
+    event_type: '',
+    community_page_id: null,
     starts_at: '',
     ends_at: '',
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone ?? '',
@@ -32,16 +38,11 @@ const form = ref({
 <template>
     <Head :title="`New event – ${city.name}`" />
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-        <nav class="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="flex h-16 justify-between items-center">
-                    <div class="flex items-center gap-6">
-                        <a :href="homeUrl" class="text-xl font-semibold text-gray-800 dark:text-white">Bikes</a>
-                        <span class="text-gray-500 dark:text-gray-400">/ {{ city.name }} / New event</span>
-                    </div>
-                </div>
-            </div>
-        </nav>
+        <CityNav :city="city" :city-base-url="cityBaseUrl" breadcrumb="New event">
+            <template #nav-right>
+                <a :href="`${cityBaseUrl}/events`" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">Back to events</a>
+            </template>
+        </CityNav>
 
         <main class="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:px-8">
             <h1 class="text-2xl font-bold text-gray-900 dark:text-white">New event</h1>
@@ -78,9 +79,32 @@ const form = ref({
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Location (optional)</label>
                     <input v-model="form.location_address" type="text" name="location_address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
                 </div>
+                <div v-if="managedCommunityPages.length">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Host as</label>
+                    <select v-model="form.community_page_id" name="community_page_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+                        <option :value="null">Me (personal)</option>
+                        <option v-for="p in managedCommunityPages" :key="p.id" :value="p.id">{{ p.name }}</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Meeting location</label>
+                    <input v-model="form.location_address" type="text" name="location_address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+                </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Route description (optional)</label>
                     <textarea v-model="form.route_description" name="route_description" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Route link URL (optional)</label>
+                    <input v-model="form.route_link" type="url" name="route_link" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="https://..." />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">External link (optional)</label>
+                    <input v-model="form.external_link" type="url" name="external_link" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Event type (optional)</label>
+                    <input v-model="form.event_type" type="text" name="event_type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>

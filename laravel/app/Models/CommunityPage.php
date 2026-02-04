@@ -16,6 +16,7 @@ class CommunityPage extends Model
         'type',
         'city_id',
         'name',
+        'slug',
         'about',
         'event_info',
         'sales_info',
@@ -25,6 +26,7 @@ class CommunityPage extends Model
         'contact_lat',
         'contact_lng',
         'state',
+        'featured',
         'created_by_user_id',
         'claimed_by_user_id',
     ];
@@ -32,6 +34,7 @@ class CommunityPage extends Model
     protected $casts = [
         'contact_lat' => 'decimal:8',
         'contact_lng' => 'decimal:8',
+        'featured' => 'boolean',
     ];
 
     public const TYPE_BIKE_SHOP = 'bike_shop';

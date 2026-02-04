@@ -1,5 +1,6 @@
 <script setup>
 import { Head, Link, router } from '@inertiajs/vue3';
+import CityNav from '@/Components/CityNav.vue';
 
 const props = defineProps({
     city: { type: Object, required: true },
@@ -31,27 +32,19 @@ function saveSearchUrl() {
         ...(form.min_price && { 'query[min_price]': form.min_price }),
         ...(form.max_price && { 'query[max_price]': form.max_price }),
     });
-    return props.homeUrl.replace(/\/$/, '') + '/profile/saved-searches?' + params.toString();
+    return (props.homeUrl || '').replace(/\/$/, '') + '/account/saved-searches?' + params.toString();
 }
 </script>
 
 <template>
     <Head :title="`Listings – ${city.name}`" />
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-        <nav class="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="flex h-16 justify-between items-center">
-                    <div class="flex items-center gap-6">
-                        <a :href="homeUrl" class="text-xl font-semibold text-gray-800 dark:text-white">Bikes</a>
-                        <span class="text-gray-500 dark:text-gray-400">/ {{ city.name }} / Listings</span>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <Link v-if="$page.props.auth.user" :href="route('profile.edit')" class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Profile</Link>
-                        <Link v-else :href="route('login')" class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Log in</Link>
-                    </div>
-                </div>
-            </div>
-        </nav>
+        <CityNav :city="city" :city-base-url="cityBaseUrl" breadcrumb="Listings">
+            <template #nav-right>
+                <Link v-if="$page.props.auth.user" :href="$page.props.urls?.accountSettings || '/account/settings'" class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Profile</Link>
+                <Link v-else :href="$page.props.urls?.signIn || '/account/sign-in'" class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Log in</Link>
+            </template>
+        </CityNav>
 
         <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
             <div class="mb-6 flex flex-wrap items-end gap-4 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">

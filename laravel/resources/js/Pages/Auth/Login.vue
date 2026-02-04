@@ -7,13 +7,12 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
-defineProps({
-    canResetPassword: {
-        type: Boolean,
-    },
-    status: {
-        type: String,
-    },
+const props = defineProps({
+    canResetPassword: { type: Boolean },
+    status: { type: String },
+    submitUrl: { type: String, default: '' },
+    signUpUrl: { type: String, default: '' },
+    passwordRequestUrl: { type: String, default: '' },
 });
 
 const form = useForm({
@@ -22,8 +21,9 @@ const form = useForm({
     remember: false,
 });
 
+const formSubmitUrl = () => props.submitUrl || (typeof window !== 'undefined' ? window.location.origin + '/login' : '/login');
 const submit = () => {
-    form.post(route('login'), {
+    form.post(formSubmitUrl(), {
         onFinish: () => form.reset('password'),
     });
 };
@@ -78,22 +78,29 @@ const submit = () => {
                 </label>
             </div>
 
-            <div class="mt-4 flex items-center justify-end">
+            <div class="mt-4 flex flex-wrap items-center justify-between gap-2">
                 <Link
-                    v-if="canResetPassword"
-                    :href="route('password.request')"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    :href="props.signUpUrl || $page.props.urls?.signUp || '/account/sign-up'"
+                    class="text-sm text-gray-600 underline hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
                 >
-                    Forgot your password?
+                    Sign up
                 </Link>
-
-                <PrimaryButton
+                <div class="flex items-center gap-2">
+                    <Link
+                        v-if="canResetPassword"
+                        :href="props.passwordRequestUrl || $page.props.urls?.passwordRequest || '/forgot-password'"
+                        class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    >
+                        Forgot your password?
+                    </Link>
+                    <PrimaryButton
                     class="ms-4"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Log in
+                    Sign in
                 </PrimaryButton>
+                </div>
             </div>
         </form>
     </GuestLayout>

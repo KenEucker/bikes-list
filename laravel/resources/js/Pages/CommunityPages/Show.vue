@@ -1,9 +1,12 @@
 <script setup>
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
+import CityNav from '@/Components/CityNav.vue';
+import ReportBlock from '@/Components/ReportBlock.vue';
 
 defineProps({
     city: { type: Object, required: true },
     communityPage: { type: Object, required: true },
+    moderatorRelayEmail: { type: String, default: '' },
     homeUrl: { type: String, default: '/' },
     cityBaseUrl: { type: String, required: true },
 });
@@ -12,20 +15,12 @@ defineProps({
 <template>
     <Head :title="communityPage.name" />
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-        <nav class="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="flex h-16 justify-between items-center">
-                    <div class="flex items-center gap-6">
-                        <a :href="homeUrl" class="text-xl font-semibold text-gray-800 dark:text-white">Bikes</a>
-                        <span class="text-gray-500 dark:text-gray-400">/ {{ city.name }} / Community</span>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <a :href="`${cityBaseUrl}/community`" class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Back to community</a>
-                        <Link v-if="$page.props.auth.user" :href="`${cityBaseUrl}/community/${communityPage.id}/edit`" class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Edit</Link>
-                    </div>
-                </div>
-            </div>
-        </nav>
+        <CityNav :city="city" :city-base-url="cityBaseUrl" :breadcrumb="['Community pages', communityPage.name]">
+            <template #nav-right>
+                <a :href="`${cityBaseUrl}/community`" class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Back to community</a>
+                <Link v-if="$page.props.auth.user && communityPage.managers?.some(m => m.id === $page.props.auth.user.id)" :href="`${cityBaseUrl}/community/${communityPage.slug}/edit`" class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Edit</Link>
+            </template>
+        </CityNav>
 
         <main class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
             <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ communityPage.name }}</h1>
@@ -65,10 +60,19 @@ defineProps({
                     </li>
                 </ul>
             </section>
+            <div v-if="moderatorRelayEmail" class="mt-8">
+                <ReportBlock
+                    :moderator-relay-email="moderatorRelayEmail"
+                    item-type="Page"
+                    :item-title="communityPage.name"
+                    :item-id-or-slug="communityPage.slug"
+                />
+            </div>
+
             <div v-if="$page.props.auth.user && !communityPage.managers?.some(m => m.id === $page.props.auth.user.id)" class="mt-8 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
                 <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Claim this page</p>
                 <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">If you represent this organization, you can request to manage this page.</p>
-                <a :href="`${cityBaseUrl}/community/${communityPage.id}/claim`" class="mt-2 inline-block rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-700">Claim this page</a>
+                <a :href="`${cityBaseUrl}/community/${communityPage.slug}/claim`" class="mt-2 inline-block rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-700">Claim this page</a>
             </div>
         </main>
     </div>

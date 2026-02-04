@@ -4,7 +4,11 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
+        "build:watch": "vite build --watch",
         "dev": "vite"
+    },
+    "dependencies": {
+        "leaflet": "^1.9.4"
     },
     "devDependencies": {
         "@inertiajs/vue3": "^2.0.0",

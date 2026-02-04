@@ -29,11 +29,32 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $base = $request->getSchemeAndHttpHost();
+
         return [
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
             ],
+            'csrf_token' => csrf_token(),
+            'urls' => [
+                'base' => $base,
+                'dashboard' => $base . '/dashboard',
+                'accountSettings' => $base . '/account/settings',
+                'accountSettingsUpdate' => $base . '/account/settings',
+                'accountSettingsDestroy' => $base . '/account/settings',
+                'signIn' => $base . '/account/sign-in',
+                'signUp' => $base . '/account/sign-up',
+                'logout' => $base . '/logout',
+                'passwordUpdate' => $base . '/password',
+                'passwordRequest' => $base . '/forgot-password',
+                'verificationSend' => $base . '/email/verification-notification',
+                'savedSearches' => $base . '/account/saved-searches',
+                'home' => $base . '/',
+                'terms' => $base . '/terms',
+                'privacy' => $base . '/privacy',
+            ],
+            'dashboardUrl' => $base . '/dashboard',
             'logo' => asset('bikeslist.png'),
             'appName' => config('app.name'),
         ];

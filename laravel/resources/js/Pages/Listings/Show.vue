@@ -1,45 +1,34 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import CityNav from '@/Components/CityNav.vue';
+import RelayEmailBlock from '@/Components/RelayEmailBlock.vue';
+import ReportBlock from '@/Components/ReportBlock.vue';
 
 const props = defineProps({
     city: { type: Object, required: true },
     listing: { type: Object, required: true },
     relayEmailAddress: { type: String, default: null },
+    moderatorRelayEmail: { type: String, default: '' },
+    bikeIndexUrl: { type: String, default: 'https://bikeindex.org/search' },
     listingTypes: { type: Object, required: true },
     homeUrl: { type: String, default: '/' },
     cityBaseUrl: { type: String, required: true },
 });
 
-const copied = ref(false);
-function copyRelay() {
-    if (!props.relayEmailAddress) return;
-    navigator.clipboard.writeText(props.relayEmailAddress);
-    copied.value = true;
-    setTimeout(() => { copied.value = false; }, 2000);
-}
-
 const typeLabel = props.listingTypes[props.listing.type]?.label ?? props.listing.type;
+const mailtoSubject = `Re: Listing – ${props.listing.title} – ${props.listing.id}`;
 </script>
 
 <template>
     <Head :title="listing.title" />
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-        <nav class="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="flex h-16 justify-between items-center">
-                    <div class="flex items-center gap-6">
-                        <a :href="homeUrl" class="text-xl font-semibold text-gray-800 dark:text-white">Bikes</a>
-                        <span class="text-gray-500 dark:text-gray-400">/ {{ city.name }} / Listings</span>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <a :href="`${cityBaseUrl}/listings`" class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Back to listings</a>
-                        <Link v-if="$page.props.auth.user" :href="route('profile.edit')" class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Profile</Link>
-                        <Link v-else :href="route('login')" class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Log in</Link>
-                    </div>
-                </div>
-            </div>
-        </nav>
+        <CityNav :city="city" :city-base-url="cityBaseUrl" :breadcrumb="['Listings', listing.title]">
+            <template #nav-right>
+                <a :href="`${cityBaseUrl}/listings`" class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Back to listings</a>
+                <Link v-if="$page.props.auth.user" :href="$page.props.urls?.accountSettings || '/account/settings'" class="text-sm text-gray-600 dark:text-gray-400 dark:hover:text-white">Account</Link>
+                <Link v-else :href="$page.props.urls?.signIn || '/account/sign-in'" class="text-sm text-gray-600 dark:text-gray-400 dark:hover:text-white">Sign in</Link>
+            </template>
+        </CityNav>
 
         <main class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
             <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ listing.title }}</h1>
@@ -54,24 +43,34 @@ const typeLabel = props.listingTypes[props.listing.type]?.label ?? props.listing
                 <p class="whitespace-pre-wrap text-gray-700 dark:text-gray-300">{{ listing.description }}</p>
             </div>
 
-            <div v-if="relayEmailAddress" class="mt-8 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
-                <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Contact seller (email relay)</p>
-                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Copy the address below and use your own email client. Your address is never shown to the seller.</p>
-                <div class="mt-2 flex items-center gap-2">
-                    <code class="flex-1 rounded bg-gray-100 px-2 py-1.5 text-sm dark:bg-gray-700">{{ relayEmailAddress }}</code>
-                    <button type="button" class="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-700" @click="copyRelay">
-                        {{ copied ? 'Copied!' : 'Copy' }}
-                    </button>
-                </div>
+            <div v-if="relayEmailAddress" class="mt-8">
+                <RelayEmailBlock
+                    :email="relayEmailAddress"
+                    label="Contact seller"
+                    :mailto-subject="mailtoSubject"
+                />
+            </div>
+
+            <section v-if="listing.type === 'full_bicycle'" class="mt-8 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Stolen bike check</h2>
+                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Check if a bike has been reported stolen before buying.</p>
+                <a :href="bikeIndexUrl" target="_blank" rel="noopener noreferrer" class="mt-2 inline-block text-indigo-600 hover:text-indigo-500 dark:text-indigo-400">Search on Bike Index</a>
+            </section>
+
+            <div v-if="moderatorRelayEmail" class="mt-8">
+                <ReportBlock
+                    :moderator-relay-email="moderatorRelayEmail"
+                    item-type="Listing"
+                    :item-title="listing.title"
+                    :item-id-or-slug="listing.id"
+                />
             </div>
 
             <div class="mt-8 flex flex-wrap gap-3">
                 <Link v-if="$page.props.auth.user && (listing.user_id === $page.props.auth.user.id || listing.community_page_id)" :href="`${cityBaseUrl}/listings/${listing.id}/edit`" class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300">Edit</Link>
                 <template v-if="$page.props.auth.user && (listing.user_id === $page.props.auth.user.id || listing.community_page_id)">
-                    <Link v-if="listing.state === 'draft'" :href="`${cityBaseUrl}/listings/${listing.id}/publish`" method="post" as="button" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700">Publish</Link>
-                    <Link v-else-if="listing.state === 'published'" :href="`${cityBaseUrl}/listings/${listing.id}/sold`" method="post" as="button" class="rounded-md bg-amber-600 px-4 py-2 text-sm font-medium text-white hover:bg-amber-700">Mark sold</Link>
+                    <Link v-if="listing.state === 'published'" :href="`${cityBaseUrl}/listings/${listing.id}/sold`" method="post" as="button" class="rounded-md bg-amber-600 px-4 py-2 text-sm font-medium text-white hover:bg-amber-700">Mark sold</Link>
                 </template>
-                <Link v-if="$page.props.auth.user && listing.user_id !== $page.props.auth.user.id" :href="`${cityBaseUrl}/listings/${listing.id}/flag`" method="post" as="button" class="rounded-md border border-red-300 bg-white px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-50 dark:border-red-600 dark:bg-gray-800 dark:text-red-400">Flag listing</Link>
             </div>
         </main>
     </div>

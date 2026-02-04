@@ -3,11 +3,12 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { useForm } from '@inertiajs/vue3';
+import { useForm, usePage } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 const passwordInput = ref(null);
 const currentPasswordInput = ref(null);
+const passwordUpdateUrl = usePage().props.urls?.passwordUpdate ?? '/password';
 
 const form = useForm({
     current_password: '',
@@ -16,7 +17,7 @@ const form = useForm({
 });
 
 const updatePassword = () => {
-    form.put(route('password.update'), {
+    form.put(passwordUpdateUrl, {
         preserveScroll: true,
         onSuccess: () => form.reset(),
         onError: () => {

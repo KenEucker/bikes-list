@@ -22,11 +22,14 @@ class Listing extends Model
         'title',
         'description',
         'price',
+        'condition',
         'state',
         'location_address',
         'location_lat',
         'location_lng',
         'attributes',
+        'serial_number',
+        'serial_private',
         'published_at',
         'expires_at',
     ];
@@ -34,6 +37,7 @@ class Listing extends Model
     protected $casts = [
         'attributes' => 'array',
         'price' => 'decimal:2',
+        'serial_private' => 'boolean',
         'location_lat' => 'decimal:8',
         'location_lng' => 'decimal:8',
         'published_at' => 'datetime',
@@ -41,10 +45,17 @@ class Listing extends Model
     ];
 
     public const STATE_DRAFT = 'draft';
+    public const STATE_PENDING_REVIEW = 'pending_review';
     public const STATE_PUBLISHED = 'published';
     public const STATE_SOLD = 'sold';
     public const STATE_EXPIRED = 'expired';
     public const STATE_REMOVED = 'removed';
+
+    public const CONDITION_NEW = 'new';
+    public const CONDITION_LIKE_NEW = 'like_new';
+    public const CONDITION_GOOD = 'good';
+    public const CONDITION_FAIR = 'fair';
+    public const CONDITION_POOR = 'poor';
 
     public function user(): BelongsTo
     {

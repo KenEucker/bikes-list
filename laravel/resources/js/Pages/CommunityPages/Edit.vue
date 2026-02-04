@@ -1,6 +1,7 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import CityNav from '@/Components/CityNav.vue';
 
 const props = defineProps({
     city: { type: Object, required: true },
@@ -23,18 +24,15 @@ const form = ref({
 <template>
     <Head :title="`Edit – ${communityPage.name}`" />
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-        <nav class="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="flex h-16 items-center gap-6">
-                    <a :href="homeUrl" class="text-xl font-semibold text-gray-800 dark:text-white">Bikes</a>
-                    <a :href="`${cityBaseUrl}/community/${communityPage.id}`" class="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Back</a>
-                </div>
-            </div>
-        </nav>
+        <CityNav :city="city" :city-base-url="cityBaseUrl" :breadcrumb="['Community pages', 'Edit']">
+            <template #nav-right>
+                <a :href="`${cityBaseUrl}/community/${communityPage.slug}`" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">Back to page</a>
+            </template>
+        </CityNav>
 
         <main class="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:px-8">
             <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Edit {{ communityPage.name }}</h1>
-            <form :action="`${cityBaseUrl}/community/${communityPage.id}`" method="post" class="mt-6 space-y-4">
+            <form :action="`${cityBaseUrl}/community/${communityPage.slug}`" method="post" class="mt-6 space-y-4">
                 <input type="hidden" name="_token" :value="$page.props.csrf_token" />
                 <input type="hidden" name="_method" value="PUT" />
                 <div>

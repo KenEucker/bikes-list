@@ -28,7 +28,7 @@ class EventController extends Controller
             'city' => $city,
             'events' => $events,
             'homeUrl' => config('app.url'),
-            'cityBaseUrl' => $request->getScheme() . '://' . $citySlug . '.' . $request->getHost() . ($request->getPort() && !in_array($request->getPort(), [80, 443]) ? ':' . $request->getPort() : ''),
+            'cityBaseUrl' => self::cityBaseUrl($request, $citySlug),
         ]);
     }
 
@@ -41,11 +41,16 @@ class EventController extends Controller
         Gate::authorize('view', $event);
         $event->load(['user', 'city', 'communityPage', 'associatedCommunityPages']);
 
+        $relayAddress = $event->organizer_email_hidden ? null : $event->organizer_email;
+        $cityBaseUrl = self::cityBaseUrl(request(), $citySlug);
+
         return Inertia::render('Events/Show', [
             'city' => $city,
             'event' => $event,
+            'organizerRelayEmail' => $relayAddress,
+            'moderatorRelayEmail' => config('bikeslist.moderator_relay_email'),
             'homeUrl' => config('app.url'),
-            'cityBaseUrl' => request()->getScheme() . '://' . $citySlug . '.' . request()->getHost() . (request()->getPort() && !in_array(request()->getPort(), [80, 443]) ? ':' . request()->getPort() : ''),
+            'cityBaseUrl' => $cityBaseUrl,
         ]);
     }
 
@@ -54,13 +59,16 @@ class EventController extends Controller
         $city = City::query()->where('slug', $citySlug)->firstOrFail();
         Gate::authorize('create', Event::class);
         $guidelines = Guideline::query()->active()->forCity($city->id)->orderByRaw("scope = 'sitewide' DESC")->orderBy('published_at')->get();
+        $user = $request->user();
+        $managedPages = $user->managedCommunityPages()->where('community_pages.city_id', $city->id)->where('community_pages.state', 'approved')->get();
 
         return Inertia::render('Events/Create', [
             'city' => $city,
             'guidelines' => $guidelines,
+            'managedCommunityPages' => $managedPages,
             'eventTags' => config('event_tags'),
             'homeUrl' => config('app.url'),
-            'cityBaseUrl' => $request->getScheme() . '://' . $citySlug . '.' . $request->getHost() . ($request->getPort() && !in_array($request->getPort(), [80, 443]) ? ':' . $request->getPort() : ''),
+            'cityBaseUrl' => self::cityBaseUrl($request, $citySlug),
         ]);
     }
 
@@ -75,13 +83,17 @@ class EventController extends Controller
             'organizer_email_hidden' => ['boolean'],
             'location_address' => ['nullable', 'string', 'max:255'],
             'route_description' => ['nullable', 'string'],
+            'route_link' => ['nullable', 'string', 'url', 'max:500'],
+            'external_link' => ['nullable', 'string', 'url', 'max:500'],
+            'event_type' => ['nullable', 'string', 'max:100'],
+            'community_page_id' => ['nullable', 'exists:community_pages,id'],
             'starts_at' => ['required', 'date'],
             'ends_at' => ['required', 'date', 'after_or_equal:starts_at'],
             'timezone' => ['nullable', 'string', 'max:50'],
             'is_recurring' => ['boolean'],
             'recurrence_ends_at' => ['nullable', 'date', 'after_or_equal:starts_at'],
             'tags' => ['nullable', 'array'],
-            'tags.*' => ['string', 'in:' . implode(',', array_keys(config('event_tags')))],
+            'tags.*' => ['string', 'in:' . implode(',', array_keys(config('event_tags', [])))],
             'guidelines_accepted' => ['required', 'accepted'],
             'guideline_ids' => ['required', 'array'],
             'guideline_ids.*' => ['exists:guidelines,id'],
@@ -89,19 +101,20 @@ class EventController extends Controller
         $user = $request->user();
         $data = $request->only([
             'title', 'description', 'organizer_name', 'organizer_email_hidden',
-            'location_address', 'route_description', 'starts_at', 'ends_at', 'timezone',
+            'location_address', 'route_description', 'route_link', 'external_link', 'event_type',
+            'starts_at', 'ends_at', 'timezone',
             'is_recurring', 'recurrence_ends_at', 'tags',
         ]);
         $data['city_id'] = $city->id;
         $data['user_id'] = $user->id;
         $data['organizer_email'] = $user->email;
         $data['guidelines_accepted_at'] = now();
-        $data['state'] = $user->isEstablished() ? Event::STATE_PUBLISHED : Event::STATE_PENDING_REVIEW;
-        if ($data['state'] === Event::STATE_PUBLISHED) {
-            $data['published_at'] = now();
-        } else {
-            $data['submitted_at'] = now();
-        }
+        $data['state'] = Event::STATE_PENDING_REVIEW;
+        $data['submitted_at'] = now();
+        $data['route_link'] = $request->input('route_link');
+        $data['external_link'] = $request->input('external_link');
+        $data['event_type'] = $request->input('event_type');
+        $data['community_page_id'] = $request->input('community_page_id') ?: null;
         $event = Event::create($data);
         foreach ($request->input('guideline_ids', []) as $guidelineId) {
             EventGuidelineAcceptance::create([
@@ -111,7 +124,7 @@ class EventController extends Controller
             ]);
         }
         // TODO: Send "Event submitted" email to creator
-        return redirect()->route('city.events.show', [$citySlug, $event])->with('status', $event->state === Event::STATE_PUBLISHED ? 'Event published.' : 'Event submitted for review.');
+        return redirect()->route('city.events.show', [$citySlug, $event])->with('status', 'Event submitted for review. It will be published automatically if not reviewed by a moderator.');
     }
 
     public function edit(string $citySlug, Event $event): Response
@@ -129,7 +142,7 @@ class EventController extends Controller
             'guidelines' => $guidelines,
             'eventTags' => config('event_tags'),
             'homeUrl' => config('app.url'),
-            'cityBaseUrl' => request()->getScheme() . '://' . $citySlug . '.' . request()->getHost() . (request()->getPort() && !in_array(request()->getPort(), [80, 443]) ? ':' . request()->getPort() : ''),
+            'cityBaseUrl' => self::cityBaseUrl(request(), $citySlug),
         ]);
     }
 
@@ -147,19 +160,26 @@ class EventController extends Controller
             'organizer_email_hidden' => ['boolean'],
             'location_address' => ['nullable', 'string', 'max:255'],
             'route_description' => ['nullable', 'string'],
+            'route_link' => ['nullable', 'string', 'url', 'max:500'],
+            'external_link' => ['nullable', 'string', 'url', 'max:500'],
+            'event_type' => ['nullable', 'string', 'max:100'],
+            'community_page_id' => ['nullable', 'exists:community_pages,id'],
             'starts_at' => ['required', 'date'],
             'ends_at' => ['required', 'date', 'after_or_equal:starts_at'],
             'timezone' => ['nullable', 'string', 'max:50'],
             'is_recurring' => ['boolean'],
             'recurrence_ends_at' => ['nullable', 'date'],
             'tags' => ['nullable', 'array'],
-            'tags.*' => ['string', 'in:' . implode(',', array_keys(config('event_tags')))],
+            'tags.*' => ['string', 'in:' . implode(',', array_keys(config('event_tags', [])))],
         ]);
-        $event->update($request->only([
+        $data = $request->only([
             'title', 'description', 'organizer_name', 'organizer_email_hidden',
-            'location_address', 'route_description', 'starts_at', 'ends_at', 'timezone',
+            'location_address', 'route_description', 'route_link', 'external_link', 'event_type',
+            'starts_at', 'ends_at', 'timezone',
             'is_recurring', 'recurrence_ends_at', 'tags',
-        ]));
+        ]);
+        $data['community_page_id'] = $request->input('community_page_id') ?: null;
+        $event->update($data);
         return redirect()->route('city.events.show', [$citySlug, $event])->with('status', 'Event updated.');
     }
 }

@@ -44,7 +44,7 @@ class ListingController extends Controller
             'filters' => $request->only(['q', 'type', 'min_price', 'max_price']),
             'listingTypes' => config('listing_types'),
             'homeUrl' => config('app.url'),
-            'cityBaseUrl' => $request->getScheme() . '://' . $citySlug . '.' . $request->getHost() . ($request->getPort() && !in_array($request->getPort(), [80, 443]) ? ':' . $request->getPort() : ''),
+            'cityBaseUrl' => self::cityBaseUrl($request, $citySlug),
         ]);
     }
 
@@ -66,12 +66,14 @@ class ListingController extends Controller
             $relayAddress = $listing->relayAddress->token . '@' . config('mail.relay_domain', 'reply.bikeslist.example.com');
         }
 
-        $cityBaseUrl = request()->getScheme() . '://' . $citySlug . '.' . request()->getHost() . (request()->getPort() && !in_array(request()->getPort(), [80, 443]) ? ':' . request()->getPort() : '');
+        $cityBaseUrl = self::cityBaseUrl(request(), $citySlug);
 
         return Inertia::render('Listings/Show', [
             'city' => $city,
             'listing' => $listing,
             'relayEmailAddress' => $relayAddress,
+            'moderatorRelayEmail' => config('bikeslist.moderator_relay_email'),
+            'bikeIndexUrl' => config('bikeslist.bike_index_search_url'),
             'listingTypes' => config('listing_types'),
             'homeUrl' => config('app.url'),
             'cityBaseUrl' => $cityBaseUrl,
@@ -85,11 +87,15 @@ class ListingController extends Controller
 
         $user = $request->user();
         $managedPages = $user->managedCommunityPages()->where('community_pages.city_id', $city->id)->where('community_pages.state', 'approved')->get();
-        $cityBaseUrl = $request->getScheme() . '://' . $citySlug . '.' . $request->getHost() . ($request->getPort() && !in_array($request->getPort(), [80, 443]) ? ':' . $request->getPort() : '');
+        $cityBaseUrl = self::cityBaseUrl($request, $citySlug);
 
+        $listingTypes = config('listing_types');
+        $conditions = $listingTypes['conditions'] ?? [];
+        unset($listingTypes['conditions']);
         return Inertia::render('Listings/Create', [
             'city' => $city,
-            'listingTypes' => config('listing_types'),
+            'listingTypes' => $listingTypes,
+            'conditions' => $conditions,
             'managedCommunityPages' => $managedPages,
             'homeUrl' => config('app.url'),
             'cityBaseUrl' => $cityBaseUrl,
@@ -102,18 +108,22 @@ class ListingController extends Controller
         Gate::authorize('create', Listing::class);
 
         $validated = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string'],
+            'title' => ['required', 'string', 'min:6', 'max:80'],
+            'description' => ['required', 'string', 'min:20'],
             'type' => ['required', 'string', 'in:full_bicycle,parts,clothing,miscellaneous'],
             'price' => ['nullable', 'numeric', 'min:0'],
+            'condition' => ['required', 'string', 'in:new,like_new,good,fair,poor'],
             'location_address' => ['nullable', 'string', 'max:255'],
             'community_page_id' => ['nullable', 'exists:community_pages,id'],
             'attributes' => ['nullable', 'array'],
+            'serial_number' => ['nullable', 'string', 'max:100'],
+            'serial_private' => ['boolean'],
         ]);
 
         $validated['city_id'] = $city->id;
         $validated['user_id'] = $request->user()->id;
-        $validated['state'] = Listing::STATE_DRAFT;
+        $validated['state'] = ($request->boolean('submit_for_review')) ? Listing::STATE_PENDING_REVIEW : Listing::STATE_DRAFT;
+        $validated['serial_private'] = $request->boolean('serial_private', true);
         if (isset($validated['community_page_id']) && $validated['community_page_id']) {
             if (!$request->user()->managedCommunityPages()->where('community_pages.id', $validated['community_page_id'])->exists()) {
                 abort(403);
@@ -139,12 +149,16 @@ class ListingController extends Controller
         $listing->load('attachments');
         $user = request()->user();
         $managedPages = $user->managedCommunityPages()->where('community_pages.city_id', $city->id)->where('community_pages.state', 'approved')->get();
-        $cityBaseUrl = request()->getScheme() . '://' . $citySlug . '.' . request()->getHost() . (request()->getPort() && !in_array(request()->getPort(), [80, 443]) ? ':' . request()->getPort() : '');
+        $cityBaseUrl = self::cityBaseUrl(request(), $citySlug);
+        $listingTypes = config('listing_types');
+        $conditions = $listingTypes['conditions'] ?? [];
+        unset($listingTypes['conditions']);
 
         return Inertia::render('Listings/Edit', [
             'city' => $city,
             'listing' => $listing,
-            'listingTypes' => config('listing_types'),
+            'listingTypes' => $listingTypes,
+            'conditions' => $conditions,
             'managedCommunityPages' => $managedPages,
             'homeUrl' => config('app.url'),
             'cityBaseUrl' => $cityBaseUrl,
@@ -160,23 +174,27 @@ class ListingController extends Controller
         Gate::authorize('update', $listing);
 
         $validated = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string'],
+            'title' => ['required', 'string', 'min:6', 'max:80'],
+            'description' => ['required', 'string', 'min:20'],
             'type' => ['required', 'string', 'in:full_bicycle,parts,clothing,miscellaneous'],
             'price' => ['nullable', 'numeric', 'min:0'],
+            'condition' => ['required', 'string', 'in:new,like_new,good,fair,poor'],
             'location_address' => ['nullable', 'string', 'max:255'],
             'community_page_id' => ['nullable', 'exists:community_pages,id'],
             'attributes' => ['nullable', 'array'],
+            'serial_number' => ['nullable', 'string', 'max:100'],
+            'serial_private' => ['boolean'],
         ]);
 
         if (isset($validated['community_page_id']) && $validated['community_page_id']) {
-            if (!$request->user()->managedCommunityPages()->where('community_pages.id', $validated['community_page_id'])->exists()) {
+            if (! $request->user()->managedCommunityPages()->where('community_pages.id', $validated['community_page_id'])->exists()) {
                 abort(403);
             }
         } else {
             $validated['community_page_id'] = null;
         }
 
+        $validated['serial_private'] = $request->boolean('serial_private', true);
         $listing->update($validated);
 
         return redirect()->route('city.listings.show', [$citySlug, $listing])

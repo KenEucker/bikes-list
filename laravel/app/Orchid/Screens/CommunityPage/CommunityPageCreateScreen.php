@@ -7,6 +7,7 @@ namespace App\Orchid\Screens\CommunityPage;
 use App\Models\CommunityPage;
 use App\Orchid\Layouts\CommunityPage\CommunityPageEditLayout;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
@@ -54,7 +55,7 @@ class CommunityPageCreateScreen extends Screen
 
     public function save(Request $request)
     {
-        $request->validate([
+        $input = $request->validate([
             'communityPage.city_id' => ['required', 'exists:cities,id'],
             'communityPage.type' => ['required', 'in:bike_shop,club,recurring_event'],
             'communityPage.name' => ['required', 'string', 'max:255'],
@@ -65,10 +66,24 @@ class CommunityPageCreateScreen extends Screen
             'communityPage.contact_email' => ['nullable', 'email'],
             'communityPage.contact_phone' => ['nullable', 'string', 'max:50'],
         ]);
-        $data = $request->get('communityPage');
-        $data['state'] = CommunityPage::STATE_APPROVED;
-        $data['created_by_user_id'] = $request->user()->id;
-        CommunityPage::create($data);
+        $data = $input['communityPage'];
+        $name = $data['name'];
+        $slug = Str::slug($name ?: 'page') . '-' . uniqid();
+        $page = CommunityPage::create([
+            'city_id' => (int) $data['city_id'],
+            'type' => $data['type'],
+            'name' => $name,
+            'slug' => $slug,
+            'about' => $data['about'] ?? null,
+            'event_info' => $data['event_info'] ?? null,
+            'sales_info' => $data['sales_info'] ?? null,
+            'contact_address' => $data['contact_address'] ?? null,
+            'contact_email' => $data['contact_email'] ?? null,
+            'contact_phone' => $data['contact_phone'] ?? null,
+            'state' => CommunityPage::STATE_APPROVED,
+            'created_by_user_id' => $request->user()->id,
+        ]);
+        $page->update(['slug' => Str::slug($name) . '-' . $page->id]);
         Toast::info(__('Community page created.'));
         return redirect()->route('platform.systems.community-pages');
     }

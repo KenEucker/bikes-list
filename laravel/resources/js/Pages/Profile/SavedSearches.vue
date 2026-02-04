@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { Head, Link, usePage } from '@inertiajs/vue3';
+import { ref, computed } from 'vue';
 
 const props = defineProps({
     savedSearches: {
@@ -13,6 +13,10 @@ const props = defineProps({
         default: null,
     },
 });
+
+const page = usePage();
+const urls = computed(() => page.props.urls || {});
+const savedSearchesBaseUrl = () => urls.value.savedSearches || '/account/saved-searches';
 
 const showForm = ref(!!props.prefill);
 const form = ref({
@@ -41,7 +45,7 @@ function searchUrl(search) {
 
                 <div v-if="showForm || prefill" class="mb-6 rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
                     <h3 class="font-medium text-gray-900 dark:text-white">Add saved search</h3>
-                    <form :action="route('saved-searches.store')" method="post" class="mt-3 space-y-2">
+                    <form :action="savedSearchesBaseUrl()" method="post" class="mt-3 space-y-2">
                         <input type="hidden" name="_token" :value="$page.props.csrf_token" />
                         <input type="hidden" name="city_id" :value="form.city_id" />
                         <input type="hidden" name="query[q]" :value="form.query.q" />
@@ -68,7 +72,7 @@ function searchUrl(search) {
                             <p class="text-sm text-gray-500 dark:text-gray-400">{{ search.city?.name }}</p>
                         </div>
                         <div class="flex gap-2">
-                            <Link :href="route('saved-searches.destroy', search.id)" method="delete" as="button" class="text-sm text-red-600 hover:text-red-500 dark:text-red-400">Delete</Link>
+                            <Link :href="savedSearchesBaseUrl() + '/' + search.id" method="delete" as="button" class="text-sm text-red-600 hover:text-red-500 dark:text-red-400">Delete</Link>
                         </div>
                     </li>
                 </ul>

@@ -17,12 +17,21 @@ class ListingPolicy
         if ($listing->state === Listing::STATE_PUBLISHED || $listing->state === Listing::STATE_SOLD) {
             return true;
         }
-        return $user && ($user->id === $listing->user_id || $user->managedCommunityPages()->where('community_pages.id', $listing->community_page_id)->exists());
+        if (! $user) {
+            return false;
+        }
+        if ($user->id === $listing->user_id) {
+            return true;
+        }
+        if ($listing->community_page_id && $user->managedCommunityPages()->where('community_pages.id', $listing->community_page_id)->exists()) {
+            return true;
+        }
+        return $user->moderatedCities()->where('cities.id', $listing->city_id)->exists();
     }
 
     public function create(User $user): bool
     {
-        return $user->hasAccess('content.create.listing');
+        return true;
     }
 
     public function update(User $user, Listing $listing): bool

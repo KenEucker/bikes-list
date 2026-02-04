@@ -21,7 +21,11 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/Register');
+        $base = request()->getSchemeAndHttpHost();
+        return Inertia::render('Auth/Register', [
+            'submitUrl' => $base . (request()->is('account/*') ? '/account/sign-up' : '/register'),
+            'signInUrl' => $base . (request()->is('account/*') ? '/account/sign-in' : '/login'),
+        ]);
     }
 
     /**
@@ -52,6 +56,12 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        $request->session()->regenerate();
+        $base = $request->getSchemeAndHttpHost();
+        $host = $request->getHost();
+        if (str_contains($host, '.') && $host !== 'localhost') {
+            return redirect()->to($base . '/dashboard');
+        }
+        return redirect()->to($base . '/');
     }
 }
