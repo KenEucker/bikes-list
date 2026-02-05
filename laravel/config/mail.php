@@ -123,6 +123,6 @@ return [
     | Domain used for Craigslist-style email relay addresses (e.g. reply-xxx@this-domain).
     |
     */
-    'relay_domain' => env('MAIL_RELAY_DOMAIN', 'reply.bikeslist.example.com'),
+    'relay_domain' => env('MAIL_RELAY_DOMAIN', parse_url(config('app.url'), PHP_URL_HOST) ?: 'localhost'),
 
 ];

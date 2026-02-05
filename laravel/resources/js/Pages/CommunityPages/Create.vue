@@ -1,78 +1,141 @@
 <script setup>
-import { Head } from '@inertiajs/vue3';
-import { ref } from 'vue';
-import CityNav from '@/Components/CityNav.vue';
+import { useForm } from '@inertiajs/vue3';
+import CreatePageLayout from '@/Components/CreatePageLayout.vue';
 
-defineProps({
+const props = defineProps({
     city: { type: Object, required: true },
-    homeUrl: { type: String, default: '/' },
     cityBaseUrl: { type: String, required: true },
+    errors: { type: Object, default: () => ({}) },
+    old: { type: Object, default: () => ({}) },
 });
 
-const form = ref({
-    type: 'bike_shop',
-    name: '',
-    about: '',
-    event_info: '',
-    sales_info: '',
-    contact_address: '',
-    contact_email: '',
-    contact_phone: '',
+const oldInput = props.old || {};
+const form = useForm({
+    type: oldInput.type ?? 'bike_shop',
+    name: oldInput.name ?? '',
+    about: oldInput.about ?? '',
+    event_info: oldInput.event_info ?? '',
+    sales_info: oldInput.sales_info ?? '',
+    contact_address: oldInput.contact_address ?? '',
+    contact_email: oldInput.contact_email ?? '',
+    contact_phone: oldInput.contact_phone ?? '',
 });
+
+function submit() {
+    form.post(`${props.cityBaseUrl}/community`, {
+        preserveScroll: true,
+    });
+}
+
+const hasErrors = () => Object.keys(form.errors).length > 0;
 </script>
 
 <template>
-    <Head :title="`New community page – ${city.name}`" />
-    <div class="min-h-screen bg-page">
-        <CityNav :city="city" :city-base-url="cityBaseUrl" breadcrumb="New page">
-            <template #nav-right>
-                <a :href="`${cityBaseUrl}/community`" class="text-sm text-muted hover:text-fg underline">Back to community</a>
-            </template>
-        </CityNav>
+    <CreatePageLayout
+        title="New community page"
+        :head-title="`New community page – ${city.name}`"
+        breadcrumb="New page"
+        :city="city"
+        :city-base-url="cityBaseUrl"
+        :back-url="`${cityBaseUrl}/community`"
+        back-label="Back to community"
+        :submitting="form.processing"
+    >
+        <form @submit.prevent="submit">
+            <gv-error-summary v-if="hasErrors()" title="There is a problem">
+                <gv-error-link
+                    v-for="(message, field) in form.errors"
+                    :key="field"
+                    :target-id="field"
+                    :text="message"
+                />
+            </gv-error-summary>
 
-        <main class="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:px-8">
-            <h1 class="text-2xl font-bold text-fg">New community page</h1>
-            <form :action="`${cityBaseUrl}/community`" method="post" class="mt-6 space-y-4">
-                <input type="hidden" name="_token" :value="$page.props.csrf_token" />
-                <div>
-                    <label class="block text-sm font-medium text-fg">Type *</label>
-                    <select v-model="form.type" name="type" class="mt-1 block w-full rounded-token-md border border-border bg-input text-fg shadow-sm focus:border-focus focus:ring-focus">
-                        <option value="bike_shop">Bike shop</option>
-                        <option value="club">Club</option>
-                        <option value="recurring_event">Recurring event</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-fg">Name *</label>
-                    <input v-model="form.name" type="text" name="name" required class="mt-1 block w-full rounded-token-md border border-border bg-input text-fg shadow-sm focus:border-focus focus:ring-focus" />
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-fg">About</label>
-                    <textarea v-model="form.about" name="about" rows="4" class="mt-1 block w-full rounded-token-md border border-border bg-input text-fg shadow-sm focus:border-focus focus:ring-focus"></textarea>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-fg">Event info</label>
-                    <textarea v-model="form.event_info" name="event_info" rows="2" class="mt-1 block w-full rounded-token-md border border-border bg-input text-fg shadow-sm focus:border-focus focus:ring-focus"></textarea>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-fg">Sales info</label>
-                    <textarea v-model="form.sales_info" name="sales_info" rows="2" class="mt-1 block w-full rounded-token-md border border-border bg-input text-fg shadow-sm focus:border-focus focus:ring-focus"></textarea>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-fg">Contact address</label>
-                    <input v-model="form.contact_address" type="text" name="contact_address" class="mt-1 block w-full rounded-token-md border border-border bg-input text-fg shadow-sm focus:border-focus focus:ring-focus" />
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-fg">Contact email</label>
-                    <input v-model="form.contact_email" type="email" name="contact_email" class="mt-1 block w-full rounded-token-md border border-border bg-input text-fg shadow-sm focus:border-focus focus:ring-focus" />
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-fg">Contact phone</label>
-                    <input v-model="form.contact_phone" type="text" name="contact_phone" class="mt-1 block w-full rounded-token-md border border-border bg-input text-fg shadow-sm focus:border-focus focus:ring-focus" />
-                </div>
-                <button type="submit" class="rounded-token-md bg-primary px-4 py-2 text-sm font-medium text-primary-fg hover:opacity-90">Submit</button>
-                <a :href="`${cityBaseUrl}/community`" class="ml-3 rounded-token-md border border-border bg-card px-4 py-2 text-sm font-medium text-fg hover:opacity-90">Cancel</a>
-            </form>
-        </main>
-    </div>
+            <gv-select
+                id="type"
+                v-model="form.type"
+                name="type"
+                label="Type *"
+                required
+                :error-message="form.errors.type"
+            >
+                <gv-select-option value="bike_shop">Bike shop</gv-select-option>
+                <gv-select-option value="club">Club</gv-select-option>
+                <gv-select-option value="recurring_event">Recurring event</gv-select-option>
+            </gv-select>
+
+            <gv-input
+                id="name"
+                v-model="form.name"
+                name="name"
+                label="Name *"
+                type="text"
+                required
+                :error-message="form.errors.name"
+                class="govuk-!-width-full"
+            />
+
+            <gv-textarea
+                id="about"
+                v-model="form.about"
+                name="about"
+                label="About"
+                :rows="4"
+                class="govuk-!-width-full"
+            />
+
+            <gv-textarea
+                id="event_info"
+                v-model="form.event_info"
+                name="event_info"
+                label="Event info"
+                :rows="2"
+                class="govuk-!-width-full"
+            />
+
+            <gv-textarea
+                id="sales_info"
+                v-model="form.sales_info"
+                name="sales_info"
+                label="Sales info"
+                :rows="2"
+                class="govuk-!-width-full"
+            />
+
+            <gv-input
+                id="contact_address"
+                v-model="form.contact_address"
+                name="contact_address"
+                label="Contact address"
+                type="text"
+                class="govuk-!-width-full"
+            />
+
+            <gv-input
+                id="contact_email"
+                v-model="form.contact_email"
+                name="contact_email"
+                label="Contact email"
+                type="email"
+                :error-message="form.errors.contact_email"
+                class="govuk-!-width-full"
+            />
+
+            <gv-input
+                id="contact_phone"
+                v-model="form.contact_phone"
+                name="contact_phone"
+                label="Contact phone"
+                type="text"
+                class="govuk-!-width-full"
+            />
+
+            <div class="govuk-button-group govuk-!-margin-top-6">
+                <gv-button type="submit" variant="primary" :disabled="form.processing">
+                    Submit
+                </gv-button>
+                <a :href="`${cityBaseUrl}/community`" class="govuk-link">Cancel</a>
+            </div>
+        </form>
+    </CreatePageLayout>
 </template>

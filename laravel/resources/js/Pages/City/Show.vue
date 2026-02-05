@@ -121,7 +121,10 @@ function submitSearch() {
 
             <!-- 5. Listings preview (max 20) -->
             <section class="space-y-4">
-                <h2 class="text-xl font-semibold text-fg">Listings</h2>
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <h2 class="text-xl font-semibold text-fg">Listings</h2>
+                    <a v-if="$page.props.auth.user" :href="`${cityBaseUrl}/listings/new`" class="rounded-token-md bg-primary px-4 py-2 text-sm font-medium text-primary-fg hover:opacity-90 underline">New listing</a>
+                </div>
                 <ul v-if="listingsPreviewSafe.length > 0" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                     <li v-for="listing in listingsPreviewSafe" :key="listing.id">
                         <ListingCard

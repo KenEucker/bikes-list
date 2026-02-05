@@ -42,6 +42,7 @@ function saveSearchUrl() {
     <div class="min-h-screen flex flex-col bg-page">
         <CityNav :city="city" :city-base-url="cityBaseUrl" breadcrumb="Listings">
             <template #nav-right>
+                <Link v-if="$page.props.auth.user" :href="`${cityBaseUrl}/listings/new`" class="rounded-token-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-fg hover:opacity-90 underline">New listing</Link>
                 <Link v-if="$page.props.auth.user" :href="$page.props.urls?.accountSettings || '/account/settings'" class="text-sm text-muted hover:text-fg underline">Profile</Link>
                 <Link v-else :href="$page.props.urls?.signIn || '/account/sign-in'" class="text-sm text-muted hover:text-fg underline">Log in</Link>
             </template>
@@ -72,7 +73,10 @@ function saveSearchUrl() {
                 <Link v-if="$page.props.auth.user" :href="saveSearchUrl()" class="rounded-token-md border border-border bg-card px-4 py-2 text-sm font-medium text-fg hover:bg-page underline">Save search</Link>
             </div>
 
-            <h1 class="govuk-heading-l">Listings</h1>
+            <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+                <h1 class="govuk-heading-l">Listings</h1>
+                <Link v-if="$page.props.auth.user" :href="`${cityBaseUrl}/listings/new`" class="rounded-token-md bg-primary px-4 py-2 text-sm font-medium text-primary-fg hover:opacity-90 underline">New listing</Link>
+            </div>
             <ul class="govuk-list govuk-!-margin-top-4 divide-y divide-border border-t border-border">
                 <li v-for="listing in listings.data" :key="listing.id" class="py-3">
                     <Link :href="`${cityBaseUrl}/listings/${listing.id}`" class="flex items-center gap-4 no-underline hover:underline">

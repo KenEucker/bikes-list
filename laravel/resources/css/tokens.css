@@ -67,3 +67,69 @@ button:focus-visible,
     outline: 2px solid rgb(var(--focus));
     outline-offset: 2px;
 }
+
+/* GOV.UK component dark mode overrides – use design tokens */
+.govuk-heading-l,
+.govuk-heading-m,
+.govuk-heading-s {
+    color: rgb(var(--fg));
+}
+
+.govuk-link {
+    color: rgb(var(--primary));
+}
+
+.govuk-link:hover {
+    color: rgb(var(--primary));
+}
+
+.govuk-link:focus {
+    color: rgb(var(--fg));
+}
+
+.govuk-body {
+    color: rgb(var(--fg));
+}
+
+.govuk-body--secondary,
+.govuk-hint {
+    color: rgb(var(--muted));
+}
+
+/* Form labels and field text */
+.govuk-label,
+.govuk-fieldset__legend,
+.govuk-checkboxes__label,
+.govuk-radios__label {
+    color: rgb(var(--fg));
+}
+
+/* Error summary and messages */
+.govuk-error-summary__title,
+.govuk-error-summary__body,
+.govuk-error-message {
+    color: rgb(var(--fg));
+}
+
+.govuk-error-summary__list a {
+    color: rgb(var(--danger));
+}
+
+/* Form inputs – ensure text and background use tokens */
+.govuk-input,
+.govuk-textarea,
+.govuk-select {
+    color: rgb(var(--fg));
+    background-color: rgb(var(--input));
+    border-color: rgb(var(--border));
+}
+
+.govuk-input::placeholder,
+.govuk-textarea::placeholder {
+    color: rgb(var(--muted));
+}
+
+/* Button group text */
+.govuk-button-group .govuk-link {
+    color: rgb(var(--primary));
+}

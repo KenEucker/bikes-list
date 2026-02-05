@@ -57,6 +57,11 @@ class HandleInertiaRequests extends Middleware
             'dashboardUrl' => $base . '/dashboard',
             'logo' => asset('bikeslist.png'),
             'appName' => config('app.name'),
+            'flash' => [
+                'status' => fn () => $request->session()->get('status'),
+                'error' => fn () => $request->session()->get('error'),
+            ],
+            'status' => fn () => $request->session()->get('status'),
         ];
     }
 }

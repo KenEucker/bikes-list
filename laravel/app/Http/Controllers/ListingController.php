@@ -61,18 +61,22 @@ class ListingController extends Controller
             $listing->load('attachments');
         }
 
+        $cityBaseUrl = self::cityBaseUrl(request(), $citySlug);
+
         $relayAddress = null;
         if (($listing->state === Listing::STATE_PUBLISHED || $listing->state === Listing::STATE_SOLD) && $listing->relayAddress) {
-            $relayAddress = $listing->relayAddress->token . '@' . config('mail.relay_domain', 'reply.bikeslist.example.com');
+            $relayDomain = parse_url($cityBaseUrl, PHP_URL_HOST) ?? parse_url(config('app.url'), PHP_URL_HOST);
+            $relayAddress = 'listing-' . $listing->id . '-' . $listing->relayAddress->token . '@' . $relayDomain;
         }
 
-        $cityBaseUrl = self::cityBaseUrl(request(), $citySlug);
+        $reportRelayDomain = parse_url($cityBaseUrl, PHP_URL_HOST) ?? parse_url(config('app.url'), PHP_URL_HOST);
+        $moderatorRelayEmail = 'report-listing-' . $listing->id . '@' . $reportRelayDomain;
 
         return Inertia::render('Listings/Show', [
             'city' => $city,
             'listing' => $listing,
             'relayEmailAddress' => $relayAddress,
-            'moderatorRelayEmail' => config('bikeslist.moderator_relay_email'),
+            'moderatorRelayEmail' => $moderatorRelayEmail,
             'bikeIndexUrl' => config('bikeslist.bike_index_search_url'),
             'listingTypes' => config('listing_types'),
             'homeUrl' => config('app.url'),
@@ -92,6 +96,9 @@ class ListingController extends Controller
         $listingTypes = config('listing_types');
         $conditions = $listingTypes['conditions'] ?? [];
         unset($listingTypes['conditions']);
+        $errors = $request->session()->get('errors');
+        $errorBag = $errors && $errors->hasBag('default') ? $errors->getBag('default')->toArray() : [];
+
         return Inertia::render('Listings/Create', [
             'city' => $city,
             'listingTypes' => $listingTypes,
@@ -99,6 +106,8 @@ class ListingController extends Controller
             'managedCommunityPages' => $managedPages,
             'homeUrl' => config('app.url'),
             'cityBaseUrl' => $cityBaseUrl,
+            'errors' => $errorBag,
+            'old' => $request->old(),
         ]);
     }
 
@@ -106,6 +115,11 @@ class ListingController extends Controller
     {
         $city = City::query()->where('slug', $citySlug)->firstOrFail();
         Gate::authorize('create', Listing::class);
+
+        $request->merge([
+            'community_page_id' => in_array($request->input('community_page_id'), [null, '', 'null'], true) ? null : $request->input('community_page_id'),
+            'price' => in_array($request->input('price'), [null, '', 'null'], true) ? null : $request->input('price'),
+        ]);
 
         $validated = $request->validate([
             'title' => ['required', 'string', 'min:6', 'max:80'],
@@ -134,8 +148,12 @@ class ListingController extends Controller
 
         $listing = Listing::create($validated);
 
+        $status = $listing->state === Listing::STATE_PENDING_REVIEW
+            ? 'Listing submitted for review. It will be published automatically if not reviewed by a moderator.'
+            : 'Listing created as draft.';
+
         return redirect()->route('city.listings.show', [$citySlug, $listing])
-            ->with('status', 'Listing created as draft.');
+            ->with('status', $status);
     }
 
     public function edit(string $citySlug, Listing $listing): Response
@@ -229,7 +247,7 @@ class ListingController extends Controller
         ]);
         $listing->searchable();
 
-        if (!$listing->relayAddress) {
+        if (! $listing->relayAddress) {
             ListingRelayAddress::create([
                 'listing_id' => $listing->id,
                 'token' => ListingRelayAddress::generateToken(),

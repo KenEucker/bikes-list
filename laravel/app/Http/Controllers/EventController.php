@@ -43,12 +43,14 @@ class EventController extends Controller
 
         $relayAddress = $event->organizer_email_hidden ? null : $event->organizer_email;
         $cityBaseUrl = self::cityBaseUrl(request(), $citySlug);
+        $reportRelayDomain = parse_url($cityBaseUrl, PHP_URL_HOST) ?? parse_url(config('app.url'), PHP_URL_HOST);
+        $moderatorRelayEmail = 'report-event-' . $event->id . '@' . $reportRelayDomain;
 
         return Inertia::render('Events/Show', [
             'city' => $city,
             'event' => $event,
             'organizerRelayEmail' => $relayAddress,
-            'moderatorRelayEmail' => config('bikeslist.moderator_relay_email'),
+            'moderatorRelayEmail' => $moderatorRelayEmail,
             'homeUrl' => config('app.url'),
             'cityBaseUrl' => $cityBaseUrl,
         ]);
@@ -62,6 +64,9 @@ class EventController extends Controller
         $user = $request->user();
         $managedPages = $user->managedCommunityPages()->where('community_pages.city_id', $city->id)->where('community_pages.state', 'approved')->get();
 
+        $errors = $request->session()->get('errors');
+        $errorBag = $errors && $errors->hasBag('default') ? $errors->getBag('default')->toArray() : [];
+
         return Inertia::render('Events/Create', [
             'city' => $city,
             'guidelines' => $guidelines,
@@ -69,6 +74,8 @@ class EventController extends Controller
             'eventTags' => config('event_tags'),
             'homeUrl' => config('app.url'),
             'cityBaseUrl' => self::cityBaseUrl($request, $citySlug),
+            'errors' => $errorBag,
+            'old' => $request->old(),
         ]);
     }
 

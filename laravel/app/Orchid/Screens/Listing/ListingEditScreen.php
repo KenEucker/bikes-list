@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Orchid\Screens\Listing;
 
 use App\Models\Listing;
+use App\Models\ListingRelayAddress;
 use App\Models\ModerationAction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -44,6 +45,10 @@ class ListingEditScreen extends Screen
     public function commandBar(): iterable
     {
         return [
+            Button::make(__('Approve / Publish'))
+                ->icon('bs.check-circle')
+                ->method('approve')
+                ->canSee(in_array($this->listing->state, [Listing::STATE_DRAFT, Listing::STATE_PENDING_REVIEW])),
             Button::make(__('Revert to draft'))
                 ->icon('bs.arrow-counterclockwise')
                 ->method('revertToDraft')
@@ -60,6 +65,29 @@ class ListingEditScreen extends Screen
         return [
             Layout::view('orchid.listing-view', ['listing' => $this->listing]),
         ];
+    }
+
+    public function approve(Request $request, Listing $listing)
+    {
+        $listing->update([
+            'state' => Listing::STATE_PUBLISHED,
+            'published_at' => now(),
+        ]);
+        $listing->searchable();
+        if (! $listing->relayAddress) {
+            ListingRelayAddress::create([
+                'listing_id' => $listing->id,
+                'token' => ListingRelayAddress::generateToken(),
+            ]);
+        }
+        ModerationAction::create([
+            'user_id' => $request->user()->id,
+            'action' => 'approved',
+            'subject_type' => Listing::class,
+            'subject_id' => $listing->id,
+        ]);
+        Toast::success(__('Listing approved and published.'));
+        return back();
     }
 
     public function revertToDraft(Request $request, Listing $listing)

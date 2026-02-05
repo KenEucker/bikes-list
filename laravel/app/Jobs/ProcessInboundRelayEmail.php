@@ -39,8 +39,17 @@ class ProcessInboundRelayEmail implements ShouldQueue
             return;
         }
 
-        $relay = ListingRelayAddress::query()->where('token', $this->token)->first();
-        if (!$relay) {
+        $relay = null;
+        $parsed = $this->parseListingToken($this->token);
+        if ($parsed) {
+            $relay = ListingRelayAddress::query()
+                ->where('listing_id', $parsed['listing_id'])
+                ->where('token', $parsed['token'])
+                ->first();
+        } else {
+            $relay = ListingRelayAddress::query()->where('token', $this->token)->first();
+        }
+        if (! $relay) {
             Log::warning('Relay: unknown token', ['token' => $this->token]);
             return;
         }
@@ -67,5 +76,23 @@ class ProcessInboundRelayEmail implements ShouldQueue
             'recipient' => $recipientEmail,
             'reply_to_token' => $thread->reply_to_token,
         ]);
+    }
+
+    private function parseListingToken(string $localPart): ?array
+    {
+        if (! str_starts_with($localPart, 'listing-')) {
+            return null;
+        }
+        $parts = explode('-', substr($localPart, 8), 2);
+        if (count($parts) < 2) {
+            return null;
+        }
+        $listingId = (int) $parts[0];
+        $token = $parts[1] ?? '';
+        if ($listingId < 1 || $token === '') {
+            return null;
+        }
+
+        return ['listing_id' => $listingId, 'token' => $token];
     }
 }

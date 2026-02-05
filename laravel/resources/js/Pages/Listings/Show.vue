@@ -1,5 +1,6 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import CityNav from '@/Components/CityNav.vue';
 import RelayEmailBlock from '@/Components/RelayEmailBlock.vue';
 import ReportBlock from '@/Components/ReportBlock.vue';
@@ -15,6 +16,10 @@ const props = defineProps({
     cityBaseUrl: { type: String, required: true },
 });
 
+const page = usePage();
+const status = computed(() => page.props.status ?? page.props.flash?.status);
+const error = computed(() => page.props.flash?.error);
+
 const typeLabel = props.listingTypes[props.listing.type]?.label ?? props.listing.type;
 const mailtoSubject = `Re: Listing – ${props.listing.title} – ${props.listing.id}`;
 </script>
@@ -22,6 +27,9 @@ const mailtoSubject = `Re: Listing – ${props.listing.title} – ${props.listin
 <template>
     <Head :title="listing.title" />
     <div class="min-h-screen bg-page">
+        <gv-notification-banner v-if="status" type="success" title="Success" class="rounded-none border-x-0 border-t-0">
+            <p class="govuk-body">{{ status }}</p>
+        </gv-notification-banner>
         <CityNav :city="city" :city-base-url="cityBaseUrl" :breadcrumb="['Listings', listing.title]">
             <template #nav-right>
                 <a :href="`${cityBaseUrl}/listings`" class="text-sm text-muted hover:text-fg underline">Back to listings</a>
@@ -31,6 +39,9 @@ const mailtoSubject = `Re: Listing – ${props.listing.title} – ${props.listin
         </CityNav>
 
         <main class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+            <gv-notification-banner v-if="error" title="Error" class="mb-6">
+                <p class="govuk-body">{{ error }}</p>
+            </gv-notification-banner>
             <h1 class="text-2xl font-bold text-fg">{{ listing.title }}</h1>
             <p class="mt-1 text-sm text-muted">{{ typeLabel }} · {{ listing.price != null ? `$${Number(listing.price).toLocaleString()}` : 'Free' }}</p>
 

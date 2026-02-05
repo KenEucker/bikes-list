@@ -43,7 +43,7 @@ class CommunityPageController extends Controller
         return Inertia::render('CommunityPages/Show', [
             'city' => $city,
             'communityPage' => $communityPage,
-            'moderatorRelayEmail' => config('bikeslist.moderator_relay_email'),
+            'moderatorRelayEmail' => 'report-page-' . $communityPage->slug . '@' . (parse_url($cityBaseUrl, PHP_URL_HOST) ?? parse_url(config('app.url'), PHP_URL_HOST)),
             'homeUrl' => config('app.url'),
             'cityBaseUrl' => $cityBaseUrl,
         ]);
@@ -58,10 +58,15 @@ class CommunityPageController extends Controller
 
         $cityBaseUrl = self::cityBaseUrl($request, $citySlug);
 
+        $errors = $request->session()->get('errors');
+        $errorBag = $errors && $errors->hasBag('default') ? $errors->getBag('default')->toArray() : [];
+
         return Inertia::render('CommunityPages/Create', [
             'city' => $city,
             'homeUrl' => config('app.url'),
             'cityBaseUrl' => $cityBaseUrl,
+            'errors' => $errorBag,
+            'old' => $request->old(),
         ]);
     }
 
