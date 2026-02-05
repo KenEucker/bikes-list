@@ -69,6 +69,7 @@ button:focus-visible,
 }
 
 /* GOV.UK component dark mode overrides – use design tokens */
+.govuk-heading-xl,
 .govuk-heading-l,
 .govuk-heading-m,
 .govuk-heading-s {
@@ -132,4 +133,122 @@ button:focus-visible,
 /* Button group text */
 .govuk-button-group .govuk-link {
     color: rgb(var(--primary));
+}
+
+/* Header: white in light mode (GOV.UK default is black) */
+:root .govuk-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid rgb(var(--border));
+}
+
+:root .govuk-header__link,
+:root .govuk-header__link:visited,
+:root .govuk-header__product-name {
+    color: rgb(var(--fg));
+}
+
+:root .govuk-header__link:hover {
+    color: rgb(var(--primary));
+}
+
+:root .govuk-header__navigation-item a,
+:root .govuk-header__navigation-item a:visited {
+    color: rgb(var(--fg));
+}
+
+:root .govuk-header__navigation-item a:hover {
+    color: rgb(var(--primary));
+}
+
+:root .govuk-header__menu-button {
+    color: rgb(var(--fg));
+    background-color: transparent;
+    border-color: rgb(var(--border));
+}
+
+/* Header: dark mode – use theme background and colours */
+[data-theme="dark"] .govuk-header {
+    background-color: rgb(var(--bg));
+    border-bottom: 1px solid rgb(var(--border));
+}
+
+[data-theme="dark"] .govuk-header__link,
+[data-theme="dark"] .govuk-header__link:visited,
+[data-theme="dark"] .govuk-header__product-name {
+    color: rgb(var(--fg));
+}
+
+[data-theme="dark"] .govuk-header__logo .govuk-header__product-name {
+    color: rgb(var(--fg));
+}
+
+[data-theme="dark"] .govuk-header__link:hover {
+    color: rgb(var(--primary));
+}
+
+[data-theme="dark"] .govuk-header__navigation-item a,
+[data-theme="dark"] .govuk-header__navigation-item a:visited {
+    color: rgb(var(--fg));
+}
+
+[data-theme="dark"] .govuk-header__navigation-item a:hover {
+    color: rgb(var(--primary));
+}
+
+[data-theme="dark"] .govuk-header__menu-button {
+    color: rgb(var(--fg));
+    background-color: transparent;
+    border-color: rgb(var(--border));
+}
+
+/* Header logo: invert in dark mode (black logo → white on dark background) */
+[data-theme="dark"] .govuk-header__logo img {
+    filter: invert(1);
+}
+
+/* Footer logo: invert in dark mode */
+[data-theme="dark"] .govuk-footer img {
+    filter: invert(1);
+}
+
+/* Footer: light mode – use theme background (match header) */
+:root .govuk-footer {
+    background-color: rgb(var(--bg));
+    border-top: 1px solid rgb(var(--border));
+    color: rgb(var(--fg));
+}
+
+:root .govuk-footer__link,
+:root .govuk-footer__link:visited {
+    color: rgb(var(--primary));
+}
+
+:root .govuk-footer__link:hover {
+    color: rgb(var(--primary));
+}
+
+:root .govuk-footer__copyright-text,
+:root .govuk-footer__meta {
+    color: rgb(var(--muted));
+}
+
+/* Footer: dark mode – use theme background */
+[data-theme="dark"] .govuk-footer {
+    background-color: rgb(var(--bg));
+    border-top: 1px solid rgb(var(--border));
+    color: rgb(var(--fg));
+}
+
+[data-theme="dark"] .govuk-footer__link,
+[data-theme="dark"] .govuk-footer__link:visited {
+    color: rgb(var(--primary));
+}
+
+[data-theme="dark"] .govuk-footer__link:hover {
+    color: rgb(var(--primary));
+}
+
+[data-theme="dark"] .govuk-footer__copyright-text,
+[data-theme="dark"] .govuk-footer__meta {
+    color: rgb(var(--muted));
 }

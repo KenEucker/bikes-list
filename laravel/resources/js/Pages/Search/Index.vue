@@ -1,7 +1,7 @@
 <script setup>
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
-import CityNav from '@/Components/CityNav.vue';
+import CityLayout from '@/Layouts/CityLayout.vue';
 import ListingCard from '@/Components/ListingCard.vue';
 import EventCard from '@/Components/EventCard.vue';
 import PageCard from '@/Components/PageCard.vue';
@@ -31,25 +31,25 @@ function doSearch() {
 
 <template>
     <Head :title="`Search – ${city.name}`" />
-    <div class="min-h-screen bg-page">
-        <CityNav :city="city" :city-base-url="cityBaseUrl" breadcrumb="Search">
-            <template #nav-right>
-                <a :href="cityBaseUrl" class="text-sm text-muted hover:text-fg underline">Back to city</a>
-            </template>
-        </CityNav>
+    <CityLayout :city="city" :city-base-url="cityBaseUrl" breadcrumb="Search">
+        <template #nav-right>
+            <a :href="cityBaseUrl" class="govuk-link">Back to city</a>
+        </template>
 
-        <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
             <h1 class="text-2xl font-bold text-fg">Search</h1>
-            <form class="mt-4 flex gap-2" @submit.prevent="doSearch">
-                <input
-                    v-model="q"
-                    type="search"
-                    placeholder="Search listings, events, pages..."
-                    class="block w-full max-w-md rounded-token-md border border-border bg-input text-fg shadow-sm focus:border-focus focus:ring-focus"
-                />
+            <form class="mt-4 flex flex-wrap gap-2" @submit.prevent="doSearch">
+                <div class="min-w-0 flex-1 basis-40">
+                    <input
+                        v-model="q"
+                        type="search"
+                        placeholder="Search listings, events, pages..."
+                        class="block w-full min-w-0 rounded-token-md border border-border bg-input text-fg shadow-sm focus:border-focus focus:ring-focus"
+                    />
+                </div>
                 <button
                     type="submit"
-                    class="rounded-token-md bg-primary px-4 py-2 text-sm font-medium text-primary-fg hover:opacity-90"
+                    class="rounded-token-md bg-primary px-4 py-2 text-sm font-medium text-primary-fg hover:opacity-90 shrink-0"
                 >
                     Search
                 </button>
@@ -129,6 +129,6 @@ function doSearch() {
                     </template>
                 </div>
             </div>
-        </main>
-    </div>
+        </div>
+    </CityLayout>
 </template>

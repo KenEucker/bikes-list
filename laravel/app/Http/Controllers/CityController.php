@@ -10,7 +10,7 @@ use Inertia\Response;
 
 class CityController extends Controller
 {
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $cities = City::query()->orderBy('country')->orderBy('state_province')->orderBy('name')->get();
 
@@ -27,10 +27,53 @@ class CityController extends Controller
             ];
         })->values()->all();
 
+        $preferredCountryCode = $this->preferredCountryFromRequest($request);
+        if ($preferredCountryCode !== null) {
+            $grouped = $this->sortGroupedWithCountryFirst($grouped, $preferredCountryCode);
+        }
+
         return Inertia::render('Home', [
             'cities' => $cities,
             'grouped' => $grouped,
         ]);
+    }
+
+    /**
+     * Parse Accept-Language to get the user's likely country/region code (e.g. "en-GB" → "GB").
+     */
+    private function preferredCountryFromRequest(Request $request): ?string
+    {
+        $header = $request->header('Accept-Language', '');
+        $first = trim(explode(',', $header)[0] ?? '');
+        if ($first === '') {
+            return null;
+        }
+        $parts = explode('-', $first);
+        if (count($parts) < 2 || strlen($parts[1]) !== 2) {
+            return null;
+        }
+        return strtoupper($parts[1]);
+    }
+
+    /**
+     * Sort grouped cities so the given country code's groups appear first (rest keep relative order).
+     *
+     * @param array<int, array{country: string, state_province: ?string, cities: array}> $grouped
+     * @return array<int, array{country: string, state_province: ?string, cities: array}>
+     */
+    private function sortGroupedWithCountryFirst(array $grouped, string $countryCode): array
+    {
+        $matching = [];
+        $other = [];
+        foreach ($grouped as $g) {
+            $code = $g['country'] ?? '';
+            if (strtoupper((string) $code) === $countryCode) {
+                $matching[] = $g;
+            } else {
+                $other[] = $g;
+            }
+        }
+        return array_merge($matching, $other);
     }
 
     public function show(Request $request, string $city): Response

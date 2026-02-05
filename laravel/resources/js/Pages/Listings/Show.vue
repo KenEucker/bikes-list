@@ -1,9 +1,8 @@
 <script setup>
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
-import CityNav from '@/Components/CityNav.vue';
-import RelayEmailBlock from '@/Components/RelayEmailBlock.vue';
-import ReportBlock from '@/Components/ReportBlock.vue';
+import CityLayout from '@/Layouts/CityLayout.vue';
+import EmailRelayCard from '@/Components/EmailRelayCard.vue';
 
 const props = defineProps({
     city: { type: Object, required: true },
@@ -26,22 +25,20 @@ const mailtoSubject = `Re: Listing – ${props.listing.title} – ${props.listin
 
 <template>
     <Head :title="listing.title" />
-    <div class="min-h-screen bg-page">
-        <gv-notification-banner v-if="status" type="success" title="Success" class="rounded-none border-x-0 border-t-0">
-            <p class="govuk-body">{{ status }}</p>
-        </gv-notification-banner>
-        <CityNav :city="city" :city-base-url="cityBaseUrl" :breadcrumb="['Listings', listing.title]">
+    <CityLayout :city="city" :city-base-url="cityBaseUrl" :breadcrumb="['Listings', listing.title]">
             <template #nav-right>
-                <a :href="`${cityBaseUrl}/listings`" class="text-sm text-muted hover:text-fg underline">Back to listings</a>
-                <Link v-if="$page.props.auth.user" :href="$page.props.urls?.accountSettings || '/account/settings'" class="text-sm text-muted hover:text-fg underline">Account</Link>
-                <Link v-else :href="$page.props.urls?.signIn || '/account/sign-in'" class="text-sm text-muted hover:text-fg underline">Sign in</Link>
+                <a :href="`${cityBaseUrl}/listings`" class="govuk-link">Back to listings</a>
+                <Link v-if="$page.props.auth.user" :href="$page.props.urls?.accountSettings || '/account/settings'" class="govuk-link">Account</Link>
+                <Link v-else :href="$page.props.urls?.signIn || '/account/sign-in'" class="govuk-link">Sign in</Link>
             </template>
-        </CityNav>
 
-        <main class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-            <gv-notification-banner v-if="error" title="Error" class="mb-6">
-                <p class="govuk-body">{{ error }}</p>
+            <gv-notification-banner v-if="status" type="success" title="Success" class="rounded-none border-x-0 border-t-0">
+                <p class="govuk-body">{{ status }}</p>
             </gv-notification-banner>
+            <div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+                <gv-notification-banner v-if="error" title="Error" class="mb-6">
+                    <p class="govuk-body">{{ error }}</p>
+                </gv-notification-banner>
             <h1 class="text-2xl font-bold text-fg">{{ listing.title }}</h1>
             <p class="mt-1 text-sm text-muted">{{ typeLabel }} · {{ listing.price != null ? `$${Number(listing.price).toLocaleString()}` : 'Free' }}</p>
 
@@ -55,9 +52,10 @@ const mailtoSubject = `Re: Listing – ${props.listing.title} – ${props.listin
             </div>
 
             <div v-if="relayEmailAddress" class="mt-8">
-                <RelayEmailBlock
+                <EmailRelayCard
                     :email="relayEmailAddress"
                     label="Contact seller"
+                    note="Copy the address below and use your own email client. Your address is never shown to the recipient."
                     :mailto-subject="mailtoSubject"
                 />
             </div>
@@ -69,11 +67,11 @@ const mailtoSubject = `Re: Listing – ${props.listing.title} – ${props.listin
             </section>
 
             <div v-if="moderatorRelayEmail" class="mt-8">
-                <ReportBlock
-                    :moderator-relay-email="moderatorRelayEmail"
-                    item-type="Listing"
-                    :item-title="listing.title"
-                    :item-id-or-slug="listing.id"
+                <EmailRelayCard
+                    :email="moderatorRelayEmail"
+                    label="Report this listing"
+                    note="Email the city moderators. Include the subject so they can identify the item."
+                    :mailto-subject="`Report: Listing – ${listing.title} – ${listing.id}`"
                 />
             </div>
 
@@ -83,6 +81,6 @@ const mailtoSubject = `Re: Listing – ${props.listing.title} – ${props.listin
                     <Link v-if="listing.state === 'published'" :href="`${cityBaseUrl}/listings/${listing.id}/sold`" method="post" as="button" class="rounded-md bg-amber-600 px-4 py-2 text-sm font-medium text-white hover:bg-amber-700">Mark sold</Link>
                 </template>
             </div>
-        </main>
-    </div>
+        </div>
+    </CityLayout>
 </template>

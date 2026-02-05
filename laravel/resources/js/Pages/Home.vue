@@ -2,6 +2,7 @@
 import 'leaflet/dist/leaflet.css';
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import { ref, onMounted, computed } from 'vue';
+import PublicLayout from '@/Layouts/PublicLayout.vue';
 import ThemeToggle from '@/Components/ThemeToggle.vue';
 
 const props = defineProps({
@@ -10,7 +11,6 @@ const props = defineProps({
 });
 
 const page = usePage();
-const logo = page.props.logo || '/bikeslist.png';
 const urls = computed(() => page.props.urls || {});
 const mapRef = ref(null);
 const searchQuery = ref('');
@@ -63,37 +63,23 @@ onMounted(async () => {
 
 <template>
     <Head title="BikesList – Cities" />
-    <div class="min-h-screen flex flex-col bg-page">
-        <gv-header service-name="BikesList" :service-url="urls.home || '/'">
-            <template #logo>
-                <div class="govuk-header__logo">
-                    <Link :href="urls.home || '/'" class="govuk-header__link govuk-header__link--homepage flex items-center gap-2 no-underline">
-                        <img :src="logo" alt="BikesList" class="h-9 w-auto object-contain" />
-                        <span class="govuk-header__product-name">BikesList</span>
-                    </Link>
-                </div>
+    <PublicLayout>
+        <template #nav>
+            <li class="govuk-header__navigation-item">
+                <ThemeToggle />
+            </li>
+            <gv-header-navigation-item :href="urls.terms || '/terms'" text="Terms" />
+            <gv-header-navigation-item :href="urls.privacy || '/privacy'" text="Privacy" />
+            <gv-header-navigation-item v-if="$page.props.auth?.user" :href="urls.accountSettings || '/account/settings'" text="Account" />
+            <template v-else>
+                <gv-header-navigation-item :href="urls.signIn || '/account/sign-in'" text="Sign in" />
+                <gv-header-navigation-item :href="urls.signUp || '/account/sign-up'" text="Sign up" />
             </template>
-            <template #navigation>
-                <li class="govuk-header__navigation-item">
-                    <ThemeToggle />
-                </li>
-                <gv-header-navigation-item :href="urls.terms || '/terms'" text="Terms" />
-                <gv-header-navigation-item :href="urls.privacy || '/privacy'" text="Privacy" />
-                <gv-header-navigation-item v-if="$page.props.auth?.user" :href="urls.accountSettings || '/account/settings'" text="Account" />
-                <template v-else>
-                    <gv-header-navigation-item :href="urls.signIn || '/account/sign-in'" text="Sign in" />
-                    <gv-header-navigation-item :href="urls.signUp || '/account/sign-up'" text="Sign up" />
-                </template>
-            </template>
-        </gv-header>
+        </template>
 
-        <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
             <h1 class="govuk-heading-xl">BikesList</h1>
             <p class="mt-2 text-muted">Choose a city to view listings, events, and community pages.</p>
-
-            <div class="mt-6 h-[400px] w-full overflow-hidden rounded-token-md border border-border bg-card">
-                <div ref="mapRef" class="h-full w-full" />
-            </div>
 
             <div class="mt-8 max-w-md">
                 <gv-input
@@ -126,15 +112,10 @@ onMounted(async () => {
                     </section>
                 </template>
             </div>
-        </main>
-        <gv-footer class="mt-auto">
-            <template #meta>
-                <gv-footer-meta>
-                    <gv-footer-meta-item :href="urls.home || '/'">Choose city</gv-footer-meta-item>
-                    <gv-footer-meta-item :href="urls.terms || '/terms'">Terms</gv-footer-meta-item>
-                    <gv-footer-meta-item :href="urls.privacy || '/privacy'">Privacy</gv-footer-meta-item>
-                </gv-footer-meta>
-            </template>
-        </gv-footer>
-    </div>
+
+            <div class="mt-10 h-[400px] w-full overflow-hidden rounded-token-md border border-border bg-card">
+                <div ref="mapRef" class="h-full w-full" />
+            </div>
+        </div>
+    </PublicLayout>
 </template>

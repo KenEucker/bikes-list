@@ -1,11 +1,11 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
-import CityNav from '@/Components/CityNav.vue';
+import CityLayout from '@/Layouts/CityLayout.vue';
 
 defineProps({
     title: { type: String, required: true },
     headTitle: { type: String, default: null },
-    breadcrumb: { type: String, required: true },
+    breadcrumb: { type: [String, Array], required: true },
     city: { type: Object, required: true },
     cityBaseUrl: { type: String, required: true },
     backUrl: { type: String, required: true },
@@ -18,7 +18,11 @@ defineProps({
 
 <template>
     <Head :title="headTitle ?? title" />
-    <div class="min-h-screen bg-page">
+    <CityLayout :city="city" :city-base-url="cityBaseUrl" :breadcrumb="breadcrumb">
+        <template #nav-right>
+            <a :href="backUrl" class="govuk-link">{{ backLabel }}</a>
+        </template>
+
         <div
             v-if="submitting"
             class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-page/90"
@@ -29,13 +33,7 @@ defineProps({
                 <p class="mt-2 text-sm text-muted">Please wait, you will be redirected.</p>
             </div>
         </div>
-        <CityNav :city="city" :city-base-url="cityBaseUrl" :breadcrumb="breadcrumb">
-            <template #nav-right>
-                <a :href="backUrl" class="govuk-link">{{ backLabel }}</a>
-            </template>
-        </CityNav>
-
-        <main class="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:px-8">
             <h1 class="govuk-heading-l">{{ title }}</h1>
 
             <slot name="before-form" />
@@ -43,6 +41,6 @@ defineProps({
             <slot />
 
             <p v-if="footerNote" class="govuk-body govuk-!-margin-top-4">{{ footerNote }}</p>
-        </main>
-    </div>
+        </div>
+    </CityLayout>
 </template>

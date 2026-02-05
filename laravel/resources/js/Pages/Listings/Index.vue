@@ -1,6 +1,7 @@
 <script setup>
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
-import CityNav from '@/Components/CityNav.vue';
+import { computed, reactive } from 'vue';
+import CityLayout from '@/Layouts/CityLayout.vue';
 
 const page = usePage();
 const urls = page.props.urls || {};
@@ -14,15 +15,28 @@ const props = defineProps({
     cityBaseUrl: { type: String, required: true },
 });
 
-const form = {
+const form = reactive({
     q: props.filters.q ?? '',
     type: props.filters.type ?? '',
     min_price: props.filters.min_price ?? '',
     max_price: props.filters.max_price ?? '',
-};
+});
+
+/** Only types that have a label (excludes e.g. "conditions" from config) */
+const listingTypeOptions = computed(() => {
+    return Object.entries(props.listingTypes).filter(
+        ([, config]) => config && typeof config === 'object' && config.label
+    );
+});
 
 function search() {
-    router.get(route('city.listings.index', props.city.slug), form, { preserveState: true });
+    const url = `${props.cityBaseUrl}/listings`;
+    router.get(url, {
+        q: form.q || undefined,
+        type: form.type || undefined,
+        min_price: form.min_price || undefined,
+        max_price: form.max_price || undefined,
+    }, { preserveState: true });
 }
 
 function saveSearchUrl() {
@@ -41,17 +55,15 @@ function saveSearchUrl() {
 
 <template>
     <Head :title="`Listings – ${city.name}`" />
-    <div class="min-h-screen flex flex-col bg-page">
-        <CityNav :city="city" :city-base-url="cityBaseUrl" breadcrumb="Listings">
-            <template #nav-right>
-                <gv-header-navigation-item v-if="$page.props.auth?.user" :href="$page.props.urls?.accountSettings || '/account/settings'" text="Profile" />
-                <gv-header-navigation-item v-else :href="$page.props.urls?.signIn || '/account/sign-in'" text="Log in" />
-            </template>
-        </CityNav>
+    <CityLayout :city="city" :city-base-url="cityBaseUrl" breadcrumb="Listings">
+        <template #nav-right>
+            <gv-header-navigation-item v-if="$page.props.auth?.user" :href="$page.props.urls?.accountSettings || '/account/settings'" text="Profile" />
+            <gv-header-navigation-item v-else :href="$page.props.urls?.signIn || '/account/sign-in'" text="Log in" />
+        </template>
 
-        <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-            <div class="mb-6 flex flex-wrap items-end gap-4 rounded-token-md border border-border bg-card p-4">
-                <div class="flex-1 min-w-[120px]">
+        <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+            <div class="mb-6 grid gap-4 rounded-token-md border border-border bg-card p-4 sm:grid-cols-2 lg:grid-cols-4 lg:items-end">
+                <div class="min-w-0 col-span-full">
                     <gv-input
                         id="search-q"
                         v-model="form.q"
@@ -62,7 +74,7 @@ function saveSearchUrl() {
                         @keyup.enter="search"
                     />
                 </div>
-                <div class="w-40">
+                <div class="min-w-0">
                     <gv-select
                         id="search-type"
                         v-model="form.type"
@@ -70,10 +82,10 @@ function saveSearchUrl() {
                         class="govuk-!-width-full"
                     >
                         <gv-select-option value="">All</gv-select-option>
-                        <gv-select-option v-for="(config, key) in listingTypes" :key="key" :value="key">{{ config.label }}</gv-select-option>
+                        <gv-select-option v-for="[key, config] in listingTypeOptions" :key="key" :value="key">{{ config.label }}</gv-select-option>
                     </gv-select>
                 </div>
-                <div class="w-28">
+                <div class="min-w-0">
                     <gv-input
                         id="search-min-price"
                         v-model="form.min_price"
@@ -83,7 +95,7 @@ function saveSearchUrl() {
                         class="govuk-!-width-full"
                     />
                 </div>
-                <div class="w-28">
+                <div class="min-w-0">
                     <gv-input
                         id="search-max-price"
                         v-model="form.max_price"
@@ -93,7 +105,7 @@ function saveSearchUrl() {
                         class="govuk-!-width-full"
                     />
                 </div>
-                <div class="govuk-button-group">
+                <div class="govuk-button-group min-w-0 sm:col-span-2 lg:col-span-1">
                     <gv-button type="button" variant="primary" @click="search">Search</gv-button>
                     <Link v-if="$page.props.auth?.user" :href="saveSearchUrl()" class="govuk-link">Save search</Link>
                 </div>
@@ -127,15 +139,6 @@ function saveSearchUrl() {
                 :link-component="Link"
                 class="govuk-!-margin-top-6"
             />
-        </main>
-        <gv-footer class="mt-auto">
-            <template #meta>
-                <gv-footer-meta>
-                    <gv-footer-meta-item :href="urls.home || '/'">Choose city</gv-footer-meta-item>
-                    <gv-footer-meta-item :href="urls.terms || '/terms'">Terms</gv-footer-meta-item>
-                    <gv-footer-meta-item :href="urls.privacy || '/privacy'">Privacy</gv-footer-meta-item>
-                </gv-footer-meta>
-            </template>
-        </gv-footer>
-    </div>
+        </div>
+    </CityLayout>
 </template>

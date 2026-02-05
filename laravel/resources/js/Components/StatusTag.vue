@@ -25,7 +25,7 @@ const colourMap = {
     approved: 'green',
 };
 
-const label = labels[props.status] ?? props.status;
+const label = labels[props.status] ?? props.status.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 const colour = colourMap[props.status] ?? 'grey';
 </script>
 

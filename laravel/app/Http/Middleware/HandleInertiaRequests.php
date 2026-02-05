@@ -51,6 +51,7 @@ class HandleInertiaRequests extends Middleware
                 'verificationSend' => $base . '/email/verification-notification',
                 'savedSearches' => $base . '/account/saved-searches',
                 'home' => $base . '/',
+                'mainSite' => rtrim(config('app.url'), '/') . '/',
                 'terms' => $base . '/terms',
                 'privacy' => $base . '/privacy',
             ],

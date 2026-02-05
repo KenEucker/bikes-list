@@ -1,7 +1,7 @@
 <script setup>
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import CityCalendarList from '@/Components/CityCalendarList.vue';
-import CityNav from '@/Components/CityNav.vue';
+import CityLayout from '@/Layouts/CityLayout.vue';
 import ListingCard from '@/Components/ListingCard.vue';
 import { computed, ref } from 'vue';
 
@@ -15,8 +15,6 @@ const props = defineProps({
 });
 
 const page = usePage();
-const logo = page.props.logo || '/bikeslist.png';
-const appName = page.props.appName || 'BikesList';
 const searchQuery = ref('');
 
 function safeArray(val) {
@@ -42,10 +40,8 @@ function submitSearch() {
 
 <template>
     <Head :title="city.name" />
-    <div class="min-h-screen bg-page">
-        <CityNav :city="city" :city-base-url="cityBaseUrl" />
-
-        <main class="govuk-width-container govuk-!-padding-top-8 govuk-!-padding-bottom-8 space-y-10">
+    <CityLayout :city="city" :city-base-url="cityBaseUrl">
+        <div class="govuk-width-container govuk-!-padding-top-8 govuk-!-padding-bottom-8 space-y-10">
             <h1 class="govuk-heading-xl">{{ city.name }}</h1>
             <p v-if="city.description" class="text-muted">{{ city.description }}</p>
 
@@ -83,10 +79,10 @@ function submitSearch() {
                 <form
                     :action="`${cityBaseUrl}/search`"
                     method="get"
-                    class="flex max-w-xl gap-2"
+                    class="flex max-w-xl flex-wrap gap-2"
                     @submit.prevent="submitSearch"
                 >
-                    <div class="flex-1">
+                    <div class="min-w-0 flex-1 basis-40">
                         <gv-input
                             id="city-search"
                             v-model="searchQuery"
@@ -101,6 +97,7 @@ function submitSearch() {
                         v-show="searchQuery.trim().length > 0"
                         type="submit"
                         variant="primary"
+                        class="shrink-0"
                     >
                         Search
                     </gv-button>
@@ -127,6 +124,6 @@ function submitSearch() {
             </section>
 
             <a :href="homeUrl" class="inline-block text-muted underline hover:text-fg">Back to cities</a>
-        </main>
-    </div>
+        </div>
+    </CityLayout>
 </template>
