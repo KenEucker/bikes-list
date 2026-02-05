@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\City;
 use App\Models\CommunityPage;
+use App\Models\Upload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
@@ -36,7 +37,7 @@ class CommunityPageController extends Controller
         $city = City::query()->where('slug', $citySlug)->firstOrFail();
         $communityPage = CommunityPage::query()->where('city_id', $city->id)->where('slug', $slug)->firstOrFail();
         Gate::authorize('view', $communityPage);
-        $communityPage->load(['city', 'managers', 'listings' => fn ($q) => $q->where('state', 'published')->limit(10), 'events' => fn ($q) => $q->where('state', 'published')->where('ends_at', '>=', now())->orderBy('starts_at')->limit(10)]);
+        $communityPage->load(['city', 'managers', 'uploads', 'listings' => fn ($q) => $q->where('state', 'published')->limit(10), 'events' => fn ($q) => $q->where('state', 'published')->where('ends_at', '>=', now())->orderBy('starts_at')->limit(10)]);
 
         $cityBaseUrl = self::cityBaseUrl(request(), $citySlug);
 
@@ -85,6 +86,8 @@ class CommunityPageController extends Controller
             'contact_address' => ['nullable', 'string', 'max:255'],
             'contact_email' => ['nullable', 'email'],
             'contact_phone' => ['nullable', 'string', 'max:50'],
+            'upload_ids' => ['nullable', 'array'],
+            'upload_ids.*' => ['uuid', 'exists:uploads,id'],
         ]);
         $data = $request->only(['type', 'name', 'about', 'event_info', 'sales_info', 'contact_address', 'contact_email', 'contact_phone']);
         $data['city_id'] = $city->id;
@@ -94,6 +97,7 @@ class CommunityPageController extends Controller
         $page = CommunityPage::create($data);
         $page->update(['slug' => Str::slug($page->name) . '-' . $page->id]);
         $page->managers()->attach($request->user()->id, ['role' => 'owner']);
+        $this->syncPageUploads($page, $request->input('upload_ids', []), $request->user()->id);
         return redirect()->route('city.community-pages.show', [$citySlug, $page->slug])->with('status', 'Page submitted for review. It will be approved automatically if not reviewed by a moderator.');
     }
 
@@ -103,6 +107,8 @@ class CommunityPageController extends Controller
         $communityPage = CommunityPage::query()->where('city_id', $city->id)->where('slug', $slug)->firstOrFail();
         Gate::authorize('update', $communityPage);
         $cityBaseUrl = self::cityBaseUrl(request(), $citySlug);
+
+        $communityPage->load('uploads');
 
         return Inertia::render('CommunityPages/Edit', [
             'city' => $city,
@@ -125,9 +131,31 @@ class CommunityPageController extends Controller
             'contact_address' => ['nullable', 'string', 'max:255'],
             'contact_email' => ['nullable', 'email'],
             'contact_phone' => ['nullable', 'string', 'max:50'],
+            'upload_ids' => ['nullable', 'array'],
+            'upload_ids.*' => ['uuid', 'exists:uploads,id'],
         ]);
         // Approved pages stay approved when updated (do not touch state)
         $communityPage->update($request->only(['name', 'about', 'event_info', 'sales_info', 'contact_address', 'contact_email', 'contact_phone']));
+        $this->syncPageUploads($communityPage, $request->input('upload_ids', []), $request->user()->id);
         return redirect()->route('city.community-pages.show', [$citySlug, $communityPage->slug])->with('status', 'Page updated.');
+    }
+
+    private function syncPageUploads(CommunityPage $page, array $uploadIds, int $userId): void
+    {
+        $ids = collect($uploadIds)->filter()->unique()->values()->all();
+        $allowed = Upload::query()
+            ->where('status', Upload::STATUS_READY)
+            ->where('created_by', $userId)
+            ->whereIn('id', $ids)
+            ->pluck('id')
+            ->all();
+        $pivot = [];
+        foreach (array_values($allowed) as $i => $id) {
+            $pivot[$id] = ['position' => $i];
+        }
+        $page->uploads()->sync($pivot);
+        Upload::query()
+            ->whereIn('id', $allowed)
+            ->update(['resource_type' => 'pages', 'resource_id' => (string) $page->id]);
     }
 }

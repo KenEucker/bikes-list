@@ -37,6 +37,7 @@ services:
     depends_on:
       - db
       - meilisearch
+      - minio
 
   web:
     image: nginx:1.27-alpine
@@ -93,7 +94,52 @@ services:
       RUN_MIGRATIONS: "false"
     depends_on:
       - db
+      - minio
+
+  minio:
+    image: minio/minio
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+
+  minio-init:
+    image: minio/mc
+    depends_on:
+      minio:
+        condition: service_started
+    env_file:
+      - laravel/.env
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      UPLOADS_BUCKET: ${UPLOADS_BUCKET:-uploads}
+      UPLOADS_VISIBILITY: ${UPLOADS_VISIBILITY:-public}
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        set -e
+        echo "Waiting for MinIO to accept connections..."
+        until mc alias set myminio http://minio:9000 "$${MINIO_ROOT_USER}" "$${MINIO_ROOT_PASSWORD}" 2>/dev/null; do
+          echo "  MinIO not ready, retrying in 3s..."
+          sleep 3
+        done
+        until mc ls myminio >/dev/null 2>&1; do
+          echo "  MinIO not ready, retrying in 2s..."
+          sleep 2
+        done
+        mc mb myminio/$${UPLOADS_BUCKET} --ignore-existing
+        if [ "$${UPLOADS_VISIBILITY}" = "public" ]; then
+          mc anonymous set public myminio/$${UPLOADS_BUCKET}
+        fi
+        echo "Bucket $${UPLOADS_BUCKET} ready."
 
 volumes:
   pgdata:
   meilisearch_data:
+  minio_data:

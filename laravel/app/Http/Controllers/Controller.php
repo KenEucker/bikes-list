@@ -13,11 +13,17 @@ abstract class Controller
      */
     protected static function cityBaseUrl(Request $request, string $citySlug): string
     {
+        $requestHost = $request->getHost();
+        // Keep the user on the same domain they're using (e.g. portland.bikeslist.test).
+        if (str_starts_with($requestHost, $citySlug . '.')) {
+            $scheme = $request->getScheme();
+            $port = $request->getPort() && ! in_array($request->getPort(), [80, 443]) ? ':' . $request->getPort() : '';
+            return $scheme . '://' . $requestHost . $port;
+        }
         $appHost = parse_url(config('app.url'), PHP_URL_HOST);
         if ($appHost) {
             $baseHost = $appHost;
         } else {
-            $requestHost = $request->getHost();
             $baseHost = $requestHost;
             if (str_contains($requestHost, '.')) {
                 $parts = explode('.', $requestHost, 2);

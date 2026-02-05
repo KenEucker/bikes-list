@@ -41,10 +41,12 @@ const homeUrl = urls.home || '/';
                 Built with ❤️ from KenEucker.
             </template>
             <template #copyright>
-                <img :src="logo" alt="BikesList" class="h-6 justify-center" />
-                <span class="govuk-footer__copyright-text ml-2 justify-center">
-                    BikesList &copy; {{ new Date().getFullYear() }}
-                </span>
+                <div class="flex items-center">
+                    <img :src="logo" alt="BikesList" class="h-6 justify-center" />
+                    <span class="govuk-footer__copyright-text ml-2 justify-center">
+                        BikesList &copy; {{ new Date().getFullYear() }}
+                    </span>
+                </div>
             </template>
         </gv-footer>
     </div>

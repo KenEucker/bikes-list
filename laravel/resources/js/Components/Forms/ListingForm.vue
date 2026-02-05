@@ -1,6 +1,6 @@
 <script setup>
-import { useForm } from '@inertiajs/vue3';
-import { computed, watch } from 'vue';
+import { useForm, usePage } from '@inertiajs/vue3';
+import { computed, ref, watch } from 'vue';
 
 const emit = defineEmits(['update:processing']);
 
@@ -21,6 +21,10 @@ const submitUrl = computed(() =>
 
 const oldInput = props.old || {};
 const listing = props.listing || {};
+const initialUploadIds = (listing.uploads && Array.isArray(listing.uploads))
+    ? listing.uploads.map((u) => u.id)
+    : [];
+
 const form = useForm({
     type: oldInput.type ?? listing.type ?? 'full_bicycle',
     title: oldInput.title ?? listing.title ?? '',
@@ -32,7 +36,64 @@ const form = useForm({
     serial_number: oldInput.serial_number ?? listing.serial_number ?? '',
     serial_private: oldInput.serial_private !== '0' && oldInput.serial_private !== 0 && (listing.serial_private !== false),
     submit_for_review: true,
+    upload_ids: initialUploadIds,
 });
+
+const MAX_UPLOAD_BYTES = 10 * 1024 * 1024; // 10MB
+
+const uploadProcessing = ref(false);
+const uploadError = ref(null);
+const page = usePage();
+
+async function onImageSelect(event) {
+    const file = event.target?.files?.[0];
+    if (!file) return;
+    if (file.size > MAX_UPLOAD_BYTES) {
+        uploadError.value = 'File is too large. Max size is 10MB.';
+        event.target.value = '';
+        return;
+    }
+    uploadError.value = null;
+    uploadProcessing.value = true;
+    try {
+        const formData = new FormData();
+        formData.append('file', file);
+        const csrf = page.props?.csrf_token || document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        if (csrf) formData.append('_token', csrf);
+        const res = await fetch('/api/uploads', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                Accept: 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            body: formData,
+        });
+        if (res.status === 413) {
+            uploadError.value = 'File is too large. Max size is 10MB.';
+            return;
+        }
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+            let message = data?.errors?.file?.[0] || data?.message || 'Upload failed';
+            if (message === 'The file failed to upload.') {
+                message = 'The file failed to upload. It may be too large. Max size is 10MB.';
+            }
+            uploadError.value = message;
+            return;
+        }
+        if (data.upload_id) {
+            form.upload_ids = [...(form.upload_ids || []), data.upload_id];
+        }
+    } finally {
+        uploadProcessing.value = false;
+        event.target.value = '';
+    }
+}
+
+function removeUploadId(id) {
+    form.upload_ids = (form.upload_ids || []).filter((uid) => uid !== id);
+}
 
 function conditionsList() {
     const c = props.conditions && typeof props.conditions === 'object' && !Array.isArray(props.conditions)
@@ -179,6 +240,33 @@ watch(() => form.processing, (v) => emit('update:processing', v), { immediate: t
                 {{ page.name }}
             </gv-select-option>
         </gv-select>
+
+        <div class="govuk-form-group govuk-!-margin-top-4">
+            <label class="govuk-label" for="images">Images</label>
+            <p class="govuk-hint">JPEG, PNG, WebP or BMP. Max 10MB each. You can add up to several images.</p>
+            <input
+                id="images"
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/bmp"
+                class="govuk-file-upload"
+                :disabled="uploadProcessing"
+                @change="onImageSelect"
+            >
+            <p v-if="uploadError" class="govuk-error-message govuk-!-margin-top-2">{{ uploadError }}</p>
+            <p v-if="uploadProcessing" class="govuk-body govuk-!-margin-top-2">Uploading…</p>
+            <ul v-if="form.upload_ids && form.upload_ids.length" class="govuk-list govuk-!-margin-top-2">
+                <li v-for="(uid, idx) in form.upload_ids" :key="uid" class="govuk-!-margin-bottom-1">
+                    <span class="govuk-body-s">Image {{ idx + 1 }}</span>
+                    <button
+                        type="button"
+                        class="govuk-link govuk-body-s govuk-!-margin-left-2"
+                        @click="removeUploadId(uid)"
+                    >
+                        Remove
+                    </button>
+                </li>
+            </ul>
+        </div>
 
         <div class="govuk-button-group govuk-!-margin-top-6">
             <template v-if="!isEdit">

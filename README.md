@@ -22,6 +22,13 @@ Then open:
 127.0.0.1 localhost austin.localhost portland.localhost denver.localhost seattle.localhost minneapolis.localhost
 ```
 
+### Uploads (images)
+
+- **Env:** The app reads `laravel/.env`. Copy the MinIO/uploads block from `docs/env-uploads.example` into **laravel/.env** (not the project root `.env`). Restart `docker compose up` after editing.
+- **Admin:** In Admin go to **Roles** → edit your role → enable **Uploads** under System so the **Uploads** menu appears (bucket status and list).
+- **Frontend:** Listings create/edit pages have an **Images** section; add images there and submit. Processed images appear on the listing and in Admin → Uploads.
+- **401 on upload:** The app’s `config/sanctum.php` treats the **current request host** as stateful, so API uploads work from any subdomain (e.g. `portland.bikeslist.test`) without setting `SANCTUM_STATEFUL_DOMAINS`. If you removed that config, set `SANCTUM_STATEFUL_DOMAINS` to your frontend domain(s).
+
 ### Reset the database
 
 ```bash

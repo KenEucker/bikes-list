@@ -1,0 +1,41 @@
+# ---------------------------------------------------------------------------
+# BikesList Uploads – copy these into laravel/.env (see bikeslist-uploads.spec.md)
+#
+# Important: The app container reads laravel/.env, NOT the project root .env.
+# Copy this block into laravel/.env so the app and queue workers see MinIO
+# and uploads config.
+# ---------------------------------------------------------------------------
+
+# ----- MinIO (development, Docker) -----
+MINIO_ROOT_USER=minioadmin
+MINIO_ROOT_PASSWORD=minioadmin
+
+UPLOADS_DRIVER=s3
+UPLOADS_BUCKET=uploads
+UPLOADS_REGION=us-east-1
+UPLOADS_KEY=minioadmin
+UPLOADS_SECRET=minioadmin
+UPLOADS_ENDPOINT=http://minio:9000
+UPLOADS_URL=http://localhost:9000/uploads
+UPLOADS_PATH_STYLE=true
+UPLOADS_VISIBILITY=public
+UPLOADS_PREFIX=uploads
+UPLOADS_PROCESS_SYNC=false
+
+# Optional: only needed if you do not publish Sanctum config. The app's published
+# config/sanctum.php adds the current request host as stateful so subdomains
+# (e.g. portland.bikeslist.test) work for API uploads without listing each one.
+# SANCTUM_STATEFUL_DOMAINS=portland.bikeslist.test,bikeslist.test
+
+# ----- DigitalOcean Spaces (production) -----
+# MINIO_* not used in prod
+# UPLOADS_DRIVER=s3
+# UPLOADS_BUCKET=your-space-name
+# UPLOADS_REGION=nyc3
+# UPLOADS_KEY=your-spaces-key
+# UPLOADS_SECRET=your-spaces-secret
+# UPLOADS_ENDPOINT=https://nyc3.digitaloceanspaces.com
+# UPLOADS_URL=https://your-space-name.nyc3.digitaloceanspaces.com
+# UPLOADS_PATH_STYLE=false
+# UPLOADS_VISIBILITY=public
+# UPLOADS_PREFIX=uploads

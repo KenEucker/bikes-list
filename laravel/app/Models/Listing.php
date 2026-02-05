@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laravel\Scout\Searchable;
 use Orchid\Attachment\Attachable;
 use Orchid\Screen\AsSource;
@@ -80,6 +81,13 @@ class Listing extends Model
     public function flags(): MorphMany
     {
         return $this->morphMany(Flag::class, 'flaggable');
+    }
+
+    public function uploads(): MorphToMany
+    {
+        return $this->morphToMany(Upload::class, 'uploadable', 'uploadables')
+            ->withPivot('position')
+            ->orderByPivot('position');
     }
 
     public function toSearchableArray(): array

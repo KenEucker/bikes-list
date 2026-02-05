@@ -6,6 +6,7 @@ use App\Models\City;
 use App\Models\Event;
 use App\Models\EventGuidelineAcceptance;
 use App\Models\Guideline;
+use App\Models\Upload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -39,7 +40,7 @@ class EventController extends Controller
             abort(404);
         }
         Gate::authorize('view', $event);
-        $event->load(['user', 'city', 'communityPage', 'associatedCommunityPages']);
+        $event->load(['user', 'city', 'communityPage', 'associatedCommunityPages', 'uploads']);
 
         $relayAddress = $event->organizer_email_hidden ? null : $event->organizer_email;
         $cityBaseUrl = self::cityBaseUrl(request(), $citySlug);
@@ -104,6 +105,8 @@ class EventController extends Controller
             'guidelines_accepted' => ['required', 'accepted'],
             'guideline_ids' => ['required', 'array'],
             'guideline_ids.*' => ['exists:guidelines,id'],
+            'upload_ids' => ['nullable', 'array'],
+            'upload_ids.*' => ['uuid', 'exists:uploads,id'],
         ]);
         $user = $request->user();
         $data = $request->only([
@@ -130,6 +133,7 @@ class EventController extends Controller
                 'accepted_at' => now(),
             ]);
         }
+        $this->syncEventUploads($event, $request->input('upload_ids', []), $user->id);
         // TODO: Send "Event submitted" email to creator
         return redirect()->route('city.events.show', [$citySlug, $event])->with('status', 'Event submitted for review. It will be published automatically if not reviewed by a moderator.');
     }
@@ -178,6 +182,8 @@ class EventController extends Controller
             'recurrence_ends_at' => ['nullable', 'date'],
             'tags' => ['nullable', 'array'],
             'tags.*' => ['string', 'in:' . implode(',', array_keys(config('event_tags', [])))],
+            'upload_ids' => ['nullable', 'array'],
+            'upload_ids.*' => ['uuid', 'exists:uploads,id'],
         ]);
         $data = $request->only([
             'title', 'description', 'organizer_name', 'organizer_email_hidden',
@@ -187,6 +193,26 @@ class EventController extends Controller
         ]);
         $data['community_page_id'] = $request->input('community_page_id') ?: null;
         $event->update($data);
+        $this->syncEventUploads($event, $request->input('upload_ids', []), $request->user()->id);
         return redirect()->route('city.events.show', [$citySlug, $event])->with('status', 'Event updated.');
+    }
+
+    private function syncEventUploads(Event $event, array $uploadIds, int $userId): void
+    {
+        $ids = collect($uploadIds)->filter()->unique()->values()->all();
+        $allowed = Upload::query()
+            ->where('status', Upload::STATUS_READY)
+            ->where('created_by', $userId)
+            ->whereIn('id', $ids)
+            ->pluck('id')
+            ->all();
+        $pivot = [];
+        foreach (array_values($allowed) as $i => $id) {
+            $pivot[$id] = ['position' => $i];
+        }
+        $event->uploads()->sync($pivot);
+        Upload::query()
+            ->whereIn('id', $allowed)
+            ->update(['resource_type' => 'events', 'resource_id' => (string) $event->id]);
     }
 }

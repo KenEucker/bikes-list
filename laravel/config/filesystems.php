@@ -60,6 +60,20 @@ return [
             'report' => false,
         ],
 
+        'uploads' => [
+            'driver' => 's3',
+            'key' => env('UPLOADS_KEY'),
+            'secret' => env('UPLOADS_SECRET'),
+            'region' => env('UPLOADS_REGION', 'us-east-1'),
+            'bucket' => env('UPLOADS_BUCKET'),
+            'url' => env('UPLOADS_URL'),
+            'endpoint' => env('UPLOADS_ENDPOINT'),
+            'use_path_style_endpoint' => env('UPLOADS_PATH_STYLE', false),
+            'visibility' => env('UPLOADS_VISIBILITY', 'public'),
+            'throw' => false,
+            'report' => false,
+        ],
+
     ],
 
     /*

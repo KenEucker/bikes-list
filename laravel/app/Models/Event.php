@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Laravel\Scout\Searchable;
 use Orchid\Screen\AsSource;
 
@@ -86,6 +87,13 @@ class Event extends Model
     public function associatedCommunityPages(): BelongsToMany
     {
         return $this->belongsToMany(CommunityPage::class, 'event_community_page');
+    }
+
+    public function uploads(): MorphToMany
+    {
+        return $this->morphToMany(Upload::class, 'uploadable', 'uploadables')
+            ->withPivot('position')
+            ->orderByPivot('position');
     }
 
     public function toSearchableArray(): array

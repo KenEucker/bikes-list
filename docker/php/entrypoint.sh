@@ -3,6 +3,13 @@ set -euo pipefail
 
 cd /var/www/html
 
+# Ensure PHP upload limits are comfortably above our 10MB
+# application-level limit so we can show a clear error.
+cat > /usr/local/etc/php/conf.d/99-uploads.ini <<'EOF'
+upload_max_filesize=12M
+post_max_size=12M
+EOF
+
 # Persisted APP_KEY path (survives restarts; sessions stay valid)
 APP_KEY_FILE="storage/app/.app_key"
 

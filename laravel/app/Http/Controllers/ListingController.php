@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\City;
 use App\Models\Listing;
 use App\Models\ListingRelayAddress;
+use App\Models\Upload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -56,7 +57,7 @@ class ListingController extends Controller
         }
         Gate::authorize('view', $listing);
 
-        $listing->load(['user:id,name', 'city', 'communityPage:id,name', 'relayAddress']);
+        $listing->load(['user:id,name', 'city', 'communityPage:id,name', 'relayAddress', 'uploads']);
         if ($listing->state === Listing::STATE_PUBLISHED || $listing->state === Listing::STATE_SOLD) {
             $listing->load('attachments');
         }
@@ -132,6 +133,8 @@ class ListingController extends Controller
             'attributes' => ['nullable', 'array'],
             'serial_number' => ['nullable', 'string', 'max:100'],
             'serial_private' => ['boolean'],
+            'upload_ids' => ['nullable', 'array'],
+            'upload_ids.*' => ['uuid', 'exists:uploads,id'],
         ]);
 
         $validated['city_id'] = $city->id;
@@ -148,11 +151,15 @@ class ListingController extends Controller
 
         $listing = Listing::create($validated);
 
+        $this->syncListingUploads($listing, $request->input('upload_ids', []), $request->user()->id);
+
         $status = $listing->state === Listing::STATE_PENDING_REVIEW
             ? 'Listing submitted for review. It will be published automatically if not reviewed by a moderator.'
             : 'Listing created as draft.';
 
-        return redirect()->route('city.listings.show', [$citySlug, $listing])
+        $cityBaseUrl = self::cityBaseUrl($request, $citySlug);
+
+        return redirect()->to($cityBaseUrl . '/listings/' . $listing->id)
             ->with('status', $status);
     }
 
@@ -164,7 +171,7 @@ class ListingController extends Controller
         }
         Gate::authorize('update', $listing);
 
-        $listing->load('attachments');
+        $listing->load(['attachments', 'uploads']);
         $user = request()->user();
         $managedPages = $user->managedCommunityPages()->where('community_pages.city_id', $city->id)->where('community_pages.state', 'approved')->get();
         $cityBaseUrl = self::cityBaseUrl(request(), $citySlug);
@@ -202,6 +209,8 @@ class ListingController extends Controller
             'attributes' => ['nullable', 'array'],
             'serial_number' => ['nullable', 'string', 'max:100'],
             'serial_private' => ['boolean'],
+            'upload_ids' => ['nullable', 'array'],
+            'upload_ids.*' => ['uuid', 'exists:uploads,id'],
         ]);
 
         if (isset($validated['community_page_id']) && $validated['community_page_id']) {
@@ -215,7 +224,11 @@ class ListingController extends Controller
         $validated['serial_private'] = $request->boolean('serial_private', true);
         $listing->update($validated);
 
-        return redirect()->route('city.listings.show', [$citySlug, $listing])
+        $this->syncListingUploads($listing, $request->input('upload_ids', []), $request->user()->id);
+
+        $cityBaseUrl = self::cityBaseUrl($request, $citySlug);
+
+        return redirect()->to($cityBaseUrl . '/listings/' . $listing->id)
             ->with('status', 'Listing updated.');
     }
 
@@ -253,8 +266,9 @@ class ListingController extends Controller
                 'token' => ListingRelayAddress::generateToken(),
             ]);
         }
+        $cityBaseUrl = self::cityBaseUrl($request, $citySlug);
 
-        return redirect()->route('city.listings.show', [$citySlug, $listing])
+        return redirect()->to($cityBaseUrl . '/listings/' . $listing->id)
             ->with('status', 'Listing published.');
     }
 
@@ -269,7 +283,29 @@ class ListingController extends Controller
         $listing->update(['state' => Listing::STATE_SOLD]);
         $listing->searchable();
 
-        return redirect()->route('city.listings.show', [$citySlug, $listing])
+        $cityBaseUrl = self::cityBaseUrl($request, $citySlug);
+
+        return redirect()->to($cityBaseUrl . '/listings/' . $listing->id)
             ->with('status', 'Listing marked as sold.');
+    }
+
+    private function syncListingUploads(Listing $listing, array $uploadIds, int $userId): void
+    {
+        $ids = collect($uploadIds)->filter()->unique()->values()->all();
+        // Allow READY and PROCESSING so uploads still processing when the form is submitted get attached.
+        $allowed = Upload::query()
+            ->whereIn('status', [Upload::STATUS_READY, Upload::STATUS_PROCESSING])
+            ->where('created_by', $userId)
+            ->whereIn('id', $ids)
+            ->pluck('id')
+            ->all();
+        $pivot = [];
+        foreach (array_values($allowed) as $i => $id) {
+            $pivot[$id] = ['position' => $i];
+        }
+        $listing->uploads()->sync($pivot);
+        Upload::query()
+            ->whereIn('id', $allowed)
+            ->update(['resource_type' => 'listings', 'resource_id' => (string) $listing->id]);
     }
 }

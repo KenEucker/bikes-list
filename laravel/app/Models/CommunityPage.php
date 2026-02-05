@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Orchid\Screen\AsSource;
 
 class CommunityPage extends Model
@@ -80,5 +81,12 @@ class CommunityPage extends Model
     public function events(): BelongsToMany
     {
         return $this->belongsToMany(Event::class, 'event_community_page');
+    }
+
+    public function uploads(): MorphToMany
+    {
+        return $this->morphToMany(Upload::class, 'uploadable', 'uploadables')
+            ->withPivot('position')
+            ->orderByPivot('position');
     }
 }

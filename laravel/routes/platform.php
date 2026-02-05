@@ -18,6 +18,9 @@ use App\Orchid\Screens\Listing\ListingListScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
+use App\Orchid\Screens\Upload\BucketStatusScreen;
+use App\Orchid\Screens\Upload\UploadDetailScreen;
+use App\Orchid\Screens\Upload\UploadListScreen;
 use App\Orchid\Screens\User\UserEditScreen;
 use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\User\UserProfileScreen;
@@ -165,3 +168,22 @@ Route::screen('roles', RoleListScreen::class)
     ->breadcrumbs(fn (Trail $trail) => $trail
         ->parent('platform.index')
         ->push(__('Roles'), route('platform.systems.roles')));
+
+// Uploads
+Route::screen('uploads/bucket', BucketStatusScreen::class)
+    ->name('platform.uploads.bucket')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push(__('Bucket status'), route('platform.uploads.bucket')));
+
+Route::screen('uploads', UploadListScreen::class)
+    ->name('platform.uploads.list')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push(__('Uploads'), route('platform.uploads.list')));
+
+Route::screen('uploads/{upload}', UploadDetailScreen::class)
+    ->name('platform.uploads.detail')
+    ->breadcrumbs(fn (Trail $trail, $upload) => $trail
+        ->parent('platform.uploads.list')
+        ->push($upload->id ?? __('Upload'), route('platform.uploads.detail', $upload)));

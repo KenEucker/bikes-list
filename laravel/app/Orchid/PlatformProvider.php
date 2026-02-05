@@ -70,6 +70,11 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.moderation.claims')
                 ->permission('platform.moderation.claims'),
 
+            Menu::make(__('Uploads'))
+                ->icon('bs.cloud-upload')
+                ->route('platform.uploads.bucket')
+                ->permission('platform.systems.uploads'),
+
             Menu::make(__('Users'))
                 ->icon('bs.people')
                 ->route('platform.systems.users')
@@ -97,7 +102,8 @@ class PlatformProvider extends OrchidServiceProvider
                 ->addPermission('platform.systems.events', __('Events'))
                 ->addPermission('platform.systems.guidelines', __('Guidelines'))
                 ->addPermission('platform.systems.roles', __('Roles'))
-                ->addPermission('platform.systems.users', __('Users')),
+                ->addPermission('platform.systems.users', __('Users'))
+                ->addPermission('platform.systems.uploads', __('Uploads')),
             ItemPermission::group(__('Moderation'))
                 ->addPermission('platform.moderation.flagged', __('Flagged listings'))
                 ->addPermission('platform.moderation.claims', __('Claim requests')),
