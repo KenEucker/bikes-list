@@ -1,7 +1,6 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import CityNav from '@/Components/CityNav.vue';
-import StatusChip from '@/Components/StatusChip.vue';
 
 defineProps({
     city: { type: Object, required: true },
@@ -38,7 +37,7 @@ defineProps({
                                 <a :href="`${cityBaseUrl}/events/${event.id}`" class="font-medium text-primary underline">{{ event.title }}</a>
                             </td>
                             <td class="px-4 py-2 text-sm text-muted">{{ event.starts_at ? new Date(event.starts_at).toLocaleDateString() : '' }}</td>
-                            <td class="px-4 py-2"><StatusChip :status="event.state" /></td>
+                            <td class="px-4 py-2"><StatusTag :status="event.state" /></td>
                             <td class="px-4 py-2 text-right">
                                 <a :href="`${cityBaseUrl}/events/${event.id}/edit`" class="text-sm text-muted hover:text-fg underline">Edit</a>
                             </td>

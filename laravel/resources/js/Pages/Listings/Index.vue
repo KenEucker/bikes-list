@@ -1,7 +1,9 @@
 <script setup>
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import CityNav from '@/Components/CityNav.vue';
-import Footer from '@/Components/Footer.vue';
+
+const page = usePage();
+const urls = page.props.urls || {};
 
 const props = defineProps({
     city: { type: Object, required: true },
@@ -42,40 +44,64 @@ function saveSearchUrl() {
     <div class="min-h-screen flex flex-col bg-page">
         <CityNav :city="city" :city-base-url="cityBaseUrl" breadcrumb="Listings">
             <template #nav-right>
-                <Link v-if="$page.props.auth.user" :href="`${cityBaseUrl}/listings/new`" class="rounded-token-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-fg hover:opacity-90 underline">New listing</Link>
-                <Link v-if="$page.props.auth.user" :href="$page.props.urls?.accountSettings || '/account/settings'" class="text-sm text-muted hover:text-fg underline">Profile</Link>
-                <Link v-else :href="$page.props.urls?.signIn || '/account/sign-in'" class="text-sm text-muted hover:text-fg underline">Log in</Link>
+                <gv-header-navigation-item v-if="$page.props.auth?.user" :href="$page.props.urls?.accountSettings || '/account/settings'" text="Profile" />
+                <gv-header-navigation-item v-else :href="$page.props.urls?.signIn || '/account/sign-in'" text="Log in" />
             </template>
         </CityNav>
 
         <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
             <div class="mb-6 flex flex-wrap items-end gap-4 rounded-token-md border border-border bg-card p-4">
                 <div class="flex-1 min-w-[120px]">
-                    <label class="block text-sm font-medium text-fg">Search</label>
-                    <input v-model="form.q" type="text" placeholder="Keywords..." class="mt-1 block w-full rounded-token-md border border-border bg-card text-fg shadow-sm focus:border-primary focus:ring-2 focus:ring-ring-focus" @keyup.enter="search" />
+                    <gv-input
+                        id="search-q"
+                        v-model="form.q"
+                        label="Search"
+                        type="text"
+                        placeholder="Keywords..."
+                        class="govuk-!-width-full"
+                        @keyup.enter="search"
+                    />
                 </div>
                 <div class="w-40">
-                    <label class="block text-sm font-medium text-fg">Type</label>
-                    <select v-model="form.type" class="mt-1 block w-full rounded-token-md border border-border bg-card text-fg focus:border-primary focus:ring-2 focus:ring-ring-focus">
-                        <option value="">All</option>
-                        <option v-for="(config, key) in listingTypes" :key="key" :value="key">{{ config.label }}</option>
-                    </select>
+                    <gv-select
+                        id="search-type"
+                        v-model="form.type"
+                        label="Type"
+                        class="govuk-!-width-full"
+                    >
+                        <gv-select-option value="">All</gv-select-option>
+                        <gv-select-option v-for="(config, key) in listingTypes" :key="key" :value="key">{{ config.label }}</gv-select-option>
+                    </gv-select>
                 </div>
                 <div class="w-28">
-                    <label class="block text-sm font-medium text-fg">Min $</label>
-                    <input v-model="form.min_price" type="number" min="0" step="0.01" class="mt-1 block w-full rounded-token-md border border-border bg-card text-fg focus:border-primary focus:ring-2 focus:ring-ring-focus" />
+                    <gv-input
+                        id="search-min-price"
+                        v-model="form.min_price"
+                        label="Min $"
+                        type="number"
+                        inputmode="decimal"
+                        class="govuk-!-width-full"
+                    />
                 </div>
                 <div class="w-28">
-                    <label class="block text-sm font-medium text-fg">Max $</label>
-                    <input v-model="form.max_price" type="number" min="0" step="0.01" class="mt-1 block w-full rounded-token-md border border-border bg-card text-fg focus:border-primary focus:ring-2 focus:ring-ring-focus" />
+                    <gv-input
+                        id="search-max-price"
+                        v-model="form.max_price"
+                        label="Max $"
+                        type="number"
+                        inputmode="decimal"
+                        class="govuk-!-width-full"
+                    />
                 </div>
-                <button type="button" class="rounded-token-md bg-primary px-4 py-2 text-sm font-medium text-primary-fg hover:opacity-90 focus:ring-2 focus:ring-ring-focus" @click="search">Search</button>
-                <Link v-if="$page.props.auth.user" :href="saveSearchUrl()" class="rounded-token-md border border-border bg-card px-4 py-2 text-sm font-medium text-fg hover:bg-page underline">Save search</Link>
+                <div class="govuk-button-group">
+                    <gv-button type="button" variant="primary" @click="search">Search</gv-button>
+                    <Link v-if="$page.props.auth?.user" :href="saveSearchUrl()" class="govuk-link">Save search</Link>
+                </div>
             </div>
 
             <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
                 <h1 class="govuk-heading-l">Listings</h1>
-                <Link v-if="$page.props.auth.user" :href="`${cityBaseUrl}/listings/new`" class="rounded-token-md bg-primary px-4 py-2 text-sm font-medium text-primary-fg hover:opacity-90 underline">New listing</Link>
+                <Link v-if="$page.props.auth?.user" :href="`${cityBaseUrl}/listings/new`" class="govuk-button" role="button">New listing</Link>
             </div>
             <ul class="govuk-list govuk-!-margin-top-4 divide-y divide-border border-t border-border">
                 <li v-for="listing in listings.data" :key="listing.id" class="py-3">
@@ -102,6 +128,14 @@ function saveSearchUrl() {
                 class="govuk-!-margin-top-6"
             />
         </main>
-        <Footer />
+        <gv-footer class="mt-auto">
+            <template #meta>
+                <gv-footer-meta>
+                    <gv-footer-meta-item :href="urls.home || '/'">Choose city</gv-footer-meta-item>
+                    <gv-footer-meta-item :href="urls.terms || '/terms'">Terms</gv-footer-meta-item>
+                    <gv-footer-meta-item :href="urls.privacy || '/privacy'">Privacy</gv-footer-meta-item>
+                </gv-footer-meta>
+            </template>
+        </gv-footer>
     </div>
 </template>

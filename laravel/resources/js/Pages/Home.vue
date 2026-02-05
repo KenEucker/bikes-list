@@ -3,7 +3,6 @@ import 'leaflet/dist/leaflet.css';
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import { ref, onMounted, computed } from 'vue';
 import ThemeToggle from '@/Components/ThemeToggle.vue';
-import Footer from '@/Components/Footer.vue';
 
 const props = defineProps({
     cities: { type: Array, default: () => [] },
@@ -65,45 +64,45 @@ onMounted(async () => {
 <template>
     <Head title="BikesList – Cities" />
     <div class="min-h-screen flex flex-col bg-page">
-        <nav class="border-b border-border bg-card">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="flex h-16 justify-between items-center">
-                    <div class="flex items-center gap-2">
-                        <Link :href="urls.home || '/'" class="flex items-center gap-2 no-underline">
-                            <img :src="logo" alt="BikesList" class="h-8 w-auto object-contain" />
-                            <span class="text-xl font-semibold text-fg">BikesList</span>
-                        </Link>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <ThemeToggle />
-                        <Link :href="urls.terms || '/terms'" class="text-sm text-muted hover:text-fg underline">Terms</Link>
-                        <Link :href="urls.privacy || '/privacy'" class="text-sm text-muted hover:text-fg underline">Privacy</Link>
-                        <Link v-if="$page.props.auth.user" :href="urls.accountSettings || '/account/settings'" class="text-sm text-muted hover:text-fg underline">Account</Link>
-                        <template v-else>
-                            <Link :href="urls.signIn || '/account/sign-in'" class="text-sm text-muted hover:text-fg underline">Sign in</Link>
-                            <Link :href="urls.signUp || '/account/sign-up'" class="text-sm text-muted hover:text-fg underline">Sign up</Link>
-                        </template>
-                    </div>
+        <gv-header service-name="BikesList" :service-url="urls.home || '/'">
+            <template #logo>
+                <div class="govuk-header__logo">
+                    <Link :href="urls.home || '/'" class="govuk-header__link govuk-header__link--homepage flex items-center gap-2 no-underline">
+                        <img :src="logo" alt="BikesList" class="h-9 w-auto object-contain" />
+                        <span class="govuk-header__product-name">BikesList</span>
+                    </Link>
                 </div>
-            </div>
-        </nav>
+            </template>
+            <template #navigation>
+                <li class="govuk-header__navigation-item">
+                    <ThemeToggle />
+                </li>
+                <gv-header-navigation-item :href="urls.terms || '/terms'" text="Terms" />
+                <gv-header-navigation-item :href="urls.privacy || '/privacy'" text="Privacy" />
+                <gv-header-navigation-item v-if="$page.props.auth?.user" :href="urls.accountSettings || '/account/settings'" text="Account" />
+                <template v-else>
+                    <gv-header-navigation-item :href="urls.signIn || '/account/sign-in'" text="Sign in" />
+                    <gv-header-navigation-item :href="urls.signUp || '/account/sign-up'" text="Sign up" />
+                </template>
+            </template>
+        </gv-header>
 
         <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-            <h1 class="text-3xl font-bold text-fg">BikesList</h1>
+            <h1 class="govuk-heading-xl">BikesList</h1>
             <p class="mt-2 text-muted">Choose a city to view listings, events, and community pages.</p>
 
             <div class="mt-6 h-[400px] w-full overflow-hidden rounded-token-md border border-border bg-card">
                 <div ref="mapRef" class="h-full w-full" />
             </div>
 
-            <div class="mt-8">
-                <label for="city-search" class="block text-sm font-medium text-fg">Search cities</label>
-                <input
+            <div class="mt-8 max-w-md">
+                <gv-input
                     id="city-search"
                     v-model="searchQuery"
+                    label="Search cities"
                     type="text"
                     placeholder="Type to filter..."
-                    class="mt-1 block w-full max-w-md rounded-token-md border border-border bg-input text-fg shadow-sm focus:border-focus focus:ring-focus"
+                    class="govuk-!-width-full"
                 />
             </div>
 
@@ -128,6 +127,14 @@ onMounted(async () => {
                 </template>
             </div>
         </main>
-        <Footer />
+        <gv-footer class="mt-auto">
+            <template #meta>
+                <gv-footer-meta>
+                    <gv-footer-meta-item :href="urls.home || '/'">Choose city</gv-footer-meta-item>
+                    <gv-footer-meta-item :href="urls.terms || '/terms'">Terms</gv-footer-meta-item>
+                    <gv-footer-meta-item :href="urls.privacy || '/privacy'">Privacy</gv-footer-meta-item>
+                </gv-footer-meta>
+            </template>
+        </gv-footer>
     </div>
 </template>

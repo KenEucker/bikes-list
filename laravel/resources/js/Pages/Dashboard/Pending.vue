@@ -1,7 +1,7 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import CityNav from '@/Components/CityNav.vue';
-import StatusChip from '@/Components/StatusChip.vue';
+import StatusTag from '@/Components/StatusTag.vue';
 
 defineProps({
     city: { type: Object, required: true },
@@ -30,7 +30,7 @@ defineProps({
                 <ul class="mt-2 space-y-2">
                     <li v-for="listing in listings" :key="listing.id" class="flex items-center justify-between rounded-token-md border border-border bg-card px-4 py-2">
                         <a :href="`${cityBaseUrl}/listings/${listing.id}`" class="font-medium text-primary underline">{{ listing.title }}</a>
-                        <StatusChip status="pending_review" />
+                        <StatusTag status="pending_review" />
                     </li>
                 </ul>
             </section>
@@ -39,7 +39,7 @@ defineProps({
                 <ul class="mt-2 space-y-2">
                     <li v-for="event in events" :key="event.id" class="flex items-center justify-between rounded-token-md border border-border bg-card px-4 py-2">
                         <a :href="`${cityBaseUrl}/events/${event.id}`" class="font-medium text-primary underline">{{ event.title }}</a>
-                        <StatusChip status="pending_review" />
+                        <StatusTag status="pending_review" />
                     </li>
                 </ul>
             </section>
@@ -48,7 +48,7 @@ defineProps({
                 <ul class="mt-2 space-y-2">
                     <li v-for="page in pages" :key="page.id" class="flex items-center justify-between rounded-token-md border border-border bg-card px-4 py-2">
                         <a :href="`${cityBaseUrl}/community/${page.slug}`" class="font-medium text-primary underline">{{ page.name }}</a>
-                        <StatusChip status="pending" />
+                        <StatusTag status="pending" />
                     </li>
                 </ul>
             </section>

@@ -1,5 +1,5 @@
 <script setup>
-import StatusChip from './StatusChip.vue';
+import StatusTag from './StatusTag.vue';
 
 defineProps({
     listing: { type: Object, required: true },
@@ -23,7 +23,7 @@ defineProps({
             {{ listingTypeLabel || listing.type }} · {{ listing.price != null ? `$${Number(listing.price).toLocaleString()}` : 'Free' }}
         </p>
         <div v-if="showStatus && listing.state" class="mt-2">
-            <StatusChip :status="listing.state" />
+            <StatusTag :status="listing.state" />
         </div>
     </a>
 </template>

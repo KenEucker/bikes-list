@@ -1,5 +1,6 @@
 <script setup>
-import { Head, Link, usePage } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
+import CityNav from '@/Components/CityNav.vue';
 
 defineProps({
     city: { type: Object, required: true },
@@ -7,35 +8,18 @@ defineProps({
     homeUrl: { type: String, default: '/' },
     counts: { type: Object, default: () => ({}) },
 });
-
-const page = usePage();
-const accountUrl = page.props.urls?.accountSettings ?? '/account/settings';
-const logo = page.props.logo || '/bikeslist.png';
-const appName = page.props.appName || 'BikesList';
 </script>
 
 <template>
     <Head :title="`Dashboard – ${city.name}`" />
     <div class="min-h-screen bg-page">
-        <nav class="border-b border-border bg-card">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="flex h-16 justify-between items-center">
-                    <div class="flex items-center gap-6">
-                        <a :href="cityBaseUrl" class="flex items-center gap-2 text-xl font-semibold text-fg no-underline">
-                            <img :src="logo" :alt="appName" class="h-8 w-auto object-contain" />
-                            <span>{{ appName }}</span>
-                        </a>
-                        <span class="text-muted">/ {{ city.name }}</span>
-                    </div>
-                    <div class="flex gap-4">
-                        <Link :href="`${cityBaseUrl}/dashboard`" class="text-sm font-medium text-primary underline">Dashboard</Link>
-                        <Link :href="accountUrl" class="text-sm text-muted hover:text-fg underline">Account</Link>
-                    </div>
-                </div>
-            </div>
-        </nav>
-        <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-            <h1 class="text-2xl font-bold text-fg">Dashboard</h1>
+        <CityNav :city="city" :city-base-url="cityBaseUrl" breadcrumb="Dashboard">
+            <template #nav-right>
+                <gv-header-navigation-item :href="$page.props.urls?.accountSettings || '/account/settings'" text="Account" />
+            </template>
+        </CityNav>
+        <main class="govuk-width-container govuk-!-padding-top-8 govuk-!-padding-bottom-8">
+            <h1 class="govuk-heading-l">Dashboard</h1>
             <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <Link :href="`${cityBaseUrl}/dashboard/listings`" class="rounded-token-md border border-border bg-card p-4 no-underline">
                     <span class="font-medium text-fg">Listings</span>

@@ -1,7 +1,7 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import CityNav from '@/Components/CityNav.vue';
-import StatusChip from '@/Components/StatusChip.vue';
+import StatusTag from '@/Components/StatusTag.vue';
 
 defineProps({
     city: { type: Object, required: true },
@@ -36,7 +36,7 @@ defineProps({
                             <td class="px-4 py-2">
                                 <a :href="`${cityBaseUrl}/listings/${listing.id}`" class="font-medium text-primary underline">{{ listing.title }}</a>
                             </td>
-                            <td class="px-4 py-2"><StatusChip :status="listing.state" /></td>
+                            <td class="px-4 py-2"><StatusTag :status="listing.state" /></td>
                             <td class="px-4 py-2 text-right">
                                 <a :href="`${cityBaseUrl}/listings/${listing.id}/edit`" class="text-sm text-muted hover:text-fg underline">Edit</a>
                             </td>

@@ -1,7 +1,6 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import CityNav from '@/Components/CityNav.vue';
-import StatusChip from '@/Components/StatusChip.vue';
 
 defineProps({
     city: { type: Object, required: true },
@@ -20,18 +19,18 @@ defineProps({
             </template>
         </CityNav>
         <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-            <h1 class="text-2xl font-bold text-fg">Pending community pages</h1>
+            <h1 class="govuk-heading-l">Pending community pages</h1>
             <ul class="mt-6 space-y-4">
                 <li v-for="page in pages.data" :key="page.id" class="rounded-token-md border border-border bg-card p-4">
                     <a :href="`${cityBaseUrl}/community/${page.slug}`" class="font-medium text-primary underline">{{ page.name }}</a>
                     <p class="mt-1 text-sm text-muted">By {{ page.created_by_user?.name ?? 'Unknown' }}</p>
-                    <StatusChip status="pending" class="mt-2" />
-                    <div class="mt-3 flex gap-2">
-                        <Link :href="`${cityBaseUrl}/moderation/pages/${page.id}/approve`" method="post" as="button" class="rounded-token-sm bg-green-600 px-3 py-1 text-sm text-white hover:bg-green-700">Approve</Link>
-                        <form :action="`${cityBaseUrl}/moderation/pages/${page.id}/remove`" method="post" class="inline">
+                    <StatusTag status="pending" class="mt-2" />
+                    <div class="mt-3 govuk-button-group">
+                        <Link :href="`${cityBaseUrl}/moderation/pages/${page.id}/approve`" method="post" as="button" class="govuk-button">Approve</Link>
+                        <form :action="`${cityBaseUrl}/moderation/pages/${page.id}/remove`" method="post" class="inline govuk-!-display-inline">
                             <input type="hidden" name="_token" :value="$page.props.csrf_token" />
-                            <input type="text" name="note" required placeholder="Reason (required)" class="mr-2 rounded-token-sm border border-border bg-input px-2 py-1 text-sm text-fg focus:border-focus focus:ring-focus" />
-                            <button type="submit" class="rounded-token-sm bg-red-600 px-3 py-1 text-sm text-white hover:bg-red-700">Remove</button>
+                            <input type="text" name="note" required placeholder="Reason (required)" class="govuk-input govuk-!-width-one-third govuk-!-margin-right-2" />
+                            <gv-button type="submit" variant="warning">Remove</gv-button>
                         </form>
                     </div>
                 </li>

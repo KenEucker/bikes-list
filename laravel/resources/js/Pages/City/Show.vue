@@ -1,6 +1,7 @@
 <script setup>
-import { Head, router, usePage } from '@inertiajs/vue3';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import CityCalendarList from '@/Components/CityCalendarList.vue';
+import CityNav from '@/Components/CityNav.vue';
 import ListingCard from '@/Components/ListingCard.vue';
 import { computed, ref } from 'vue';
 
@@ -42,26 +43,10 @@ function submitSearch() {
 <template>
     <Head :title="city.name" />
     <div class="min-h-screen bg-page">
-        <nav class="border-b border-border bg-card">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="flex h-16 justify-between items-center">
-                    <div class="flex items-center gap-6">
-                        <a :href="cityBaseUrl" class="flex items-center gap-2 text-xl font-semibold text-fg no-underline">
-                            <img :src="logo" :alt="appName" class="h-8 w-auto object-contain" />
-                            <span>{{ appName }}</span>
-                        </a>
-                        <span class="text-muted">/ {{ city.name }}</span>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <a v-if="$page.props.auth.user" :href="`${cityBaseUrl}/dashboard`" class="text-sm text-muted hover:text-fg underline">Dashboard</a>
-                        <a v-else :href="(usePage().props.urls?.signIn) || '/account/sign-in'" class="text-sm text-muted hover:text-fg underline">Sign in</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
+        <CityNav :city="city" :city-base-url="cityBaseUrl" />
 
-        <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-10">
-            <h1 class="text-3xl font-bold text-fg">{{ city.name }}</h1>
+        <main class="govuk-width-container govuk-!-padding-top-8 govuk-!-padding-bottom-8 space-y-10">
+            <h1 class="govuk-heading-xl">{{ city.name }}</h1>
             <p v-if="city.description" class="text-muted">{{ city.description }}</p>
 
             <!-- 1. Upcoming events (this month) -->
@@ -94,28 +79,31 @@ function submitSearch() {
 
             <!-- 4. Search bar -->
             <section class="space-y-2">
-                <h2 class="text-xl font-semibold text-fg">Search</h2>
+                <h2 class="govuk-heading-l">Search</h2>
                 <form
                     :action="`${cityBaseUrl}/search`"
                     method="get"
                     class="flex max-w-xl gap-2"
                     @submit.prevent="submitSearch"
                 >
-                    <input
-                        v-model="searchQuery"
-                        type="search"
-                        name="q"
-                        placeholder="Search listings, events, and pages..."
-                        class="flex-1 rounded-token-md border border-border bg-input px-4 py-3 text-fg placeholder-muted shadow-sm focus:border-focus focus:ring-focus"
-                        autocomplete="off"
-                    />
-                    <button
+                    <div class="flex-1">
+                        <gv-input
+                            id="city-search"
+                            v-model="searchQuery"
+                            label="Search listings, events, and pages"
+                            type="search"
+                            placeholder="Search..."
+                            autocomplete="off"
+                            class="govuk-!-width-full"
+                        />
+                    </div>
+                    <gv-button
                         v-show="searchQuery.trim().length > 0"
                         type="submit"
-                        class="rounded-token-md bg-primary px-4 py-3 text-sm font-medium text-primary-fg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2"
+                        variant="primary"
                     >
                         Search
-                    </button>
+                    </gv-button>
                 </form>
             </section>
 
@@ -123,7 +111,7 @@ function submitSearch() {
             <section class="space-y-4">
                 <div class="flex flex-wrap items-center justify-between gap-4">
                     <h2 class="text-xl font-semibold text-fg">Listings</h2>
-                    <a v-if="$page.props.auth.user" :href="`${cityBaseUrl}/listings/new`" class="rounded-token-md bg-primary px-4 py-2 text-sm font-medium text-primary-fg hover:opacity-90 underline">New listing</a>
+                    <Link v-if="$page.props.auth?.user" :href="`${cityBaseUrl}/listings/new`" class="govuk-button" role="button">New listing</Link>
                 </div>
                 <ul v-if="listingsPreviewSafe.length > 0" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                     <li v-for="listing in listingsPreviewSafe" :key="listing.id">

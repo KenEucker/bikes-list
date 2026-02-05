@@ -1,5 +1,5 @@
 <script setup>
-import StatusChip from './StatusChip.vue';
+import StatusTag from './StatusTag.vue';
 
 defineProps({
     event: { type: Object, required: true },
@@ -19,7 +19,7 @@ defineProps({
             {{ event.starts_at ? new Date(event.starts_at).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }) : '' }}
         </p>
         <div v-if="showStatus && event.state" class="mt-2">
-            <StatusChip :status="event.state" />
+            <StatusTag :status="event.state" />
         </div>
     </a>
 </template>

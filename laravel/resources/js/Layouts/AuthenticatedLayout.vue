@@ -1,17 +1,14 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
-import NavLink from '@/Components/NavLink.vue';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import ThemeToggle from '@/Components/ThemeToggle.vue';
 import { Link, usePage } from '@inertiajs/vue3';
 
-const showingNavigationDropdown = ref(false);
 const page = usePage();
 const urls = computed(() => page.props.urls || {});
-const dashboardUrl = computed(() => page.props.dashboardUrl || urls.value.dashboard || (typeof window !== 'undefined' ? window.location.origin + '/dashboard' : '/dashboard'));
+const dashboardUrl = computed(() => urls.value.dashboard || (typeof window !== 'undefined' ? window.location.origin + '/dashboard' : '/dashboard'));
 const isDashboard = computed(() => (page.url || '').startsWith('/dashboard'));
 const accountUrl = computed(() => urls.value.accountSettings || '/account/settings');
 const logoutUrl = computed(() => urls.value.logout || '/logout');
@@ -20,184 +17,71 @@ const logoutUrl = computed(() => urls.value.logout || '/logout');
 <template>
     <div>
         <div class="min-h-screen bg-page">
-            <nav
-                class="border-b border-border bg-card"
+            <gv-header
+                service-name="BikesList"
+                :service-url="dashboardUrl"
+                homepage-url="/"
             >
-                <!-- Primary Navigation Menu -->
-                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div class="flex h-16 justify-between">
-                        <div class="flex">
-                            <!-- Logo -->
-                            <div class="flex shrink-0 items-center">
-                                <Link :href="dashboardUrl">
-                                    <ApplicationLogo
-                                        logo-class="block h-9 w-auto object-contain text-fg"
-                                    />
-                                </Link>
-                            </div>
-
-                            <!-- Navigation Links -->
-                            <div
-                                class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
-                            >
-                                <NavLink
-                                    :href="dashboardUrl"
-                                    :active="isDashboard"
-                                >
-                                    Dashboard
-                                </NavLink>
-                            </div>
-                        </div>
-
-                        <div class="hidden sm:ms-6 sm:flex sm:items-center sm:gap-4">
-                            <ThemeToggle />
-                            <!-- Settings Dropdown -->
-                            <div class="relative ms-3">
-                                <Dropdown align="right" width="48">
-                                    <template #trigger>
-                                        <span class="inline-flex rounded-md">
-                                            <button
-                                                type="button"
-                                                class="inline-flex items-center rounded-token-md border border-transparent bg-card px-3 py-2 text-sm font-medium leading-4 text-muted transition duration-150 ease-in-out hover:text-fg focus:outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2"
+                <template #logo>
+                    <div class="govuk-header__logo">
+                        <Link :href="dashboardUrl" class="govuk-header__link govuk-header__link--homepage flex items-center gap-2 no-underline">
+                            <ApplicationLogo logo-class="block h-9 w-auto object-contain text-fg" />
+                        </Link>
+                    </div>
+                </template>
+                <template #navigation>
+                    <gv-header-navigation-item :href="dashboardUrl" :active="isDashboard" text="Dashboard" />
+                    <li class="govuk-header__navigation-item">
+                        <ThemeToggle />
+                    </li>
+                    <li class="govuk-header__navigation-item">
+                        <div class="relative">
+                            <Dropdown align="right" width="48">
+                                <template #trigger>
+                                    <span class="inline-flex rounded-md">
+                                        <button
+                                            type="button"
+                                            class="govuk-header__link inline-flex items-center"
+                                        >
+                                            {{ $page.props.auth?.user?.name ?? 'Account' }}
+                                            <svg
+                                                class="-me-0.5 ms-2 h-4 w-4"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
                                             >
-                                                {{ $page.props.auth?.user?.name ?? 'Account' }}
-
-                                                <svg
-                                                    class="-me-0.5 ms-2 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        fill-rule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clip-rule="evenodd"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </template>
-
-                                    <template #content>
-                                        <DropdownLink
-                                            :href="accountUrl"
-                                        >
-                                            Profile
-                                        </DropdownLink>
-                                        <DropdownLink
-                                            :href="logoutUrl"
-                                            method="post"
-                                            as="button"
-                                        >
-                                            Log Out
-                                        </DropdownLink>
-                                    </template>
-                                </Dropdown>
-                            </div>
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                    clip-rule="evenodd"
+                                                />
+                                            </svg>
+                                        </button>
+                                    </span>
+                                </template>
+                                <template #content>
+                                    <DropdownLink :href="accountUrl">
+                                        Profile
+                                    </DropdownLink>
+                                    <DropdownLink :href="logoutUrl" method="post" as="button">
+                                        Log Out
+                                    </DropdownLink>
+                                </template>
+                            </Dropdown>
                         </div>
+                    </li>
+                </template>
+            </gv-header>
 
-                        <!-- Hamburger -->
-                        <div class="-me-2 flex items-center sm:hidden">
-                            <button
-                                @click="
-                                    showingNavigationDropdown =
-                                        !showingNavigationDropdown
-                                "
-                                class="inline-flex items-center justify-center rounded-token-md p-2 text-muted transition duration-150 ease-in-out hover:bg-muted/20 hover:text-fg focus:bg-muted/20 focus:text-fg focus:outline-none"
-                            >
-                                <svg
-                                    class="h-6 w-6"
-                                    stroke="currentColor"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        :class="{
-                                            hidden: showingNavigationDropdown,
-                                            'inline-flex':
-                                                !showingNavigationDropdown,
-                                        }"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                    <path
-                                        :class="{
-                                            hidden: !showingNavigationDropdown,
-                                            'inline-flex':
-                                                showingNavigationDropdown,
-                                        }"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Responsive Navigation Menu -->
-                <div
-                    :class="{
-                        block: showingNavigationDropdown,
-                        hidden: !showingNavigationDropdown,
-                    }"
-                    class="sm:hidden"
-                >
-                    <div class="space-y-1 pb-3 pt-2">
-                        <ResponsiveNavLink
-                            :href="dashboardUrl"
-                            :active="isDashboard"
-                        >
-                            Dashboard
-                        </ResponsiveNavLink>
-                    </div>
-
-                    <!-- Responsive Settings Options -->
-                    <div
-                        class="border-t border-gray-200 pb-1 pt-4"
-                    >
-                        <div class="px-4">
-                            <div
-                                class="text-base font-medium text-fg"
-                            >
-                                {{ $page.props.auth?.user?.name ?? 'Account' }}
-                            </div>
-                            <div class="text-sm font-medium text-muted">
-                                {{ $page.props.auth?.user?.email ?? '' }}
-                            </div>
-                        </div>
-
-                        <div class="mt-3 space-y-1">
-                            <ResponsiveNavLink :href="accountUrl">
-                                Profile
-                            </ResponsiveNavLink>
-                            <ResponsiveNavLink
-                                :href="logoutUrl"
-                                method="post"
-                                as="button"
-                            >
-                                Log Out
-                            </ResponsiveNavLink>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-
-            <!-- Page Heading -->
             <header
-                class="bg-card border-b border-border shadow-sm"
                 v-if="$slots.header"
+                class="bg-card border-b border-border shadow-sm"
             >
-                <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                <div class="govuk-width-container govuk-!-padding-top-6 govuk-!-padding-bottom-6">
                     <slot name="header" />
                 </div>
             </header>
 
-            <!-- Page Content -->
             <main>
                 <slot />
             </main>

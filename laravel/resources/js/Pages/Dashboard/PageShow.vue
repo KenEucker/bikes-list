@@ -1,7 +1,6 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import CityNav from '@/Components/CityNav.vue';
-import StatusChip from '@/Components/StatusChip.vue';
 
 defineProps({
     city: { type: Object, required: true },
@@ -22,7 +21,7 @@ defineProps({
         </CityNav>
         <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
             <h1 class="text-2xl font-bold text-fg">{{ page.name }}</h1>
-            <StatusChip :status="page.state" class="mt-2" />
+            <StatusTag :status="page.state" class="mt-2" />
             <div class="mt-6 flex gap-2 border-b border-border">
                 <button
                     v-for="t in ['Overview', 'Profile', 'Team', 'Listings', 'Events']"
