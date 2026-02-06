@@ -118,7 +118,7 @@ const _sfc_main = {
             if (__props.communityPage.events?.length) {
               _push2(`<section class="mt-8"${_scopeId}><h2 class="text-lg font-semibold text-fg"${_scopeId}>Events</h2><ul class="mt-2 space-y-2"${_scopeId}><!--[-->`);
               ssrRenderList(__props.communityPage.events, (event) => {
-                _push2(`<li${_scopeId}><a${ssrRenderAttr("href", `${__props.cityBaseUrl}/events/${event.id}`)} class="text-primary underline"${_scopeId}>${ssrInterpolate(event.title)}</a><span class="text-sm text-muted"${_scopeId}> – ${ssrInterpolate(new Date(event.starts_at).toLocaleDateString())}</span></li>`);
+                _push2(`<li${_scopeId}><a${ssrRenderAttr("href", `${__props.cityBaseUrl}/events/${event.id}`)} class="text-primary underline"${_scopeId}>${ssrInterpolate(event.name)}</a><span class="text-sm text-muted"${_scopeId}> – ${ssrInterpolate(new Date(event.starts_at).toLocaleDateString())}</span></li>`);
               });
               _push2(`<!--]--></ul></section>`);
             } else {
@@ -220,7 +220,7 @@ const _sfc_main = {
                         createVNode("a", {
                           href: `${__props.cityBaseUrl}/events/${event.id}`,
                           class: "text-primary underline"
-                        }, toDisplayString(event.title), 9, ["href"]),
+                        }, toDisplayString(event.name), 9, ["href"]),
                         createVNode("span", { class: "text-sm text-muted" }, " – " + toDisplayString(new Date(event.starts_at).toLocaleDateString()), 1)
                       ]);
                     }), 128))

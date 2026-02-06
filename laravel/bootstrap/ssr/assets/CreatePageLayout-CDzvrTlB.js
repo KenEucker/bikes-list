@@ -1,5 +1,5 @@
 import { unref, withCtx, openBlock, createBlock, createVNode, createCommentVNode, toDisplayString, renderSlot, useSSRContext } from "vue";
-import { ssrRenderComponent, ssrInterpolate, ssrRenderSlot, ssrRenderAttr } from "vue/server-renderer";
+import { ssrRenderComponent, ssrRenderClass, ssrInterpolate, ssrRenderSlot, ssrRenderAttr } from "vue/server-renderer";
 import { Head } from "@inertiajs/vue3";
 import { _ as _sfc_main$1 } from "./CityLayout-DXBkMg5Q.js";
 const _sfc_main = {
@@ -15,7 +15,9 @@ const _sfc_main = {
     backLabel: { type: String, default: "Back" },
     /** Show full-page loading overlay when true (e.g. form.processing) */
     submitting: { type: Boolean, default: false },
-    footerNote: { type: String, default: "" }
+    footerNote: { type: String, default: "" },
+    /** Max width of content area, e.g. 'max-w-4xl' for wider forms */
+    contentMaxWidth: { type: String, default: "max-w-2xl" }
   },
   setup(__props) {
     return (_ctx, _push, _parent, _attrs) => {
@@ -47,7 +49,7 @@ const _sfc_main = {
             } else {
               _push2(`<!---->`);
             }
-            _push2(`<div class="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:px-8"${_scopeId}><h1 class="govuk-heading-l"${_scopeId}>${ssrInterpolate(__props.title)}</h1>`);
+            _push2(`<div class="${ssrRenderClass([__props.contentMaxWidth, "mx-auto px-4 py-8 sm:px-6 lg:px-8"])}"${_scopeId}><h1 class="govuk-heading-l"${_scopeId}>${ssrInterpolate(__props.title)}</h1>`);
             ssrRenderSlot(_ctx.$slots, "before-form", {}, null, _push2, _parent2, _scopeId);
             ssrRenderSlot(_ctx.$slots, "default", {}, null, _push2, _parent2, _scopeId);
             if (__props.footerNote) {
@@ -68,7 +70,9 @@ const _sfc_main = {
                   createVNode("p", { class: "mt-2 text-sm text-muted" }, "Please wait, you will be redirected.")
                 ])
               ])) : createCommentVNode("", true),
-              createVNode("div", { class: "mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:px-8" }, [
+              createVNode("div", {
+                class: ["mx-auto px-4 py-8 sm:px-6 lg:px-8", __props.contentMaxWidth]
+              }, [
                 createVNode("h1", { class: "govuk-heading-l" }, toDisplayString(__props.title), 1),
                 renderSlot(_ctx.$slots, "before-form"),
                 renderSlot(_ctx.$slots, "default"),
@@ -76,7 +80,7 @@ const _sfc_main = {
                   key: 0,
                   class: "govuk-body govuk-!-margin-top-4"
                 }, toDisplayString(__props.footerNote), 1)) : createCommentVNode("", true)
-              ])
+              ], 2)
             ];
           }
         }),

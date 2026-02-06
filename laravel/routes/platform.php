@@ -10,6 +10,10 @@ use App\Orchid\Screens\CommunityPage\CommunityPageEditScreen;
 use App\Orchid\Screens\CommunityPage\CommunityPageListScreen;
 use App\Orchid\Screens\Event\EventEditScreen;
 use App\Orchid\Screens\Event\EventListScreen;
+use App\Orchid\Screens\EventAudience\EventAudienceEditScreen;
+use App\Orchid\Screens\EventAudience\EventAudienceListScreen;
+use App\Orchid\Screens\EventTag\EventTagEditScreen;
+use App\Orchid\Screens\EventTag\EventTagListScreen;
 use App\Orchid\Screens\Guideline\GuidelineEditScreen;
 use App\Orchid\Screens\Guideline\GuidelineListScreen;
 use App\Orchid\Screens\Listing\FlaggedListingsScreen;
@@ -73,7 +77,45 @@ Route::screen('events/{event}/edit', EventEditScreen::class)
     ->name('platform.systems.events.edit')
     ->breadcrumbs(fn (Trail $trail, $event) => $trail
         ->parent('platform.systems.events')
-        ->push($event->title ?? __('Event'), route('platform.systems.events.edit', $event)));
+        ->push($event->name ?? __('Event'), route('platform.systems.events.edit', $event)));
+
+// Event audiences (admin)
+Route::screen('event-audiences/create', EventAudienceEditScreen::class)
+    ->name('platform.systems.event-audiences.create')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.systems.event-audiences')
+        ->push(__('Create'), route('platform.systems.event-audiences.create')));
+
+Route::screen('event-audiences/{audience}/edit', EventAudienceEditScreen::class)
+    ->name('platform.systems.event-audiences.edit')
+    ->breadcrumbs(fn (Trail $trail, $audience) => $trail
+        ->parent('platform.systems.event-audiences')
+        ->push($audience->name ?? __('Audience'), route('platform.systems.event-audiences.edit', $audience)));
+
+Route::screen('event-audiences', EventAudienceListScreen::class)
+    ->name('platform.systems.event-audiences')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push(__('Event audiences'), route('platform.systems.event-audiences')));
+
+// Event tags (admin)
+Route::screen('event-tags/create', EventTagEditScreen::class)
+    ->name('platform.systems.event-tags.create')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.systems.event-tags')
+        ->push(__('Create'), route('platform.systems.event-tags.create')));
+
+Route::screen('event-tags/{tag}/edit', EventTagEditScreen::class)
+    ->name('platform.systems.event-tags.edit')
+    ->breadcrumbs(fn (Trail $trail, $tag) => $trail
+        ->parent('platform.systems.event-tags')
+        ->push($tag->label ?? __('Tag'), route('platform.systems.event-tags.edit', $tag)));
+
+Route::screen('event-tags', EventTagListScreen::class)
+    ->name('platform.systems.event-tags')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push(__('Event tags'), route('platform.systems.event-tags')));
 
 Route::screen('moderation/flagged-listings', FlaggedListingsScreen::class)
     ->name('platform.moderation.flagged')

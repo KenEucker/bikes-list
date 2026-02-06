@@ -31,6 +31,8 @@ class AdminUserSeeder extends Seeder
                     'platform.systems.listings' => true,
                     'platform.systems.events' => true,
                     'platform.systems.guidelines' => true,
+                    'platform.systems.event-audiences' => true,
+                    'platform.systems.event-tags' => true,
                     'platform.systems.community-pages' => true,
                     'platform.systems.uploads' => true,
                     'platform.systems.users' => true,

@@ -32,7 +32,7 @@ const _sfc_main$1 = {
         ssrRenderList(group.events ?? [], (event) => {
           _push(`<li class="flex items-baseline gap-2">`);
           ssrRenderSlot(_ctx.$slots, "event", { event }, () => {
-            _push(`<a${ssrRenderAttr("href", event.url)} class="font-medium text-primary underline">${ssrInterpolate(event.title)}</a><span class="text-sm text-muted">${ssrInterpolate(event.starts_at ? new Date(event.starts_at).toLocaleTimeString(void 0, { hour: "numeric", minute: "2-digit" }) : "")}</span>`);
+            _push(`<a${ssrRenderAttr("href", event.url)} class="font-medium text-primary underline">${ssrInterpolate(event.name)}</a><span class="text-sm text-muted">${ssrInterpolate(event.starts_at ? new Date(event.starts_at).toLocaleTimeString(void 0, { hour: "numeric", minute: "2-digit" }) : "")}</span>`);
           }, _push, _parent);
           _push(`</li>`);
         });

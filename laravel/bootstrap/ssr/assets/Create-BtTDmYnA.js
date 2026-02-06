@@ -1,8 +1,8 @@
 import { ref, unref, withCtx, createVNode, useSSRContext } from "vue";
 import { ssrRenderComponent } from "vue/server-renderer";
 import { Head } from "@inertiajs/vue3";
-import { _ as _sfc_main$1 } from "./CreatePageLayout-BIMOcAuh.js";
-import { _ as _sfc_main$2 } from "./EventForm-CGQwea8q.js";
+import { _ as _sfc_main$1 } from "./CreatePageLayout-CDzvrTlB.js";
+import { E as EventForm } from "./EventForm-BFkN2HNX.js";
 import "./CityLayout-DXBkMg5Q.js";
 import "./PublicLayout-CvaWB3EK.js";
 import "./ThemeToggle-Mk6IgKQe.js";
@@ -13,9 +13,12 @@ const _sfc_main = {
     city: { type: Object, required: true },
     guidelines: { type: Array, required: true },
     managedCommunityPages: { type: Array, default: () => [] },
+    audiences: { type: Object, default: () => ({}) },
+    defaultAudienceId: { type: [String, Number], default: null },
     eventTags: { type: Object, default: () => ({}) },
     cityBaseUrl: { type: String, required: true },
-    old: { type: Object, default: () => ({}) }
+    old: { type: Object, default: () => ({}) },
+    errors: { type: Object, default: () => ({}) }
   },
   setup(__props) {
     const submitting = ref(false);
@@ -32,30 +35,37 @@ const _sfc_main = {
         "city-base-url": __props.cityBaseUrl,
         "back-url": `${__props.cityBaseUrl}/events`,
         "back-label": "Back to events",
-        submitting: submitting.value
+        submitting: submitting.value,
+        "content-max-width": "max-w-4xl"
       }, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(ssrRenderComponent(_sfc_main$2, {
+            _push2(ssrRenderComponent(EventForm, {
               event: null,
               guidelines: __props.guidelines,
               "managed-community-pages": __props.managedCommunityPages,
+              audiences: __props.audiences,
+              "default-audience-id": __props.defaultAudienceId,
               "event-tags": __props.eventTags,
               "city-base-url": __props.cityBaseUrl,
               old: __props.old,
+              errors: __props.errors,
               "onUpdate:processing": ($event) => submitting.value = $event
             }, null, _parent2, _scopeId));
           } else {
             return [
-              createVNode(_sfc_main$2, {
+              createVNode(EventForm, {
                 event: null,
                 guidelines: __props.guidelines,
                 "managed-community-pages": __props.managedCommunityPages,
+                audiences: __props.audiences,
+                "default-audience-id": __props.defaultAudienceId,
                 "event-tags": __props.eventTags,
                 "city-base-url": __props.cityBaseUrl,
                 old: __props.old,
+                errors: __props.errors,
                 "onUpdate:processing": ($event) => submitting.value = $event
-              }, null, 8, ["guidelines", "managed-community-pages", "event-tags", "city-base-url", "old", "onUpdate:processing"])
+              }, null, 8, ["guidelines", "managed-community-pages", "audiences", "default-audience-id", "event-tags", "city-base-url", "old", "errors", "onUpdate:processing"])
             ];
           }
         }),

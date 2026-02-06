@@ -20,7 +20,7 @@ class EventEditScreen extends Screen
     public function query(Event $event): iterable
     {
         $this->event = $event;
-        $event->load(['city', 'user', 'communityPage']);
+        $event->load(['city', 'user', 'communityPage', 'audience']);
         return [
             'event' => $event,
         ];
@@ -33,7 +33,7 @@ class EventEditScreen extends Screen
 
     public function description(): ?string
     {
-        return $this->event?->title ?? __('View event');
+        return $this->event?->name ?? __('View event');
     }
 
     public function permission(): ?iterable

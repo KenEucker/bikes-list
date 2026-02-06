@@ -60,6 +60,16 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.systems.guidelines')
                 ->permission('platform.systems.guidelines'),
 
+            Menu::make(__('Event audiences'))
+                ->icon('bs.people')
+                ->route('platform.systems.event-audiences')
+                ->permission('platform.systems.event-audiences'),
+
+            Menu::make(__('Event tags'))
+                ->icon('bs.tags')
+                ->route('platform.systems.event-tags')
+                ->permission('platform.systems.event-tags'),
+
             Menu::make(__('Community pages'))
                 ->icon('bs.people')
                 ->route('platform.systems.community-pages')
@@ -101,6 +111,8 @@ class PlatformProvider extends OrchidServiceProvider
                 ->addPermission('platform.systems.listings', __('Listings'))
                 ->addPermission('platform.systems.events', __('Events'))
                 ->addPermission('platform.systems.guidelines', __('Guidelines'))
+                ->addPermission('platform.systems.event-audiences', __('Event audiences'))
+                ->addPermission('platform.systems.event-tags', __('Event tags'))
                 ->addPermission('platform.systems.roles', __('Roles'))
                 ->addPermission('platform.systems.users', __('Users'))
                 ->addPermission('platform.systems.uploads', __('Uploads')),

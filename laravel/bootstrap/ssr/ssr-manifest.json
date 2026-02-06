@@ -1,4 +1,8 @@
 {
+  "\u0000plugin-vue:export-helper": [
+    "/build/assets/EventForm-BFkN2HNX.js",
+    "/build/assets/EventForm-B-Ut8TGP.css"
+  ],
   "node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.css": [],
   "node_modules/laravel-vite-plugin/inertia-helpers/index.js": [],
   "node_modules/leaflet/dist/leaflet.css": [
@@ -18,10 +22,10 @@
     "/build/assets/bikeslist-yDx5LxAM.png"
   ],
   "resources/js/Components/CityCalendarList.vue": [
-    "/build/assets/Show-D2AOOoio.js"
+    "/build/assets/Show-1_JFcNEt.js"
   ],
   "resources/js/Components/CreatePageLayout.vue": [
-    "/build/assets/CreatePageLayout-BIMOcAuh.js"
+    "/build/assets/CreatePageLayout-CDzvrTlB.js"
   ],
   "resources/js/Components/DashboardTable.vue": [
     "/build/assets/DashboardTable-Bv9ciMZX.js"
@@ -36,13 +40,18 @@
     "/build/assets/EmailRelayCard-DRXJMFyo.js"
   ],
   "resources/js/Components/EventCard.vue": [
-    "/build/assets/Index-z6EwYSKN.js"
+    "/build/assets/Index-BXc-C4p_.js"
   ],
   "resources/js/Components/Forms/CommunityPageForm.vue": [
     "/build/assets/CommunityPageForm-CaiWfumP.js"
   ],
   "resources/js/Components/Forms/EventForm.vue": [
-    "/build/assets/EventForm-CGQwea8q.js"
+    "/build/assets/EventForm-BFkN2HNX.js",
+    "/build/assets/EventForm-B-Ut8TGP.css"
+  ],
+  "resources/js/Components/Forms/EventForm.vue?vue&type=style&index=0&scoped=50e9d8bb&lang.css": [
+    "/build/assets/EventForm-BFkN2HNX.js",
+    "/build/assets/EventForm-B-Ut8TGP.css"
   ],
   "resources/js/Components/Forms/ListingForm.vue": [
     "/build/assets/ListingForm-BdlvDjLn.js"
@@ -57,7 +66,7 @@
     "/build/assets/ModerationQueue-H0PObq6f.js"
   ],
   "resources/js/Components/PageCard.vue": [
-    "/build/assets/Index-z6EwYSKN.js"
+    "/build/assets/Index-BXc-C4p_.js"
   ],
   "resources/js/Components/StatusTag.vue": [
     "/build/assets/StatusTag-BeNLpE6N.js"
@@ -99,13 +108,13 @@
     "/build/assets/VerifyEmail-DEjXXipz.js"
   ],
   "resources/js/Pages/City/Show.vue": [
-    "/build/assets/Show-D2AOOoio.js"
+    "/build/assets/Show-1_JFcNEt.js"
   ],
   "resources/js/Pages/CommunityPages/Claim.vue": [
     "/build/assets/Claim-BEgYuCxg.js"
   ],
   "resources/js/Pages/CommunityPages/Create.vue": [
-    "/build/assets/Create-DkRq3vYh.js"
+    "/build/assets/Create-BXLe78qi.js"
   ],
   "resources/js/Pages/CommunityPages/Edit.vue": [
     "/build/assets/Edit-HHsJEf6k.js"
@@ -114,7 +123,7 @@
     "/build/assets/Index-O1MITwJe.js"
   ],
   "resources/js/Pages/CommunityPages/Show.vue": [
-    "/build/assets/Show-DuuNagMA.js"
+    "/build/assets/Show-C5_taa4F.js"
   ],
   "resources/js/Pages/Dashboard/Events.vue": [
     "/build/assets/Events-lwWyErcu.js"
@@ -132,19 +141,19 @@
     "/build/assets/Pages-CeDEgDRD.js"
   ],
   "resources/js/Pages/Dashboard/Pending.vue": [
-    "/build/assets/Pending-BR4MZnqP.js"
+    "/build/assets/Pending-BktO2JVE.js"
   ],
   "resources/js/Pages/Events/Create.vue": [
-    "/build/assets/Create-C8-l9P8y.js"
+    "/build/assets/Create-BtTDmYnA.js"
   ],
   "resources/js/Pages/Events/Edit.vue": [
-    "/build/assets/Edit-64fYV8Ha.js"
+    "/build/assets/Edit-DSAy98GM.js"
   ],
   "resources/js/Pages/Events/Index.vue": [
-    "/build/assets/Index-MkK-k__B.js"
+    "/build/assets/Index-DTFIOxTX.js"
   ],
   "resources/js/Pages/Events/Show.vue": [
-    "/build/assets/Show-BENXb9Gq.js"
+    "/build/assets/Show-dQp_Dq_0.js"
   ],
   "resources/js/Pages/Home.vue": [
     "/build/assets/Home-Dz1fGIxp.js",
@@ -157,7 +166,7 @@
     "/build/assets/StaticPage-DQhmqT38.js"
   ],
   "resources/js/Pages/Listings/Create.vue": [
-    "/build/assets/Create-BjDgOu5p.js"
+    "/build/assets/Create-3N7BG2Uo.js"
   ],
   "resources/js/Pages/Listings/Edit.vue": [
     "/build/assets/Edit-BuF2j3pE.js"
@@ -196,7 +205,7 @@
     "/build/assets/SavedSearches-nKtRe-d6.js"
   ],
   "resources/js/Pages/Search/Index.vue": [
-    "/build/assets/Index-z6EwYSKN.js"
+    "/build/assets/Index-BXc-C4p_.js"
   ],
   "resources/js/ssr.js": [],
   "vendor/tightenco/ziggy/dist/index.js": []

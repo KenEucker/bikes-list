@@ -29,7 +29,7 @@ class EventPolicy
         return $user->moderatedCities()->where('cities.id', $event->city_id)->exists();
     }
 
-    public function create(User $user): bool
+    public function create(?User $user): bool
     {
         return true;
     }

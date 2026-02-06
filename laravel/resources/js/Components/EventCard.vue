@@ -13,7 +13,7 @@ defineProps({
         :href="url"
         class="block rounded-token-md border border-border bg-card p-4 shadow-sm transition hover:border-primary hover:shadow underline"
     >
-        <h3 class="font-medium text-fg line-clamp-1">{{ event.title }}</h3>
+        <h3 class="font-medium text-fg line-clamp-1">{{ event.name }}</h3>
         <p class="mt-0.5 text-sm text-muted">
             {{ event.starts_at ? new Date(event.starts_at).toLocaleDateString() : '' }}
             {{ event.starts_at ? new Date(event.starts_at).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }) : '' }}

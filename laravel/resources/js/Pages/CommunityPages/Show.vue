@@ -53,7 +53,7 @@ defineProps({
                 <h2 class="text-lg font-semibold text-fg">Events</h2>
                 <ul class="mt-2 space-y-2">
                     <li v-for="event in communityPage.events" :key="event.id">
-                        <a :href="`${cityBaseUrl}/events/${event.id}`" class="text-primary underline">{{ event.title }}</a>
+                        <a :href="`${cityBaseUrl}/events/${event.id}`" class="text-primary underline">{{ event.name }}</a>
                         <span class="text-sm text-muted"> – {{ new Date(event.starts_at).toLocaleDateString() }}</span>
                     </li>
                 </ul>

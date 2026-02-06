@@ -39,8 +39,8 @@ $cityRoutes = function () {
     Route::post('/listings/{listing}/flag', [FlagController::class, 'store'])->name('city.listings.flag')->middleware(['auth', 'verified']);
 
     Route::get('/events', [EventController::class, 'index'])->name('city.events.index');
-    Route::get('/events/new', [EventController::class, 'create'])->name('city.events.create')->middleware(['auth', 'verified']);
-    Route::post('/events', [EventController::class, 'store'])->name('city.events.store')->middleware(['auth', 'verified']);
+    Route::get('/events/new', [EventController::class, 'create'])->name('city.events.create');
+    Route::post('/events', [EventController::class, 'store'])->name('city.events.store');
     Route::get('/events/{event}', [EventController::class, 'show'])->name('city.events.show');
     Route::get('/events/{event}/edit', [EventController::class, 'edit'])->name('city.events.edit')->middleware(['auth', 'verified']);
     Route::put('/events/{event}', [EventController::class, 'update'])->name('city.events.update')->middleware(['auth', 'verified']);

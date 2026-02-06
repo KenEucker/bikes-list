@@ -13,6 +13,8 @@ defineProps({
     /** Show full-page loading overlay when true (e.g. form.processing) */
     submitting: { type: Boolean, default: false },
     footerNote: { type: String, default: '' },
+    /** Max width of content area, e.g. 'max-w-4xl' for wider forms */
+    contentMaxWidth: { type: String, default: 'max-w-2xl' },
 });
 </script>
 
@@ -33,7 +35,7 @@ defineProps({
                 <p class="mt-2 text-sm text-muted">Please wait, you will be redirected.</p>
             </div>
         </div>
-        <div class="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:px-8">
+        <div class="mx-auto px-4 py-8 sm:px-6 lg:px-8" :class="contentMaxWidth">
             <h1 class="govuk-heading-l">{{ title }}</h1>
 
             <slot name="before-form" />

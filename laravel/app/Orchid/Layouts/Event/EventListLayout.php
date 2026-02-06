@@ -21,9 +21,9 @@ class EventListLayout extends Table
     {
         return [
             TD::make('id', __('ID'))->sort()->width('80px'),
-            TD::make('title', __('Title'))
+            TD::make('name', __('Name'))
                 ->sort()
-                ->render(fn (Event $event) => Link::make($event->title)->route('platform.systems.events.edit', $event)),
+                ->render(fn (Event $event) => Link::make($event->name)->route('platform.systems.events.edit', $event)),
             TD::make('city', __('City'))->render(fn (Event $event) => $event->city?->name),
             TD::make('state', __('State'))->sort(),
             TD::make('starts_at', __('Starts'))->usingComponent(DateTimeSplit::class)->sort(),

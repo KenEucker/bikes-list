@@ -17,22 +17,27 @@ class Event extends Model
         'user_id',
         'city_id',
         'community_page_id',
-        'title',
+        'name',
         'description',
-        'event_type',
+        'audience_id',
         'organizer_name',
         'organizer_email',
         'organizer_email_hidden',
         'state',
+        'location_name',
         'location_address',
         'location_lat',
         'location_lng',
+        'location_details',
         'route_description',
         'route_link',
+        'route_length',
+        'is_loop',
         'external_link',
         'starts_at',
         'ends_at',
         'timezone',
+        'time_details',
         'is_recurring',
         'recurrence_ends_at',
         'recurrence_rule',
@@ -45,6 +50,7 @@ class Event extends Model
     protected $casts = [
         'organizer_email_hidden' => 'boolean',
         'is_recurring' => 'boolean',
+        'is_loop' => 'boolean',
         'starts_at' => 'datetime',
         'ends_at' => 'datetime',
         'recurrence_ends_at' => 'datetime',
@@ -77,6 +83,11 @@ class Event extends Model
         return $this->belongsTo(CommunityPage::class, 'community_page_id');
     }
 
+    public function audience(): BelongsTo
+    {
+        return $this->belongsTo(EventAudience::class, 'audience_id');
+    }
+
     public function guidelineAcceptances(): BelongsToMany
     {
         return $this->belongsToMany(Guideline::class, 'event_guideline_acceptances')
@@ -100,7 +111,7 @@ class Event extends Model
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
+            'name' => $this->name,
             'description' => $this->description,
             'city_id' => $this->city_id,
             'state' => $this->state,

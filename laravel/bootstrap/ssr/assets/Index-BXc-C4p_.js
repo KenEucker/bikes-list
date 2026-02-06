@@ -19,7 +19,7 @@ const _sfc_main$2 = {
       _push(`<a${ssrRenderAttrs(mergeProps({
         href: __props.url,
         class: "block rounded-token-md border border-border bg-card p-4 shadow-sm transition hover:border-primary hover:shadow underline"
-      }, _attrs))}><h3 class="font-medium text-fg line-clamp-1">${ssrInterpolate(__props.event.title)}</h3><p class="mt-0.5 text-sm text-muted">${ssrInterpolate(__props.event.starts_at ? new Date(__props.event.starts_at).toLocaleDateString() : "")} ${ssrInterpolate(__props.event.starts_at ? new Date(__props.event.starts_at).toLocaleTimeString(void 0, { hour: "numeric", minute: "2-digit" }) : "")}</p>`);
+      }, _attrs))}><h3 class="font-medium text-fg line-clamp-1">${ssrInterpolate(__props.event.name)}</h3><p class="mt-0.5 text-sm text-muted">${ssrInterpolate(__props.event.starts_at ? new Date(__props.event.starts_at).toLocaleDateString() : "")} ${ssrInterpolate(__props.event.starts_at ? new Date(__props.event.starts_at).toLocaleTimeString(void 0, { hour: "numeric", minute: "2-digit" }) : "")}</p>`);
       if (__props.showStatus && __props.event.state) {
         _push(`<div class="mt-2">`);
         _push(ssrRenderComponent(_sfc_main$3, {

@@ -26,7 +26,7 @@ defineProps({
             <ul class="govuk-list govuk-!-margin-top-4 divide-y divide-border border-t border-border">
                 <li v-for="event in events.data" :key="event.id" class="py-3">
                     <Link :href="`${cityBaseUrl}/events/${event.id}`" class="no-underline hover:underline block">
-                        <p class="font-medium text-fg">{{ event.title }}</p>
+                        <p class="font-medium text-fg">{{ event.name }}</p>
                         <p class="text-sm text-muted">
                             {{ event.ends_at ? `${new Date(event.starts_at).toLocaleString()} – ${new Date(event.ends_at).toLocaleString()}` : new Date(event.starts_at).toLocaleString() }}
                         </p>

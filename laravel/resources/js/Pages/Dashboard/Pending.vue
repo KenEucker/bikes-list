@@ -37,7 +37,7 @@ defineProps({
                 <h2 class="text-lg font-semibold text-fg">Events</h2>
                 <ul class="mt-2 space-y-2">
                     <li v-for="event in events" :key="event.id" class="flex items-center justify-between rounded-token-md border border-border bg-card px-4 py-2">
-                        <a :href="`${cityBaseUrl}/events/${event.id}`" class="font-medium text-primary underline">{{ event.title }}</a>
+                        <a :href="`${cityBaseUrl}/events/${event.id}`" class="font-medium text-primary underline">{{ event.name }}</a>
                         <StatusTag status="pending_review" />
                     </li>
                 </ul>

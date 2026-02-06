@@ -99,7 +99,7 @@ const _sfc_main = {
             if (__props.events.length) {
               _push2(`<section class="mt-6"${_scopeId}><h2 class="text-lg font-semibold text-fg"${_scopeId}>Events</h2><ul class="mt-2 space-y-2"${_scopeId}><!--[-->`);
               ssrRenderList(__props.events, (event) => {
-                _push2(`<li class="flex items-center justify-between rounded-token-md border border-border bg-card px-4 py-2"${_scopeId}><a${ssrRenderAttr("href", `${__props.cityBaseUrl}/events/${event.id}`)} class="font-medium text-primary underline"${_scopeId}>${ssrInterpolate(event.title)}</a>`);
+                _push2(`<li class="flex items-center justify-between rounded-token-md border border-border bg-card px-4 py-2"${_scopeId}><a${ssrRenderAttr("href", `${__props.cityBaseUrl}/events/${event.id}`)} class="font-medium text-primary underline"${_scopeId}>${ssrInterpolate(event.name)}</a>`);
                 _push2(ssrRenderComponent(_sfc_main$2, { status: "pending_review" }, null, _parent2, _scopeId));
                 _push2(`</li>`);
               });
@@ -163,7 +163,7 @@ const _sfc_main = {
                         createVNode("a", {
                           href: `${__props.cityBaseUrl}/events/${event.id}`,
                           class: "font-medium text-primary underline"
-                        }, toDisplayString(event.title), 9, ["href"]),
+                        }, toDisplayString(event.name), 9, ["href"]),
                         createVNode(_sfc_main$2, { status: "pending_review" })
                       ]);
                     }), 128))

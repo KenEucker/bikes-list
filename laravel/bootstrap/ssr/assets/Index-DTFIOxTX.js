@@ -84,7 +84,7 @@ const _sfc_main = {
               }, {
                 default: withCtx((_2, _push3, _parent3, _scopeId2) => {
                   if (_push3) {
-                    _push3(`<p class="font-medium text-fg"${_scopeId2}>${ssrInterpolate(event.title)}</p><p class="text-sm text-muted"${_scopeId2}>${ssrInterpolate(event.ends_at ? `${new Date(event.starts_at).toLocaleString()} – ${new Date(event.ends_at).toLocaleString()}` : new Date(event.starts_at).toLocaleString())}</p>`);
+                    _push3(`<p class="font-medium text-fg"${_scopeId2}>${ssrInterpolate(event.name)}</p><p class="text-sm text-muted"${_scopeId2}>${ssrInterpolate(event.ends_at ? `${new Date(event.starts_at).toLocaleString()} – ${new Date(event.ends_at).toLocaleString()}` : new Date(event.starts_at).toLocaleString())}</p>`);
                     if (event.location) {
                       _push3(`<p class="text-sm text-muted"${_scopeId2}>${ssrInterpolate(event.location)}</p>`);
                     } else {
@@ -92,7 +92,7 @@ const _sfc_main = {
                     }
                   } else {
                     return [
-                      createVNode("p", { class: "font-medium text-fg" }, toDisplayString(event.title), 1),
+                      createVNode("p", { class: "font-medium text-fg" }, toDisplayString(event.name), 1),
                       createVNode("p", { class: "text-sm text-muted" }, toDisplayString(event.ends_at ? `${new Date(event.starts_at).toLocaleString()} – ${new Date(event.ends_at).toLocaleString()}` : new Date(event.starts_at).toLocaleString()), 1),
                       event.location ? (openBlock(), createBlock("p", {
                         key: 0,
@@ -140,7 +140,7 @@ const _sfc_main = {
                         class: "no-underline hover:underline block"
                       }, {
                         default: withCtx(() => [
-                          createVNode("p", { class: "font-medium text-fg" }, toDisplayString(event.title), 1),
+                          createVNode("p", { class: "font-medium text-fg" }, toDisplayString(event.name), 1),
                           createVNode("p", { class: "text-sm text-muted" }, toDisplayString(event.ends_at ? `${new Date(event.starts_at).toLocaleString()} – ${new Date(event.ends_at).toLocaleString()}` : new Date(event.starts_at).toLocaleString()), 1),
                           event.location ? (openBlock(), createBlock("p", {
                             key: 0,

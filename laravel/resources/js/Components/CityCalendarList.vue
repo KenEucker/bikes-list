@@ -35,7 +35,7 @@ const groupedByDay = computed(() => {
                             :href="event.url"
                             class="font-medium text-primary underline"
                         >
-                            {{ event.title }}
+                            {{ event.name }}
                         </a>
                         <span class="text-sm text-muted">
                             {{ event.starts_at ? new Date(event.starts_at).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }) : '' }}
