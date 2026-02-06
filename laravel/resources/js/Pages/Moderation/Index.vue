@@ -37,8 +37,8 @@ function cityModUrl(slug) {
             <h1 class="govuk-heading-l">Moderation</h1>
             <p class="govuk-body">Review and approve or remove pending content.</p>
             <div class="govuk-button-group govuk-!-margin-top-6">
-                <Link :href="`${cityBaseUrl}/moderation/listings`" class="govuk-button" role="button">Listings queue</Link>
-                <Link :href="`${cityBaseUrl}/moderation/events`" class="govuk-button" role="button">Events queue</Link>
+                <Link :href="`${cityBaseUrl}/moderation/sales`" class="govuk-button" role="button">Sales queue</Link>
+                <Link :href="`${cityBaseUrl}/moderation/rides`" class="govuk-button" role="button">Rides queue</Link>
                 <Link :href="`${cityBaseUrl}/moderation/pages`" class="govuk-button" role="button">Pages queue</Link>
             </div>
         </div>

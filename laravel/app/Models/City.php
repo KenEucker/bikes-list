@@ -26,9 +26,9 @@ class City extends Model
         'longitude' => 'decimal:7',
     ];
 
-    public function listings(): HasMany
+    public function sales(): HasMany
     {
-        return $this->hasMany(Listing::class);
+        return $this->hasMany(Sale::class);
     }
 
     public function savedSearches(): HasMany
@@ -46,9 +46,9 @@ class City extends Model
         return $this->hasMany(CommunityPage::class);
     }
 
-    public function events(): HasMany
+    public function rides(): HasMany
     {
-        return $this->hasMany(Event::class);
+        return $this->hasMany(Ride::class);
     }
 
     public function moderators(): BelongsToMany

@@ -37,14 +37,14 @@ const breadcrumbItems = computed(() => {
                     </div>
                 </template>
                 <template #navigation>
-                    <gv-header-navigation-item :href="`${cityBaseUrl}/listings`" text="Listings" />
-                    <gv-header-navigation-item :href="`${cityBaseUrl}/events`" text="Events" />
+                    <gv-header-navigation-item :href="`${cityBaseUrl}/for-sale`" text="For Sale" />
+                    <gv-header-navigation-item :href="`${cityBaseUrl}/rides`" text="Rides" />
                     <gv-header-navigation-item :href="`${cityBaseUrl}/community`" text="Community" />
                     <gv-header-navigation-item :href="`${cityBaseUrl}/search`" text="Search" />
                     <gv-header-navigation-item
                         v-if="page.props.auth?.user"
-                        :href="`${cityBaseUrl}/listings/new`"
-                        text="New listing"
+                        :href="`${cityBaseUrl}/for-sale/new`"
+                        text="Add new sale"
                     />
                     <li class="govuk-header__navigation-item">
                         <ThemeToggle />

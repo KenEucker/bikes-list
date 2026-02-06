@@ -37,7 +37,7 @@ class CommunityPageController extends Controller
         $city = City::query()->where('slug', $citySlug)->firstOrFail();
         $communityPage = CommunityPage::query()->where('city_id', $city->id)->where('slug', $slug)->firstOrFail();
         Gate::authorize('view', $communityPage);
-        $communityPage->load(['city', 'managers', 'uploads', 'listings' => fn ($q) => $q->where('state', 'published')->limit(10), 'events' => fn ($q) => $q->where('state', 'published')->where(function ($q2) {
+        $communityPage->load(['city', 'managers', 'uploads', 'sales' => fn ($q) => $q->where('state', 'published')->limit(10), 'rides' => fn ($q) => $q->where('state', 'published')->where(function ($q2) {
                 $q2->whereNull('ends_at')->orWhere('ends_at', '>=', now());
             })->orderBy('starts_at')->limit(10)]);
 
@@ -80,7 +80,7 @@ class CommunityPageController extends Controller
             abort(403, 'You must be signed in to add a community page.');
         }
         $request->validate([
-            'type' => ['required', 'in:bike_shop,club,recurring_event'],
+            'type' => ['required', 'in:bike_shop,club,team,advocacy_org,co_op,informal_group,recurring_event'],
             'name' => ['required', 'string', 'max:255'],
             'about' => ['nullable', 'string'],
             'event_info' => ['nullable', 'string'],

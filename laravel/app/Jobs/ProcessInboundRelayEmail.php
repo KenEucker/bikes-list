@@ -2,9 +2,9 @@
 
 namespace App\Jobs;
 
-use App\Models\Listing;
-use App\Models\ListingRelayAddress;
-use App\Models\ListingRelayThread;
+use App\Models\Sale;
+use App\Models\SaleRelayAddress;
+use App\Models\SaleRelayThread;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -27,72 +27,72 @@ class ProcessInboundRelayEmail implements ShouldQueue
     public function handle(): void
     {
         if ($this->replyToToken) {
-            $thread = ListingRelayThread::query()->where('reply_to_token', $this->replyToToken)->first();
+            $thread = SaleRelayThread::query()->where('reply_to_token', $this->replyToToken)->first();
             if (!$thread) {
                 Log::warning('Relay: unknown reply_to_token', ['token' => $this->replyToToken]);
                 return;
             }
-            $listing = $thread->listing;
+            $sale = $thread->sale;
             // Forward to the original inquirer (we need to store their email in the thread - for v1 we only have sender_email_hash, so we cannot forward back; would need to store hashed -> temp mapping or use a different design)
             // Stub: log for now
-            Log::info('Relay: reply to thread', ['listing_id' => $listing->id, 'reply_to_token' => $this->replyToToken]);
+            Log::info('Relay: reply to thread', ['sale_id' => $sale->id, 'reply_to_token' => $this->replyToToken]);
             return;
         }
 
         $relay = null;
-        $parsed = $this->parseListingToken($this->token);
+        $parsed = $this->parseSaleToken($this->token);
         if ($parsed) {
-            $relay = ListingRelayAddress::query()
-                ->where('listing_id', $parsed['listing_id'])
+            $relay = SaleRelayAddress::query()
+                ->where('sale_id', $parsed['sale_id'])
                 ->where('token', $parsed['token'])
                 ->first();
         } else {
-            $relay = ListingRelayAddress::query()->where('token', $this->token)->first();
+            $relay = SaleRelayAddress::query()->where('token', $this->token)->first();
         }
         if (! $relay) {
             Log::warning('Relay: unknown token', ['token' => $this->token]);
             return;
         }
-        $listing = $relay->listing()->with('user', 'communityPage')->first();
-        if (!$listing) {
+        $sale = $relay->sale()->with('user', 'communityPage')->first();
+        if (!$sale) {
             return;
         }
-        $recipientEmail = $listing->community_page_id && $listing->communityPage?->contact_email
-            ? $listing->communityPage->contact_email
-            : $listing->user->email;
+        $recipientEmail = $sale->community_page_id && $sale->communityPage?->contact_email
+            ? $sale->communityPage->contact_email
+            : $sale->user->email;
 
-        $senderHash = ListingRelayThread::hashSenderEmail($this->fromEmail);
-        $thread = ListingRelayThread::firstOrCreate(
+        $senderHash = SaleRelayThread::hashSenderEmail($this->fromEmail);
+        $thread = SaleRelayThread::firstOrCreate(
             [
-                'listing_id' => $listing->id,
+                'sale_id' => $sale->id,
                 'sender_email_hash' => $senderHash,
             ],
-            ['reply_to_token' => ListingRelayThread::generateReplyToToken()]
+            ['reply_to_token' => SaleRelayThread::generateReplyToToken()]
         );
 
         // TODO: Send mail to $recipientEmail with subject/body and Reply-To: reply-{thread.reply_to_token}@relay_domain
         Log::info('Relay: would forward to seller', [
-            'listing_id' => $listing->id,
+            'sale_id' => $sale->id,
             'recipient' => $recipientEmail,
             'reply_to_token' => $thread->reply_to_token,
         ]);
     }
 
-    private function parseListingToken(string $localPart): ?array
+    private function parseSaleToken(string $localPart): ?array
     {
-        if (! str_starts_with($localPart, 'listing-')) {
+        if (! str_starts_with($localPart, 'sale-')) {
             return null;
         }
-        $parts = explode('-', substr($localPart, 8), 2);
+        $parts = explode('-', substr($localPart, 5), 2);
         if (count($parts) < 2) {
             return null;
         }
-        $listingId = (int) $parts[0];
+        $saleId = (int) $parts[0];
         $token = $parts[1] ?? '';
-        if ($listingId < 1 || $token === '') {
+        if ($saleId < 1 || $token === '') {
             return null;
         }
 
-        return ['listing_id' => $listingId, 'token' => $token];
+        return ['sale_id' => $saleId, 'token' => $token];
     }
 }

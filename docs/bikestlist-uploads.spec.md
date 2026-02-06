@@ -96,7 +96,7 @@ Uploads MUST be stored predictably to simplify URL generation and caching.
 `<prefix>/<resource>/<resource-id>/<asset-id>/<variant>.<ext>`
 
 * `prefix`: from `UPLOADS_PREFIX` (default `uploads`)
-* `resource`: e.g. `listings`, `parts`, `events`, `pages`, `profiles`
+* `resource`: e.g. `sales`, `parts`, `rides`, `pages`, `profiles`
 * `resource-id`: numeric or UUID
 * `asset-id`: UUID for each uploaded asset
 * `variant`: `original`, `webp`, `sm`, `md`, `lg` (see §7)
@@ -104,11 +104,11 @@ Uploads MUST be stored predictably to simplify URL generation and caching.
 
 ### 6.2 Example Keys
 
-* `uploads/listings/123/550e8400-e29b-41d4-a716-446655440000/original.jpg`
-* `uploads/listings/123/550e8400-e29b-41d4-a716-446655440000/webp.webp`
-* `uploads/listings/123/550e8400-e29b-41d4-a716-446655440000/sm.webp`
-* `uploads/listings/123/550e8400-e29b-41d4-a716-446655440000/md.webp`
-* `uploads/listings/123/550e8400-e29b-41d4-a716-446655440000/lg.webp`
+* `uploads/sales/123/550e8400-e29b-41d4-a716-446655440000/original.jpg`
+* `uploads/sales/123/550e8400-e29b-41d4-a716-446655440000/webp.webp`
+* `uploads/sales/123/550e8400-e29b-41d4-a716-446655440000/sm.webp`
+* `uploads/sales/123/550e8400-e29b-41d4-a716-446655440000/md.webp`
+* `uploads/sales/123/550e8400-e29b-41d4-a716-446655440000/lg.webp`
 
 ## 7. Image Processing Strategy
 
@@ -245,7 +245,7 @@ Rationale: keys are content-immutable (asset UUIDs), so aggressive caching is sa
 
 ### 10.2 Resource Attachment
 
-Domain resources (listings, events, pages, profiles) MUST reference uploads by **upload id**, not raw URLs.
+Domain resources (sales, rides, pages, profiles) MUST reference uploads by **upload id**, not raw URLs.
 
 URLs are derived dynamically from variant keys and storage config.
 

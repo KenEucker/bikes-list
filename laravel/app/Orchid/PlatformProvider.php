@@ -40,17 +40,17 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.systems.cities')
                 ->permission('platform.systems.cities'),
 
-            Menu::make(__('Listings'))
+            Menu::make(__('Sales'))
                 ->icon('bs.list-ul')
-                ->route('platform.systems.listings')
-                ->permission('platform.systems.listings'),
+                ->route('platform.systems.sales')
+                ->permission('platform.systems.sales'),
 
-            Menu::make(__('Events'))
+            Menu::make(__('Rides'))
                 ->icon('bs.calendar-event')
-                ->route('platform.systems.events')
-                ->permission('platform.systems.events'),
+                ->route('platform.systems.rides')
+                ->permission('platform.systems.rides'),
 
-            Menu::make(__('Flagged listings'))
+            Menu::make(__('Flagged sales'))
                 ->icon('bs.flag')
                 ->route('platform.moderation.flagged')
                 ->permission('platform.moderation.flagged'),
@@ -60,15 +60,15 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.systems.guidelines')
                 ->permission('platform.systems.guidelines'),
 
-            Menu::make(__('Event audiences'))
+            Menu::make(__('Ride audiences'))
                 ->icon('bs.people')
-                ->route('platform.systems.event-audiences')
-                ->permission('platform.systems.event-audiences'),
+                ->route('platform.systems.ride-audiences')
+                ->permission('platform.systems.ride-audiences'),
 
-            Menu::make(__('Event tags'))
+            Menu::make(__('Ride tags'))
                 ->icon('bs.tags')
-                ->route('platform.systems.event-tags')
-                ->permission('platform.systems.event-tags'),
+                ->route('platform.systems.ride-tags')
+                ->permission('platform.systems.ride-tags'),
 
             Menu::make(__('Community pages'))
                 ->icon('bs.people')
@@ -108,20 +108,20 @@ class PlatformProvider extends OrchidServiceProvider
         return [
             ItemPermission::group(__('System'))
                 ->addPermission('platform.systems.cities', __('Cities'))
-                ->addPermission('platform.systems.listings', __('Listings'))
-                ->addPermission('platform.systems.events', __('Events'))
+                ->addPermission('platform.systems.sales', __('Sales'))
+                ->addPermission('platform.systems.rides', __('Rides'))
                 ->addPermission('platform.systems.guidelines', __('Guidelines'))
-                ->addPermission('platform.systems.event-audiences', __('Event audiences'))
-                ->addPermission('platform.systems.event-tags', __('Event tags'))
+                ->addPermission('platform.systems.ride-audiences', __('Ride audiences'))
+                ->addPermission('platform.systems.ride-tags', __('Ride tags'))
                 ->addPermission('platform.systems.roles', __('Roles'))
                 ->addPermission('platform.systems.users', __('Users'))
                 ->addPermission('platform.systems.uploads', __('Uploads')),
             ItemPermission::group(__('Moderation'))
-                ->addPermission('platform.moderation.flagged', __('Flagged listings'))
+                ->addPermission('platform.moderation.flagged', __('Flagged sales'))
                 ->addPermission('platform.moderation.claims', __('Claim requests')),
             ItemPermission::group(__('Content'))
-                ->addPermission('content.create.listing', __('Create listings'))
-                ->addPermission('content.create.event', __('Create events'))
+                ->addPermission('content.create.sale', __('Create sales'))
+                ->addPermission('content.create.ride', __('Create rides'))
                 ->addPermission('content.create.community_page', __('Create community pages')),
         ];
     }

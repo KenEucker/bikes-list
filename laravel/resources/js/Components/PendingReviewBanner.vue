@@ -3,7 +3,7 @@ import { computed } from 'vue';
 
 const props = defineProps({
     show: { type: Boolean, default: false },
-    /** e.g. "listing", "event", "page" — used in copy */
+    /** e.g. "sale", "ride", "page" — used in copy */
     resourceLabel: { type: String, default: 'item' },
 });
 

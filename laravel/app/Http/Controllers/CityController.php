@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\City;
-use App\Models\Event;
+use App\Models\Ride;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -81,9 +81,9 @@ class CityController extends Controller
         $cityModel = City::query()->where('slug', $city)->firstOrFail();
         $startOfMonth = now()->startOfMonth();
         $endOfMonth = now()->endOfMonth();
-        $upcomingEvents = Event::query()
+        $upcomingRides = Ride::query()
             ->where('city_id', $cityModel->id)
-            ->where('state', Event::STATE_PUBLISHED)
+            ->where('state', Ride::STATE_PUBLISHED)
             ->where(function ($q) {
                 $q->whereNull('ends_at')->orWhere('ends_at', '>=', now());
             })
@@ -107,25 +107,25 @@ class CityController extends Controller
                 ->get();
             $featuredPages = $featuredPages->merge($extra);
         }
-        $listingsPreview = \App\Models\Listing::query()
+        $salesPreview = \App\Models\Sale::query()
             ->where('city_id', $cityModel->id)
-            ->whereIn('state', [\App\Models\Listing::STATE_PUBLISHED, \App\Models\Listing::STATE_SOLD])
+            ->whereIn('state', [\App\Models\Sale::STATE_PUBLISHED, \App\Models\Sale::STATE_SOLD])
             ->with(['relayAddress', 'attachments', 'uploads'])
             ->latest('published_at')
             ->limit(20)
             ->get();
         $cityBaseUrl = self::cityBaseUrl($request, $city);
 
-        $upcomingEventsWithUrl = $upcomingEvents->map(fn ($e) => array_merge($e->toArray(), [
-            'url' => $cityBaseUrl . '/events/' . $e->id,
+        $upcomingRidesWithUrl = $upcomingRides->map(fn ($r) => array_merge($r->toArray(), [
+            'url' => $cityBaseUrl . '/rides/' . $r->id,
         ]))->values()->all();
 
         $payload = [
             'city' => $cityModel->only(['id', 'name', 'slug', 'description', 'latitude', 'longitude', 'state_province', 'country']),
             'homeUrl' => (string) config('app.url'),
-            'upcomingEvents' => array_values($upcomingEventsWithUrl),
+            'upcomingRides' => array_values($upcomingRidesWithUrl),
             'featuredPages' => array_values($featuredPages->values()->all()),
-            'listingsPreview' => array_values($listingsPreview->values()->all()),
+            'salesPreview' => array_values($salesPreview->values()->all()),
             'cityBaseUrl' => (string) $cityBaseUrl,
         ];
         return Inertia::render('City/Show', $payload);

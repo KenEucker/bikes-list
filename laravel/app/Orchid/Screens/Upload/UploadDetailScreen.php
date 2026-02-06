@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Orchid\Screens\Upload;
 
 use App\Models\CommunityPage;
-use App\Models\Event;
-use App\Models\Listing;
+use App\Models\Ride;
+use App\Models\Sale;
 use App\Models\Upload;
 use App\Services\UploadStorageService;
 use Illuminate\Http\Request;
@@ -108,7 +108,7 @@ class UploadDetailScreen extends Screen
         }
         $items[] = Button::make(__('Delete'))
             ->icon('bs.trash3')
-            ->confirm(__('Delete this upload? This will remove objects from the bucket and unlink from any listings, events, or pages.'))
+            ->confirm(__('Delete this upload? This will remove objects from the bucket and unlink from any sales, rides, or pages.'))
             ->method('delete');
 
         return $items;
@@ -196,8 +196,8 @@ class UploadDetailScreen extends Screen
             $deleted[] = $upload->temp_key;
         }
 
-        $upload->listings()->detach();
-        $upload->events()->detach();
+        $upload->sales()->detach();
+        $upload->rides()->detach();
         $upload->communityPages()->detach();
         $upload->delete();
 
@@ -218,18 +218,18 @@ class UploadDetailScreen extends Screen
         $url = null;
         $label = null;
         switch ($type) {
-            case 'listings':
-                $model = Listing::find($id);
+            case 'sales':
+                $model = Sale::find($id);
                 if ($model) {
-                    $url = route('platform.systems.listings.edit', $model);
-                    $label = $model->title ?? 'Listing #' . $id;
+                    $url = route('platform.systems.sales.edit', $model);
+                    $label = $model->title ?? 'Sale #' . $id;
                 }
                 break;
-            case 'events':
-                $model = Event::find($id);
+            case 'rides':
+                $model = Ride::find($id);
                 if ($model) {
-                    $url = route('platform.systems.events.edit', $model);
-                    $label = $model->title ?? 'Event #' . $id;
+                    $url = route('platform.systems.rides.edit', $model);
+                    $label = $model->name ?? 'Ride #' . $id;
                 }
                 break;
             case 'pages':

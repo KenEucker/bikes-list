@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Consumer\LandingController;
 use App\Http\Controllers\Consumer\RegionHomeController;
-use App\Http\Controllers\Consumer\ListingController;
+use App\Http\Controllers\Consumer\SaleController;
 use App\Http\Controllers\Consumer\MagicLinkController;
 use App\Http\Middleware\ResolveRegion;
 use Illuminate\Support\Facades\Route;
@@ -16,10 +16,10 @@ Route::domain('bikeslist.org')->group(function () {
 // Region subdomains (*.bikeslist.org)
 Route::domain('{subdomain}.bikeslist.org')->middleware([ResolveRegion::class])->group(function () {
     Route::get('/', [RegionHomeController::class, 'index'])->name('region.home');
-    Route::get('/listings/{listing}', [ListingController::class, 'show'])->name('listings.show');
-    Route::get('/listings/create', [ListingController::class, 'create'])->middleware('auth:web')->name('listings.create');
-    Route::post('/listings', [ListingController::class, 'store'])->middleware('auth:web')->name('listings.store');
-    Route::get('/my-listings', [ListingController::class, 'myListings'])->middleware('auth:web')->name('listings.my');
+    Route::get('/for-sale/{sale}', [SaleController::class, 'show'])->name('for-sale.show');
+    Route::get('/for-sale/create', [SaleController::class, 'create'])->middleware('auth:web')->name('for-sale.create');
+    Route::post('/for-sale', [SaleController::class, 'store'])->middleware('auth:web')->name('for-sale.store');
+    Route::get('/my-for-sale', [SaleController::class, 'mySales'])->middleware('auth:web')->name('for-sale.my');
 });
 
 // Magic link routes (consumer)

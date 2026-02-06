@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\City;
 use App\Models\CommunityPage;
-use App\Models\Event;
-use App\Models\Listing;
+use App\Models\Ride;
+use App\Models\Sale;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -28,14 +28,14 @@ class ModerationController extends Controller
         ]);
     }
 
-    public function listings(Request $request, string $citySlug): Response
+    public function sales(Request $request, string $citySlug): Response
     {
         $city = City::query()->where('slug', $citySlug)->firstOrFail();
         $this->authorizeModerator($request->user(), $city);
 
-        $listings = Listing::query()
+        $sales = Sale::query()
             ->where('city_id', $city->id)
-            ->where('state', Listing::STATE_PENDING_REVIEW)
+            ->where('state', Sale::STATE_PENDING_REVIEW)
             ->with(['user:id,name', 'communityPage:id,name,slug'])
             ->orderBy('updated_at')
             ->paginate(20)
@@ -43,22 +43,22 @@ class ModerationController extends Controller
 
         $cityBaseUrl = self::cityBaseUrl($request, $citySlug);
 
-        return Inertia::render('Moderation/Listings', [
+        return Inertia::render('Moderation/Sales', [
             'city' => $city,
-            'listings' => $listings,
+            'sales' => $sales,
             'cityBaseUrl' => $cityBaseUrl,
             'homeUrl' => config('app.url'),
         ]);
     }
 
-    public function events(Request $request, string $citySlug): Response
+    public function rides(Request $request, string $citySlug): Response
     {
         $city = City::query()->where('slug', $citySlug)->firstOrFail();
         $this->authorizeModerator($request->user(), $city);
 
-        $events = Event::query()
+        $rides = Ride::query()
             ->where('city_id', $city->id)
-            ->where('state', Event::STATE_PENDING_REVIEW)
+            ->where('state', Ride::STATE_PENDING_REVIEW)
             ->with(['user:id,name', 'communityPage:id,name,slug'])
             ->orderBy('starts_at')
             ->paginate(20)
@@ -66,9 +66,9 @@ class ModerationController extends Controller
 
         $cityBaseUrl = self::cityBaseUrl($request, $citySlug);
 
-        return Inertia::render('Moderation/Events', [
+        return Inertia::render('Moderation/Rides', [
             'city' => $city,
-            'events' => $events,
+            'rides' => $rides,
             'cityBaseUrl' => $cityBaseUrl,
             'homeUrl' => config('app.url'),
         ]);

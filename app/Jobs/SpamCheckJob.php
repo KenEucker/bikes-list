@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Domain\Listings\Listing;
+use App\Domain\Sales\Sale;
 use App\Services\SpamDetectionService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -18,7 +18,7 @@ class SpamCheckJob implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        public int $listingId
+        public int $saleId
     ) {
     }
 
@@ -27,20 +27,20 @@ class SpamCheckJob implements ShouldQueue
      */
     public function handle(SpamDetectionService $spamService): void
     {
-        $listing = Listing::with('user')->find($this->listingId);
+        $sale = Sale::with('user')->find($this->saleId);
 
-        if (!$listing) {
+        if (!$sale) {
             return;
         }
 
-        $result = $spamService->checkListing($listing);
+        $result = $spamService->checkSale($sale);
 
         if ($result['flagged']) {
-            $listing->update(['status' => 'flagged']);
+            $sale->update(['status' => 'flagged']);
         }
 
         if ($result['suspend_user']) {
-            $listing->user->update(['status' => 'suspended']);
+            $sale->user->update(['status' => 'suspended']);
         }
     }
 }

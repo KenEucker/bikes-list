@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Consumer;
 
-use App\Domain\Listings\Listing;
-use App\Domain\Listings\ListingImage;
-use App\Jobs\GenerateListingImageVariantsJob;
+use App\Domain\Sales\Sale;
+use App\Domain\Sales\SaleImage;
+use App\Jobs\GenerateSaleImageVariantsJob;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -15,15 +15,15 @@ class ImageUploadController extends Controller
     /**
      * Generate a signed upload URL for direct client upload to Spaces.
      */
-    public function generateUploadUrl(Request $request, Listing $listing)
+    public function generateUploadUrl(Request $request, Sale $sale)
     {
         // Check authorization
-        if ($request->user()->id !== $listing->user_id) {
+        if ($request->user()->id !== $sale->user_id) {
             abort(403, 'Unauthorized');
         }
 
         $filename = Str::uuid() . '.jpg';
-        $key = "listings/{$listing->id}/{$filename}";
+        $key = "sales/{$sale->id}/{$filename}";
 
         $disk = Storage::disk('spaces');
         $url = $disk->temporaryUploadUrl($key, now()->addMinutes(10));
@@ -38,10 +38,10 @@ class ImageUploadController extends Controller
     /**
      * Record an uploaded image after client uploads directly to Spaces.
      */
-    public function store(Request $request, Listing $listing)
+    public function store(Request $request, Sale $sale)
     {
         // Check authorization
-        if ($request->user()->id !== $listing->user_id) {
+        if ($request->user()->id !== $sale->user_id) {
             abort(403, 'Unauthorized');
         }
 
@@ -55,8 +55,8 @@ class ImageUploadController extends Controller
         $disk = Storage::disk('spaces');
         $cdnUrl = $disk->url($validated['storage_key']);
 
-        $listingImage = ListingImage::create([
-            'listing_id' => $listing->id,
+        $saleImage = SaleImage::create([
+            'sale_id' => $sale->id,
             'storage_key' => $validated['storage_key'],
             'cdn_url' => $cdnUrl,
             'width' => $validated['width'] ?? null,
@@ -66,10 +66,10 @@ class ImageUploadController extends Controller
         ]);
 
         // Dispatch job to generate variants
-        GenerateListingImageVariantsJob::dispatch($listingImage->id);
+        GenerateSaleImageVariantsJob::dispatch($saleImage->id);
 
         return response()->json([
-            'image' => $listingImage,
+            'image' => $saleImage,
         ]);
     }
 }

@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\City;
 use App\Models\CommunityPage;
-use App\Models\Event;
-use App\Models\Listing;
+use App\Models\Ride;
+use App\Models\Sale;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -16,16 +16,16 @@ class SearchController extends Controller
     {
         $city = City::query()->where('slug', $citySlug)->firstOrFail();
         $q = $request->input('q', '');
-        $tab = $request->input('tab', 'listings');
+        $tab = $request->input('tab', 'sales');
 
-        $listings = collect();
-        $events = collect();
+        $sales = collect();
+        $rides = collect();
         $pages = collect();
 
         if (strlen($q) >= 2) {
-            $listings = Listing::query()
+            $sales = Sale::query()
                 ->where('city_id', $city->id)
-                ->whereIn('state', [Listing::STATE_PUBLISHED, Listing::STATE_SOLD])
+                ->whereIn('state', [Sale::STATE_PUBLISHED, Sale::STATE_SOLD])
                 ->where(function ($query) use ($q) {
                     $query->where('title', 'ilike', '%' . $q . '%')
                         ->orWhere('description', 'ilike', '%' . $q . '%');
@@ -34,11 +34,11 @@ class SearchController extends Controller
                 ->limit(20)
                 ->get();
 
-            $events = Event::query()
+            $rides = Ride::query()
                 ->where('city_id', $city->id)
-                ->where('state', Event::STATE_PUBLISHED)
+                ->where('state', Ride::STATE_PUBLISHED)
                 ->where(function ($query) use ($q) {
-                    $query->where('title', 'ilike', '%' . $q . '%')
+                    $query->where('name', 'ilike', '%' . $q . '%')
                         ->orWhere('description', 'ilike', '%' . $q . '%');
                 })
                 ->where(function ($query) {
@@ -66,8 +66,8 @@ class SearchController extends Controller
             'city' => $city,
             'query' => $q,
             'tab' => $tab,
-            'listings' => $listings,
-            'events' => $events,
+            'sales' => $sales,
+            'rides' => $rides,
             'pages' => $pages,
             'homeUrl' => config('app.url'),
             'cityBaseUrl' => $cityBaseUrl,

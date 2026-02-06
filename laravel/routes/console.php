@@ -1,8 +1,8 @@
 <?php
 
-use App\Jobs\AutoPublishPendingEvents;
+use App\Jobs\AutoPublishPendingRides;
 use App\Jobs\ProcessUploadVariantsJob;
-use App\Jobs\RecurringEventExpiryReminder;
+use App\Jobs\RecurringRideExpiryReminder;
 use App\Models\Upload;
 use App\Services\UploadStorageService;
 use Illuminate\Foundation\Inspiring;
@@ -131,5 +131,5 @@ Artisan::command('uploads:inspect {id : Upload UUID}', function (string $id) {
     return 0;
 })->purpose('Inspect an upload: DB state and whether temp/variant files exist in MinIO');
 
-Schedule::job(new AutoPublishPendingEvents(48))->hourly();
-Schedule::job(new RecurringEventExpiryReminder)->daily();
+Schedule::job(new AutoPublishPendingRides(48))->hourly();
+Schedule::job(new RecurringRideExpiryReminder)->daily();

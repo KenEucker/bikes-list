@@ -41,6 +41,10 @@ class CommunityPage extends Model
     public const TYPE_BIKE_SHOP = 'bike_shop';
     public const TYPE_CLUB = 'club';
     public const TYPE_RECURRING_EVENT = 'recurring_event';
+    public const TYPE_TEAM = 'team';
+    public const TYPE_ADVOCACY_ORG = 'advocacy_org';
+    public const TYPE_CO_OP = 'co_op';
+    public const TYPE_INFORMAL_GROUP = 'informal_group';
 
     public const STATE_PENDING = 'pending';
     public const STATE_APPROVED = 'approved';
@@ -68,9 +72,9 @@ class CommunityPage extends Model
             ->withTimestamps();
     }
 
-    public function listings(): HasMany
+    public function sales(): HasMany
     {
-        return $this->hasMany(Listing::class, 'community_page_id');
+        return $this->hasMany(Sale::class, 'community_page_id');
     }
 
     public function claims(): HasMany
@@ -78,9 +82,9 @@ class CommunityPage extends Model
         return $this->hasMany(CommunityPageClaim::class, 'community_page_id');
     }
 
-    public function events(): BelongsToMany
+    public function rides(): BelongsToMany
     {
-        return $this->belongsToMany(Event::class, 'event_community_page');
+        return $this->belongsToMany(Ride::class, 'ride_community_page');
     }
 
     public function uploads(): MorphToMany

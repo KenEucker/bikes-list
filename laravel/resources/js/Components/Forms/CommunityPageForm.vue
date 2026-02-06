@@ -69,6 +69,10 @@ watch(() => form.processing, (v) => emit('update:processing', v), { immediate: t
         >
             <gv-select-option value="bike_shop">Bike shop</gv-select-option>
             <gv-select-option value="club">Club</gv-select-option>
+            <gv-select-option value="team">Team</gv-select-option>
+            <gv-select-option value="advocacy_org">Advocacy org</gv-select-option>
+            <gv-select-option value="co_op">Co-op</gv-select-option>
+            <gv-select-option value="informal_group">Informal group</gv-select-option>
             <gv-select-option value="recurring_event">Recurring event</gv-select-option>
         </gv-select>
 

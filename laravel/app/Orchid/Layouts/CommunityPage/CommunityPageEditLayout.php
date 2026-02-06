@@ -27,6 +27,10 @@ class CommunityPageEditLayout extends Rows
                 ->options([
                     'bike_shop' => __('Bike shop'),
                     'club' => __('Club'),
+                    'team' => __('Team'),
+                    'advocacy_org' => __('Advocacy org'),
+                    'co_op' => __('Co-op'),
+                    'informal_group' => __('Informal group'),
                     'recurring_event' => __('Recurring event'),
                 ])
                 ->required()

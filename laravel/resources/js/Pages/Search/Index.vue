@@ -2,16 +2,16 @@
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import CityLayout from '@/Layouts/CityLayout.vue';
-import ListingCard from '@/Components/ListingCard.vue';
-import EventCard from '@/Components/EventCard.vue';
+import SaleCard from '@/Components/SaleCard.vue';
+import RideCard from '@/Components/RideCard.vue';
 import PageCard from '@/Components/PageCard.vue';
 
 const props = defineProps({
     city: { type: Object, required: true },
     query: { type: String, default: '' },
-    tab: { type: String, default: 'listings' },
-    listings: { type: Array, default: () => [] },
-    events: { type: Array, default: () => [] },
+    tab: { type: String, default: 'sales' },
+    sales: { type: Array, default: () => [] },
+    rides: { type: Array, default: () => [] },
     pages: { type: Array, default: () => [] },
     homeUrl: { type: String, default: '/' },
     cityBaseUrl: { type: String, required: true },
@@ -43,7 +43,7 @@ function doSearch() {
                     <input
                         v-model="q"
                         type="search"
-                        placeholder="Search listings, events, pages..."
+                        placeholder="Search sales, rides, pages..."
                         class="block w-full min-w-0 rounded-token-md border border-border bg-input text-fg shadow-sm focus:border-focus focus:ring-focus"
                     />
                 </div>
@@ -59,18 +59,18 @@ function doSearch() {
                 <button
                     type="button"
                     class="border-b-2 px-2 py-2 text-sm font-medium"
-                    :class="currentTab === 'listings' ? 'border-primary text-primary' : 'border-transparent text-muted hover:text-fg'"
-                    @click="currentTab = 'listings'"
+                    :class="currentTab === 'sales' ? 'border-primary text-primary' : 'border-transparent text-muted hover:text-fg'"
+                    @click="currentTab = 'sales'"
                 >
-                    Listings
+                    For Sale
                 </button>
                 <button
                     type="button"
                     class="border-b-2 px-2 py-2 text-sm font-medium"
-                    :class="currentTab === 'events' ? 'border-primary text-primary' : 'border-transparent text-muted hover:text-fg'"
-                    @click="currentTab = 'events'"
+                    :class="currentTab === 'rides' ? 'border-primary text-primary' : 'border-transparent text-muted hover:text-fg'"
+                    @click="currentTab = 'rides'"
                 >
-                    Events
+                    Rides
                 </button>
                 <button
                     type="button"
@@ -83,30 +83,30 @@ function doSearch() {
             </div>
 
             <div class="mt-6">
-                <div v-show="currentTab === 'listings'" class="space-y-4">
+                <div v-show="currentTab === 'sales'" class="space-y-4">
                     <p v-if="!query" class="text-muted">Enter a search term and click Search.</p>
                     <template v-else>
-                        <p class="text-sm text-muted">{{ listings.length }} result(s)</p>
+                        <p class="text-sm text-muted">{{ sales.length }} result(s)</p>
                         <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                            <li v-for="listing in listings" :key="listing.id">
-                                <ListingCard
-                                    :listing="listing"
-                                    :url="`${cityBaseUrl}/listings/${listing.id}`"
+                            <li v-for="sale in sales" :key="sale.id">
+                                <SaleCard
+                                    :sale="sale"
+                                    :url="`${cityBaseUrl}/for-sale/${sale.id}`"
                                     :show-status="false"
                                 />
                             </li>
                         </ul>
                     </template>
                 </div>
-                <div v-show="currentTab === 'events'" class="space-y-4">
+                <div v-show="currentTab === 'rides'" class="space-y-4">
                     <p v-if="!query" class="text-muted">Enter a search term and click Search.</p>
                     <template v-else>
-                        <p class="text-sm text-muted">{{ events.length }} result(s)</p>
+                        <p class="text-sm text-muted">{{ rides.length }} result(s)</p>
                         <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                            <li v-for="event in events" :key="event.id">
-                                <EventCard
-                                    :event="event"
-                                    :url="`${cityBaseUrl}/events/${event.id}`"
+                            <li v-for="ride in rides" :key="ride.id">
+                                <RideCard
+                                    :ride="ride"
+                                    :url="`${cityBaseUrl}/rides/${ride.id}`"
                                     :show-status="false"
                                 />
                             </li>

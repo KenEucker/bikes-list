@@ -28,11 +28,11 @@ class AdminUserSeeder extends Seeder
                 'permissions' => [
                     'platform.index' => true,
                     'platform.systems.cities' => true,
-                    'platform.systems.listings' => true,
-                    'platform.systems.events' => true,
+                    'platform.systems.sales' => true,
+                    'platform.systems.rides' => true,
                     'platform.systems.guidelines' => true,
-                    'platform.systems.event-audiences' => true,
-                    'platform.systems.event-tags' => true,
+                    'platform.systems.ride-audiences' => true,
+                    'platform.systems.ride-tags' => true,
                     'platform.systems.community-pages' => true,
                     'platform.systems.uploads' => true,
                     'platform.systems.users' => true,
@@ -51,8 +51,8 @@ class AdminUserSeeder extends Seeder
                 'permissions' => [
                     'platform.index' => true,
                     'platform.systems.cities' => true,
-                    'platform.systems.listings' => true,
-                    'platform.systems.events' => true,
+                    'platform.systems.sales' => true,
+                    'platform.systems.rides' => true,
                     'platform.systems.guidelines' => true,
                     'platform.systems.community-pages' => true,
                     'platform.systems.uploads' => true,
@@ -67,8 +67,8 @@ class AdminUserSeeder extends Seeder
             [
                 'name'        => 'User',
                 'permissions' => [
-                    'content.create.listing' => true,
-                    'content.create.event' => true,
+                    'content.create.sale' => true,
+                    'content.create.ride' => true,
                     'content.create.community_page' => true,
                 ],
             ]

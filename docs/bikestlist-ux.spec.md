@@ -149,7 +149,7 @@ Placeholder text must never replace labels.
 ### 6.2 Containers
 
 * Informational pages: narrow reading width
-* Listings and indexes: wider scan-friendly width
+* Sales and indexes: wider scan-friendly width
 * Admin pages: consistent with Orchid layout but token-aligned
 
 ---
@@ -162,7 +162,7 @@ Must include:
 
 * city / region selector
 * search
-* primary content access (listings, events, pages)
+* primary content access (for sale, rides, pages)
 * create action (contextual)
 * user menu
 * theme toggle
@@ -171,9 +171,9 @@ Navigation must prioritize clarity over compactness.
 
 ---
 
-## 8. Listings UX
+## 8. For Sale (Sales) UX
 
-### 8.1 Listings Index
+### 8.1 Sales Index
 
 * Text-forward list view is primary
 * Rows, not cards
@@ -188,18 +188,18 @@ Navigation must prioritize clarity over compactness.
 
 ---
 
-## 9. Listing Detail Pages
+## 9. Sale Detail Pages
 
 * Information appears before imagery
 * Actions (contact, report) are clear and separated
-* Bike listings include validation links where applicable
-* Images support the listing, not the other way around
+* Bike sales include validation links where applicable
+* Images support the sale, not the other way around
 
 ---
 
-## 10. Events UX
+## 10. Rides UX
 
-* Events appear as structured entries, not promotional cards
+* Rides appear as structured entries, not promotional cards
 * Date, time, location, and route information is immediately visible
 * Routes may be simple text explanations in early versions
 

@@ -2,7 +2,7 @@
 
 namespace App\Orchid\Screens;
 
-use App\Domain\Listings\ListingImage;
+use App\Domain\Sales\SaleImage;
 use Illuminate\Support\Facades\DB;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
@@ -18,9 +18,9 @@ class ImageProcessingScreen extends Screen
     {
         return [
             'stats' => [
-                'total_images' => ListingImage::count(),
-                'original_images' => ListingImage::where('variant', 'original')->count(),
-                'processed_images' => ListingImage::where('variant', '!=', 'original')->count(),
+                'total_images' => SaleImage::count(),
+                'original_images' => SaleImage::where('variant', 'original')->count(),
+                'processed_images' => SaleImage::where('variant', '!=', 'original')->count(),
             ],
         ];
     }

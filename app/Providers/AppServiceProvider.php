@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Register policies
-        // Gate::policy(Listing::class, ListingPolicy::class);
+        // Gate::policy(Sale::class, SalePolicy::class);
         
         // Configure API rate limiting
         \Illuminate\Support\Facades\RateLimiter::for('api', function (\Illuminate\Http\Request $request) {

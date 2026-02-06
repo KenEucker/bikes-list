@@ -29,7 +29,7 @@ class StreamUploadController extends Controller
         $variant = pathinfo($filename, PATHINFO_FILENAME); // lg, sm, md
         $storage = app(UploadStorageService::class);
         // Use the key stored at processing time (variants) so we find the file even after
-        // resource_type/resource_id are updated when the upload is attached to a listing.
+        // resource_type/resource_id are updated when the upload is attached to a sale/ride/page.
         $key = is_array($upload->variants) && isset($upload->variants[$variant])
             ? $upload->variants[$variant]
             : $storage->getVariantKey($upload, $variant);

@@ -28,7 +28,7 @@ const form = ref({
 function searchUrl(search) {
     const base = `${window.location.protocol}//${search.city.slug}.${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}`;
     const params = new URLSearchParams(search.query || {}).toString();
-    return `${base}/listings${params ? '?' + params : ''}`;
+    return `${base}/for-sale${params ? '?' + params : ''}`;
 }
 </script>
 
@@ -41,7 +41,7 @@ function searchUrl(search) {
 
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <p class="mb-4 text-sm text-muted">Searches you save from a city listings page appear here. No alerts in v1.</p>
+                <p class="mb-4 text-sm text-muted">Searches you save from a city For Sale page appear here. No alerts in v1.</p>
 
                 <div v-if="showForm || prefill" class="mb-6 rounded-lg border border-border bg-card p-4">
                     <h3 class="font-medium text-fg">Add saved search</h3>
@@ -76,7 +76,7 @@ function searchUrl(search) {
                         </div>
                     </li>
                 </ul>
-                <p v-if="savedSearches.length === 0" class="text-muted">No saved searches. Save a search from a city listings page.</p>
+                <p v-if="savedSearches.length === 0" class="text-muted">No saved searches. Save a search from a city For Sale page.</p>
             </div>
         </div>
     </AuthenticatedLayout>

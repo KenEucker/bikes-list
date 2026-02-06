@@ -52,15 +52,15 @@ class Upload extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function listings(): MorphToMany
+    public function sales(): MorphToMany
     {
-        return $this->morphedByMany(Listing::class, 'uploadable', 'uploadables')
+        return $this->morphedByMany(Sale::class, 'uploadable', 'uploadables')
             ->withPivot('position');
     }
 
-    public function events(): MorphToMany
+    public function rides(): MorphToMany
     {
-        return $this->morphedByMany(Event::class, 'uploadable', 'uploadables')
+        return $this->morphedByMany(Ride::class, 'uploadable', 'uploadables')
             ->withPivot('position');
     }
 

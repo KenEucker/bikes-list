@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Domain\Listings\Listing;
+use App\Domain\Sales\Sale;
 use App\Domain\Regions\Region;
 use App\Domain\Auth\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -25,10 +25,10 @@ class SignedUploadUrlTest extends TestCase
             'is_active' => true,
         ]);
 
-        $listing = Listing::create([
+        $sale = Sale::create([
             'region_id' => $region->id,
             'user_id' => $user->id,
-            'title' => 'Test Listing',
+            'title' => 'Test Sale',
             'description' => 'Test',
             'price_cents' => 10000,
             'currency' => 'USD',
@@ -36,7 +36,7 @@ class SignedUploadUrlTest extends TestCase
 
         $this->actingAs($user, 'web');
 
-        $response = $this->post("/api/v1/listings/{$listing->id}/images/upload-url");
+        $response = $this->post("/api/v1/for-sale/{$sale->id}/images/upload-url");
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -46,6 +46,6 @@ class SignedUploadUrlTest extends TestCase
         ]);
 
         $data = $response->json();
-        $this->assertStringContainsString("listings/{$listing->id}/", $data['key']);
+        $this->assertStringContainsString("sales/{$sale->id}/", $data['key']);
     }
 }

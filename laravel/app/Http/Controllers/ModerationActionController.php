@@ -4,103 +4,103 @@ namespace App\Http\Controllers;
 
 use App\Models\City;
 use App\Models\CommunityPage;
-use App\Models\Event;
-use App\Models\Listing;
-use App\Models\ListingRelayAddress;
+use App\Models\Ride;
+use App\Models\Sale;
+use App\Models\SaleRelayAddress;
 use App\Models\ModerationAction;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 
 class ModerationActionController extends Controller
 {
-    public function approveListing(Request $request, Listing $listing): RedirectResponse
+    public function approveSale(Request $request, Sale $sale): RedirectResponse
     {
         $citySlug = $request->route('city');
         $city = City::query()->where('slug', $citySlug)->firstOrFail();
         $this->authorizeModerator($request->user(), $city);
-        if ($listing->city_id !== $city->id || $listing->state !== Listing::STATE_PENDING_REVIEW) {
+        if ($sale->city_id !== $city->id || $sale->state !== Sale::STATE_PENDING_REVIEW) {
             abort(404);
         }
 
-        $listing->update(['state' => Listing::STATE_PUBLISHED, 'published_at' => now()]);
-        $listing->searchable();
-        if (! $listing->relayAddress) {
-            ListingRelayAddress::create(['listing_id' => $listing->id, 'token' => ListingRelayAddress::generateToken()]);
+        $sale->update(['state' => Sale::STATE_PUBLISHED, 'published_at' => now()]);
+        $sale->searchable();
+        if (! $sale->relayAddress) {
+            SaleRelayAddress::create(['sale_id' => $sale->id, 'token' => SaleRelayAddress::generateToken()]);
         }
         ModerationAction::create([
             'user_id' => $request->user()->id,
             'action' => 'approved',
-            'subject_type' => Listing::class,
-            'subject_id' => $listing->id,
+            'subject_type' => Sale::class,
+            'subject_id' => $sale->id,
             'reason' => $request->input('note'),
         ]);
 
-        return redirect()->route('city.moderation.listings', $citySlug)->with('status', 'Listing published.');
+        return redirect()->route('city.moderation.sales', $citySlug)->with('status', 'Sale published.');
     }
 
-    public function removeListing(Request $request, Listing $listing): RedirectResponse
+    public function removeSale(Request $request, Sale $sale): RedirectResponse
     {
         $citySlug = $request->route('city');
         $city = City::query()->where('slug', $citySlug)->firstOrFail();
         $this->authorizeModerator($request->user(), $city);
-        if ($listing->city_id !== $city->id) {
+        if ($sale->city_id !== $city->id) {
             abort(404);
         }
         $request->validate(['note' => ['required', 'string', 'max:2000']]);
 
-        $listing->update(['state' => Listing::STATE_REMOVED]);
+        $sale->update(['state' => Sale::STATE_REMOVED]);
         ModerationAction::create([
             'user_id' => $request->user()->id,
             'action' => 'removed',
-            'subject_type' => Listing::class,
-            'subject_id' => $listing->id,
+            'subject_type' => Sale::class,
+            'subject_id' => $sale->id,
             'reason' => $request->input('note'),
         ]);
 
-        return redirect()->route('city.moderation.listings', $citySlug)->with('status', 'Listing removed.');
+        return redirect()->route('city.moderation.sales', $citySlug)->with('status', 'Sale removed.');
     }
 
-    public function approveEvent(Request $request, Event $event): RedirectResponse
+    public function approveRide(Request $request, Ride $ride): RedirectResponse
     {
         $citySlug = $request->route('city');
         $city = City::query()->where('slug', $citySlug)->firstOrFail();
         $this->authorizeModerator($request->user(), $city);
-        if ($event->city_id !== $city->id || $event->state !== Event::STATE_PENDING_REVIEW) {
+        if ($ride->city_id !== $city->id || $ride->state !== Ride::STATE_PENDING_REVIEW) {
             abort(404);
         }
 
-        $event->update(['state' => Event::STATE_PUBLISHED, 'published_at' => now()]);
+        $ride->update(['state' => Ride::STATE_PUBLISHED, 'published_at' => now()]);
         ModerationAction::create([
             'user_id' => $request->user()->id,
             'action' => 'approved',
-            'subject_type' => Event::class,
-            'subject_id' => $event->id,
+            'subject_type' => Ride::class,
+            'subject_id' => $ride->id,
             'reason' => $request->input('note'),
         ]);
 
-        return redirect()->route('city.moderation.events', $citySlug)->with('status', 'Event published.');
+        return redirect()->route('city.moderation.rides', $citySlug)->with('status', 'Ride published.');
     }
 
-    public function removeEvent(Request $request, Event $event): RedirectResponse
+    public function removeRide(Request $request, Ride $ride): RedirectResponse
     {
         $citySlug = $request->route('city');
         $city = City::query()->where('slug', $citySlug)->firstOrFail();
         $this->authorizeModerator($request->user(), $city);
-        if ($event->city_id !== $city->id) {
+        if ($ride->city_id !== $city->id) {
             abort(404);
         }
         $request->validate(['note' => ['required', 'string', 'max:2000']]);
 
-        $event->update(['state' => Event::STATE_REMOVED]);
+        $ride->update(['state' => Ride::STATE_REMOVED]);
         ModerationAction::create([
             'user_id' => $request->user()->id,
             'action' => 'removed',
-            'subject_type' => Event::class,
-            'subject_id' => $event->id,
+            'subject_type' => Ride::class,
+            'subject_id' => $ride->id,
             'reason' => $request->input('note'),
         ]);
 
-        return redirect()->route('city.moderation.events', $citySlug)->with('status', 'Event removed.');
+        return redirect()->route('city.moderation.rides', $citySlug)->with('status', 'Ride removed.');
     }
 
     public function approvePage(Request $request, string $citySlug, CommunityPage $page): RedirectResponse

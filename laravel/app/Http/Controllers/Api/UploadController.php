@@ -7,8 +7,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Jobs\ProcessUploadVariantsJob;
 use App\Models\CommunityPage;
-use App\Models\Event;
-use App\Models\Listing;
+use App\Models\Ride;
+use App\Models\Sale;
 use App\Models\Upload;
 use App\Services\UploadImageValidator;
 use App\Services\UploadStorageService;
@@ -30,7 +30,7 @@ class UploadController extends Controller
     public function sign(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'resource_type' => ['nullable', 'string', 'in:listings,events,pages'],
+            'resource_type' => ['nullable', 'string', 'in:sales,rides,pages'],
             'resource_id' => ['nullable', 'string'],
         ]);
 
@@ -149,16 +149,16 @@ class UploadController extends Controller
     {
         $id = is_numeric($resourceId) ? (int) $resourceId : $resourceId;
         switch ($resourceType) {
-            case 'listings':
-                $listing = Listing::find($id);
-                if (! $listing || $listing->user_id !== $user->id) {
-                    abort(403, 'Cannot attach to this listing.');
+            case 'sales':
+                $sale = Sale::find($id);
+                if (! $sale || $sale->user_id !== $user->id) {
+                    abort(403, 'Cannot attach to this sale.');
                 }
                 break;
-            case 'events':
-                $event = Event::find($id);
-                if (! $event || $event->user_id !== $user->id) {
-                    abort(403, 'Cannot attach to this event.');
+            case 'rides':
+                $ride = Ride::find($id);
+                if (! $ride || $ride->user_id !== $user->id) {
+                    abort(403, 'Cannot attach to this ride.');
                 }
                 break;
             case 'pages':

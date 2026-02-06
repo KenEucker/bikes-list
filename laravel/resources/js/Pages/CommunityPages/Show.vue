@@ -50,21 +50,21 @@ const status = computed(() => page.props.status ?? page.props.flash?.status);
                 <p v-if="communityPage.contact_email" class="text-muted">{{ communityPage.contact_email }}</p>
                 <p v-if="communityPage.contact_phone" class="text-muted">{{ communityPage.contact_phone }}</p>
             </div>
-            <section v-if="communityPage.listings?.length" class="mt-8">
-                <h2 class="text-lg font-semibold text-fg">Listings</h2>
+            <section v-if="communityPage.sales?.length" class="mt-8">
+                <h2 class="text-lg font-semibold text-fg">For Sale</h2>
                 <ul class="mt-2 space-y-2">
-                    <li v-for="listing in communityPage.listings" :key="listing.id">
-                        <a :href="`${cityBaseUrl}/listings/${listing.id}`" class="text-primary underline">{{ listing.title }}</a>
+                    <li v-for="sale in communityPage.sales" :key="sale.id">
+                        <a :href="`${cityBaseUrl}/for-sale/${sale.id}`" class="text-primary underline">{{ sale.title }}</a>
                     </li>
                 </ul>
-                <a :href="`${cityBaseUrl}/listings?type=`" class="mt-2 inline-block text-sm text-primary underline">View all listings from this page</a>
+                <a :href="`${cityBaseUrl}/for-sale?type=`" class="mt-2 inline-block text-sm text-primary underline">View all sales from this page</a>
             </section>
-            <section v-if="communityPage.events?.length" class="mt-8">
-                <h2 class="text-lg font-semibold text-fg">Events</h2>
+            <section v-if="communityPage.rides?.length" class="mt-8">
+                <h2 class="text-lg font-semibold text-fg">Rides</h2>
                 <ul class="mt-2 space-y-2">
-                    <li v-for="event in communityPage.events" :key="event.id">
-                        <a :href="`${cityBaseUrl}/events/${event.id}`" class="text-primary underline">{{ event.name }}</a>
-                        <span class="text-sm text-muted"> – {{ new Date(event.starts_at).toLocaleDateString() }}</span>
+                    <li v-for="ride in communityPage.rides" :key="ride.id">
+                        <a :href="`${cityBaseUrl}/rides/${ride.id}`" class="text-primary underline">{{ ride.name }}</a>
+                        <span class="text-sm text-muted"> – {{ new Date(ride.starts_at).toLocaleDateString() }}</span>
                     </li>
                 </ul>
             </section>

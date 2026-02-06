@@ -4,11 +4,11 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\CommunityPageClaimController;
 use App\Http\Controllers\CommunityPageController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\EventController;
+use App\Http\Controllers\RideController;
 use App\Http\Controllers\FlagController;
 use App\Http\Controllers\InboundRelayController;
 use App\Http\Controllers\LegalController;
-use App\Http\Controllers\ListingController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\ModerationActionController;
 use App\Http\Controllers\ModerationController;
 use App\Http\Controllers\SearchController;
@@ -27,23 +27,23 @@ $cityRoutes = function () {
     Route::get('/', [CityController::class, 'show'])->name('city.show');
     Route::get('/search', [SearchController::class, 'index'])->name('city.search');
 
-    Route::get('/listings', [ListingController::class, 'index'])->name('city.listings.index');
-    Route::get('/listings/new', [ListingController::class, 'create'])->name('city.listings.create')->middleware(['auth', 'verified']);
-    Route::post('/listings', [ListingController::class, 'store'])->name('city.listings.store')->middleware(['auth', 'verified']);
-    Route::get('/listings/{listing}', [ListingController::class, 'show'])->name('city.listings.show');
-    Route::get('/listings/{listing}/edit', [ListingController::class, 'edit'])->name('city.listings.edit')->middleware(['auth', 'verified']);
-    Route::put('/listings/{listing}', [ListingController::class, 'update'])->name('city.listings.update')->middleware(['auth', 'verified']);
-    Route::delete('/listings/{listing}', [ListingController::class, 'destroy'])->name('city.listings.destroy')->middleware(['auth', 'verified']);
-    Route::post('/listings/{listing}/publish', [ListingController::class, 'publish'])->name('city.listings.publish')->middleware(['auth', 'verified']);
-    Route::post('/listings/{listing}/sold', [ListingController::class, 'markSold'])->name('city.listings.sold')->middleware(['auth', 'verified']);
-    Route::post('/listings/{listing}/flag', [FlagController::class, 'store'])->name('city.listings.flag')->middleware(['auth', 'verified']);
+    Route::get('/for-sale', [SaleController::class, 'index'])->name('city.sales.index');
+    Route::get('/for-sale/new', [SaleController::class, 'create'])->name('city.sales.create')->middleware(['auth', 'verified']);
+    Route::post('/for-sale', [SaleController::class, 'store'])->name('city.sales.store')->middleware(['auth', 'verified']);
+    Route::get('/for-sale/{sale}', [SaleController::class, 'show'])->name('city.sales.show');
+    Route::get('/for-sale/{sale}/edit', [SaleController::class, 'edit'])->name('city.sales.edit')->middleware(['auth', 'verified']);
+    Route::put('/for-sale/{sale}', [SaleController::class, 'update'])->name('city.sales.update')->middleware(['auth', 'verified']);
+    Route::delete('/for-sale/{sale}', [SaleController::class, 'destroy'])->name('city.sales.destroy')->middleware(['auth', 'verified']);
+    Route::post('/for-sale/{sale}/publish', [SaleController::class, 'publish'])->name('city.sales.publish')->middleware(['auth', 'verified']);
+    Route::post('/for-sale/{sale}/sold', [SaleController::class, 'markSold'])->name('city.sales.sold')->middleware(['auth', 'verified']);
+    Route::post('/for-sale/{sale}/flag', [FlagController::class, 'store'])->name('city.sales.flag')->middleware(['auth', 'verified']);
 
-    Route::get('/events', [EventController::class, 'index'])->name('city.events.index');
-    Route::get('/events/new', [EventController::class, 'create'])->name('city.events.create');
-    Route::post('/events', [EventController::class, 'store'])->name('city.events.store');
-    Route::get('/events/{event}', [EventController::class, 'show'])->name('city.events.show');
-    Route::get('/events/{event}/edit', [EventController::class, 'edit'])->name('city.events.edit')->middleware(['auth', 'verified']);
-    Route::put('/events/{event}', [EventController::class, 'update'])->name('city.events.update')->middleware(['auth', 'verified']);
+    Route::get('/rides', [RideController::class, 'index'])->name('city.rides.index');
+    Route::get('/rides/new', [RideController::class, 'create'])->name('city.rides.create');
+    Route::post('/rides', [RideController::class, 'store'])->name('city.rides.store');
+    Route::get('/rides/{ride}', [RideController::class, 'show'])->name('city.rides.show');
+    Route::get('/rides/{ride}/edit', [RideController::class, 'edit'])->name('city.rides.edit')->middleware(['auth', 'verified']);
+    Route::put('/rides/{ride}', [RideController::class, 'update'])->name('city.rides.update')->middleware(['auth', 'verified']);
 
     Route::get('/community', [CommunityPageController::class, 'index'])->name('city.community-pages.index');
     Route::get('/community/new', [CommunityPageController::class, 'create'])->name('city.community-pages.create')->middleware(['auth', 'verified']);
@@ -56,8 +56,8 @@ $cityRoutes = function () {
 
     Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('city.dashboard');
-        Route::get('/dashboard/listings', [DashboardController::class, 'listings'])->name('city.dashboard.listings');
-        Route::get('/dashboard/events', [DashboardController::class, 'events'])->name('city.dashboard.events');
+        Route::get('/dashboard/sales', [DashboardController::class, 'sales'])->name('city.dashboard.sales');
+        Route::get('/dashboard/rides', [DashboardController::class, 'rides'])->name('city.dashboard.rides');
         Route::get('/dashboard/pending', [DashboardController::class, 'pending'])->name('city.dashboard.pending');
         Route::get('/dashboard/pages', [DashboardController::class, 'pages'])->name('city.dashboard.pages');
         Route::get('/dashboard/pages/{slug}', [DashboardController::class, 'pageShow'])->name('city.dashboard.pages.show');
@@ -65,12 +65,12 @@ $cityRoutes = function () {
 
     Route::middleware(['auth', 'verified', \App\Http\Middleware\EnsureCityModerator::class])->prefix('moderation')->name('city.moderation.')->group(function () {
         Route::get('/', [ModerationController::class, 'index'])->name('index');
-        Route::get('/listings', [ModerationController::class, 'listings'])->name('listings');
-        Route::post('/listings/{listing}/approve', [ModerationActionController::class, 'approveListing'])->name('listings.approve');
-        Route::post('/listings/{listing}/remove', [ModerationActionController::class, 'removeListing'])->name('listings.remove');
-        Route::get('/events', [ModerationController::class, 'events'])->name('events');
-        Route::post('/events/{event}/approve', [ModerationActionController::class, 'approveEvent'])->name('events.approve');
-        Route::post('/events/{event}/remove', [ModerationActionController::class, 'removeEvent'])->name('events.remove');
+        Route::get('/sales', [ModerationController::class, 'sales'])->name('sales');
+        Route::post('/sales/{sale}/approve', [ModerationActionController::class, 'approveSale'])->name('sales.approve');
+        Route::post('/sales/{sale}/remove', [ModerationActionController::class, 'removeSale'])->name('sales.remove');
+        Route::get('/rides', [ModerationController::class, 'rides'])->name('rides');
+        Route::post('/rides/{ride}/approve', [ModerationActionController::class, 'approveRide'])->name('rides.approve');
+        Route::post('/rides/{ride}/remove', [ModerationActionController::class, 'removeRide'])->name('rides.remove');
         Route::get('/pages', [ModerationController::class, 'pages'])->name('pages');
         Route::post('/pages/{page}/approve', [ModerationActionController::class, 'approvePage'])->name('pages.approve');
         Route::post('/pages/{page}/remove', [ModerationActionController::class, 'removePage'])->name('pages.remove');

@@ -2,13 +2,13 @@
 
 namespace App\Services;
 
-use App\Domain\Listings\Listing;
+use App\Domain\Sales\Sale;
 use Meilisearch\Client as MeilisearchClient;
 
 class SearchService
 {
     protected MeilisearchClient $client;
-    protected string $indexName = 'listings';
+    protected string $indexName = 'sales';
 
     public function __construct()
     {
@@ -19,28 +19,28 @@ class SearchService
     }
 
     /**
-     * Index a listing in Meilisearch.
+     * Index a sale in Meilisearch.
      */
-    public function indexListing(Listing $listing): void
+    public function indexSale(Sale $sale): void
     {
-        if ($listing->status !== 'active' || !$listing->published_at) {
+        if ($sale->status !== 'active' || !$sale->published_at) {
             return;
         }
 
-        $thumbImage = $listing->images()
+        $thumbImage = $sale->images()
             ->where('variant', 'thumb')
             ->first();
 
         $document = [
-            'id' => $listing->id,
-            'listing_id' => $listing->id,
-            'region_slug' => $listing->region->slug,
-            'title' => $listing->title,
-            'description' => $listing->description,
-            'price_cents' => $listing->price_cents,
-            'category' => $listing->category,
-            'condition' => $listing->condition,
-            'published_at' => $listing->published_at->timestamp,
+            'id' => $sale->id,
+            'sale_id' => $sale->id,
+            'region_slug' => $sale->region->slug,
+            'title' => $sale->title,
+            'description' => $sale->description,
+            'price_cents' => $sale->price_cents,
+            'category' => $sale->category,
+            'condition' => $sale->condition,
+            'published_at' => $sale->published_at->timestamp,
             'image_thumb_url' => $thumbImage?->cdn_url,
         ];
 
@@ -48,15 +48,15 @@ class SearchService
     }
 
     /**
-     * Remove a listing from the index.
+     * Remove a sale from the index.
      */
-    public function removeListing(int $listingId): void
+    public function removeSale(int $saleId): void
     {
-        $this->client->index($this->indexName)->deleteDocument($listingId);
+        $this->client->index($this->indexName)->deleteDocument($saleId);
     }
 
     /**
-     * Search listings.
+     * Search for-sale items.
      */
     public function search(string $query, ?string $regionSlug = null, array $filters = []): array
     {

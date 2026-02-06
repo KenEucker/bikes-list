@@ -57,7 +57,7 @@ class CommunityPageCreateScreen extends Screen
     {
         $input = $request->validate([
             'communityPage.city_id' => ['required', 'exists:cities,id'],
-            'communityPage.type' => ['required', 'in:bike_shop,club,recurring_event'],
+            'communityPage.type' => ['required', 'in:bike_shop,club,team,advocacy_org,co_op,informal_group,recurring_event'],
             'communityPage.name' => ['required', 'string', 'max:255'],
             'communityPage.about' => ['nullable', 'string'],
             'communityPage.event_info' => ['nullable', 'string'],

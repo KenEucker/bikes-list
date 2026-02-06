@@ -43,7 +43,7 @@ const savedSearchesUrl = usePage().props.urls?.savedSearches || '#';
 
                 <div class="bg-card border border-border p-4 shadow sm:rounded-lg sm:p-8">
                     <h3 class="text-lg font-medium text-fg">Saved searches</h3>
-                    <p class="mt-1 text-sm text-muted">View and manage your saved listing searches.</p>
+                    <p class="mt-1 text-sm text-muted">View and manage your saved sale searches.</p>
                     <Link :href="savedSearchesUrl" class="mt-2 inline-block text-sm font-medium text-primary hover:opacity-90">Manage saved searches</Link>
                 </div>
 

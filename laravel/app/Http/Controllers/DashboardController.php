@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\City;
 use App\Models\CommunityPage;
-use App\Models\Event;
-use App\Models\Listing;
+use App\Models\Ride;
+use App\Models\Sale;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -17,23 +17,23 @@ class DashboardController extends Controller
         $city = City::query()->where('slug', $citySlug)->firstOrFail();
         $user = $request->user();
 
-        $myListingsCount = Listing::query()
+        $mySalesCount = Sale::query()
             ->where('city_id', $city->id)
             ->where('user_id', $user->id)
             ->count();
-        $myEventsCount = Event::query()
+        $myRidesCount = Ride::query()
             ->where('city_id', $city->id)
             ->where('user_id', $user->id)
             ->count();
-        $pendingListingsCount = Listing::query()
+        $pendingSalesCount = Sale::query()
             ->where('city_id', $city->id)
             ->where('user_id', $user->id)
-            ->where('state', Listing::STATE_PENDING_REVIEW)
+            ->where('state', Sale::STATE_PENDING_REVIEW)
             ->count();
-        $pendingEventsCount = Event::query()
+        $pendingRidesCount = Ride::query()
             ->where('city_id', $city->id)
             ->where('user_id', $user->id)
-            ->where('state', Event::STATE_PENDING_REVIEW)
+            ->where('state', Ride::STATE_PENDING_REVIEW)
             ->count();
         $managedPagesCount = $user->managedCommunityPages()->where('community_pages.city_id', $city->id)->count();
         $pendingPagesCount = $user->managedCommunityPages()
@@ -48,22 +48,22 @@ class DashboardController extends Controller
             'cityBaseUrl' => $cityBaseUrl,
             'homeUrl' => config('app.url'),
             'counts' => [
-                'listings' => $myListingsCount,
-                'events' => $myEventsCount,
-                'pendingListings' => $pendingListingsCount,
-                'pendingEvents' => $pendingEventsCount,
+                'sales' => $mySalesCount,
+                'rides' => $myRidesCount,
+                'pendingSales' => $pendingSalesCount,
+                'pendingRides' => $pendingRidesCount,
                 'pages' => $managedPagesCount,
                 'pendingPages' => $pendingPagesCount,
             ],
         ]);
     }
 
-    public function listings(Request $request, string $citySlug): Response
+    public function sales(Request $request, string $citySlug): Response
     {
         $city = City::query()->where('slug', $citySlug)->firstOrFail();
         $user = $request->user();
 
-        $listings = Listing::query()
+        $sales = Sale::query()
             ->where('city_id', $city->id)
             ->where('user_id', $user->id)
             ->with('communityPage:id,name,slug')
@@ -73,20 +73,20 @@ class DashboardController extends Controller
 
         $cityBaseUrl = self::cityBaseUrl($request, $citySlug);
 
-        return Inertia::render('Dashboard/Listings', [
+        return Inertia::render('Dashboard/Sales', [
             'city' => $city,
-            'listings' => $listings,
+            'sales' => $sales,
             'cityBaseUrl' => $cityBaseUrl,
             'homeUrl' => config('app.url'),
         ]);
     }
 
-    public function events(Request $request, string $citySlug): Response
+    public function rides(Request $request, string $citySlug): Response
     {
         $city = City::query()->where('slug', $citySlug)->firstOrFail();
         $user = $request->user();
 
-        $events = Event::query()
+        $rides = Ride::query()
             ->where('city_id', $city->id)
             ->where('user_id', $user->id)
             ->with('communityPage:id,name,slug')
@@ -96,9 +96,9 @@ class DashboardController extends Controller
 
         $cityBaseUrl = self::cityBaseUrl($request, $citySlug);
 
-        return Inertia::render('Dashboard/Events', [
+        return Inertia::render('Dashboard/Rides', [
             'city' => $city,
-            'events' => $events,
+            'rides' => $rides,
             'cityBaseUrl' => $cityBaseUrl,
             'homeUrl' => config('app.url'),
         ]);
@@ -109,16 +109,16 @@ class DashboardController extends Controller
         $city = City::query()->where('slug', $citySlug)->firstOrFail();
         $user = $request->user();
 
-        $listings = Listing::query()
+        $sales = Sale::query()
             ->where('city_id', $city->id)
             ->where('user_id', $user->id)
-            ->where('state', Listing::STATE_PENDING_REVIEW)
+            ->where('state', Sale::STATE_PENDING_REVIEW)
             ->orderBy('updated_at', 'desc')
             ->get();
-        $events = Event::query()
+        $rides = Ride::query()
             ->where('city_id', $city->id)
             ->where('user_id', $user->id)
-            ->where('state', Event::STATE_PENDING_REVIEW)
+            ->where('state', Ride::STATE_PENDING_REVIEW)
             ->orderBy('starts_at')
             ->get();
         $pages = $user->managedCommunityPages()
@@ -131,8 +131,8 @@ class DashboardController extends Controller
 
         return Inertia::render('Dashboard/Pending', [
             'city' => $city,
-            'listings' => $listings,
-            'events' => $events,
+            'sales' => $sales,
+            'rides' => $rides,
             'pages' => $pages,
             'cityBaseUrl' => $cityBaseUrl,
             'homeUrl' => config('app.url'),
@@ -167,7 +167,7 @@ class DashboardController extends Controller
             abort(403);
         }
 
-        $page->load(['listings' => fn ($q) => $q->orderBy('updated_at', 'desc'), 'events' => fn ($q) => $q->orderBy('starts_at', 'desc')]);
+        $page->load(['sales' => fn ($q) => $q->orderBy('updated_at', 'desc'), 'rides' => fn ($q) => $q->orderBy('starts_at', 'desc')]);
 
         $cityBaseUrl = self::cityBaseUrl($request, $citySlug);
 

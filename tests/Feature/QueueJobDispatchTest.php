@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Domain\Listings\Listing;
-use App\Domain\Listings\ListingImage;
+use App\Domain\Sales\Sale;
+use App\Domain\Sales\SaleImage;
 use App\Domain\Regions\Region;
 use App\Domain\Auth\User;
-use App\Jobs\IndexListingJob;
-use App\Jobs\GenerateListingImageVariantsJob;
+use App\Jobs\IndexSaleJob;
+use App\Jobs\GenerateSaleImageVariantsJob;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
@@ -16,7 +16,7 @@ class QueueJobDispatchTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_publishing_listing_enqueues_indexing(): void
+    public function test_publishing_sale_enqueues_indexing(): void
     {
         Queue::fake();
 
@@ -31,10 +31,10 @@ class QueueJobDispatchTest extends TestCase
             'is_active' => true,
         ]);
 
-        $listing = Listing::create([
+        $sale = Sale::create([
             'region_id' => $region->id,
             'user_id' => $user->id,
-            'title' => 'Test Listing',
+            'title' => 'Test Sale',
             'description' => 'Test',
             'price_cents' => 10000,
             'currency' => 'USD',
@@ -42,12 +42,12 @@ class QueueJobDispatchTest extends TestCase
         ]);
 
         // Update to active/published should dispatch indexing job
-        $listing->update([
+        $sale->update([
             'status' => 'active',
             'published_at' => now(),
         ]);
 
-        Queue::assertPushed(IndexListingJob::class);
+        Queue::assertPushed(IndexSaleJob::class);
     }
 
     public function test_image_upload_enqueues_variant_generation(): void
@@ -65,24 +65,24 @@ class QueueJobDispatchTest extends TestCase
             'is_active' => true,
         ]);
 
-        $listing = Listing::create([
+        $sale = Sale::create([
             'region_id' => $region->id,
             'user_id' => $user->id,
-            'title' => 'Test Listing',
+            'title' => 'Test Sale',
             'description' => 'Test',
             'price_cents' => 10000,
             'currency' => 'USD',
         ]);
 
-        $image = ListingImage::create([
-            'listing_id' => $listing->id,
+        $image = SaleImage::create([
+            'sale_id' => $sale->id,
             'storage_key' => 'test/key.jpg',
             'cdn_url' => 'https://example.com/test.jpg',
             'variant' => 'original',
         ]);
 
-        GenerateListingImageVariantsJob::dispatch($image->id);
+        GenerateSaleImageVariantsJob::dispatch($image->id);
 
-        Queue::assertPushed(GenerateListingImageVariantsJob::class);
+        Queue::assertPushed(GenerateSaleImageVariantsJob::class);
     }
 }

@@ -13,8 +13,8 @@
 BikesList is a city-focused bicycle bulletin board. It is intentionally **not** social media. The platform exists to make it easy for people in a city to:
 
 * Buy and sell bicycles and bike-related items
-* Discover and share bicycle events (especially group rides)
-* Find trusted local bike organizations, shops, clubs, and recurring events
+* Discover and share bicycle rides (especially group rides)
+* Find trusted local bike organizations, shops, clubs, and recurring rides
 
 There are **no comments, no forums, no direct messaging, and no social feeds**. Interaction is limited to discovery, submission, and transactional contact where appropriate.
 
@@ -22,9 +22,9 @@ The platform is structured around three primary pillars.
 
 ---
 
-## Pillar A — Classified Listings
+## Pillar A — For Sale (Sales)
 
-Classified listings provide a structured, city-level marketplace for bicycles and bicycle-related items.
+The For Sale section provides a structured, city-level marketplace for bicycles and bicycle-related items.
 
 ### Purpose
 
@@ -34,11 +34,11 @@ Classified listings provide a structured, city-level marketplace for bicycles an
 
 ### Core Characteristics
 
-* Listings are **text + photos** (no video, ever)
-* Listings belong to **exactly one city**
-* Listings may optionally include an **exact location** (address or pin), distinct from city association
+* Sales are **text + photos** (no video, ever)
+* Sales belong to **exactly one city**
+* Sales may optionally include an **exact location** (address or pin), distinct from city association
 * Location is always at least city-level; city remains the primary browsing and discovery scope
-* Listings have clear lifecycle states:
+* Sales have clear lifecycle states:
 
   * Draft
   * Published
@@ -46,10 +46,10 @@ Classified listings provide a structured, city-level marketplace for bicycles an
   * Expired
   * Removed
 
-### Listing Content
+### Sale Content
 
 * Title and description
-* Listing **type**, which determines available grouped attributes:
+* Sale **type**, which determines available grouped attributes:
 
   * Full bicycles
   * Bicycle parts
@@ -71,84 +71,84 @@ Classified listings provide a structured, city-level marketplace for bicycles an
 
 ### Search & Discovery
 
-* Listings are searchable and filterable
+* Sales are searchable and filterable
 * Users may save searches in their profile
 * No search alerts or notifications in v1
 
 ### Moderation
 
 * Reactive moderation via user flags
-* Moderators can act on listings using frontend tools
+* Moderators can act on sales using frontend tools
 * Admins have full backend access
 
 ---
 
-## Pillar B — Events
+## Pillar B — Rides
 
-Events are a **front-and-center feature** of BikesList. The goal is to make BikesList the easiest place to discover bicycle rides and events in a city, without competing with or replacing existing calendars.
+Rides are a **front-and-center feature** of BikesList. The goal is to make BikesList the easiest place to discover bicycle rides in a city, without competing with or replacing existing calendars.
 
 ### Purpose
 
-* Aggregate *all* bike-related events in a city
+* Aggregate *all* bike-related rides in a city
 * Lower friction for submitting and discovering rides
 * Complement existing calendars rather than compete with them
 
-### Event Visibility
+### Ride Visibility
 
-* Events are prominently featured on city landing pages
-* Events can be browsed, searched, and viewed in calendar formats
+* Rides are prominently featured on city landing pages
+* Rides can be browsed, searched, and viewed in calendar formats
 
-### Event Creation
+### Ride Creation
 
-* Anyone with an account can submit an event
-* Every event submission requires agreement to community guidelines
-* Event creators receive email confirmation when an event is submitted
+* Anyone with an account can submit a ride
+* Every ride submission requires agreement to community guidelines
+* Ride creators receive email confirmation when a ride is submitted
 
 ### Trust & Moderation Model
 
 * Accounts with little or no prior activity:
 
-  * Events enter a delayed submission queue
-  * Events become public automatically if moderators do not act in a timely manner
-  * The delayed queue exists to give moderators an opportunity to catch invalid events without blocking posting
+  * Rides enter a delayed submission queue
+  * Rides become public automatically if moderators do not act in a timely manner
+  * The delayed queue exists to give moderators an opportunity to catch invalid rides without blocking posting
 * Established accounts:
 
-  * Events may auto-publish immediately
-* All events, regardless of how they are published:
+  * Rides may auto-publish immediately
+* All rides, regardless of how they are published:
 
   * Remain visible to moderators
   * May be removed or reverted to draft by moderators
   * May trigger a notification to the creator explaining the reason for moderation action
 
-### Event Structure
+### Ride Structure
 
-* One-time events
-* Multi-day events
-* Recurring events
+* One-time rides
+* Multi-day rides
+* Recurring rides
 
 ### Recurrence Rules
 
-* Recurring events may exist for **up to one year**
+* Recurring rides may exist for **up to one year**
 * Before expiration:
 
   * Email reminders are sent one month in advance
-  * The original creator must confirm the event still exists
+  * The original creator must confirm the ride still exists
   * The creator must re-accept community guidelines
-* Events not renewed expire automatically
+* Rides not renewed expire automatically
 
-### Event Metadata
+### Ride Metadata
 
-* Event title and description
+* Ride title and description
 * Organizer information:
 
   * Organizer name (free-form, may differ from account name)
   * Organizer email address (sourced from the creator’s account)
   * Option to hide the organizer email address from public display
 * City-level association
-* Event meeting location:
+* Ride meeting location:
 
   * Address and/or pin dropped on a map
-* Event routes:
+* Ride routes:
 
   * Optional published route
   * V1 minimum support: free-text route description
@@ -157,8 +157,8 @@ Events are a **front-and-center feature** of BikesList. The goal is to make Bike
 
   * Local bike shops
   * Bicycle clubs
-  * Recurring event pages
-  * Associations are displayed prominently on the event listing
+  * Recurring ride pages
+  * Associations are displayed prominently on the ride page
 * Tags such as:
 
   * Family friendly
@@ -183,13 +183,17 @@ Community Pages are **static, informational hubs** for bicycle-related organizat
 
 * Local Bike Shops
 * Bicycle Clubs
-* Recurring Bicycle Events (not club-affiliated)
+* Teams
+* Advocacy Organizations
+* Co-ops
+* Informal Groups
+* Recurring Bicycle Rides (not club-affiliated)
 
 ### Purpose
 
 * Provide a trusted directory of bicycle-related entities
 * Centralize information without enabling social interaction
-* Serve as anchors for events and listings
+* Serve as anchors for rides and sales
 
 ### Page Creation
 
@@ -212,8 +216,8 @@ Community Pages are composed of defined content buckets:
 
 * **Heading** — name and primary identifier
 * **About** — description and background
-* **Event Info** — optional section shown above events
-* **Sales Info** — optional section shown above associated listings
+* **Ride Info** — optional section shown above rides
+* **Sales Info** — optional section shown above associated sales
 * **Contact** — optional details such as:
 
   * Address (with map display)
@@ -222,8 +226,8 @@ Community Pages are composed of defined content buckets:
 
 ### Associations
 
-* Pages may have events
-* Pages may have listings (Model A: listings are posted *by* the page)
+* Pages may have rides
+* Pages may have sales (Model A: sales are posted *by* the page)
 * Pages do not host user submissions, comments, or posts
 
 ### Boundaries
@@ -254,7 +258,7 @@ The following are explicitly out of scope for BikesList:
 BikesList is designed as a **city-scale bicycle information utility**:
 
 * Pillar A enables buying and selling
-* Pillar B enables discovering and sharing events
+* Pillar B enables discovering and sharing rides
 * Pillar C enables trusted, static community representation
 
 Each pillar is intentionally constrained to avoid social-media dynamics, reduce moderation burden, and keep the platform focused on discovery, participation, and real-world bicycle activity.

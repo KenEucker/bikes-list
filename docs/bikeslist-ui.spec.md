@@ -12,10 +12,10 @@
 
 ## 1. Core Principles
 
-* **City-first UX:** All public content (listings, events, community pages) is scoped to a city, accessed via city subdomains.
+* **City-first UX:** All public content (sales, rides, community pages) is scoped to a city, accessed via city subdomains.
 * **Global accounts:** User accounts, dashboards, and authentication are global and accessible from any subdomain.
 * **Email relay only:** All contact and reporting is handled via relay email addresses (copy + mailto). No inboxes, no stored messages.
-* **Moderation with auto-publish:** Listings, events, and pages enter a pending state and auto-publish/approve after a configured duration unless moderated.
+* **Moderation with auto-publish:** Sales, rides, and pages enter a pending state and auto-publish/approve after a configured duration unless moderated.
 * **Simple, civic UI:** Functional, trustworthy, infrastructure-like design.
 
 ---
@@ -50,23 +50,23 @@ Public:
 
 * `/` — City Home
 * `/search`
-* `/listings`
-* `/listings/:id`
-* `/events`
-* `/events/:id`
+* `/for-sale`
+* `/for-sale/:id`
+* `/rides`
+* `/rides/:id`
 * `/community`
 * `/community/:slug`
 
 Auth required:
 
-* `/listings/new`
-* `/listings/:id/edit`
-* `/events/new`
-* `/events/:id/edit`
+* `/for-sale/new`
+* `/for-sale/:id/edit`
+* `/rides/new`
+* `/rides/:id/edit`
 * `/community/new`
 * `/dashboard`
-* `/dashboard/listings`
-* `/dashboard/events`
+* `/dashboard/sales`
+* `/dashboard/rides`
 * `/dashboard/pending`
 * `/dashboard/pages`
 * `/dashboard/pages/:slug`
@@ -74,8 +74,8 @@ Auth required:
 Moderator only (city-scoped):
 
 * `/moderation`
-* `/moderation/listings`
-* `/moderation/events`
+* `/moderation/sales`
+* `/moderation/rides`
 * `/moderation/pages`
 
 ---
@@ -97,12 +97,12 @@ Moderator only (city-scoped):
 
 Order of sections:
 
-1. **Upcoming events (current month)** — calendar-style single-column list grouped by day
+1. **Upcoming rides (current month)** — calendar-style single-column list grouped by day
 2. **Featured community pages** — defaults to first 3 created if none explicitly featured
 3. **Search bar** — navigates to `/search`
-4. **Listings preview** — up to 20 listings, no filters or sorting
+4. **For Sale preview** — up to 20 items, no filters or sorting
 
-   * CTA: "View all listings" → `/listings`
+   * CTA: "View all for sale" → `/for-sale`
 
 ---
 
@@ -112,8 +112,8 @@ Route: `/search`
 
 * Tabbed results:
 
-  1. Listings (default)
-  2. Events
+  1. For Sale (default)
+  2. Rides
   3. Community Pages
 * Single search input persists across tabs
 
@@ -135,9 +135,9 @@ Route: `/search`
 
 ---
 
-## 7. Listings
+## 7. For Sale (Sales)
 
-### 7.1 Listing States
+### 7.1 Sale States
 
 * Draft
 * Pending Review (auto-publish unless moderated)
@@ -146,13 +146,13 @@ Route: `/search`
 * Expired
 * Removed
 
-### 7.2 Listing Creation
+### 7.2 Sale Creation
 
-Route: `/listings/new`
+Route: `/for-sale/new`
 
 Steps:
 
-1. Select listing type: Bike, Part, Clothing, Misc
+1. Select sale type: Bike, Part, Clothing, Misc
 2. Core fields (all types):
 
    * Title (6–80 chars)
@@ -166,7 +166,7 @@ Steps:
 
 On submit:
 
-* Listing enters `pending_review`
+* Sale enters `pending_review`
 * Banner: auto-publish notice
 
 ### 7.3 Bike-Specific Additions
@@ -177,25 +177,25 @@ On submit:
   * External link to Bike Index search
   * Optional secondary link (e.g. Project 529)
 
-### 7.4 Listing Detail Page
+### 7.4 Sale Detail Page
 
 * Contact seller relay email (copy + mailto)
-* Report listing relay email (city moderators)
+* Report sale relay email (city moderators)
 
 ---
 
-## 8. Events
+## 8. Rides
 
-### 8.1 Event States
+### 8.1 Ride States
 
 * Draft
 * Pending Review (auto-publish unless moderated)
 * Published
 * Removed
 
-### 8.2 Event Creation
+### 8.2 Ride Creation
 
-Route: `/events/new`
+Route: `/rides/new`
 
 Fields:
 
@@ -206,7 +206,7 @@ Fields:
 * Description
 * Optional:
 
-  * Event type
+  * Ride type
   * External link
   * Cover image
 
@@ -220,10 +220,10 @@ Host identity:
 * Host as user
 * Host as community page
 
-### 8.3 Event Detail Page
+### 8.3 Ride Detail Page
 
 * Contact organizer relay email
-* Report event relay email (city moderators)
+* Report ride relay email (city moderators)
 
 ---
 
@@ -243,11 +243,11 @@ Only approved pages are publicly visible.
 
   * Full control
   * Manage team
-  * Post listings and events
+  * Post sales and rides
 * **Editor**
 
   * Edit page profile
-  * Create listings and events as page
+  * Create sales and rides as page
 
 (No Admin role)
 
@@ -267,8 +267,8 @@ Alternative (claim existing page):
 ### 9.4 Public Community Page
 
 * Info, logo/photos, links, hours (if shop), social links
-* Listings by this org
-* Events by this org
+* Sales by this org
+* Rides by this org
 * Report page relay email (city moderators)
 
 ### 9.5 Community Dashboard
@@ -283,8 +283,8 @@ Tabs:
 * Overview
 * Profile (editable; approved pages stay approved on update)
 * Team
-* Listings
-* Events
+* For Sale
+* Rides
 
 Photos:
 
@@ -297,8 +297,8 @@ Photos:
 * City-scoped moderation permissions
 * Combined moderation UI for:
 
-  * Listings
-  * Events
+  * Sales
+  * Rides
   * Community Pages
 
 Actions:
@@ -316,19 +316,19 @@ Moderator notes are visible to creators/admins, never public.
 Routes:
 
 * `/dashboard`
-* `/dashboard/listings`
-* `/dashboard/events`
+* `/dashboard/sales`
+* `/dashboard/rides`
 * `/dashboard/pending`
 
 Shows:
 
-* User-created listings and events
+* User-created sales and rides
 * Community page content for pages they manage
 * Pending review items
 
 ---
 
-## 12. Appendix: Listing Attributes
+## 12. Appendix: Sale Attributes
 
 ### Bike
 

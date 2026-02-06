@@ -69,9 +69,9 @@ class User extends Authenticatable
         'created_at',
     ];
 
-    public function listings(): HasMany
+    public function sales(): HasMany
     {
-        return $this->hasMany(Listing::class);
+        return $this->hasMany(Sale::class);
     }
 
     public function savedSearches(): HasMany
@@ -98,9 +98,9 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
-    public function events(): HasMany
+    public function rides(): HasMany
     {
-        return $this->hasMany(Event::class);
+        return $this->hasMany(Ride::class);
     }
 
     public function isEstablished(): bool
@@ -108,8 +108,8 @@ class User extends Authenticatable
         if ($this->created_at->diffInDays(now(), false) >= 7) {
             return true;
         }
-        return $this->listings()->where('state', Listing::STATE_PUBLISHED)->exists()
-            || $this->events()->where('state', Event::STATE_PUBLISHED)->exists()
+        return $this->sales()->where('state', Sale::STATE_PUBLISHED)->exists()
+            || $this->rides()->where('state', Ride::STATE_PUBLISHED)->exists()
             || $this->managedCommunityPages()->where('community_pages.state', CommunityPage::STATE_APPROVED)->exists();
     }
 }

@@ -1,12 +1,12 @@
 {
   "\u0000plugin-vue:export-helper": [
-    "/build/assets/EventForm-B2F1HrtB.js",
-    "/build/assets/EventForm-BsyXsjBH.css"
+    "/build/assets/RideForm-BCTCzbrF.js",
+    "/build/assets/RideForm-C1ZYurex.css"
   ],
   "node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.css": [],
   "node_modules/laravel-vite-plugin/inertia-helpers/index.js": [],
   "node_modules/leaflet/dist/leaflet.css": [
-    "/build/assets/Home-Dz1fGIxp.js",
+    "/build/assets/Home-CESV87ZD.js",
     "/build/assets/Home-CG6DamIu.css",
     "/build/assets/layers-BWBAp2CZ.png",
     "/build/assets/layers-2x-Bpkbi35X.png",
@@ -22,10 +22,10 @@
     "/build/assets/bikeslist-yDx5LxAM.png"
   ],
   "resources/js/Components/CityCalendarList.vue": [
-    "/build/assets/Show-1_JFcNEt.js"
+    "/build/assets/Show-Ce62Pk3T.js"
   ],
   "resources/js/Components/CreatePageLayout.vue": [
-    "/build/assets/CreatePageLayout-B0iRbSI_.js"
+    "/build/assets/CreatePageLayout-slpGvNcG.js"
   ],
   "resources/js/Components/DashboardTable.vue": [
     "/build/assets/DashboardTable-Bv9ciMZX.js"
@@ -37,27 +37,21 @@
     "/build/assets/AuthenticatedLayout-Dpz59RfP.js"
   ],
   "resources/js/Components/EmailRelayCard.vue": [
-    "/build/assets/PendingReviewBanner-3VzMr-JQ.js"
-  ],
-  "resources/js/Components/EventCard.vue": [
-    "/build/assets/Index-BXc-C4p_.js"
+    "/build/assets/PendingReviewBanner-DzSTeKTU.js"
   ],
   "resources/js/Components/Forms/CommunityPageForm.vue": [
-    "/build/assets/CommunityPageForm-DhM93zZO.js"
+    "/build/assets/CommunityPageForm-DGstdxUB.js"
   ],
-  "resources/js/Components/Forms/EventForm.vue": [
-    "/build/assets/EventForm-B2F1HrtB.js",
-    "/build/assets/EventForm-BsyXsjBH.css"
+  "resources/js/Components/Forms/RideForm.vue": [
+    "/build/assets/RideForm-BCTCzbrF.js",
+    "/build/assets/RideForm-C1ZYurex.css"
   ],
-  "resources/js/Components/Forms/EventForm.vue?vue&type=style&index=0&scoped=5b6d6417&lang.css": [
-    "/build/assets/EventForm-B2F1HrtB.js",
-    "/build/assets/EventForm-BsyXsjBH.css"
+  "resources/js/Components/Forms/RideForm.vue?vue&type=style&index=0&scoped=15417b87&lang.css": [
+    "/build/assets/RideForm-BCTCzbrF.js",
+    "/build/assets/RideForm-C1ZYurex.css"
   ],
-  "resources/js/Components/Forms/ListingForm.vue": [
-    "/build/assets/ListingForm-BdlvDjLn.js"
-  ],
-  "resources/js/Components/ListingCard.vue": [
-    "/build/assets/ListingCard-bqyS4Ub0.js"
+  "resources/js/Components/Forms/SaleForm.vue": [
+    "/build/assets/SaleForm-DpmTviWG.js"
   ],
   "resources/js/Components/Modal.vue": [
     "/build/assets/DeleteUserForm-b2HRqkfd.js"
@@ -66,10 +60,16 @@
     "/build/assets/ModerationQueue-H0PObq6f.js"
   ],
   "resources/js/Components/PageCard.vue": [
-    "/build/assets/Index-BXc-C4p_.js"
+    "/build/assets/Index-9OrshHHh.js"
   ],
   "resources/js/Components/PendingReviewBanner.vue": [
-    "/build/assets/PendingReviewBanner-3VzMr-JQ.js"
+    "/build/assets/PendingReviewBanner-DzSTeKTU.js"
+  ],
+  "resources/js/Components/RideCard.vue": [
+    "/build/assets/Index-9OrshHHh.js"
+  ],
+  "resources/js/Components/SaleCard.vue": [
+    "/build/assets/SaleCard-C99lGHmL.js"
   ],
   "resources/js/Components/SingleImageUpload.vue": [
     "/build/assets/SingleImageUpload-BYRoh2Mm.js"
@@ -84,7 +84,7 @@
     "/build/assets/AuthenticatedLayout-Dpz59RfP.js"
   ],
   "resources/js/Layouts/CityLayout.vue": [
-    "/build/assets/CityLayout-DXBkMg5Q.js"
+    "/build/assets/CityLayout-BqIhNtPZ.js"
   ],
   "resources/js/Layouts/GuestLayout.vue": [
     "/build/assets/GuestLayout-B5FnYSTG.js"
@@ -114,55 +114,43 @@
     "/build/assets/VerifyEmail-DEjXXipz.js"
   ],
   "resources/js/Pages/City/Show.vue": [
-    "/build/assets/Show-1_JFcNEt.js"
+    "/build/assets/Show-Ce62Pk3T.js"
   ],
   "resources/js/Pages/CommunityPages/Claim.vue": [
-    "/build/assets/Claim-BEgYuCxg.js"
+    "/build/assets/Claim-C9yjn6nj.js"
   ],
   "resources/js/Pages/CommunityPages/Create.vue": [
-    "/build/assets/Create-B8XKocqE.js"
+    "/build/assets/Create-CUy62pLW.js"
   ],
   "resources/js/Pages/CommunityPages/Edit.vue": [
-    "/build/assets/Edit-BtErdY0u.js"
+    "/build/assets/Edit-Z6bavAAs.js"
   ],
   "resources/js/Pages/CommunityPages/Index.vue": [
-    "/build/assets/Index-O1MITwJe.js"
+    "/build/assets/Index-BsVCnSC9.js"
   ],
   "resources/js/Pages/CommunityPages/Show.vue": [
-    "/build/assets/Show-Bo4x2oBO.js"
-  ],
-  "resources/js/Pages/Dashboard/Events.vue": [
-    "/build/assets/Events-lwWyErcu.js"
+    "/build/assets/Show-Br2yQg1t.js"
   ],
   "resources/js/Pages/Dashboard/Index.vue": [
-    "/build/assets/Index-itrBSo1m.js"
-  ],
-  "resources/js/Pages/Dashboard/Listings.vue": [
-    "/build/assets/Listings-BqOy98oV.js"
+    "/build/assets/Index-CLTIXWpy.js"
   ],
   "resources/js/Pages/Dashboard/PageShow.vue": [
-    "/build/assets/PageShow-GH9_ICuh.js"
+    "/build/assets/PageShow-BHcnIt0U.js"
   ],
   "resources/js/Pages/Dashboard/Pages.vue": [
-    "/build/assets/Pages-CeDEgDRD.js"
+    "/build/assets/Pages-CHAWgiFr.js"
   ],
   "resources/js/Pages/Dashboard/Pending.vue": [
-    "/build/assets/Pending-BktO2JVE.js"
+    "/build/assets/Pending-Dc-B_258.js"
   ],
-  "resources/js/Pages/Events/Create.vue": [
-    "/build/assets/Create-CVxnQ1MA.js"
+  "resources/js/Pages/Dashboard/Rides.vue": [
+    "/build/assets/Rides-BcCUvxEm.js"
   ],
-  "resources/js/Pages/Events/Edit.vue": [
-    "/build/assets/Edit-Bm8SikyY.js"
-  ],
-  "resources/js/Pages/Events/Index.vue": [
-    "/build/assets/Index-DTFIOxTX.js"
-  ],
-  "resources/js/Pages/Events/Show.vue": [
-    "/build/assets/Show-B-EnF2fM.js"
+  "resources/js/Pages/Dashboard/Sales.vue": [
+    "/build/assets/Sales-DKGtU-qU.js"
   ],
   "resources/js/Pages/Home.vue": [
-    "/build/assets/Home-Dz1fGIxp.js",
+    "/build/assets/Home-CESV87ZD.js",
     "/build/assets/Home-CG6DamIu.css",
     "/build/assets/layers-BWBAp2CZ.png",
     "/build/assets/layers-2x-Bpkbi35X.png",
@@ -171,32 +159,20 @@
   "resources/js/Pages/Legal/StaticPage.vue": [
     "/build/assets/StaticPage-DQhmqT38.js"
   ],
-  "resources/js/Pages/Listings/Create.vue": [
-    "/build/assets/Create-C4nU4u_t.js"
-  ],
-  "resources/js/Pages/Listings/Edit.vue": [
-    "/build/assets/Edit-CJdjlYH7.js"
-  ],
-  "resources/js/Pages/Listings/Index.vue": [
-    "/build/assets/Index-DqxGxPw0.js"
-  ],
-  "resources/js/Pages/Listings/Show.vue": [
-    "/build/assets/Show-D4cVgvao.js"
-  ],
-  "resources/js/Pages/Moderation/Events.vue": [
-    "/build/assets/Events-BDxbDWiy.js"
-  ],
   "resources/js/Pages/Moderation/Index.vue": [
-    "/build/assets/Index-B5a3rehg.js"
-  ],
-  "resources/js/Pages/Moderation/Listings.vue": [
-    "/build/assets/Listings-DvdeqiHs.js"
+    "/build/assets/Index-B-A_zCxT.js"
   ],
   "resources/js/Pages/Moderation/Pages.vue": [
-    "/build/assets/Pages-EoOr2kFN.js"
+    "/build/assets/Pages-D-1_Me11.js"
+  ],
+  "resources/js/Pages/Moderation/Rides.vue": [
+    "/build/assets/Rides-DkIyjVex.js"
+  ],
+  "resources/js/Pages/Moderation/Sales.vue": [
+    "/build/assets/Sales-DevMj7xP.js"
   ],
   "resources/js/Pages/Profile/Edit.vue": [
-    "/build/assets/Edit-onC2Sp05.js"
+    "/build/assets/Edit-BmqzVkX2.js"
   ],
   "resources/js/Pages/Profile/Partials/DeleteUserForm.vue": [
     "/build/assets/DeleteUserForm-b2HRqkfd.js"
@@ -208,10 +184,34 @@
     "/build/assets/UpdateProfileInformationForm-Bi-qP6LZ.js"
   ],
   "resources/js/Pages/Profile/SavedSearches.vue": [
-    "/build/assets/SavedSearches-nKtRe-d6.js"
+    "/build/assets/SavedSearches-CTkhuowj.js"
+  ],
+  "resources/js/Pages/Rides/Create.vue": [
+    "/build/assets/Create-FX89QY9y.js"
+  ],
+  "resources/js/Pages/Rides/Edit.vue": [
+    "/build/assets/Edit-C08ATjq8.js"
+  ],
+  "resources/js/Pages/Rides/Index.vue": [
+    "/build/assets/Index-CjNq_FGp.js"
+  ],
+  "resources/js/Pages/Rides/Show.vue": [
+    "/build/assets/Show-BvueiTA7.js"
+  ],
+  "resources/js/Pages/Sales/Create.vue": [
+    "/build/assets/Create-BRHn8tWP.js"
+  ],
+  "resources/js/Pages/Sales/Edit.vue": [
+    "/build/assets/Edit-DYZW4SqH.js"
+  ],
+  "resources/js/Pages/Sales/Index.vue": [
+    "/build/assets/Index-Cju3cV0V.js"
+  ],
+  "resources/js/Pages/Sales/Show.vue": [
+    "/build/assets/Show-i7xZnHeb.js"
   ],
   "resources/js/Pages/Search/Index.vue": [
-    "/build/assets/Index-BXc-C4p_.js"
+    "/build/assets/Index-9OrshHHh.js"
   ],
   "resources/js/ssr.js": [],
   "vendor/tightenco/ziggy/dist/index.js": []

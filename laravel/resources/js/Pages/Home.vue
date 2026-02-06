@@ -63,9 +63,9 @@ onMounted(async () => {
 
 <template>
     <Head title="BikesList – Cities">
-        <meta name="description" content="Choose a city to view local bike listings, events, and community pages.">
+        <meta name="description" content="Choose a city to view local bike sales, rides, and community pages.">
         <meta property="og:title" content="BikesList – Cities">
-        <meta property="og:description" content="Choose a city to view local bike listings, events, and community pages.">
+        <meta property="og:description" content="Choose a city to view local bike sales, rides, and community pages.">
         <meta property="og:url" :content="page.props.seo?.currentUrl || page.props.urls?.home || '/'">
         <link rel="canonical" :href="page.props.seo?.currentUrl || page.props.urls?.home || '/'">
     </Head>
@@ -85,7 +85,7 @@ onMounted(async () => {
 
         <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
             <h1 class="govuk-heading-xl">BikesList</h1>
-            <p class="mt-2 text-muted">Choose a city to view listings, events, and community pages.</p>
+            <p class="mt-2 text-muted">Choose a city to view sales, rides, and community pages.</p>
 
             <div class="mt-8 max-w-md">
                 <gv-input

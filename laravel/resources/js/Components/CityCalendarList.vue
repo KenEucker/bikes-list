@@ -2,17 +2,17 @@
 import { computed } from 'vue';
 
 const props = defineProps({
-    events: { type: Array, default: () => [] },
+    rides: { type: Array, default: () => [] },
 });
 
 const groupedByDay = computed(() => {
     const map = new Map();
-    const events = props.events ?? [];
-    for (const event of events) {
-        const start = event.starts_at ? new Date(event.starts_at) : null;
+    const rides = props.rides ?? [];
+    for (const ride of rides) {
+        const start = ride.starts_at ? new Date(ride.starts_at) : null;
         const dayKey = start ? start.toDateString() : 'date-unknown';
-        if (!map.has(dayKey)) map.set(dayKey, { label: start ? start.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' }) : 'Date TBA', events: [] });
-        map.get(dayKey).events.push(event);
+        if (!map.has(dayKey)) map.set(dayKey, { label: start ? start.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' }) : 'Date TBA', rides: [] });
+        map.get(dayKey).rides.push(ride);
     }
     return Array.from(map.entries()).map(([key, val]) => ({ key, ...val }));
 });
@@ -26,19 +26,19 @@ const groupedByDay = computed(() => {
             </h3>
             <ul class="space-y-2">
                 <li
-                    v-for="event in (group.events ?? [])"
-                    :key="event.id"
+                    v-for="ride in (group.rides ?? [])"
+                    :key="ride.id"
                     class="flex items-baseline gap-2"
                 >
-                    <slot name="event" :event="event">
+                    <slot name="ride" :ride="ride">
                         <a
-                            :href="event.url"
+                            :href="ride.url"
                             class="font-medium text-primary underline"
                         >
-                            {{ event.name }}
+                            {{ ride.name }}
                         </a>
                         <span class="text-sm text-muted">
-                            {{ event.starts_at ? new Date(event.starts_at).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }) : '' }}
+                            {{ ride.starts_at ? new Date(ride.starts_at).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }) : '' }}
                         </span>
                     </slot>
                 </li>

@@ -117,7 +117,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Listing Reply Relay Domain
+    | Sale Reply Relay Domain
     |--------------------------------------------------------------------------
     |
     | Domain used for Craigslist-style email relay addresses (e.g. reply-xxx@this-domain).

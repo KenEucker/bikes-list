@@ -28,7 +28,7 @@ class GuidelineListScreen extends Screen
 
     public function description(): ?string
     {
-        return __('Sitewide and city-specific event community guidelines. Create new versions to update; archive old ones.');
+        return __('Sitewide and city-specific ride community guidelines. Create new versions to update; archive old ones.');
     }
 
     public function permission(): ?iterable

@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Domain\Listings\Listing;
-use App\Jobs\IndexListingJob;
-use App\Jobs\RemoveListingFromIndexJob;
+use App\Domain\Sales\Sale;
+use App\Jobs\IndexSaleJob;
+use App\Jobs\RemoveSaleFromIndexJob;
 use App\Jobs\SpamCheckJob;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
@@ -25,21 +25,21 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Dispatch indexing job when listing is published
-        Listing::created(function ($listing) {
-            SpamCheckJob::dispatch($listing->id);
+        // Dispatch indexing job when sale is published
+        Sale::created(function ($sale) {
+            SpamCheckJob::dispatch($sale->id);
         });
 
-        Listing::updated(function ($listing) {
-            if ($listing->status === 'active' && $listing->published_at) {
-                IndexListingJob::dispatch($listing->id);
-            } elseif ($listing->isDirty('status') && $listing->status !== 'active') {
-                RemoveListingFromIndexJob::dispatch($listing->id);
+        Sale::updated(function ($sale) {
+            if ($sale->status === 'active' && $sale->published_at) {
+                IndexSaleJob::dispatch($sale->id);
+            } elseif ($sale->isDirty('status') && $sale->status !== 'active') {
+                RemoveSaleFromIndexJob::dispatch($sale->id);
             }
         });
 
-        Listing::deleted(function ($listing) {
-            RemoveListingFromIndexJob::dispatch($listing->id);
+        Sale::deleted(function ($sale) {
+            RemoveSaleFromIndexJob::dispatch($sale->id);
         });
     }
 }

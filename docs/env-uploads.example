@@ -24,7 +24,7 @@ UPLOADS_PROCESS_SYNC=false
 
 # Optional: only needed if you do not publish Sanctum config. The app's published
 # config/sanctum.php adds the current request host as stateful so subdomains
-# (e.g. portland.bikeslist.test) work for API uploads without listing each one.
+# (e.g. portland.bikeslist.test) work for API uploads without enumerating each one.
 # SANCTUM_STATEFUL_DOMAINS=portland.bikeslist.test,bikeslist.test
 
 # ----- DigitalOcean Spaces (production) -----

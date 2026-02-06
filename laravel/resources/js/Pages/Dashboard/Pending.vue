@@ -5,8 +5,8 @@ import StatusTag from '@/Components/StatusTag.vue';
 
 defineProps({
     city: { type: Object, required: true },
-    listings: { type: Array, default: () => [] },
-    events: { type: Array, default: () => [] },
+    sales: { type: Array, default: () => [] },
+    rides: { type: Array, default: () => [] },
     pages: { type: Array, default: () => [] },
     cityBaseUrl: { type: String, required: true },
     homeUrl: { type: String, default: '/' },
@@ -24,20 +24,20 @@ defineProps({
         <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
             <h1 class="text-2xl font-bold text-fg">Pending review</h1>
             <p class="mt-2 text-sm text-muted">These items will be published or approved automatically if not reviewed by a moderator.</p>
-            <section v-if="listings.length" class="mt-6">
-                <h2 class="text-lg font-semibold text-fg">Listings</h2>
+            <section v-if="sales.length" class="mt-6">
+                <h2 class="text-lg font-semibold text-fg">For Sale</h2>
                 <ul class="mt-2 space-y-2">
-                    <li v-for="listing in listings" :key="listing.id" class="flex items-center justify-between rounded-token-md border border-border bg-card px-4 py-2">
-                        <a :href="`${cityBaseUrl}/listings/${listing.id}`" class="font-medium text-primary underline">{{ listing.title }}</a>
+                    <li v-for="sale in sales" :key="sale.id" class="flex items-center justify-between rounded-token-md border border-border bg-card px-4 py-2">
+                        <a :href="`${cityBaseUrl}/for-sale/${sale.id}`" class="font-medium text-primary underline">{{ sale.title }}</a>
                         <StatusTag status="pending_review" />
                     </li>
                 </ul>
             </section>
-            <section v-if="events.length" class="mt-6">
-                <h2 class="text-lg font-semibold text-fg">Events</h2>
+            <section v-if="rides.length" class="mt-6">
+                <h2 class="text-lg font-semibold text-fg">Rides</h2>
                 <ul class="mt-2 space-y-2">
-                    <li v-for="event in events" :key="event.id" class="flex items-center justify-between rounded-token-md border border-border bg-card px-4 py-2">
-                        <a :href="`${cityBaseUrl}/events/${event.id}`" class="font-medium text-primary underline">{{ event.name }}</a>
+                    <li v-for="ride in rides" :key="ride.id" class="flex items-center justify-between rounded-token-md border border-border bg-card px-4 py-2">
+                        <a :href="`${cityBaseUrl}/rides/${ride.id}`" class="font-medium text-primary underline">{{ ride.name }}</a>
                         <StatusTag status="pending_review" />
                     </li>
                 </ul>
@@ -51,7 +51,7 @@ defineProps({
                     </li>
                 </ul>
             </section>
-            <p v-if="!listings.length && !events.length && !pages.length" class="mt-6 text-muted">No pending items.</p>
+            <p v-if="!sales.length && !rides.length && !pages.length" class="mt-6 text-muted">No pending items.</p>
         </div>
     </CityLayout>
 </template>
