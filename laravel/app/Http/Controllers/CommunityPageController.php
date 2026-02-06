@@ -88,7 +88,7 @@ class CommunityPageController extends Controller
             'contact_address' => ['nullable', 'string', 'max:255'],
             'contact_email' => ['nullable', 'email'],
             'contact_phone' => ['nullable', 'string', 'max:50'],
-            'upload_ids' => ['nullable', 'array'],
+            'upload_ids' => ['nullable', 'array', 'max:1'],
             'upload_ids.*' => ['uuid', 'exists:uploads,id'],
         ]);
         $data = $request->only(['type', 'name', 'about', 'event_info', 'sales_info', 'contact_address', 'contact_email', 'contact_phone']);
@@ -100,7 +100,10 @@ class CommunityPageController extends Controller
         $page->update(['slug' => Str::slug($page->name) . '-' . $page->id]);
         $page->managers()->attach($request->user()->id, ['role' => 'owner']);
         $this->syncPageUploads($page, $request->input('upload_ids', []), $request->user()->id);
-        return redirect()->route('city.community-pages.show', [$citySlug, $page->slug])->with('status', 'Page submitted for review. It will be approved automatically if not reviewed by a moderator.');
+        $cityBaseUrl = self::cityBaseUrl($request, $citySlug);
+        return redirect()->to($cityBaseUrl . '/community/' . $page->slug)
+            ->with('status', 'Page submitted for review. It will be approved automatically if not reviewed by a moderator.')
+            ->setStatusCode(303);
     }
 
     public function edit(string $citySlug, string $slug): Response
@@ -133,18 +136,21 @@ class CommunityPageController extends Controller
             'contact_address' => ['nullable', 'string', 'max:255'],
             'contact_email' => ['nullable', 'email'],
             'contact_phone' => ['nullable', 'string', 'max:50'],
-            'upload_ids' => ['nullable', 'array'],
+            'upload_ids' => ['nullable', 'array', 'max:1'],
             'upload_ids.*' => ['uuid', 'exists:uploads,id'],
         ]);
         // Approved pages stay approved when updated (do not touch state)
         $communityPage->update($request->only(['name', 'about', 'event_info', 'sales_info', 'contact_address', 'contact_email', 'contact_phone']));
         $this->syncPageUploads($communityPage, $request->input('upload_ids', []), $request->user()->id);
-        return redirect()->route('city.community-pages.show', [$citySlug, $communityPage->slug])->with('status', 'Page updated.');
+        $cityBaseUrl = self::cityBaseUrl($request, $citySlug);
+        return redirect()->to($cityBaseUrl . '/community/' . $communityPage->slug)
+            ->with('status', 'Page updated.')
+            ->setStatusCode(303);
     }
 
     private function syncPageUploads(CommunityPage $page, array $uploadIds, int $userId): void
     {
-        $ids = collect($uploadIds)->filter()->unique()->values()->all();
+        $ids = collect($uploadIds)->filter()->unique()->values()->take(1)->all();
         $allowed = Upload::query()
             ->where('status', Upload::STATUS_READY)
             ->where('created_by', $userId)

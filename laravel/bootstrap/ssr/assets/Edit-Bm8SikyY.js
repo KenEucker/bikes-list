@@ -1,10 +1,12 @@
-import { unref, withCtx, createVNode, useSSRContext } from "vue";
-import { ssrRenderComponent, ssrRenderAttr } from "vue/server-renderer";
+import { ref, unref, withCtx, createVNode, useSSRContext } from "vue";
+import { ssrRenderComponent } from "vue/server-renderer";
 import { Head } from "@inertiajs/vue3";
-import { _ as _sfc_main$1 } from "./CityLayout-DXBkMg5Q.js";
-import { E as EventForm } from "./EventForm-BFkN2HNX.js";
+import { _ as _sfc_main$1 } from "./CreatePageLayout-B0iRbSI_.js";
+import { E as EventForm } from "./EventForm-B2F1HrtB.js";
+import "./CityLayout-DXBkMg5Q.js";
 import "./PublicLayout-CvaWB3EK.js";
 import "./ThemeToggle-Mk6IgKQe.js";
+import "./SingleImageUpload-BYRoh2Mm.js";
 const _sfc_main = {
   __name: "Edit",
   __ssrInlineRender: true,
@@ -20,31 +22,26 @@ const _sfc_main = {
     errors: { type: Object, default: () => ({}) }
   },
   setup(__props) {
+    const submitting = ref(false);
     return (_ctx, _push, _parent, _attrs) => {
       _push(`<!--[-->`);
       _push(ssrRenderComponent(unref(Head), {
         title: `BikesList – ${__props.event.name} – Edit`
       }, null, _parent));
       _push(ssrRenderComponent(_sfc_main$1, {
+        title: "Edit event",
+        "head-title": `BikesList – ${__props.event.name} – Edit`,
+        breadcrumb: "Edit event",
         city: __props.city,
         "city-base-url": __props.cityBaseUrl,
-        breadcrumb: "Edit event"
+        "back-url": `${__props.cityBaseUrl}/events/${__props.event.id}`,
+        "back-label": "Back to event",
+        submitting: submitting.value,
+        "submitting-label": "Saving…",
+        "content-max-width": "max-w-4xl"
       }, {
-        "nav-right": withCtx((_, _push2, _parent2, _scopeId) => {
-          if (_push2) {
-            _push2(`<a${ssrRenderAttr("href", `${__props.cityBaseUrl}/events/${__props.event.id}`)} class="govuk-link"${_scopeId}>Back to event</a>`);
-          } else {
-            return [
-              createVNode("a", {
-                href: `${__props.cityBaseUrl}/events/${__props.event.id}`,
-                class: "govuk-link"
-              }, "Back to event", 8, ["href"])
-            ];
-          }
-        }),
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(`<div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8"${_scopeId}><h1 class="govuk-heading-l"${_scopeId}>Edit event</h1>`);
             _push2(ssrRenderComponent(EventForm, {
               event: __props.event,
               guidelines: __props.guidelines,
@@ -53,24 +50,22 @@ const _sfc_main = {
               "default-audience-id": __props.defaultAudienceId,
               "event-tags": __props.eventTags,
               "city-base-url": __props.cityBaseUrl,
-              errors: __props.errors
+              errors: __props.errors,
+              "onUpdate:processing": ($event) => submitting.value = $event
             }, null, _parent2, _scopeId));
-            _push2(`</div>`);
           } else {
             return [
-              createVNode("div", { class: "mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8" }, [
-                createVNode("h1", { class: "govuk-heading-l" }, "Edit event"),
-                createVNode(EventForm, {
-                  event: __props.event,
-                  guidelines: __props.guidelines,
-                  "managed-community-pages": __props.managedCommunityPages,
-                  audiences: __props.audiences,
-                  "default-audience-id": __props.defaultAudienceId,
-                  "event-tags": __props.eventTags,
-                  "city-base-url": __props.cityBaseUrl,
-                  errors: __props.errors
-                }, null, 8, ["event", "guidelines", "managed-community-pages", "audiences", "default-audience-id", "event-tags", "city-base-url", "errors"])
-              ])
+              createVNode(EventForm, {
+                event: __props.event,
+                guidelines: __props.guidelines,
+                "managed-community-pages": __props.managedCommunityPages,
+                audiences: __props.audiences,
+                "default-audience-id": __props.defaultAudienceId,
+                "event-tags": __props.eventTags,
+                "city-base-url": __props.cityBaseUrl,
+                errors: __props.errors,
+                "onUpdate:processing": ($event) => submitting.value = $event
+              }, null, 8, ["event", "guidelines", "managed-community-pages", "audiences", "default-audience-id", "event-tags", "city-base-url", "errors", "onUpdate:processing"])
             ];
           }
         }),

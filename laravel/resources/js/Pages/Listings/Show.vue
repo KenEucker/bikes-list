@@ -3,6 +3,7 @@ import { Head, Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import CityLayout from '@/Layouts/CityLayout.vue';
 import EmailRelayCard from '@/Components/EmailRelayCard.vue';
+import PendingReviewBanner from '@/Components/PendingReviewBanner.vue';
 
 const props = defineProps({
     city: { type: Object, required: true },
@@ -41,9 +42,7 @@ const mailtoSubject = `Re: Listing – ${props.listing.title} – ${props.listin
             <gv-notification-banner v-if="status" type="success" title="Success" class="rounded-none border-x-0 border-t-0">
                 <p class="govuk-body">{{ status }}</p>
             </gv-notification-banner>
-            <gv-notification-banner v-if="listing.state === 'pending_review'" type="warning" title="Pending review" class="rounded-none border-x-0 border-t-0 border-amber-200 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-800">
-                <p class="govuk-body">This listing is pending review. It is not visible to the public yet. A moderator will review it; if approved, it will be published automatically. You can still edit or remove it.</p>
-            </gv-notification-banner>
+            <PendingReviewBanner :show="listing.state === 'pending_review'" resource-label="listing" />
             <div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
                 <gv-notification-banner v-if="error" title="Error" class="mb-6">
                     <p class="govuk-body">{{ error }}</p>

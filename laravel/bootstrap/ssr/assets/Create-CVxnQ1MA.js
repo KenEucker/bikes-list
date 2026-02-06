@@ -1,11 +1,12 @@
 import { ref, unref, withCtx, createVNode, useSSRContext } from "vue";
 import { ssrRenderComponent } from "vue/server-renderer";
 import { Head } from "@inertiajs/vue3";
-import { _ as _sfc_main$1 } from "./CreatePageLayout-CDzvrTlB.js";
-import { E as EventForm } from "./EventForm-BFkN2HNX.js";
+import { _ as _sfc_main$1 } from "./CreatePageLayout-B0iRbSI_.js";
+import { E as EventForm } from "./EventForm-B2F1HrtB.js";
 import "./CityLayout-DXBkMg5Q.js";
 import "./PublicLayout-CvaWB3EK.js";
 import "./ThemeToggle-Mk6IgKQe.js";
+import "./SingleImageUpload-BYRoh2Mm.js";
 const _sfc_main = {
   __name: "Create",
   __ssrInlineRender: true,

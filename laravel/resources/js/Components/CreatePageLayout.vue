@@ -12,6 +12,8 @@ defineProps({
     backLabel: { type: String, default: 'Back' },
     /** Show full-page loading overlay when true (e.g. form.processing) */
     submitting: { type: Boolean, default: false },
+    /** Overlay message, e.g. "Creating…" or "Saving…" */
+    submittingLabel: { type: String, default: 'Creating…' },
     footerNote: { type: String, default: '' },
     /** Max width of content area, e.g. 'max-w-4xl' for wider forms */
     contentMaxWidth: { type: String, default: 'max-w-2xl' },
@@ -30,12 +32,12 @@ defineProps({
             class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-page/90"
             aria-live="polite"
         >
-            <div class="rounded-token-md border-2 border-primary bg-card px-8 py-6 shadow-lg">
-                <p class="text-lg font-medium text-fg">Creating…</p>
+            <div class="px-8 py-6 border-2 shadow-lg rounded-token-md border-primary bg-card">
+                <p class="text-lg font-medium text-fg">{{ submittingLabel }}</p>
                 <p class="mt-2 text-sm text-muted">Please wait, you will be redirected.</p>
             </div>
         </div>
-        <div class="mx-auto px-4 py-8 sm:px-6 lg:px-8" :class="contentMaxWidth">
+        <div class="px-4 py-8 mx-auto sm:px-6 lg:px-8" :class="contentMaxWidth">
             <h1 class="govuk-heading-l">{{ title }}</h1>
 
             <slot name="before-form" />

@@ -1,6 +1,7 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
-import CityLayout from '@/Layouts/CityLayout.vue';
+import { ref } from 'vue';
+import CreatePageLayout from '@/Components/CreatePageLayout.vue';
 import ListingForm from '@/Components/Forms/ListingForm.vue';
 
 defineProps({
@@ -11,24 +12,30 @@ defineProps({
     managedCommunityPages: { type: Array, default: () => [] },
     cityBaseUrl: { type: String, required: true },
 });
+
+const submitting = ref(false);
 </script>
 
 <template>
     <Head :title="`BikesList – ${listing.title} – Edit`" />
-    <CityLayout :city="city" :city-base-url="cityBaseUrl" breadcrumb="Edit listing">
-        <template #nav-right>
-            <a :href="`${cityBaseUrl}/listings/${listing.id}`" class="govuk-link">Back to listing</a>
-        </template>
-
-        <div class="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:px-8">
-            <h1 class="govuk-heading-l">Edit listing</h1>
-            <ListingForm
-                :listing="listing"
-                :listing-types="listingTypes"
-                :conditions="conditions"
-                :managed-community-pages="managedCommunityPages"
-                :city-base-url="cityBaseUrl"
-            />
-        </div>
-    </CityLayout>
+    <CreatePageLayout
+        title="Edit listing"
+        :head-title="`BikesList – ${listing.title} – Edit`"
+        breadcrumb="Edit listing"
+        :city="city"
+        :city-base-url="cityBaseUrl"
+        :back-url="`${cityBaseUrl}/listings/${listing.id}`"
+        back-label="Back to listing"
+        :submitting="submitting"
+        submitting-label="Saving…"
+    >
+        <ListingForm
+            :listing="listing"
+            :listing-types="listingTypes"
+            :conditions="conditions"
+            :managed-community-pages="managedCommunityPages"
+            :city-base-url="cityBaseUrl"
+            @update:processing="submitting = $event"
+        />
+    </CreatePageLayout>
 </template>

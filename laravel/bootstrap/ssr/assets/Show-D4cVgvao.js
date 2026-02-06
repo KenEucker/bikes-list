@@ -2,7 +2,7 @@ import { computed, resolveComponent, unref, withCtx, createVNode, toDisplayStrin
 import { ssrRenderComponent, ssrRenderAttr, ssrInterpolate, ssrRenderList } from "vue/server-renderer";
 import { usePage, Head, Link } from "@inertiajs/vue3";
 import { _ as _sfc_main$1 } from "./CityLayout-DXBkMg5Q.js";
-import { _ as _sfc_main$2 } from "./EmailRelayCard-DRXJMFyo.js";
+import { _ as _sfc_main$2, a as _sfc_main$3 } from "./PendingReviewBanner-3VzMr-JQ.js";
 import "./PublicLayout-CvaWB3EK.js";
 import "./ThemeToggle-Mk6IgKQe.js";
 const _sfc_main = {
@@ -152,26 +152,10 @@ const _sfc_main = {
             } else {
               _push2(`<!---->`);
             }
-            if (__props.listing.state === "pending_review") {
-              _push2(ssrRenderComponent(_component_gv_notification_banner, {
-                type: "warning",
-                title: "Pending review",
-                class: "rounded-none border-x-0 border-t-0 border-amber-200 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-800"
-              }, {
-                default: withCtx((_2, _push3, _parent3, _scopeId2) => {
-                  if (_push3) {
-                    _push3(`<p class="govuk-body"${_scopeId2}>This listing is pending review. It is not visible to the public yet. A moderator will review it; if approved, it will be published automatically. You can still edit or remove it.</p>`);
-                  } else {
-                    return [
-                      createVNode("p", { class: "govuk-body" }, "This listing is pending review. It is not visible to the public yet. A moderator will review it; if approved, it will be published automatically. You can still edit or remove it.")
-                    ];
-                  }
-                }),
-                _: 1
-              }, _parent2, _scopeId));
-            } else {
-              _push2(`<!---->`);
-            }
+            _push2(ssrRenderComponent(_sfc_main$2, {
+              show: __props.listing.state === "pending_review",
+              "resource-label": "listing"
+            }, null, _parent2, _scopeId));
             _push2(`<div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8"${_scopeId}>`);
             if (error.value) {
               _push2(ssrRenderComponent(_component_gv_notification_banner, {
@@ -217,7 +201,7 @@ const _sfc_main = {
             _push2(`<div class="mt-6 prose dark:prose-invert max-w-none"${_scopeId}><p class="whitespace-pre-wrap text-fg"${_scopeId}>${ssrInterpolate(__props.listing.description)}</p></div>`);
             if (__props.relayEmailAddress) {
               _push2(`<div class="mt-8"${_scopeId}>`);
-              _push2(ssrRenderComponent(_sfc_main$2, {
+              _push2(ssrRenderComponent(_sfc_main$3, {
                 email: __props.relayEmailAddress,
                 label: "Contact seller",
                 note: "Copy the address below and use your own email client. Your address is never shown to the recipient.",
@@ -234,7 +218,7 @@ const _sfc_main = {
             }
             if (__props.moderatorRelayEmail) {
               _push2(`<div class="mt-8"${_scopeId}>`);
-              _push2(ssrRenderComponent(_sfc_main$2, {
+              _push2(ssrRenderComponent(_sfc_main$3, {
                 email: __props.moderatorRelayEmail,
                 label: "Report this listing",
                 note: "Email the city moderators. Include the subject so they can identify the item.",
@@ -305,17 +289,10 @@ const _sfc_main = {
                 ]),
                 _: 1
               })) : createCommentVNode("", true),
-              __props.listing.state === "pending_review" ? (openBlock(), createBlock(_component_gv_notification_banner, {
-                key: 1,
-                type: "warning",
-                title: "Pending review",
-                class: "rounded-none border-x-0 border-t-0 border-amber-200 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-800"
-              }, {
-                default: withCtx(() => [
-                  createVNode("p", { class: "govuk-body" }, "This listing is pending review. It is not visible to the public yet. A moderator will review it; if approved, it will be published automatically. You can still edit or remove it.")
-                ]),
-                _: 1
-              })) : createCommentVNode("", true),
+              createVNode(_sfc_main$2, {
+                show: __props.listing.state === "pending_review",
+                "resource-label": "listing"
+              }, null, 8, ["show"]),
               createVNode("div", { class: "mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8" }, [
                 error.value ? (openBlock(), createBlock(_component_gv_notification_banner, {
                   key: 0,
@@ -371,7 +348,7 @@ const _sfc_main = {
                   key: 4,
                   class: "mt-8"
                 }, [
-                  createVNode(_sfc_main$2, {
+                  createVNode(_sfc_main$3, {
                     email: __props.relayEmailAddress,
                     label: "Contact seller",
                     note: "Copy the address below and use your own email client. Your address is never shown to the recipient.",
@@ -395,7 +372,7 @@ const _sfc_main = {
                   key: 6,
                   class: "mt-8"
                 }, [
-                  createVNode(_sfc_main$2, {
+                  createVNode(_sfc_main$3, {
                     email: __props.moderatorRelayEmail,
                     label: "Report this listing",
                     note: "Email the city moderators. Include the subject so they can identify the item.",

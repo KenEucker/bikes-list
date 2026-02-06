@@ -1,7 +1,9 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import CityLayout from '@/Layouts/CityLayout.vue';
 import EmailRelayCard from '@/Components/EmailRelayCard.vue';
+import PendingReviewBanner from '@/Components/PendingReviewBanner.vue';
 
 defineProps({
     city: { type: Object, required: true },
@@ -10,6 +12,9 @@ defineProps({
     homeUrl: { type: String, default: '/' },
     cityBaseUrl: { type: String, required: true },
 });
+
+const page = usePage();
+const status = computed(() => page.props.status ?? page.props.flash?.status);
 </script>
 
 <template>
@@ -20,8 +25,13 @@ defineProps({
             <Link v-if="$page.props.auth.user && communityPage.managers?.some(m => m.id === $page.props.auth.user.id)" :href="`${cityBaseUrl}/community/${communityPage.slug}/edit`" class="govuk-link">Edit</Link>
         </template>
 
+        <PendingReviewBanner :show="communityPage.state === 'pending'" resource-label="page" />
+        <gv-notification-banner v-if="status" type="success" title="Success" class="rounded-none border-x-0 border-t-0">
+            <p class="govuk-body">{{ status }}</p>
+        </gv-notification-banner>
         <div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
             <h1 class="text-2xl font-bold text-fg">{{ communityPage.name }}</h1>
+            <img v-if="communityPage.uploads?.length && communityPage.uploads[0].lg_url" :src="communityPage.uploads[0].lg_url" alt="" class="mt-4 max-h-64 w-full object-cover rounded">
             <div v-if="communityPage.about" class="mt-4 prose dark:prose-invert max-w-none">
                 <h2 class="text-lg font-semibold">About</h2>
                 <p class="whitespace-pre-wrap">{{ communityPage.about }}</p>

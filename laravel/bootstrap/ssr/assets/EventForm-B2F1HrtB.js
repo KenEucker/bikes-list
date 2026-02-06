@@ -1,6 +1,7 @@
-import { computed, ref, watch, resolveComponent, withCtx, openBlock, createBlock, Fragment, renderList, unref, createTextVNode, toDisplayString, createVNode, createCommentVNode, withDirectives, vShow, useSSRContext } from "vue";
+import { computed, ref, watch, resolveComponent, withCtx, openBlock, createBlock, Fragment, renderList, unref, createTextVNode, toDisplayString, createVNode, createCommentVNode, withDirectives, vShow, nextTick, useSSRContext } from "vue";
 import { ssrRenderAttrs, ssrRenderComponent, ssrRenderList, ssrInterpolate, ssrRenderAttr, ssrIncludeBooleanAttr, ssrRenderStyle } from "vue/server-renderer";
 import { usePage, useForm } from "@inertiajs/vue3";
+import { _ as _sfc_main$1 } from "./SingleImageUpload-BYRoh2Mm.js";
 const _export_sfc = (sfc, props) => {
   const target = sfc.__vccOpts || sfc;
   for (const [key, val] of props) {
@@ -8,7 +9,6 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
 const _sfc_main = {
   __name: "EventForm",
   __ssrInlineRender: true,
@@ -31,7 +31,7 @@ const _sfc_main = {
     const page = usePage();
     const isEdit = computed(() => !!props.event);
     const isGuest = computed(() => !page.props.auth?.user);
-    computed(
+    const submitUrl = computed(
       () => isEdit.value ? `${props.cityBaseUrl}/events/${props.event.id}` : `${props.cityBaseUrl}/events`
     );
     const oldInput = props.old || {};
@@ -81,6 +81,34 @@ const _sfc_main = {
     watch([() => form.starts_at, durationHours], () => {
       if (!useSpecificEndDate.value && durationHours.value) computeEndFromDuration();
     }, { immediate: true });
+    function submit() {
+      form.duration_hours = durationHours.value || null;
+      form.audience_id = form.audience_id || null;
+      form.community_page_id = form.community_page_id || null;
+      if (useSpecificEndDate.value) {
+        form.ends_at = form.ends_at || null;
+      } else {
+        const hours = parseFloat(durationHours.value);
+        if (form.starts_at && !Number.isNaN(hours) && hours > 0) {
+          computeEndFromDuration();
+        } else {
+          form.ends_at = null;
+        }
+      }
+      accordionDescriptionExpanded.value = true;
+      accordionDatetimeExpanded.value = true;
+      accordionLocationExpanded.value = true;
+      accordionRideExpanded.value = true;
+      accordionContactExpanded.value = true;
+      accordionAgreementsExpanded.value = true;
+      nextTick(() => {
+        if (isEdit.value) {
+          form.put(submitUrl.value, { preserveScroll: true });
+        } else {
+          form.post(submitUrl.value, { preserveScroll: true });
+        }
+      });
+    }
     const effectiveErrors = computed(() => {
       const serverErrors = props.errors && typeof props.errors === "object" ? props.errors : {};
       const formErrs = form.errors || {};
@@ -101,53 +129,6 @@ const _sfc_main = {
     const accordionContactExpanded = ref(true);
     const accordionAgreementsExpanded = ref(true);
     watch(() => form.processing, (v) => emit("update:processing", v), { immediate: true });
-    const uploadProcessing = ref(false);
-    const uploadError = ref(null);
-    async function onImageSelect(event) {
-      const file = event.target?.files?.[0];
-      if (!file) return;
-      if (file.size > MAX_UPLOAD_BYTES) {
-        uploadError.value = "File is too large. Max size is 10MB.";
-        event.target.value = "";
-        return;
-      }
-      uploadError.value = null;
-      uploadProcessing.value = true;
-      try {
-        const formData = new FormData();
-        formData.append("file", file);
-        const csrf = page.props?.csrf_token || document.querySelector('meta[name="csrf-token"]')?.getAttribute("content");
-        if (csrf) formData.append("_token", csrf);
-        const res = await fetch("/api/uploads", {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            Accept: "application/json",
-            "X-Requested-With": "XMLHttpRequest"
-          },
-          body: formData
-        });
-        if (res.status === 413) {
-          uploadError.value = "File is too large. Max size is 10MB.";
-          return;
-        }
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok) {
-          const message = data?.errors?.file?.[0] || data?.message || "Upload failed";
-          uploadError.value = message === "The file failed to upload." ? "The file failed to upload. It may be too large. Max size is 10MB." : message;
-          return;
-        }
-        if (data.upload_id) {
-          form.upload_ids = [data.upload_id];
-        }
-      } finally {
-        uploadProcessing.value = false;
-        event.target.value = "";
-      }
-    }
-    function removeUploadId() {
-      form.upload_ids = [];
-    }
     function toggleTag(slug) {
       const tags = [...form.tags || []];
       const idx = tags.indexOf(slug);
@@ -167,7 +148,7 @@ const _sfc_main = {
       const _component_gv_select_option = resolveComponent("gv-select-option");
       const _component_gv_checkbox = resolveComponent("gv-checkbox");
       const _component_gv_button = resolveComponent("gv-button");
-      _push(`<form${ssrRenderAttrs(_attrs)} data-v-50e9d8bb>`);
+      _push(`<form${ssrRenderAttrs(_attrs)} data-v-5b6d6417>`);
       if (hasErrors()) {
         _push(ssrRenderComponent(_component_gv_error_summary, { title: "There is a problem" }, {
           default: withCtx((_, _push2, _parent2, _scopeId) => {
@@ -198,7 +179,7 @@ const _sfc_main = {
       } else {
         _push(`<!---->`);
       }
-      _push(`<div class="event-form-accordion-wrapper w-full max-w-4xl" data-v-50e9d8bb>`);
+      _push(`<div class="event-form-accordion-wrapper w-full max-w-4xl" data-v-5b6d6417>`);
       _push(ssrRenderComponent(_component_gv_accordion, { class: "govuk-!-width-full" }, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
@@ -284,32 +265,22 @@ const _sfc_main = {
                     _push3(`<!---->`);
                   }
                   if (eventTagsList.value.length) {
-                    _push3(`<div class="govuk-form-group" data-v-50e9d8bb${_scopeId2}><label class="govuk-label" data-v-50e9d8bb${_scopeId2}>Tags (optional)</label><div class="govuk-checkboxes govuk-checkboxes--small" data-v-50e9d8bb${_scopeId2}><!--[-->`);
+                    _push3(`<div class="govuk-form-group" data-v-5b6d6417${_scopeId2}><label class="govuk-label" data-v-5b6d6417${_scopeId2}>Tags (optional)</label><div class="govuk-checkboxes govuk-checkboxes--small" data-v-5b6d6417${_scopeId2}><!--[-->`);
                     ssrRenderList(eventTagsList.value, ([slug, label]) => {
-                      _push3(`<div class="govuk-checkboxes__item" data-v-50e9d8bb${_scopeId2}><input${ssrRenderAttr("id", `tag-${slug}`)} type="checkbox" class="govuk-checkboxes__input"${ssrIncludeBooleanAttr((unref(form).tags || []).includes(slug)) ? " checked" : ""} data-v-50e9d8bb${_scopeId2}><label${ssrRenderAttr("for", `tag-${slug}`)} class="govuk-label govuk-checkboxes__label" data-v-50e9d8bb${_scopeId2}>${ssrInterpolate(label)}</label></div>`);
+                      _push3(`<div class="govuk-checkboxes__item" data-v-5b6d6417${_scopeId2}><input${ssrRenderAttr("id", `tag-${slug}`)} type="checkbox" class="govuk-checkboxes__input"${ssrIncludeBooleanAttr((unref(form).tags || []).includes(slug)) ? " checked" : ""} data-v-5b6d6417${_scopeId2}><label${ssrRenderAttr("for", `tag-${slug}`)} class="govuk-label govuk-checkboxes__label" data-v-5b6d6417${_scopeId2}>${ssrInterpolate(label)}</label></div>`);
                     });
                     _push3(`<!--]--></div></div>`);
                   } else {
                     _push3(`<!---->`);
                   }
                   if (unref(page).props.auth?.user) {
-                    _push3(`<div class="govuk-form-group govuk-!-margin-top-4" data-v-50e9d8bb${_scopeId2}><label class="govuk-label" for="event_image" data-v-50e9d8bb${_scopeId2}>Event image (optional, one image)</label><p class="govuk-hint" data-v-50e9d8bb${_scopeId2}>JPEG, PNG, WebP or BMP. Max 10MB.</p><input id="event_image" type="file" accept="image/jpeg,image/png,image/webp,image/bmp" class="govuk-file-upload"${ssrIncludeBooleanAttr(uploadProcessing.value) ? " disabled" : ""} data-v-50e9d8bb${_scopeId2}>`);
-                    if (uploadError.value) {
-                      _push3(`<p class="govuk-error-message govuk-!-margin-top-2" data-v-50e9d8bb${_scopeId2}>${ssrInterpolate(uploadError.value)}</p>`);
-                    } else {
-                      _push3(`<!---->`);
-                    }
-                    if (uploadProcessing.value) {
-                      _push3(`<p class="govuk-body govuk-!-margin-top-2" data-v-50e9d8bb${_scopeId2}>Uploading…</p>`);
-                    } else {
-                      _push3(`<!---->`);
-                    }
-                    if (unref(form).upload_ids && unref(form).upload_ids.length) {
-                      _push3(`<p class="govuk-body govuk-!-margin-top-2" data-v-50e9d8bb${_scopeId2}><button type="button" class="govuk-link govuk-body-s" data-v-50e9d8bb${_scopeId2}>Remove image</button></p>`);
-                    } else {
-                      _push3(`<!---->`);
-                    }
-                    _push3(`</div>`);
+                    _push3(ssrRenderComponent(_sfc_main$1, {
+                      modelValue: unref(form).upload_ids,
+                      "onUpdate:modelValue": ($event) => unref(form).upload_ids = $event,
+                      "input-id": "event_image",
+                      label: "Event image (optional, one image)",
+                      hint: "JPEG, PNG, WebP or BMP. Max 10MB."
+                    }, null, _parent3, _scopeId2));
                   } else {
                     _push3(`<!---->`);
                   }
@@ -387,42 +358,14 @@ const _sfc_main = {
                         }), 128))
                       ])
                     ])) : createCommentVNode("", true),
-                    unref(page).props.auth?.user ? (openBlock(), createBlock("div", {
+                    unref(page).props.auth?.user ? (openBlock(), createBlock(_sfc_main$1, {
                       key: 2,
-                      class: "govuk-form-group govuk-!-margin-top-4"
-                    }, [
-                      createVNode("label", {
-                        class: "govuk-label",
-                        for: "event_image"
-                      }, "Event image (optional, one image)"),
-                      createVNode("p", { class: "govuk-hint" }, "JPEG, PNG, WebP or BMP. Max 10MB."),
-                      createVNode("input", {
-                        id: "event_image",
-                        type: "file",
-                        accept: "image/jpeg,image/png,image/webp,image/bmp",
-                        class: "govuk-file-upload",
-                        disabled: uploadProcessing.value,
-                        onChange: onImageSelect
-                      }, null, 40, ["disabled"]),
-                      uploadError.value ? (openBlock(), createBlock("p", {
-                        key: 0,
-                        class: "govuk-error-message govuk-!-margin-top-2"
-                      }, toDisplayString(uploadError.value), 1)) : createCommentVNode("", true),
-                      uploadProcessing.value ? (openBlock(), createBlock("p", {
-                        key: 1,
-                        class: "govuk-body govuk-!-margin-top-2"
-                      }, "Uploading…")) : createCommentVNode("", true),
-                      unref(form).upload_ids && unref(form).upload_ids.length ? (openBlock(), createBlock("p", {
-                        key: 2,
-                        class: "govuk-body govuk-!-margin-top-2"
-                      }, [
-                        createVNode("button", {
-                          type: "button",
-                          class: "govuk-link govuk-body-s",
-                          onClick: removeUploadId
-                        }, "Remove image")
-                      ])) : createCommentVNode("", true)
-                    ])) : createCommentVNode("", true)
+                      modelValue: unref(form).upload_ids,
+                      "onUpdate:modelValue": ($event) => unref(form).upload_ids = $event,
+                      "input-id": "event_image",
+                      label: "Event image (optional, one image)",
+                      hint: "JPEG, PNG, WebP or BMP. Max 10MB."
+                    }, null, 8, ["modelValue", "onUpdate:modelValue"])) : createCommentVNode("", true)
                   ];
                 }
               }),
@@ -436,7 +379,7 @@ const _sfc_main = {
             }, {
               default: withCtx((_2, _push3, _parent3, _scopeId2) => {
                 if (_push3) {
-                  _push3(`<div class="govuk-form-group" data-v-50e9d8bb${_scopeId2}><label class="govuk-label" for="starts_at" data-v-50e9d8bb${_scopeId2}>Starts at *</label>`);
+                  _push3(`<div class="govuk-form-group" data-v-5b6d6417${_scopeId2}><label class="govuk-label" for="starts_at" data-v-5b6d6417${_scopeId2}>Starts at *</label>`);
                   _push3(ssrRenderComponent(_component_gv_input, {
                     id: "starts_at",
                     modelValue: unref(form).starts_at,
@@ -447,7 +390,7 @@ const _sfc_main = {
                     "error-message": effectiveErrors.value.starts_at,
                     class: "govuk-!-width-full govuk-!-margin-bottom-2"
                   }, null, _parent3, _scopeId2));
-                  _push3(`</div><div class="govuk-form-group" data-v-50e9d8bb${_scopeId2}>`);
+                  _push3(`</div><div class="govuk-form-group" data-v-5b6d6417${_scopeId2}>`);
                   _push3(ssrRenderComponent(_component_gv_input, {
                     id: "duration_hours",
                     modelValue: durationHours.value,
@@ -461,7 +404,7 @@ const _sfc_main = {
                     "error-message": unref(form).errors.duration_hours,
                     class: "govuk-!-width-one-quarter"
                   }, null, _parent3, _scopeId2));
-                  _push3(`<p class="govuk-hint govuk-!-margin-top-1" data-v-50e9d8bb${_scopeId2}>Decimal allowed (e.g. 1.5 for 1 hour 30 min). If set, end time is calculated from start.</p></div><div class="govuk-form-group" data-v-50e9d8bb${_scopeId2}>`);
+                  _push3(`<p class="govuk-hint govuk-!-margin-top-1" data-v-5b6d6417${_scopeId2}>Decimal allowed (e.g. 1.5 for 1 hour 30 min). If set, end time is calculated from start.</p></div><div class="govuk-form-group" data-v-5b6d6417${_scopeId2}>`);
                   _push3(ssrRenderComponent(_component_gv_checkbox, {
                     id: "use_specific_end_date",
                     modelValue: useSpecificEndDate.value,
@@ -470,7 +413,7 @@ const _sfc_main = {
                     label: "Set specific end date",
                     class: "govuk-!-margin-bottom-2"
                   }, null, _parent3, _scopeId2));
-                  _push3(`<div class="govuk-!-margin-top-2" style="${ssrRenderStyle(useSpecificEndDate.value ? null : { display: "none" })}" data-v-50e9d8bb${_scopeId2}>`);
+                  _push3(`<div class="govuk-!-margin-top-2" style="${ssrRenderStyle(useSpecificEndDate.value ? null : { display: "none" })}" data-v-5b6d6417${_scopeId2}>`);
                   _push3(ssrRenderComponent(_component_gv_input, {
                     id: "ends_at",
                     modelValue: unref(form).ends_at,
@@ -696,7 +639,7 @@ const _sfc_main = {
                     label: "Ride is a loop",
                     class: "govuk-!-margin-top-4"
                   }, null, _parent3, _scopeId2));
-                  _push3(`<p class="govuk-hint govuk-!-margin-top-1" data-v-50e9d8bb${_scopeId2}>Does your ride end at the same location where it began?</p>`);
+                  _push3(`<p class="govuk-hint govuk-!-margin-top-1" data-v-5b6d6417${_scopeId2}>Does your ride end at the same location where it began?</p>`);
                 } else {
                   return [
                     createVNode(_component_gv_input, {
@@ -777,7 +720,7 @@ const _sfc_main = {
                       "error-message": unref(form).errors.organizer_email,
                       class: "govuk-!-width-full"
                     }, null, _parent3, _scopeId2));
-                    _push3(`<p class="govuk-body govuk-!-margin-top-2" data-v-50e9d8bb${_scopeId2}> Your email is required so we can contact you about this event. You can choose to hide it from the public listing below. </p><!--]-->`);
+                    _push3(`<p class="govuk-body govuk-!-margin-top-2" data-v-5b6d6417${_scopeId2}> Your email is required so we can contact you about this event. You can choose to hide it from the public listing below. </p><!--]-->`);
                   } else {
                     _push3(`<!---->`);
                   }
@@ -957,9 +900,9 @@ const _sfc_main = {
               }, {
                 default: withCtx((_2, _push3, _parent3, _scopeId2) => {
                   if (_push3) {
-                    _push3(`<div class="rounded-token-md border border-border bg-card p-4" data-v-50e9d8bb${_scopeId2}><h2 class="font-medium text-fg" data-v-50e9d8bb${_scopeId2}>Event community guidelines</h2><div class="mt-2 space-y-2 text-sm text-fg prose dark:prose-invert max-w-none" data-v-50e9d8bb${_scopeId2}><!--[-->`);
+                    _push3(`<div class="rounded-token-md border border-border bg-card p-4" data-v-5b6d6417${_scopeId2}><h2 class="font-medium text-fg" data-v-5b6d6417${_scopeId2}>Event community guidelines</h2><div class="mt-2 space-y-2 text-sm text-fg prose dark:prose-invert max-w-none" data-v-5b6d6417${_scopeId2}><!--[-->`);
                     ssrRenderList(__props.guidelines, (g) => {
-                      _push3(`<div class="whitespace-pre-wrap" data-v-50e9d8bb${_scopeId2}>${ssrInterpolate(g.body)}</div>`);
+                      _push3(`<div class="whitespace-pre-wrap" data-v-5b6d6417${_scopeId2}>${ssrInterpolate(g.body)}</div>`);
                     });
                     _push3(`<!--]--></div></div>`);
                     _push3(ssrRenderComponent(_component_gv_checkbox, {
@@ -1082,42 +1025,14 @@ const _sfc_main = {
                       }), 128))
                     ])
                   ])) : createCommentVNode("", true),
-                  unref(page).props.auth?.user ? (openBlock(), createBlock("div", {
+                  unref(page).props.auth?.user ? (openBlock(), createBlock(_sfc_main$1, {
                     key: 2,
-                    class: "govuk-form-group govuk-!-margin-top-4"
-                  }, [
-                    createVNode("label", {
-                      class: "govuk-label",
-                      for: "event_image"
-                    }, "Event image (optional, one image)"),
-                    createVNode("p", { class: "govuk-hint" }, "JPEG, PNG, WebP or BMP. Max 10MB."),
-                    createVNode("input", {
-                      id: "event_image",
-                      type: "file",
-                      accept: "image/jpeg,image/png,image/webp,image/bmp",
-                      class: "govuk-file-upload",
-                      disabled: uploadProcessing.value,
-                      onChange: onImageSelect
-                    }, null, 40, ["disabled"]),
-                    uploadError.value ? (openBlock(), createBlock("p", {
-                      key: 0,
-                      class: "govuk-error-message govuk-!-margin-top-2"
-                    }, toDisplayString(uploadError.value), 1)) : createCommentVNode("", true),
-                    uploadProcessing.value ? (openBlock(), createBlock("p", {
-                      key: 1,
-                      class: "govuk-body govuk-!-margin-top-2"
-                    }, "Uploading…")) : createCommentVNode("", true),
-                    unref(form).upload_ids && unref(form).upload_ids.length ? (openBlock(), createBlock("p", {
-                      key: 2,
-                      class: "govuk-body govuk-!-margin-top-2"
-                    }, [
-                      createVNode("button", {
-                        type: "button",
-                        class: "govuk-link govuk-body-s",
-                        onClick: removeUploadId
-                      }, "Remove image")
-                    ])) : createCommentVNode("", true)
-                  ])) : createCommentVNode("", true)
+                    modelValue: unref(form).upload_ids,
+                    "onUpdate:modelValue": ($event) => unref(form).upload_ids = $event,
+                    "input-id": "event_image",
+                    label: "Event image (optional, one image)",
+                    hint: "JPEG, PNG, WebP or BMP. Max 10MB."
+                  }, null, 8, ["modelValue", "onUpdate:modelValue"])) : createCommentVNode("", true)
                 ]),
                 _: 1
               }, 8, ["expanded", "onUpdate:expanded"]),
@@ -1411,11 +1326,12 @@ const _sfc_main = {
         }),
         _: 1
       }, _parent));
-      _push(`</div><div class="govuk-button-group govuk-!-margin-top-6" data-v-50e9d8bb>`);
+      _push(`</div><div class="govuk-button-group govuk-!-margin-top-6" data-v-5b6d6417>`);
       _push(ssrRenderComponent(_component_gv_button, {
-        type: "submit",
+        type: "button",
         variant: "primary",
-        disabled: unref(form).processing
+        disabled: unref(form).processing,
+        onClick: submit
       }, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
@@ -1428,7 +1344,7 @@ const _sfc_main = {
         }),
         _: 1
       }, _parent));
-      _push(`<a${ssrRenderAttr("href", isEdit.value ? `${__props.cityBaseUrl}/events/${__props.event.id}` : `${__props.cityBaseUrl}/events`)} class="govuk-link" data-v-50e9d8bb>Cancel</a></div></form>`);
+      _push(`<a${ssrRenderAttr("href", isEdit.value ? `${__props.cityBaseUrl}/events/${__props.event.id}` : `${__props.cityBaseUrl}/events`)} class="govuk-link" data-v-5b6d6417>Cancel</a></div></form>`);
     };
   }
 };
@@ -1438,7 +1354,7 @@ _sfc_main.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/Forms/EventForm.vue");
   return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
 };
-const EventForm = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-50e9d8bb"]]);
+const EventForm = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-5b6d6417"]]);
 export {
   EventForm as E
 };

@@ -1,6 +1,6 @@
-import { ref, computed, resolveComponent, mergeProps, withCtx, createTextVNode, toDisplayString, useSSRContext } from "vue";
+import { ref, computed, resolveComponent, mergeProps, withCtx, createTextVNode, toDisplayString, useSSRContext, createVNode } from "vue";
 import { ssrRenderAttrs, ssrRenderAttr, ssrInterpolate, ssrRenderStyle, ssrRenderComponent } from "vue/server-renderer";
-const _sfc_main = {
+const _sfc_main$1 = {
   __name: "EmailRelayCard",
   __ssrInlineRender: true,
   props: {
@@ -70,12 +70,57 @@ const _sfc_main = {
     };
   }
 };
+const _sfc_setup$1 = _sfc_main$1.setup;
+_sfc_main$1.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/EmailRelayCard.vue");
+  return _sfc_setup$1 ? _sfc_setup$1(props, ctx) : void 0;
+};
+const _sfc_main = {
+  __name: "PendingReviewBanner",
+  __ssrInlineRender: true,
+  props: {
+    show: { type: Boolean, default: false },
+    /** e.g. "listing", "event", "page" — used in copy */
+    resourceLabel: { type: String, default: "item" }
+  },
+  setup(__props) {
+    const props = __props;
+    const message = computed(
+      () => `This ${props.resourceLabel} is pending review. It is not visible to the public yet. A moderator will review it; when approved, it will be published.`
+    );
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_gv_notification_banner = resolveComponent("gv-notification-banner");
+      if (__props.show) {
+        _push(ssrRenderComponent(_component_gv_notification_banner, mergeProps({
+          type: "warning",
+          title: "Pending review",
+          class: "rounded-none border-x-0 border-t-0 border-amber-200 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-800"
+        }, _attrs), {
+          default: withCtx((_, _push2, _parent2, _scopeId) => {
+            if (_push2) {
+              _push2(`<p class="govuk-body"${_scopeId}>${ssrInterpolate(message.value)}</p>`);
+            } else {
+              return [
+                createVNode("p", { class: "govuk-body" }, toDisplayString(message.value), 1)
+              ];
+            }
+          }),
+          _: 1
+        }, _parent));
+      } else {
+        _push(`<!---->`);
+      }
+    };
+  }
+};
 const _sfc_setup = _sfc_main.setup;
 _sfc_main.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/EmailRelayCard.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/PendingReviewBanner.vue");
   return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
 };
 export {
-  _sfc_main as _
+  _sfc_main as _,
+  _sfc_main$1 as a
 };

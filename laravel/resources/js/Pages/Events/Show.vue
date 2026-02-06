@@ -3,6 +3,7 @@ import { Head, Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import CityLayout from '@/Layouts/CityLayout.vue';
 import EmailRelayCard from '@/Components/EmailRelayCard.vue';
+import PendingReviewBanner from '@/Components/PendingReviewBanner.vue';
 
 defineProps({
     city: { type: Object, required: true },
@@ -29,9 +30,7 @@ const status = computed(() => page.props.status ?? page.props.flash?.status);
         <gv-notification-banner v-if="status" type="success" title="Success" class="rounded-none border-x-0 border-t-0">
             <p class="govuk-body">{{ status }}</p>
         </gv-notification-banner>
-        <gv-notification-banner v-if="event.state === 'pending_review'" type="warning" title="Pending review" class="rounded-none border-x-0 border-t-0 border-amber-200 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-800">
-            <p class="govuk-body">This event is pending review. It is not visible to the public yet. A moderator will review it; when approved, it will be published.</p>
-        </gv-notification-banner>
+        <PendingReviewBanner :show="event.state === 'pending_review'" resource-label="event" />
         <div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
             <h1 class="text-2xl font-bold text-fg">{{ event.name }}</h1>
             <p class="mt-2 text-muted">

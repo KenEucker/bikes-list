@@ -1,5 +1,5 @@
-import { unref, withCtx, openBlock, createBlock, createVNode, createCommentVNode, toDisplayString, renderSlot, useSSRContext } from "vue";
-import { ssrRenderComponent, ssrRenderClass, ssrInterpolate, ssrRenderSlot, ssrRenderAttr } from "vue/server-renderer";
+import { unref, withCtx, openBlock, createBlock, createVNode, toDisplayString, createCommentVNode, renderSlot, useSSRContext } from "vue";
+import { ssrRenderComponent, ssrInterpolate, ssrRenderClass, ssrRenderSlot, ssrRenderAttr } from "vue/server-renderer";
 import { Head } from "@inertiajs/vue3";
 import { _ as _sfc_main$1 } from "./CityLayout-DXBkMg5Q.js";
 const _sfc_main = {
@@ -15,6 +15,8 @@ const _sfc_main = {
     backLabel: { type: String, default: "Back" },
     /** Show full-page loading overlay when true (e.g. form.processing) */
     submitting: { type: Boolean, default: false },
+    /** Overlay message, e.g. "Creating…" or "Saving…" */
+    submittingLabel: { type: String, default: "Creating…" },
     footerNote: { type: String, default: "" },
     /** Max width of content area, e.g. 'max-w-4xl' for wider forms */
     contentMaxWidth: { type: String, default: "max-w-2xl" }
@@ -45,7 +47,7 @@ const _sfc_main = {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             if (__props.submitting) {
-              _push2(`<div class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-page/90" aria-live="polite"${_scopeId}><div class="rounded-token-md border-2 border-primary bg-card px-8 py-6 shadow-lg"${_scopeId}><p class="text-lg font-medium text-fg"${_scopeId}>Creating…</p><p class="mt-2 text-sm text-muted"${_scopeId}>Please wait, you will be redirected.</p></div></div>`);
+              _push2(`<div class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-page/90" aria-live="polite"${_scopeId}><div class="rounded-token-md border-2 border-primary bg-card px-8 py-6 shadow-lg"${_scopeId}><p class="text-lg font-medium text-fg"${_scopeId}>${ssrInterpolate(__props.submittingLabel)}</p><p class="mt-2 text-sm text-muted"${_scopeId}>Please wait, you will be redirected.</p></div></div>`);
             } else {
               _push2(`<!---->`);
             }
@@ -66,7 +68,7 @@ const _sfc_main = {
                 "aria-live": "polite"
               }, [
                 createVNode("div", { class: "rounded-token-md border-2 border-primary bg-card px-8 py-6 shadow-lg" }, [
-                  createVNode("p", { class: "text-lg font-medium text-fg" }, "Creating…"),
+                  createVNode("p", { class: "text-lg font-medium text-fg" }, toDisplayString(__props.submittingLabel), 1),
                   createVNode("p", { class: "mt-2 text-sm text-muted" }, "Please wait, you will be redirected.")
                 ])
               ])) : createCommentVNode("", true),

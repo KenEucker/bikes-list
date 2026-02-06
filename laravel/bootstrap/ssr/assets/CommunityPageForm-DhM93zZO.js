@@ -1,6 +1,7 @@
 import { computed, watch, resolveComponent, withCtx, unref, openBlock, createBlock, Fragment, renderList, createTextVNode, createVNode, toDisplayString, useSSRContext } from "vue";
 import { ssrRenderAttrs, ssrRenderComponent, ssrRenderList, ssrInterpolate, ssrRenderAttr } from "vue/server-renderer";
 import { useForm } from "@inertiajs/vue3";
+import { _ as _sfc_main$1 } from "./SingleImageUpload-BYRoh2Mm.js";
 const _sfc_main = {
   __name: "CommunityPageForm",
   __ssrInlineRender: true,
@@ -19,6 +20,7 @@ const _sfc_main = {
     );
     const oldInput = props.old || {};
     const cp = props.communityPage || {};
+    const initialUploadIds = cp.uploads && Array.isArray(cp.uploads) && cp.uploads.length ? [cp.uploads[0].id] : oldInput.upload_ids && Array.isArray(oldInput.upload_ids) ? oldInput.upload_ids : [];
     const form = useForm({
       type: oldInput.type ?? cp.type ?? "bike_shop",
       name: oldInput.name ?? cp.name ?? "",
@@ -27,7 +29,8 @@ const _sfc_main = {
       sales_info: oldInput.sales_info ?? cp.sales_info ?? "",
       contact_address: oldInput.contact_address ?? cp.contact_address ?? "",
       contact_email: oldInput.contact_email ?? cp.contact_email ?? "",
-      contact_phone: oldInput.contact_phone ?? cp.contact_phone ?? ""
+      contact_phone: oldInput.contact_phone ?? cp.contact_phone ?? "",
+      upload_ids: initialUploadIds
     });
     const hasErrors = () => Object.keys(form.errors).length > 0;
     watch(() => form.processing, (v) => emit("update:processing", v), { immediate: true });
@@ -211,6 +214,13 @@ const _sfc_main = {
         label: "Contact phone",
         type: "text",
         class: "govuk-!-width-full"
+      }, null, _parent));
+      _push(ssrRenderComponent(_sfc_main$1, {
+        modelValue: unref(form).upload_ids,
+        "onUpdate:modelValue": ($event) => unref(form).upload_ids = $event,
+        "input-id": "community_page_image",
+        label: "Page image (optional, one image)",
+        hint: "JPEG, PNG, WebP or BMP. Max 10MB."
       }, null, _parent));
       _push(`<div class="govuk-button-group govuk-!-margin-top-6">`);
       _push(ssrRenderComponent(_component_gv_button, {

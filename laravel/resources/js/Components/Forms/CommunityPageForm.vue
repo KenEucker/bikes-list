@@ -1,6 +1,7 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3';
 import { computed, watch } from 'vue';
+import SingleImageUpload from '@/Components/SingleImageUpload.vue';
 
 const props = defineProps({
     communityPage: { type: Object, default: null },
@@ -18,6 +19,9 @@ const submitUrl = computed(() =>
 
 const oldInput = props.old || {};
 const cp = props.communityPage || {};
+const initialUploadIds = (cp.uploads && Array.isArray(cp.uploads) && cp.uploads.length)
+    ? [cp.uploads[0].id]
+    : (oldInput.upload_ids && Array.isArray(oldInput.upload_ids) ? oldInput.upload_ids : []);
 const form = useForm({
     type: oldInput.type ?? cp.type ?? 'bike_shop',
     name: oldInput.name ?? cp.name ?? '',
@@ -27,9 +31,11 @@ const form = useForm({
     contact_address: oldInput.contact_address ?? cp.contact_address ?? '',
     contact_email: oldInput.contact_email ?? cp.contact_email ?? '',
     contact_phone: oldInput.contact_phone ?? cp.contact_phone ?? '',
+    upload_ids: initialUploadIds,
 });
 
 function submit() {
+    emit('update:processing', true);
     if (isEdit.value) {
         form.put(submitUrl.value, { preserveScroll: true });
     } else {
@@ -130,6 +136,13 @@ watch(() => form.processing, (v) => emit('update:processing', v), { immediate: t
             label="Contact phone"
             type="text"
             class="govuk-!-width-full"
+        />
+
+        <SingleImageUpload
+            v-model="form.upload_ids"
+            input-id="community_page_image"
+            label="Page image (optional, one image)"
+            hint="JPEG, PNG, WebP or BMP. Max 10MB."
         />
 
         <div class="govuk-button-group govuk-!-margin-top-6">

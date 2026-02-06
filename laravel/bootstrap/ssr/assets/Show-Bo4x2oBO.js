@@ -1,8 +1,8 @@
-import { unref, withCtx, createVNode, toDisplayString, openBlock, createBlock, createCommentVNode, Fragment, renderList, createTextVNode, useSSRContext } from "vue";
-import { ssrRenderComponent, ssrInterpolate, ssrRenderList, ssrRenderAttr } from "vue/server-renderer";
-import { Head, Link } from "@inertiajs/vue3";
+import { computed, resolveComponent, unref, withCtx, createVNode, toDisplayString, openBlock, createBlock, createCommentVNode, Fragment, renderList, createTextVNode, useSSRContext } from "vue";
+import { ssrRenderComponent, ssrInterpolate, ssrRenderAttr, ssrRenderList } from "vue/server-renderer";
+import { usePage, Head, Link } from "@inertiajs/vue3";
 import { _ as _sfc_main$1 } from "./CityLayout-DXBkMg5Q.js";
-import { _ as _sfc_main$2 } from "./EmailRelayCard-DRXJMFyo.js";
+import { _ as _sfc_main$2, a as _sfc_main$3 } from "./PendingReviewBanner-3VzMr-JQ.js";
 import "./PublicLayout-CvaWB3EK.js";
 import "./ThemeToggle-Mk6IgKQe.js";
 const _sfc_main = {
@@ -16,7 +16,10 @@ const _sfc_main = {
     cityBaseUrl: { type: String, required: true }
   },
   setup(__props) {
+    const page = usePage();
+    const status = computed(() => page.props.status ?? page.props.flash?.status);
     return (_ctx, _push, _parent, _attrs) => {
+      const _component_gv_notification_banner = resolveComponent("gv-notification-banner");
       _push(`<!--[-->`);
       _push(ssrRenderComponent(unref(Head), {
         title: `BikesList – ${__props.communityPage.name}`
@@ -69,7 +72,36 @@ const _sfc_main = {
         }),
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
+            _push2(ssrRenderComponent(_sfc_main$2, {
+              show: __props.communityPage.state === "pending",
+              "resource-label": "page"
+            }, null, _parent2, _scopeId));
+            if (status.value) {
+              _push2(ssrRenderComponent(_component_gv_notification_banner, {
+                type: "success",
+                title: "Success",
+                class: "rounded-none border-x-0 border-t-0"
+              }, {
+                default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                  if (_push3) {
+                    _push3(`<p class="govuk-body"${_scopeId2}>${ssrInterpolate(status.value)}</p>`);
+                  } else {
+                    return [
+                      createVNode("p", { class: "govuk-body" }, toDisplayString(status.value), 1)
+                    ];
+                  }
+                }),
+                _: 1
+              }, _parent2, _scopeId));
+            } else {
+              _push2(`<!---->`);
+            }
             _push2(`<div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8"${_scopeId}><h1 class="text-2xl font-bold text-fg"${_scopeId}>${ssrInterpolate(__props.communityPage.name)}</h1>`);
+            if (__props.communityPage.uploads?.length && __props.communityPage.uploads[0].lg_url) {
+              _push2(`<img${ssrRenderAttr("src", __props.communityPage.uploads[0].lg_url)} alt="" class="mt-4 max-h-64 w-full object-cover rounded"${_scopeId}>`);
+            } else {
+              _push2(`<!---->`);
+            }
             if (__props.communityPage.about) {
               _push2(`<div class="mt-4 prose dark:prose-invert max-w-none"${_scopeId}><h2 class="text-lg font-semibold"${_scopeId}>About</h2><p class="whitespace-pre-wrap"${_scopeId}>${ssrInterpolate(__props.communityPage.about)}</p></div>`);
             } else {
@@ -126,7 +158,7 @@ const _sfc_main = {
             }
             if (__props.moderatorRelayEmail) {
               _push2(`<div class="mt-8"${_scopeId}>`);
-              _push2(ssrRenderComponent(_sfc_main$2, {
+              _push2(ssrRenderComponent(_sfc_main$3, {
                 email: __props.moderatorRelayEmail,
                 label: "Report this page",
                 note: "Email the city moderators. Include the subject so they can identify the item.",
@@ -144,31 +176,52 @@ const _sfc_main = {
             _push2(`</div>`);
           } else {
             return [
+              createVNode(_sfc_main$2, {
+                show: __props.communityPage.state === "pending",
+                "resource-label": "page"
+              }, null, 8, ["show"]),
+              status.value ? (openBlock(), createBlock(_component_gv_notification_banner, {
+                key: 0,
+                type: "success",
+                title: "Success",
+                class: "rounded-none border-x-0 border-t-0"
+              }, {
+                default: withCtx(() => [
+                  createVNode("p", { class: "govuk-body" }, toDisplayString(status.value), 1)
+                ]),
+                _: 1
+              })) : createCommentVNode("", true),
               createVNode("div", { class: "mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8" }, [
                 createVNode("h1", { class: "text-2xl font-bold text-fg" }, toDisplayString(__props.communityPage.name), 1),
-                __props.communityPage.about ? (openBlock(), createBlock("div", {
+                __props.communityPage.uploads?.length && __props.communityPage.uploads[0].lg_url ? (openBlock(), createBlock("img", {
                   key: 0,
+                  src: __props.communityPage.uploads[0].lg_url,
+                  alt: "",
+                  class: "mt-4 max-h-64 w-full object-cover rounded"
+                }, null, 8, ["src"])) : createCommentVNode("", true),
+                __props.communityPage.about ? (openBlock(), createBlock("div", {
+                  key: 1,
                   class: "mt-4 prose dark:prose-invert max-w-none"
                 }, [
                   createVNode("h2", { class: "text-lg font-semibold" }, "About"),
                   createVNode("p", { class: "whitespace-pre-wrap" }, toDisplayString(__props.communityPage.about), 1)
                 ])) : createCommentVNode("", true),
                 __props.communityPage.event_info ? (openBlock(), createBlock("div", {
-                  key: 1,
+                  key: 2,
                   class: "mt-6 prose dark:prose-invert max-w-none"
                 }, [
                   createVNode("h2", { class: "text-lg font-semibold" }, "Event info"),
                   createVNode("p", { class: "whitespace-pre-wrap" }, toDisplayString(__props.communityPage.event_info), 1)
                 ])) : createCommentVNode("", true),
                 __props.communityPage.sales_info ? (openBlock(), createBlock("div", {
-                  key: 2,
+                  key: 3,
                   class: "mt-6 prose dark:prose-invert max-w-none"
                 }, [
                   createVNode("h2", { class: "text-lg font-semibold" }, "Sales info"),
                   createVNode("p", { class: "whitespace-pre-wrap" }, toDisplayString(__props.communityPage.sales_info), 1)
                 ])) : createCommentVNode("", true),
                 __props.communityPage.contact_address || __props.communityPage.contact_email || __props.communityPage.contact_phone ? (openBlock(), createBlock("div", {
-                  key: 3,
+                  key: 4,
                   class: "mt-6"
                 }, [
                   createVNode("h2", { class: "text-lg font-semibold text-fg" }, "Contact"),
@@ -186,7 +239,7 @@ const _sfc_main = {
                   }, toDisplayString(__props.communityPage.contact_phone), 1)) : createCommentVNode("", true)
                 ])) : createCommentVNode("", true),
                 __props.communityPage.listings?.length ? (openBlock(), createBlock("section", {
-                  key: 4,
+                  key: 5,
                   class: "mt-8"
                 }, [
                   createVNode("h2", { class: "text-lg font-semibold text-fg" }, "Listings"),
@@ -208,7 +261,7 @@ const _sfc_main = {
                   }, "View all listings from this page", 8, ["href"])
                 ])) : createCommentVNode("", true),
                 __props.communityPage.events?.length ? (openBlock(), createBlock("section", {
-                  key: 5,
+                  key: 6,
                   class: "mt-8"
                 }, [
                   createVNode("h2", { class: "text-lg font-semibold text-fg" }, "Events"),
@@ -227,10 +280,10 @@ const _sfc_main = {
                   ])
                 ])) : createCommentVNode("", true),
                 __props.moderatorRelayEmail ? (openBlock(), createBlock("div", {
-                  key: 6,
+                  key: 7,
                   class: "mt-8"
                 }, [
-                  createVNode(_sfc_main$2, {
+                  createVNode(_sfc_main$3, {
                     email: __props.moderatorRelayEmail,
                     label: "Report this page",
                     note: "Email the city moderators. Include the subject so they can identify the item.",
@@ -238,7 +291,7 @@ const _sfc_main = {
                   }, null, 8, ["email", "mailto-subject"])
                 ])) : createCommentVNode("", true),
                 _ctx.$page.props.auth.user && !__props.communityPage.managers?.some((m) => m.id === _ctx.$page.props.auth.user.id) ? (openBlock(), createBlock("div", {
-                  key: 7,
+                  key: 8,
                   class: "mt-8 rounded-token-md border border-border bg-card p-4"
                 }, [
                   createVNode("p", { class: "text-sm font-medium text-fg" }, "Claim this page"),

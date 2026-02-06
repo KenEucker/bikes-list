@@ -1,6 +1,7 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
-import CityLayout from '@/Layouts/CityLayout.vue';
+import { ref } from 'vue';
+import CreatePageLayout from '@/Components/CreatePageLayout.vue';
 import EventForm from '@/Components/Forms/EventForm.vue';
 
 defineProps({
@@ -14,27 +15,34 @@ defineProps({
     cityBaseUrl: { type: String, required: true },
     errors: { type: Object, default: () => ({}) },
 });
+
+const submitting = ref(false);
 </script>
 
 <template>
     <Head :title="`BikesList – ${event.name} – Edit`" />
-    <CityLayout :city="city" :city-base-url="cityBaseUrl" breadcrumb="Edit event">
-        <template #nav-right>
-            <a :href="`${cityBaseUrl}/events/${event.id}`" class="govuk-link">Back to event</a>
-        </template>
-
-        <div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-            <h1 class="govuk-heading-l">Edit event</h1>
-            <EventForm
-                :event="event"
-                :guidelines="guidelines"
-                :managed-community-pages="managedCommunityPages"
-                :audiences="audiences"
-                :default-audience-id="defaultAudienceId"
-                :event-tags="eventTags"
-                :city-base-url="cityBaseUrl"
-                :errors="errors"
-            />
-        </div>
-    </CityLayout>
+    <CreatePageLayout
+        title="Edit event"
+        :head-title="`BikesList – ${event.name} – Edit`"
+        breadcrumb="Edit event"
+        :city="city"
+        :city-base-url="cityBaseUrl"
+        :back-url="`${cityBaseUrl}/events/${event.id}`"
+        back-label="Back to event"
+        :submitting="submitting"
+        submitting-label="Saving…"
+        content-max-width="max-w-4xl"
+    >
+        <EventForm
+            :event="event"
+            :guidelines="guidelines"
+            :managed-community-pages="managedCommunityPages"
+            :audiences="audiences"
+            :default-audience-id="defaultAudienceId"
+            :event-tags="eventTags"
+            :city-base-url="cityBaseUrl"
+            :errors="errors"
+            @update:processing="submitting = $event"
+        />
+    </CreatePageLayout>
 </template>

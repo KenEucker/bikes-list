@@ -1,52 +1,52 @@
 import { ref, unref, withCtx, createVNode, useSSRContext } from "vue";
 import { ssrRenderComponent } from "vue/server-renderer";
 import { Head } from "@inertiajs/vue3";
-import { _ as _sfc_main$1 } from "./CreatePageLayout-CDzvrTlB.js";
-import { _ as _sfc_main$2 } from "./CommunityPageForm-CaiWfumP.js";
+import { _ as _sfc_main$1 } from "./CreatePageLayout-B0iRbSI_.js";
+import { _ as _sfc_main$2 } from "./CommunityPageForm-DhM93zZO.js";
 import "./CityLayout-DXBkMg5Q.js";
 import "./PublicLayout-CvaWB3EK.js";
 import "./ThemeToggle-Mk6IgKQe.js";
+import "./SingleImageUpload-BYRoh2Mm.js";
 const _sfc_main = {
-  __name: "Create",
+  __name: "Edit",
   __ssrInlineRender: true,
   props: {
     city: { type: Object, required: true },
-    cityBaseUrl: { type: String, required: true },
-    old: { type: Object, default: () => ({}) }
+    communityPage: { type: Object, required: true },
+    cityBaseUrl: { type: String, required: true }
   },
   setup(__props) {
     const submitting = ref(false);
     return (_ctx, _push, _parent, _attrs) => {
       _push(`<!--[-->`);
       _push(ssrRenderComponent(unref(Head), {
-        title: `BikesList – ${__props.city.name} – New community page`
+        title: `BikesList – ${__props.communityPage.name} – Edit`
       }, null, _parent));
       _push(ssrRenderComponent(_sfc_main$1, {
-        title: "New community page",
-        "head-title": `BikesList – ${__props.city.name} – New community page`,
-        breadcrumb: "New page",
+        title: `Edit ${__props.communityPage.name}`,
+        "head-title": `BikesList – ${__props.communityPage.name} – Edit`,
+        breadcrumb: ["Community pages", __props.communityPage.name, "Edit"],
         city: __props.city,
         "city-base-url": __props.cityBaseUrl,
-        "back-url": `${__props.cityBaseUrl}/community`,
-        "back-label": "Back to community",
-        submitting: submitting.value
+        "back-url": `${__props.cityBaseUrl}/community/${__props.communityPage.slug}`,
+        "back-label": "Back to page",
+        submitting: submitting.value,
+        "submitting-label": "Saving…"
       }, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(ssrRenderComponent(_sfc_main$2, {
-              "community-page": null,
+              "community-page": __props.communityPage,
               "city-base-url": __props.cityBaseUrl,
-              old: __props.old,
               "onUpdate:processing": ($event) => submitting.value = $event
             }, null, _parent2, _scopeId));
           } else {
             return [
               createVNode(_sfc_main$2, {
-                "community-page": null,
+                "community-page": __props.communityPage,
                 "city-base-url": __props.cityBaseUrl,
-                old: __props.old,
                 "onUpdate:processing": ($event) => submitting.value = $event
-              }, null, 8, ["city-base-url", "old", "onUpdate:processing"])
+              }, null, 8, ["community-page", "city-base-url", "onUpdate:processing"])
             ];
           }
         }),
@@ -59,7 +59,7 @@ const _sfc_main = {
 const _sfc_setup = _sfc_main.setup;
 _sfc_main.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/CommunityPages/Create.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Pages/CommunityPages/Edit.vue");
   return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
 };
 export {

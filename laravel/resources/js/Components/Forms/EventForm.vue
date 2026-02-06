@@ -1,6 +1,7 @@
 <script setup>
 import { useForm, usePage } from '@inertiajs/vue3';
 import { computed, nextTick, ref, watch } from 'vue';
+import SingleImageUpload from '@/Components/SingleImageUpload.vue';
 
 const props = defineProps({
     event: { type: Object, default: null },
@@ -132,57 +133,6 @@ const accordionAgreementsExpanded = ref(true);
 
 watch(() => form.processing, (v) => emit('update:processing', v), { immediate: true });
 
-const MAX_UPLOAD_BYTES = 10 * 1024 * 1024; // 10MB
-const uploadProcessing = ref(false);
-const uploadError = ref(null);
-
-async function onImageSelect(event) {
-    const file = event.target?.files?.[0];
-    if (!file) return;
-    if (file.size > MAX_UPLOAD_BYTES) {
-        uploadError.value = 'File is too large. Max size is 10MB.';
-        event.target.value = '';
-        return;
-    }
-    uploadError.value = null;
-    uploadProcessing.value = true;
-    try {
-        const formData = new FormData();
-        formData.append('file', file);
-        const csrf = page.props?.csrf_token || document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-        if (csrf) formData.append('_token', csrf);
-        const res = await fetch('/api/uploads', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                Accept: 'application/json',
-                'X-Requested-With': 'XMLHttpRequest',
-            },
-            body: formData,
-        });
-        if (res.status === 413) {
-            uploadError.value = 'File is too large. Max size is 10MB.';
-            return;
-        }
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok) {
-            const message = data?.errors?.file?.[0] || data?.message || 'Upload failed';
-            uploadError.value = message === 'The file failed to upload.' ? 'The file failed to upload. It may be too large. Max size is 10MB.' : message;
-            return;
-        }
-        if (data.upload_id) {
-            form.upload_ids = [data.upload_id];
-        }
-    } finally {
-        uploadProcessing.value = false;
-        event.target.value = '';
-    }
-}
-
-function removeUploadId() {
-    form.upload_ids = [];
-}
-
 function toggleTag(slug) {
     const tags = [...(form.tags || [])];
     const idx = tags.indexOf(slug);
@@ -263,23 +213,13 @@ const eventTagsList = computed(() => Object.entries(props.eventTags || {}));
                         </div>
                     </div>
                 </div>
-                <div v-if="page.props.auth?.user" class="govuk-form-group govuk-!-margin-top-4">
-                    <label class="govuk-label" for="event_image">Event image (optional, one image)</label>
-                    <p class="govuk-hint">JPEG, PNG, WebP or BMP. Max 10MB.</p>
-                    <input
-                        id="event_image"
-                        type="file"
-                        accept="image/jpeg,image/png,image/webp,image/bmp"
-                        class="govuk-file-upload"
-                        :disabled="uploadProcessing"
-                        @change="onImageSelect"
-                    >
-                    <p v-if="uploadError" class="govuk-error-message govuk-!-margin-top-2">{{ uploadError }}</p>
-                    <p v-if="uploadProcessing" class="govuk-body govuk-!-margin-top-2">Uploading…</p>
-                    <p v-if="form.upload_ids && form.upload_ids.length" class="govuk-body govuk-!-margin-top-2">
-                        <button type="button" class="govuk-link govuk-body-s" @click="removeUploadId">Remove image</button>
-                    </p>
-                </div>
+                <SingleImageUpload
+                    v-if="page.props.auth?.user"
+                    v-model="form.upload_ids"
+                    input-id="event_image"
+                    label="Event image (optional, one image)"
+                    hint="JPEG, PNG, WebP or BMP. Max 10MB."
+                />
             </gv-accordion-section>
 
             <gv-accordion-section heading="Date and time" id="accordion-datetime" v-model:expanded="accordionDatetimeExpanded">

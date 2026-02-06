@@ -24,6 +24,7 @@ const submitting = ref(false);
         :back-url="`${cityBaseUrl}/community`"
         back-label="Back to community"
         :submitting="submitting"
+        footer-note="Submitting for review will list this item as pending; it will be published automatically if not reviewed by a moderator."
     >
         <CommunityPageForm
             :community-page="null"

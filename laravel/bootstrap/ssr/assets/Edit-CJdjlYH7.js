@@ -1,8 +1,9 @@
-import { unref, withCtx, createVNode, useSSRContext } from "vue";
-import { ssrRenderComponent, ssrRenderAttr } from "vue/server-renderer";
+import { ref, unref, withCtx, createVNode, useSSRContext } from "vue";
+import { ssrRenderComponent } from "vue/server-renderer";
 import { Head } from "@inertiajs/vue3";
-import { _ as _sfc_main$1 } from "./CityLayout-DXBkMg5Q.js";
+import { _ as _sfc_main$1 } from "./CreatePageLayout-B0iRbSI_.js";
 import { _ as _sfc_main$2 } from "./ListingForm-BdlvDjLn.js";
+import "./CityLayout-DXBkMg5Q.js";
 import "./PublicLayout-CvaWB3EK.js";
 import "./ThemeToggle-Mk6IgKQe.js";
 const _sfc_main = {
@@ -17,51 +18,43 @@ const _sfc_main = {
     cityBaseUrl: { type: String, required: true }
   },
   setup(__props) {
+    const submitting = ref(false);
     return (_ctx, _push, _parent, _attrs) => {
       _push(`<!--[-->`);
       _push(ssrRenderComponent(unref(Head), {
         title: `BikesList – ${__props.listing.title} – Edit`
       }, null, _parent));
       _push(ssrRenderComponent(_sfc_main$1, {
+        title: "Edit listing",
+        "head-title": `BikesList – ${__props.listing.title} – Edit`,
+        breadcrumb: "Edit listing",
         city: __props.city,
         "city-base-url": __props.cityBaseUrl,
-        breadcrumb: "Edit listing"
+        "back-url": `${__props.cityBaseUrl}/listings/${__props.listing.id}`,
+        "back-label": "Back to listing",
+        submitting: submitting.value,
+        "submitting-label": "Saving…"
       }, {
-        "nav-right": withCtx((_, _push2, _parent2, _scopeId) => {
-          if (_push2) {
-            _push2(`<a${ssrRenderAttr("href", `${__props.cityBaseUrl}/listings/${__props.listing.id}`)} class="govuk-link"${_scopeId}>Back to listing</a>`);
-          } else {
-            return [
-              createVNode("a", {
-                href: `${__props.cityBaseUrl}/listings/${__props.listing.id}`,
-                class: "govuk-link"
-              }, "Back to listing", 8, ["href"])
-            ];
-          }
-        }),
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(`<div class="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:px-8"${_scopeId}><h1 class="govuk-heading-l"${_scopeId}>Edit listing</h1>`);
             _push2(ssrRenderComponent(_sfc_main$2, {
               listing: __props.listing,
               "listing-types": __props.listingTypes,
               conditions: __props.conditions,
               "managed-community-pages": __props.managedCommunityPages,
-              "city-base-url": __props.cityBaseUrl
+              "city-base-url": __props.cityBaseUrl,
+              "onUpdate:processing": ($event) => submitting.value = $event
             }, null, _parent2, _scopeId));
-            _push2(`</div>`);
           } else {
             return [
-              createVNode("div", { class: "mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:px-8" }, [
-                createVNode("h1", { class: "govuk-heading-l" }, "Edit listing"),
-                createVNode(_sfc_main$2, {
-                  listing: __props.listing,
-                  "listing-types": __props.listingTypes,
-                  conditions: __props.conditions,
-                  "managed-community-pages": __props.managedCommunityPages,
-                  "city-base-url": __props.cityBaseUrl
-                }, null, 8, ["listing", "listing-types", "conditions", "managed-community-pages", "city-base-url"])
-              ])
+              createVNode(_sfc_main$2, {
+                listing: __props.listing,
+                "listing-types": __props.listingTypes,
+                conditions: __props.conditions,
+                "managed-community-pages": __props.managedCommunityPages,
+                "city-base-url": __props.cityBaseUrl,
+                "onUpdate:processing": ($event) => submitting.value = $event
+              }, null, 8, ["listing", "listing-types", "conditions", "managed-community-pages", "city-base-url", "onUpdate:processing"])
             ];
           }
         }),
