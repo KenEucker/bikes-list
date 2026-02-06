@@ -20,7 +20,9 @@ class EventController extends Controller
         $events = Event::query()
             ->where('city_id', $city->id)
             ->where('state', Event::STATE_PUBLISHED)
-            ->where('ends_at', '>=', now())
+            ->where(function ($q) {
+                $q->whereNull('ends_at')->orWhere('ends_at', '>=', now());
+            })
             ->with('user:id,name')
             ->orderBy('starts_at')
             ->paginate(15);
@@ -96,7 +98,8 @@ class EventController extends Controller
             'event_type' => ['nullable', 'string', 'max:100'],
             'community_page_id' => ['nullable', 'exists:community_pages,id'],
             'starts_at' => ['required', 'date'],
-            'ends_at' => ['required', 'date', 'after_or_equal:starts_at'],
+            'ends_at' => ['nullable', 'date', 'after_or_equal:starts_at'],
+            'duration_hours' => ['nullable', 'numeric', 'min:0', 'max:168'],
             'timezone' => ['nullable', 'string', 'max:50'],
             'is_recurring' => ['boolean'],
             'recurrence_ends_at' => ['nullable', 'date', 'after_or_equal:starts_at'],
@@ -115,6 +118,13 @@ class EventController extends Controller
             'starts_at', 'ends_at', 'timezone',
             'is_recurring', 'recurrence_ends_at', 'tags',
         ]);
+        if (empty($data['ends_at']) && $request->filled('duration_hours') && $request->input('duration_hours') > 0) {
+            $start = \Carbon\Carbon::parse($data['starts_at']);
+            $data['ends_at'] = $start->addHours((float) $request->input('duration_hours'))->toDateTimeString();
+        }
+        if (empty($data['ends_at'])) {
+            $data['ends_at'] = null;
+        }
         $data['city_id'] = $city->id;
         $data['user_id'] = $user->id;
         $data['organizer_email'] = $user->email;
@@ -134,8 +144,11 @@ class EventController extends Controller
             ]);
         }
         $this->syncEventUploads($event, $request->input('upload_ids', []), $user->id);
+        $cityBaseUrl = self::cityBaseUrl($request, $citySlug);
         // TODO: Send "Event submitted" email to creator
-        return redirect()->route('city.events.show', [$citySlug, $event])->with('status', 'Event submitted for review. It will be published automatically if not reviewed by a moderator.');
+        return redirect()->to($cityBaseUrl . '/events/' . $event->id)
+            ->with('status', 'Event submitted for review. It will be published automatically if not reviewed by a moderator.')
+            ->setStatusCode(303);
     }
 
     public function edit(string $citySlug, Event $event): Response
@@ -176,7 +189,8 @@ class EventController extends Controller
             'event_type' => ['nullable', 'string', 'max:100'],
             'community_page_id' => ['nullable', 'exists:community_pages,id'],
             'starts_at' => ['required', 'date'],
-            'ends_at' => ['required', 'date', 'after_or_equal:starts_at'],
+            'ends_at' => ['nullable', 'date', 'after_or_equal:starts_at'],
+            'duration_hours' => ['nullable', 'numeric', 'min:0', 'max:168'],
             'timezone' => ['nullable', 'string', 'max:50'],
             'is_recurring' => ['boolean'],
             'recurrence_ends_at' => ['nullable', 'date'],
@@ -191,6 +205,13 @@ class EventController extends Controller
             'starts_at', 'ends_at', 'timezone',
             'is_recurring', 'recurrence_ends_at', 'tags',
         ]);
+        if (empty($data['ends_at']) && $request->filled('duration_hours') && $request->input('duration_hours') > 0) {
+            $start = \Carbon\Carbon::parse($data['starts_at']);
+            $data['ends_at'] = $start->addHours((float) $request->input('duration_hours'))->toDateTimeString();
+        }
+        if (empty($data['ends_at'])) {
+            $data['ends_at'] = null;
+        }
         $data['community_page_id'] = $request->input('community_page_id') ?: null;
         $event->update($data);
         $this->syncEventUploads($event, $request->input('upload_ids', []), $request->user()->id);

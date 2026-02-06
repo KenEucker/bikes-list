@@ -37,6 +37,12 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'csrf_token' => csrf_token(),
+            'seo' => [
+                'defaultDescription' => 'BikesList – local bike listings, events, and community by city.',
+                'defaultOgImage' => asset('bikeslist.png'),
+                'canonicalBase' => $base,
+                'currentUrl' => $request->url(),
+            ],
             'urls' => [
                 'base' => $base,
                 'dashboard' => $base . '/dashboard',

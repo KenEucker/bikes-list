@@ -14,10 +14,10 @@ const submitting = ref(false);
 </script>
 
 <template>
-    <Head :title="`New community page – ${city.name}`" />
+    <Head :title="`BikesList – ${city.name} – New community page`" />
     <CreatePageLayout
         title="New community page"
-        :head-title="`New community page – ${city.name}`"
+        :head-title="`BikesList – ${city.name} – New community page`"
         breadcrumb="New page"
         :city="city"
         :city-base-url="cityBaseUrl"

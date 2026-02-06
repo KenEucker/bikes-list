@@ -39,7 +39,13 @@ function submitSearch() {
 </script>
 
 <template>
-    <Head :title="city.name" />
+    <Head :title="`BikesList – ${city.name}`">
+        <meta name="description" :content="city.description || `Bike listings, events, and community in ${city.name}.`">
+        <meta property="og:title" :content="`BikesList – ${city.name}`">
+        <meta property="og:description" :content="city.description || `Bike listings, events, and community in ${city.name}.`">
+        <meta property="og:url" :content="page.props.seo?.currentUrl || cityBaseUrl">
+        <link rel="canonical" :href="page.props.seo?.currentUrl || cityBaseUrl">
+    </Head>
     <CityLayout :city="city" :city-base-url="cityBaseUrl">
         <div class="govuk-width-container govuk-!-padding-top-8 govuk-!-padding-bottom-8 space-y-10">
             <h1 class="govuk-heading-xl">{{ city.name }}</h1>
@@ -52,12 +58,8 @@ function submitSearch() {
                 <a :href="`${cityBaseUrl}/events`" class="inline-block text-sm text-primary underline">View all events</a>
             </section>
 
-            <!-- 2. Community pages link (above search) -->
-            <section class="space-y-2">
-                <a :href="`${cityBaseUrl}/community`" class="inline-block text-lg font-medium text-primary underline">Community pages</a>
-            </section>
 
-            <!-- 3. Featured community pages -->
+            <!-- 2. Featured community pages -->
             <section v-if="featuredPagesSafe.length > 0" class="space-y-4">
                 <h2 class="text-xl font-semibold text-fg">Featured community pages</h2>
                 <ul class="grid gap-4 sm:grid-cols-3">
@@ -71,6 +73,11 @@ function submitSearch() {
                     </li>
                 </ul>
                 <a :href="`${cityBaseUrl}/community`" class="inline-block text-sm text-primary underline">View all community pages</a>
+            </section>
+
+            <!-- 3. Community pages link (above search) -->
+            <section v-else class="space-y-2">
+                <a :href="`${cityBaseUrl}/community`" class="inline-block text-lg font-medium text-primary underline">Community pages</a>
             </section>
 
             <!-- 4. Search bar -->
@@ -110,17 +117,19 @@ function submitSearch() {
                     <h2 class="text-xl font-semibold text-fg">Listings</h2>
                     <Link v-if="$page.props.auth?.user" :href="`${cityBaseUrl}/listings/new`" class="govuk-button" role="button">New listing</Link>
                 </div>
-                <ul v-if="listingsPreviewSafe.length > 0" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                    <li v-for="listing in listingsPreviewSafe" :key="listing.id">
-                        <ListingCard
-                            :listing="listing"
-                            :url="`${cityBaseUrl}/listings/${listing.id}`"
-                            :show-status="false"
-                        />
-                    </li>
-                </ul>
+                <div v-if="listingsPreviewSafe.length > 0">
+                    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                        <li v-for="listing in listingsPreviewSafe" :key="listing.id">
+                            <ListingCard
+                                :listing="listing"
+                                :url="`${cityBaseUrl}/listings/${listing.id}`"
+                                :show-status="false"
+                            />
+                        </li>
+                    </ul>
+                    <a :href="`${cityBaseUrl}/listings`" class="inline-block text-sm font-medium text-primary underline">View all listings</a>
+                </div>
                 <p v-else class="text-muted">No listings yet.</p>
-                <a :href="`${cityBaseUrl}/listings`" class="inline-block text-sm font-medium text-primary underline">View all listings</a>
             </section>
 
             <a :href="homeUrl" class="inline-block text-muted underline hover:text-fg">Back to cities</a>

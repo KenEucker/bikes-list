@@ -11,7 +11,7 @@ defineProps({
 </script>
 
 <template>
-    <Head :title="`Community – ${city.name}`" />
+    <Head :title="`BikesList – ${city.name} – Community`" />
     <CityLayout :city="city" :city-base-url="cityBaseUrl" breadcrumb="Community pages">
         <template #nav-right>
             <gv-header-navigation-item v-if="$page.props.auth?.user" :href="`${cityBaseUrl}/dashboard`" text="Dashboard" />

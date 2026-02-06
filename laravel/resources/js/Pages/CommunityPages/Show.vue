@@ -13,7 +13,7 @@ defineProps({
 </script>
 
 <template>
-    <Head :title="communityPage.name" />
+    <Head :title="`BikesList – ${communityPage.name}`" />
     <CityLayout :city="city" :city-base-url="cityBaseUrl" :breadcrumb="['Community pages', communityPage.name]">
         <template #nav-right>
             <a :href="`${cityBaseUrl}/community`" class="govuk-link">Back to community</a>

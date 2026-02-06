@@ -13,7 +13,7 @@ const form = ref({ message: '' });
 </script>
 
 <template>
-    <Head :title="`Claim ${communityPage.name}`" />
+    <Head :title="`BikesList – Claim ${communityPage.name}`" />
     <CityLayout :city="city" :city-base-url="cityBaseUrl" :breadcrumb="['Community pages', 'Claim']">
         <template #nav-right>
             <a :href="`${cityBaseUrl}/community/${communityPage.slug}`" class="govuk-link">Back to page</a>

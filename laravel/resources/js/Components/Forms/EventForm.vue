@@ -1,7 +1,7 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';
-import { computed, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 const props = defineProps({
     event: { type: Object, default: null },
@@ -22,6 +22,10 @@ const submitUrl = computed(() =>
 const oldInput = props.old || {};
 const ev = props.event || {};
 const dt = (v) => (v ? String(v).slice(0, 16) : '');
+const hasExistingEnd = !!(ev.ends_at || oldInput.ends_at);
+const useSpecificEndDate = ref(hasExistingEnd);
+const durationHours = ref(oldInput.duration_hours ?? '');
+
 const form = useForm({
     title: oldInput.title ?? ev.title ?? '',
     description: oldInput.description ?? ev.description ?? '',
@@ -35,6 +39,7 @@ const form = useForm({
     community_page_id: oldInput.community_page_id ?? ev.community_page_id ?? '',
     starts_at: oldInput.starts_at ?? dt(ev.starts_at) ?? '',
     ends_at: oldInput.ends_at ?? dt(ev.ends_at) ?? '',
+    duration_hours: oldInput.duration_hours ?? '',
     timezone: oldInput.timezone ?? ev.timezone ?? (typeof Intl !== 'undefined' ? Intl.DateTimeFormat().resolvedOptions().timeZone : ''),
     is_recurring: oldInput.is_recurring === '1' || oldInput.is_recurring === true || ev.is_recurring === true,
     recurrence_ends_at: oldInput.recurrence_ends_at ?? (ev.recurrence_ends_at ? String(ev.recurrence_ends_at).slice(0, 10) : '') ?? '',
@@ -43,7 +48,32 @@ const form = useForm({
     guideline_ids: oldInput.guideline_ids ?? props.guidelines.map((g) => g.id),
 });
 
+function computeEndFromDuration() {
+    const start = form.starts_at;
+    const hours = parseFloat(durationHours.value);
+    if (!start || Number.isNaN(hours) || hours <= 0) return;
+    const d = new Date(start);
+    if (Number.isNaN(d.getTime())) return;
+    d.setTime(d.getTime() + hours * 60 * 60 * 1000);
+    form.ends_at = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0') + 'T' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+}
+
+watch([() => form.starts_at, durationHours], () => {
+    if (!useSpecificEndDate.value && durationHours.value) computeEndFromDuration();
+}, { immediate: true });
+
 function submit() {
+    form.duration_hours = durationHours.value || null;
+    if (useSpecificEndDate.value) {
+        form.ends_at = form.ends_at || null;
+    } else {
+        const hours = parseFloat(durationHours.value);
+        if (form.starts_at && !Number.isNaN(hours) && hours > 0) {
+            computeEndFromDuration();
+        } else {
+            form.ends_at = null;
+        }
+    }
     if (isEdit.value) {
         form.put(submitUrl.value, { preserveScroll: true });
     } else {
@@ -175,24 +205,49 @@ watch(() => form.processing, (v) => emit('update:processing', v), { immediate: t
         />
 
         <div class="govuk-form-group">
-            <div class="grid grid-cols-2 gap-4">
-                <gv-input
-                    id="starts_at"
-                    v-model="form.starts_at"
-                    name="starts_at"
-                    label="Starts at *"
-                    type="datetime-local"
-                    required
-                    :error-message="form.errors.starts_at"
-                    class="govuk-!-width-full"
-                />
+            <label class="govuk-label" for="starts_at">Starts at *</label>
+            <gv-input
+                id="starts_at"
+                v-model="form.starts_at"
+                name="starts_at"
+                type="datetime-local"
+                required
+                :error-message="form.errors.starts_at"
+                class="govuk-!-width-full govuk-!-margin-bottom-2"
+            />
+        </div>
+
+        <div class="govuk-form-group">
+            <gv-input
+                id="duration_hours"
+                v-model="durationHours"
+                name="duration_hours"
+                label="Ride lasts for (hours, optional)"
+                type="number"
+                min="0"
+                step="0.5"
+                placeholder="e.g. 2 or 1.5"
+                :error-message="form.errors.duration_hours"
+                class="govuk-!-width-one-quarter"
+            />
+            <p class="govuk-hint govuk-!-margin-top-1">Decimal allowed (e.g. 1.5 for 1 hour 30 min). If set, end time is calculated from start.</p>
+        </div>
+
+        <div class="govuk-form-group">
+            <gv-checkbox
+                id="use_specific_end_date"
+                v-model="useSpecificEndDate"
+                name="use_specific_end_date"
+                label="Set specific end date"
+                class="govuk-!-margin-bottom-2"
+            />
+            <div v-show="useSpecificEndDate" class="govuk-!-margin-top-2">
                 <gv-input
                     id="ends_at"
                     v-model="form.ends_at"
                     name="ends_at"
-                    label="Ends at *"
+                    label="Ride ends at (optional)"
                     type="datetime-local"
-                    required
                     :error-message="form.errors.ends_at"
                     class="govuk-!-width-full"
                 />

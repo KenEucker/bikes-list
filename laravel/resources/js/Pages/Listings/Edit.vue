@@ -14,7 +14,7 @@ defineProps({
 </script>
 
 <template>
-    <Head :title="`Edit – ${listing.title}`" />
+    <Head :title="`BikesList – ${listing.title} – Edit`" />
     <CityLayout :city="city" :city-base-url="cityBaseUrl" breadcrumb="Edit listing">
         <template #nav-right>
             <a :href="`${cityBaseUrl}/listings/${listing.id}`" class="govuk-link">Back to listing</a>

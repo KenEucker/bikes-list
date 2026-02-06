@@ -84,7 +84,9 @@ class CityController extends Controller
         $upcomingEvents = Event::query()
             ->where('city_id', $cityModel->id)
             ->where('state', Event::STATE_PUBLISHED)
-            ->where('ends_at', '>=', now())
+            ->where(function ($q) {
+                $q->whereNull('ends_at')->orWhere('ends_at', '>=', now());
+            })
             ->where('starts_at', '<=', $endOfMonth)
             ->orderBy('starts_at')
             ->get();
@@ -108,7 +110,7 @@ class CityController extends Controller
         $listingsPreview = \App\Models\Listing::query()
             ->where('city_id', $cityModel->id)
             ->whereIn('state', [\App\Models\Listing::STATE_PUBLISHED, \App\Models\Listing::STATE_SOLD])
-            ->with(['relayAddress', 'attachments'])
+            ->with(['relayAddress', 'attachments', 'uploads'])
             ->latest('published_at')
             ->limit(20)
             ->get();

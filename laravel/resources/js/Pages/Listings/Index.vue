@@ -51,10 +51,17 @@ function saveSearchUrl() {
     });
     return (props.homeUrl || '').replace(/\/$/, '') + '/account/saved-searches?' + params.toString();
 }
+
+/** Thumbnail URL: prefer first upload (lg_url/sm_url), else first Orchid attachment */
+function listingThumbUrl(listing) {
+    const u = listing.uploads?.[0];
+    if (u && (u.lg_url || u.sm_url)) return u.lg_url || u.sm_url;
+    return listing.attachments?.[0]?.url ?? null;
+}
 </script>
 
 <template>
-    <Head :title="`Listings – ${city.name}`" />
+    <Head :title="`BikesList – ${city.name} – Listings`" />
     <CityLayout :city="city" :city-base-url="cityBaseUrl" breadcrumb="Listings">
         <template #nav-right>
             <gv-header-navigation-item v-if="$page.props.auth?.user" :href="$page.props.urls?.accountSettings || '/account/settings'" text="Profile" />
@@ -119,7 +126,7 @@ function saveSearchUrl() {
                 <li v-for="listing in listings.data" :key="listing.id" class="py-3">
                     <Link :href="`${cityBaseUrl}/listings/${listing.id}`" class="flex items-center gap-4 no-underline hover:underline">
                         <div class="w-16 h-16 shrink-0 rounded-token-sm overflow-hidden bg-muted flex items-center justify-center text-muted text-xs">
-                            <img v-if="listing.attachments?.length" :src="listing.attachments[0].url" alt="" class="w-full h-full object-cover" />
+                            <img v-if="listingThumbUrl(listing)" :src="listingThumbUrl(listing)" alt="" class="w-full h-full object-cover" />
                             <span v-else>No photo</span>
                         </div>
                         <div class="min-w-0 flex-1">

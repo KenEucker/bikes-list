@@ -63,7 +63,7 @@ const breadcrumbItems = computed(() => {
                     </slot>
                 </template>
             </gv-header>
-            <div v-if="breadcrumbItems.length" class="govuk-width-container govuk-!-padding-top-3 govuk-!-padding-bottom-2">
+            <div v-if="breadcrumbItems.length" class="app-breadcrumbs govuk-width-container govuk-!-padding-top-3 govuk-!-padding-bottom-2">
                 <gv-breadcrumbs>
                     <gv-breadcrumb-item :href="cityBaseUrl">{{ city.name }}</gv-breadcrumb-item>
                     <gv-breadcrumb-item

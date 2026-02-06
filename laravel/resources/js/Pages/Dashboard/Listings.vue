@@ -17,7 +17,7 @@ const columns = [
 </script>
 
 <template>
-    <Head title="My listings" />
+    <Head :title="`BikesList – ${city.name} – My listings`" />
     <CityLayout :city="city" :city-base-url="cityBaseUrl" :breadcrumb="['Dashboard', 'Listings']">
         <template #nav-right>
             <Link :href="`${cityBaseUrl}/dashboard`" class="govuk-link">Dashboard</Link>

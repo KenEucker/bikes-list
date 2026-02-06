@@ -10,7 +10,7 @@ const homeUrl = urls.home || '/';
 <template>
     <div class="min-h-screen flex flex-col bg-page">
         <slot name="header">
-            <gv-header service-name="BikesList" :service-url="homeUrl">
+            <gv-header service-name="Cities" :service-url="homeUrl">
                 <template #logo>
                     <div class="govuk-header__logo">
                         <Link :href="homeUrl" class="govuk-header__link govuk-header__link--homepage flex items-center gap-2 no-underline">

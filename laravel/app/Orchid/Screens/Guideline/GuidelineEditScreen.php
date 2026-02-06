@@ -89,7 +89,7 @@ class GuidelineEditScreen extends Screen
             'guideline.body' => ['required', 'string'],
             'guideline.scope' => ['required', 'in:sitewide,city'],
             'guideline.city_id' => ['nullable', 'required_if:guideline.scope,city', 'exists:cities,id'],
-            'guideline.published_at' => ['required', 'date'],
+            'guideline.published_at' => ['nullable', 'date'],
         ]);
         $data = $request->get('guideline');
         if (($data['scope'] ?? '') === 'sitewide') {

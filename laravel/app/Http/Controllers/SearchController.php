@@ -41,7 +41,9 @@ class SearchController extends Controller
                     $query->where('title', 'ilike', '%' . $q . '%')
                         ->orWhere('description', 'ilike', '%' . $q . '%');
                 })
-                ->where('ends_at', '>=', now())
+                ->where(function ($query) {
+                    $query->whereNull('ends_at')->orWhere('ends_at', '>=', now());
+                })
                 ->orderBy('starts_at')
                 ->limit(20)
                 ->get();

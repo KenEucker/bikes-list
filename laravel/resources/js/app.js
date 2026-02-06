@@ -29,7 +29,12 @@ router.on('navigate', (event) => {
 });
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
+    title: (title) =>
+        title && title.includes(appName)
+            ? title
+            : title
+              ? `${title} - ${appName}`
+              : appName,
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.vue`,

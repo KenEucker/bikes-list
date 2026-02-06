@@ -12,7 +12,7 @@ defineProps({
 </script>
 
 <template>
-    <Head :title="`${page.name} – Dashboard`" />
+    <Head :title="`BikesList – ${city.name} – ${page.name} – Dashboard`" />
     <CityLayout :city="city" :city-base-url="cityBaseUrl" :breadcrumb="['Dashboard', 'Community pages', page.name]">
         <template #nav-right>
             <Link :href="`${cityBaseUrl}/dashboard/pages`" class="govuk-link">Back to pages</Link>

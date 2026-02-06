@@ -20,6 +20,11 @@
 
         <title inertia>{{ config('app.name', 'BikesList') }}</title>
 
+        <meta name="description" content="BikesList – local bike listings, events, and community by city.">
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="{{ config('app.name', 'BikesList') }}">
+        <meta property="og:image" content="{{ asset('bikeslist.png') }}">
+
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <!-- Fonts -->

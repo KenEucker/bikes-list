@@ -11,7 +11,7 @@ defineProps({
 </script>
 
 <template>
-    <Head title="Moderation – Events" />
+    <Head :title="`BikesList – ${city.name} – Moderation – Events`" />
     <CityLayout :city="city" :city-base-url="cityBaseUrl" :breadcrumb="['Moderation', 'Events']">
         <template #nav-right>
             <Link :href="`${cityBaseUrl}/moderation`" class="govuk-link">Back to moderation</Link>

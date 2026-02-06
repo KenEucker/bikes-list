@@ -44,6 +44,10 @@ class EventEditScreen extends Screen
     public function commandBar(): iterable
     {
         return [
+            Button::make(__('Approve / Publish'))
+                ->icon('bs.check-circle')
+                ->method('approve')
+                ->canSee(in_array($this->event->state, [Event::STATE_DRAFT, Event::STATE_PENDING_REVIEW])),
             Button::make(__('Revert to draft'))
                 ->icon('bs.arrow-counterclockwise')
                 ->method('revertToDraft')
@@ -60,6 +64,22 @@ class EventEditScreen extends Screen
         return [
             Layout::view('orchid.event-view', ['event' => $this->event]),
         ];
+    }
+
+    public function approve(Request $request, Event $event)
+    {
+        $event->update([
+            'state' => Event::STATE_PUBLISHED,
+            'published_at' => now(),
+        ]);
+        ModerationAction::create([
+            'user_id' => $request->user()->id,
+            'action' => 'approved',
+            'subject_type' => Event::class,
+            'subject_id' => $event->id,
+        ]);
+        Toast::success(__('Event approved and published.'));
+        return back();
     }
 
     public function revertToDraft(Request $request, Event $event)

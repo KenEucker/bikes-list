@@ -62,7 +62,13 @@ onMounted(async () => {
 </script>
 
 <template>
-    <Head title="BikesList – Cities" />
+    <Head title="BikesList – Cities">
+        <meta name="description" content="Choose a city to view local bike listings, events, and community pages.">
+        <meta property="og:title" content="BikesList – Cities">
+        <meta property="og:description" content="Choose a city to view local bike listings, events, and community pages.">
+        <meta property="og:url" :content="page.props.seo?.currentUrl || page.props.urls?.home || '/'">
+        <link rel="canonical" :href="page.props.seo?.currentUrl || page.props.urls?.home || '/'">
+    </Head>
     <PublicLayout>
         <template #nav>
             <li class="govuk-header__navigation-item">

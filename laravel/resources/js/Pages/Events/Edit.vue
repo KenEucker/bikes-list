@@ -13,7 +13,7 @@ defineProps({
 </script>
 
 <template>
-    <Head :title="`Edit – ${event.title}`" />
+    <Head :title="`BikesList – ${event.title} – Edit`" />
     <CityLayout :city="city" :city-base-url="cityBaseUrl" breadcrumb="Edit event">
         <template #nav-right>
             <a :href="`${cityBaseUrl}/events/${event.id}`" class="govuk-link">Back to event</a>

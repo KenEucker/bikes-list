@@ -14,7 +14,7 @@ defineProps({
 </script>
 
 <template>
-    <Head title="Pending" />
+    <Head :title="`BikesList – ${city.name} – Pending`" />
     <CityLayout :city="city" :city-base-url="cityBaseUrl" :breadcrumb="['Dashboard', 'Pending']">
         <template #nav-right>
             <Link :href="`${cityBaseUrl}/dashboard`" class="govuk-link">Dashboard</Link>

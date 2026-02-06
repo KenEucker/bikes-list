@@ -18,10 +18,10 @@ const submitting = ref(false);
 </script>
 
 <template>
-    <Head :title="`New listing – ${city.name}`" />
+    <Head :title="`BikesList – ${city.name} – New listing`" />
     <CreatePageLayout
         title="New listing"
-        :head-title="`New listing – ${city.name}`"
+        :head-title="`BikesList – ${city.name} – New listing`"
         breadcrumb="New listing"
         :city="city"
         :city-base-url="cityBaseUrl"

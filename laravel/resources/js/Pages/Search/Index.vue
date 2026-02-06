@@ -30,7 +30,7 @@ function doSearch() {
 </script>
 
 <template>
-    <Head :title="`Search – ${city.name}`" />
+    <Head :title="`BikesList – ${city.name} – Search`" />
     <CityLayout :city="city" :city-base-url="cityBaseUrl" breadcrumb="Search">
         <template #nav-right>
             <a :href="cityBaseUrl" class="govuk-link">Back to city</a>

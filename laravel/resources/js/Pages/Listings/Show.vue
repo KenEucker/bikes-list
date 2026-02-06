@@ -24,7 +24,13 @@ const mailtoSubject = `Re: Listing – ${props.listing.title} – ${props.listin
 </script>
 
 <template>
-    <Head :title="listing.title" />
+    <Head :title="`BikesList – ${listing.title}`">
+        <meta name="description" :content="listing.description ? listing.description.slice(0, 160) : `${listing.title} – bike listing in ${city.name}.`">
+        <meta property="og:title" :content="`BikesList – ${listing.title}`">
+        <meta property="og:description" :content="listing.description ? listing.description.slice(0, 160) : `${listing.title} – bike listing in ${city.name}.`">
+        <meta property="og:url" :content="page.props.seo?.currentUrl || `${cityBaseUrl}/listings/${listing.id}`">
+        <link rel="canonical" :href="page.props.seo?.currentUrl || `${cityBaseUrl}/listings/${listing.id}`">
+    </Head>
     <CityLayout :city="city" :city-base-url="cityBaseUrl" :breadcrumb="['Listings', listing.title]">
             <template #nav-right>
                 <a :href="`${cityBaseUrl}/listings`" class="govuk-link">Back to listings</a>

@@ -11,7 +11,7 @@ defineProps({
 </script>
 
 <template>
-    <Head :title="`Events – ${city.name}`" />
+    <Head :title="`BikesList – ${city.name} – Events`" />
     <CityLayout :city="city" :city-base-url="cityBaseUrl" breadcrumb="Events">
         <template #nav-right>
             <gv-header-navigation-item v-if="$page.props.auth?.user" :href="$page.props.urls?.accountSettings || '/account/settings'" text="Profile" />
@@ -27,7 +27,9 @@ defineProps({
                 <li v-for="event in events.data" :key="event.id" class="py-3">
                     <Link :href="`${cityBaseUrl}/events/${event.id}`" class="no-underline hover:underline block">
                         <p class="font-medium text-fg">{{ event.title }}</p>
-                        <p class="text-sm text-muted">{{ new Date(event.starts_at).toLocaleString() }} – {{ new Date(event.ends_at).toLocaleString() }}</p>
+                        <p class="text-sm text-muted">
+                            {{ event.ends_at ? `${new Date(event.starts_at).toLocaleString()} – ${new Date(event.ends_at).toLocaleString()}` : new Date(event.starts_at).toLocaleString() }}
+                        </p>
                         <p v-if="event.location" class="text-sm text-muted">{{ event.location }}</p>
                     </Link>
                 </li>

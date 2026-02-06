@@ -18,7 +18,7 @@ function cityModUrl(slug) {
 </script>
 
 <template>
-    <Head :title="`Moderation – ${city.name}`" />
+    <Head :title="`BikesList – ${city.name} – Moderation`" />
     <CityLayout :city="city" :city-base-url="cityBaseUrl" breadcrumb="Moderation">
         <template #nav-right>
             <li v-if="moderatedCities.length > 1" class="govuk-header__navigation-item">

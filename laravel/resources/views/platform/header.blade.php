@@ -18,7 +18,7 @@
     @endauth
 
     <a href="{{ route(config('platform.index')) }}" class="d-flex align-items-center gap-2 text-body-emphasis text-decoration-none">
-        <img src="{{ asset('/bikeslist.png') }}" alt="BikesList" class="d-none d-lg-block" style="height: 2rem; width: auto;" />
+        <img src="{{ asset('/bikeslist.png') }}" alt="BikesList" class="admin-logo d-none d-lg-block" style="height: 2rem; width: auto;" />
         <span class="my-0 {{ auth()->check() ? 'd-none d-lg-block' : '' }}">{{ config('app.name') }}</span>
     </a>
 </div>

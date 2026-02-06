@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Orchid\Screens\Upload;
 
 use App\Models\Upload;
+use App\Orchid\Layouts\Upload\UploadListLayout;
 use App\Services\UploadStorageService;
 use Illuminate\Support\Facades\Storage;
 use Orchid\Screen\Actions\Link;
-use Orchid\Screen\Screen;
 use Orchid\Screen\Layouts\Rows;
+use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
 
 class BucketStatusScreen extends Screen
@@ -21,9 +22,8 @@ class BucketStatusScreen extends Screen
         $config = config('filesystems.disks.uploads');
 
         $connectivity = 'unknown';
-        $writeTest = false;
         try {
-            $list = Storage::disk($disk)->files($storage->prefix());
+            Storage::disk($disk)->files($storage->prefix());
             $connectivity = 'ok';
         } catch (\Throwable $e) {
             $connectivity = 'error: ' . $e->getMessage();
@@ -33,6 +33,16 @@ class BucketStatusScreen extends Screen
         $processing = Upload::query()->where('status', Upload::STATUS_PROCESSING)->count();
         $failed = Upload::query()->where('status', Upload::STATUS_FAILED)->count();
         $ready = Upload::query()->where('status', Upload::STATUS_READY)->count();
+
+        $connectivityOk = $connectivity === 'ok';
+        $statusSummary = $connectivityOk
+            ? __(':total uploads (:ready ready, :processing processing, :failed failed).', [
+                'total' => $total,
+                'ready' => $ready,
+                'processing' => $processing,
+                'failed' => $failed,
+            ])
+            : __('Bucket is not reachable. Check storage configuration and network.');
 
         $endpoint = $config['endpoint'] ?? '';
         if (is_string($endpoint) && $endpoint !== '') {
@@ -45,10 +55,16 @@ class BucketStatusScreen extends Screen
             'endpoint' => $endpoint,
             'url' => $config['url'] ?? '',
             'connectivity' => $connectivity,
+            'connectivity_ok' => $connectivityOk,
+            'status_summary' => $statusSummary,
             'total_uploads' => $total,
             'processing' => $processing,
             'failed' => $failed,
             'ready' => $ready,
+            'uploads' => Upload::query()
+                ->with('createdBy')
+                ->orderByDesc('created_at')
+                ->paginate(10),
         ];
     }
 
@@ -79,6 +95,7 @@ class BucketStatusScreen extends Screen
     public function layout(): iterable
     {
         return [
+            Layout::view('orchid.bucket-status-summary'),
             Layout::rows([
                 \Orchid\Screen\Fields\Group::make([
                     \Orchid\Screen\Fields\Input::make('disk')->title(__('Disk'))->disabled(),
@@ -88,7 +105,6 @@ class BucketStatusScreen extends Screen
                     \Orchid\Screen\Fields\Input::make('endpoint')->title(__('Endpoint'))->disabled(),
                     \Orchid\Screen\Fields\Input::make('url')->title(__('Public URL'))->disabled(),
                 ]),
-                \Orchid\Screen\Fields\Input::make('connectivity')->title(__('Connectivity'))->disabled(),
                 \Orchid\Screen\Fields\Group::make([
                     \Orchid\Screen\Fields\Input::make('total_uploads')->title(__('Total uploads'))->disabled(),
                     \Orchid\Screen\Fields\Input::make('ready')->title(__('Ready'))->disabled(),
@@ -96,6 +112,7 @@ class BucketStatusScreen extends Screen
                     \Orchid\Screen\Fields\Input::make('failed')->title(__('Failed'))->disabled(),
                 ]),
             ]),
+            UploadListLayout::class,
         ];
     }
 }

@@ -38,8 +38,7 @@ class GuidelineEditLayout extends Rows
             Select::make('guideline.city_id')
                 ->fromQuery(City::query()->orderBy('name'), 'name', 'id')
                 ->empty(__('—'))
-                ->title(__('City (for city scope only)'))
-                ->canSee(fn ($request) => $request->get('guideline.scope') === 'city'),
+                ->title(__('City (for city scope only)')),
         ];
     }
 }

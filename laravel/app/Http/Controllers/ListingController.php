@@ -19,7 +19,7 @@ class ListingController extends Controller
         $query = Listing::query()
             ->where('city_id', $city->id)
             ->where('state', Listing::STATE_PUBLISHED)
-            ->with(['user:id,name', 'relayAddress']);
+            ->with(['user:id,name', 'relayAddress', 'uploads']);
 
         if ($request->filled('q')) {
             $query->where(function ($q) use ($request) {

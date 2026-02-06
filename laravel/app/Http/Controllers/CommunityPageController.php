@@ -37,7 +37,9 @@ class CommunityPageController extends Controller
         $city = City::query()->where('slug', $citySlug)->firstOrFail();
         $communityPage = CommunityPage::query()->where('city_id', $city->id)->where('slug', $slug)->firstOrFail();
         Gate::authorize('view', $communityPage);
-        $communityPage->load(['city', 'managers', 'uploads', 'listings' => fn ($q) => $q->where('state', 'published')->limit(10), 'events' => fn ($q) => $q->where('state', 'published')->where('ends_at', '>=', now())->orderBy('starts_at')->limit(10)]);
+        $communityPage->load(['city', 'managers', 'uploads', 'listings' => fn ($q) => $q->where('state', 'published')->limit(10), 'events' => fn ($q) => $q->where('state', 'published')->where(function ($q2) {
+                $q2->whereNull('ends_at')->orWhere('ends_at', '>=', now());
+            })->orderBy('starts_at')->limit(10)]);
 
         $cityBaseUrl = self::cityBaseUrl(request(), $citySlug);
 
