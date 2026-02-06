@@ -12,10 +12,16 @@ use App\Http\Controllers\ListingController;
 use App\Http\Controllers\ModerationActionController;
 use App\Http\Controllers\ModerationController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\StreamUploadController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::post('/relay/inbound', InboundRelayController::class)->name('relay.inbound');
+
+// Serve upload images on any domain so frontend and backend (Orchid) can load them
+Route::get('/uploads/{id}/{filename}', StreamUploadController::class)
+    ->where('filename', 'lg\.webp|sm\.webp|md\.webp')
+    ->name('uploads.stream');
 
 $cityRoutes = function () {
     Route::get('/', [CityController::class, 'show'])->name('city.show');

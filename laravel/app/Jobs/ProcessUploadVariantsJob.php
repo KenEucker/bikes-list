@@ -54,17 +54,29 @@ class ProcessUploadVariantsJob implements ShouldQueue
     {
         $upload = $this->upload->fresh();
         if (! $upload || $upload->status !== Upload::STATUS_PROCESSING) {
+            Log::debug('ProcessUploadVariantsJob skipped (no upload or not processing)', [
+                'upload_id' => $this->upload->id,
+                'status' => $upload?->status,
+            ]);
             return;
         }
 
         $tempKey = $upload->temp_key;
+        $disk = $storage->disk();
+        $tempExists = $tempKey && Storage::disk($disk)->exists($tempKey);
+
+        Log::info('ProcessUploadVariantsJob started', [
+            'upload_id' => $upload->id,
+            'temp_key' => $tempKey,
+            'temp_exists_in_bucket' => $tempExists,
+        ]);
+
         if (! $tempKey) {
             $this->failUpload($upload, 'No temp key');
             return;
         }
 
-        $disk = $storage->disk();
-        if (! Storage::disk($disk)->exists($tempKey)) {
+        if (! $tempExists) {
             $this->failUpload($upload, 'Temp object missing');
             return;
         }

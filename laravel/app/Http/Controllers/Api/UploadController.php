@@ -136,12 +136,8 @@ class UploadController extends Controller
         $contents = $file->get();
         Storage::disk($this->storage->disk())->put($tempKey, $contents);
 
-        $processSync = filter_var(env('UPLOADS_PROCESS_SYNC', false), FILTER_VALIDATE_BOOLEAN);
-        if ($processSync) {
-            dispatch_sync(new ProcessUploadVariantsJob($upload));
-        } else {
-            dispatch(new ProcessUploadVariantsJob($upload));
-        }
+        // Run processing immediately so uploads are ready without a queue worker
+        dispatch_sync(new ProcessUploadVariantsJob($upload));
 
         return response()->json([
             'upload_id' => $upload->id,

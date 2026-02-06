@@ -21,7 +21,7 @@ class ListingEditScreen extends Screen
     public function query(Listing $listing): iterable
     {
         $this->listing = $listing;
-        $listing->load(['city', 'user', 'communityPage', 'relayAddress']);
+        $listing->load(['city', 'user', 'communityPage', 'relayAddress', 'uploads']);
         return [
             'listing' => $listing,
         ];

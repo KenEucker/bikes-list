@@ -44,16 +44,12 @@ class UploadStorageService
     }
 
     /**
-     * Public URL for a variant. Uses UPLOADS_URL; never exposes endpoint.
+     * Public path for a variant: /uploads/{id}/{variant}.webp. Return path only so
+     * images load from the current host (frontend and backend), regardless of APP_URL.
      */
     public function urlForVariant(Upload $upload, string $variant): ?string
     {
-        $variants = $upload->variants;
-        $key = is_array($variants) && isset($variants[$variant])
-            ? $variants[$variant]
-            : $this->getVariantKey($upload, $variant);
-
-        return Storage::disk($this->disk())->url($key);
+        return '/uploads/' . $upload->id . '/' . $variant . '.webp';
     }
 
     /**

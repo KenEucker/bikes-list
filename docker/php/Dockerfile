@@ -5,15 +5,21 @@ WORKDIR /var/www/html
 RUN apk add --no-cache \
         bash \
         curl \
+        freetype-dev \
         git \
         icu-dev \
+        libjpeg-turbo-dev \
+        libpng-dev \
+        libwebp-dev \
         libzip-dev \
         nodejs \
         npm \
         postgresql-client \
         postgresql-dev \
         unzip \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install \
+        gd \
         intl \
         pdo_pgsql \
         pgsql \

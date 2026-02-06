@@ -35,6 +35,9 @@ const mailtoSubject = `Re: Listing – ${props.listing.title} – ${props.listin
             <gv-notification-banner v-if="status" type="success" title="Success" class="rounded-none border-x-0 border-t-0">
                 <p class="govuk-body">{{ status }}</p>
             </gv-notification-banner>
+            <gv-notification-banner v-if="listing.state === 'pending_review'" type="warning" title="Pending review" class="rounded-none border-x-0 border-t-0 border-amber-200 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-800">
+                <p class="govuk-body">This listing is pending review. It is not visible to the public yet. A moderator will review it; if approved, it will be published automatically. You can still edit or remove it.</p>
+            </gv-notification-banner>
             <div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
                 <gv-notification-banner v-if="error" title="Error" class="mb-6">
                     <p class="govuk-body">{{ error }}</p>
@@ -42,7 +45,13 @@ const mailtoSubject = `Re: Listing – ${props.listing.title} – ${props.listin
             <h1 class="text-2xl font-bold text-fg">{{ listing.title }}</h1>
             <p class="mt-1 text-sm text-muted">{{ typeLabel }} · {{ listing.price != null ? `$${Number(listing.price).toLocaleString()}` : 'Free' }}</p>
 
-            <div v-if="listing.attachments?.length" class="mt-4 flex gap-2 overflow-x-auto">
+            <div v-if="listing.uploads?.length" class="mt-4 flex gap-2 overflow-x-auto">
+                <template v-for="u in listing.uploads" :key="u.id">
+                    <img v-if="u.status === 'ready' && u.lg_url" :src="u.lg_url" :alt="'Photo'" class="h-48 w-auto rounded object-cover" />
+                    <div v-else class="h-48 w-48 shrink-0 rounded bg-muted/30 flex items-center justify-center text-muted text-sm">Processing…</div>
+                </template>
+            </div>
+            <div v-else-if="listing.attachments?.length" class="mt-4 flex gap-2 overflow-x-auto">
                 <img v-for="att in listing.attachments" :key="att.id" :src="att.url" :alt="att.original_name" class="h-48 w-auto rounded object-cover" />
             </div>
             <div v-else class="mt-4 aspect-video rounded bg-muted/30 flex items-center justify-center text-muted">No photos</div>

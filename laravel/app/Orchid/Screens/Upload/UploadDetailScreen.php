@@ -33,6 +33,10 @@ class UploadDetailScreen extends Screen
 
     public ?string $resourceLabel = null;
 
+    public ?string $tempKey = null;
+
+    public bool $tempFileExists = false;
+
     public function query(Upload $upload): iterable
     {
         $this->upload = $upload;
@@ -54,10 +58,14 @@ class UploadDetailScreen extends Screen
             }
         }
 
+        $disk = $storage->disk();
+        $this->tempKey = $upload->temp_key ?? $storage->tempKey($upload->id);
+        $this->tempFileExists = Storage::disk($disk)->exists($this->tempKey);
+
         $this->canRetry = $upload->status === Upload::STATUS_PROCESSING
             || ($upload->status === Upload::STATUS_FAILED
                 && $upload->temp_key
-                && Storage::disk($storage->disk())->exists($upload->temp_key));
+                && Storage::disk($disk)->exists($upload->temp_key));
 
         return [
             'upload' => $upload,
@@ -66,6 +74,8 @@ class UploadDetailScreen extends Screen
             'resource_url' => $this->resourceUrl,
             'resource_label' => $this->resourceLabel,
             'can_retry' => $this->canRetry,
+            'temp_key' => $this->tempKey,
+            'temp_file_exists' => $this->tempFileExists,
         ];
     }
 
@@ -114,6 +124,8 @@ class UploadDetailScreen extends Screen
                 'resource_url' => $this->resourceUrl,
                 'resource_label' => $this->resourceLabel,
                 'can_retry' => $this->canRetry,
+                'temp_key' => $this->tempKey,
+                'temp_file_exists' => $this->tempFileExists,
             ]),
         ];
     }

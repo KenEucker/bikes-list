@@ -36,6 +36,8 @@ class Upload extends Model
         'variants' => 'array',
     ];
 
+    protected $appends = ['lg_url', 'sm_url'];
+
     protected static function booted(): void
     {
         static::creating(function (Upload $upload): void {
@@ -74,5 +76,15 @@ class Upload extends Model
     public function urlForVariant(string $variant): ?string
     {
         return app(\App\Services\UploadStorageService::class)->urlForVariant($this, $variant);
+    }
+
+    public function getLgUrlAttribute(): ?string
+    {
+        return $this->urlForVariant('lg');
+    }
+
+    public function getSmUrlAttribute(): ?string
+    {
+        return $this->urlForVariant('sm');
     }
 }

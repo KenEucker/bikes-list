@@ -1,10 +1,11 @@
 @if($upload->status !== 'ready')
     <div class="alert alert-warning mb-3">
         @if($upload->status === 'processing')
-            <p class="mb-0">{{ __('This upload is still processing. If it stays like this, ensure a queue worker is running') }} (<code>php artisan queue:work</code>) {{ __('or run') }} <code>php artisan uploads:retry</code> {{ __('or use "Retry processing" above.') }}</p>
+            <p class="mb-1">{{ __('This upload is still processing. If it stays like this, ensure a queue worker is running') }} (<code>php artisan queue:work</code>) {{ __('or run') }} <code>php artisan uploads:retry</code> {{ __('or use "Retry processing" above.') }}</p>
         @elseif($upload->status === 'failed')
-            <p class="mb-0">{{ __('Processing failed. If the original file is still in storage, use "Retry processing" above or run') }} <code>php artisan uploads:retry {{ $upload->id }}</code>.</p>
+            <p class="mb-1">{{ __('Processing failed. If the original file is still in storage, use "Retry processing" above or run') }} <code>php artisan uploads:retry {{ $upload->id }}</code>.</p>
         @endif
+        <p class="mb-0 small">{{ __('To verify files in MinIO and see processing logs') }}: <code>php artisan uploads:inspect {{ $upload->id }}</code>. {{ __('Logs') }}: <code>storage/logs/laravel.log</code> {{ __('or your app container stdout.') }}</p>
     </div>
 @endif
 
@@ -30,6 +31,9 @@
             <tr><th>{{ __('Dimensions') }}</th><td>{{ $upload->width }} × {{ $upload->height }}</td></tr>
             <tr><th>{{ __('Created at') }}</th><td>{{ $upload->created_at->toDateTimeString() }}</td></tr>
             <tr><th>{{ __('Uploader') }}</th><td>{{ $upload->createdBy?->name ?? '—' }}</td></tr>
+            @if(isset($temp_key))
+                <tr><th>{{ __('Temp file in bucket') }}</th><td>{{ $temp_file_exists ? __('Yes') : __('No') }} @if($temp_key)<br><small class="text-muted"><code>{{ $temp_key }}</code></small>@endif</td></tr>
+            @endif
         </table>
 
         <h6 class="mt-3">{{ __('Variant URLs') }}</h6>
