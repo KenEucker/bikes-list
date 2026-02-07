@@ -1,10 +1,11 @@
 #!/usr/bin/env php
 <?php
 /**
- * 1. Read laravel/.env into object
- * 2. Read root .env into object
- * 3. Root overwrites laravel
- * 4. Write object to file (replace entirely, no append)
+ * Merge two .env files: laravel/.env (base) + root .env (overrides).
+ * Root values overwrite laravel values for matching keys.
+ * The result completely replaces laravel/.env (no append, no duplicates).
+ *
+ * Usage: php merge-env.php <laravel/.env> <root/.env>
  */
 $laravelEnv = $argv[1] ?? null;
 $rootEnv = $argv[2] ?? null;
@@ -16,10 +17,17 @@ if (!$laravelEnv || !$rootEnv || !is_readable($laravelEnv) || !is_readable($root
 function parse(string $path): array {
     $vars = [];
     $content = file_get_contents($path);
-    foreach (explode("\n", str_replace(["\r\n", "\r"], "\n", $content)) as $line) {
+    if ($content === false) {
+        fwrite(STDERR, "Error: cannot read $path\n");
+        return $vars;
+    }
+    // Normalise line endings to \n
+    $content = str_replace(["\r\n", "\r"], "\n", $content);
+    foreach (explode("\n", $content) as $line) {
         $line = trim($line);
-        if ($line === '' || strpos($line, '#') === 0) continue;
-        if (preg_match('/^([A-Za-z_][A-Za-z0-9_]*)=(.*)$/s', $line, $m)) {
+        if ($line === '' || $line[0] === '#') continue;
+        // Match KEY=VALUE (no /s flag — single-line match only)
+        if (preg_match('/^([A-Za-z_][A-Za-z0-9_]*)=(.*)$/', $line, $m)) {
             $vars[$m[1]] = $m[2];
         }
     }
@@ -28,6 +36,8 @@ function parse(string $path): array {
 
 $laravel = parse($laravelEnv);
 $root = parse($rootEnv);
+
+// Root overrides laravel; associative array guarantees unique keys
 $merged = array_replace($laravel, $root);
 ksort($merged);
 
@@ -35,4 +45,16 @@ $out = '';
 foreach ($merged as $k => $v) {
     $out .= $k . '=' . $v . "\n";
 }
-file_put_contents($laravelEnv, $out);
+
+// Atomic write: temp file + rename prevents partial/corrupted reads
+$tmp = $laravelEnv . '.tmp.' . getmypid();
+if (file_put_contents($tmp, $out, LOCK_EX) === false) {
+    fwrite(STDERR, "Error: failed to write $tmp\n");
+    @unlink($tmp);
+    exit(1);
+}
+if (!rename($tmp, $laravelEnv)) {
+    fwrite(STDERR, "Error: failed to rename $tmp -> $laravelEnv\n");
+    @unlink($tmp);
+    exit(1);
+}

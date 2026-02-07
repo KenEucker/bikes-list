@@ -53,12 +53,13 @@ if [ ! -s "$APP_KEY_FILE" ] 2>/dev/null && [ -f .env ]; then
     echo "Copied APP_KEY from .env to $APP_KEY_FILE"
   fi
 fi
-# 3) Still no key: generate once (writes to .env), then copy to .app_key
+# 3) Still no key: generate one and save to .app_key (never modify .env to avoid duplicates)
 if ! has_valid_key; then
   unset APP_KEY
-  php artisan key:generate --force
-  grep '^APP_KEY=base64:' .env 2>/dev/null | head -1 | cut -d= -f2- | tr -d '\n\r' > "$APP_KEY_FILE" 2>/dev/null || true
-  echo "Generated APP_KEY and saved to $APP_KEY_FILE"
+  NEW_KEY=$(php artisan key:generate --show)
+  echo "$NEW_KEY" > "$APP_KEY_FILE"
+  export APP_KEY="$NEW_KEY"
+  echo "Generated APP_KEY ($NEW_KEY) and saved to $APP_KEY_FILE"
 fi
 # 4) Export for PHP (Laravel reads from getenv first; .env is never modified by us)
 if has_valid_key; then
