@@ -13,16 +13,35 @@ EOF
 # Persisted APP_KEY path (survives restarts; sessions stay valid)
 APP_KEY_FILE="storage/app/.app_key"
 
-# --- Bootstrap .env: ensure we have a base .env (app runs even without any .env file) ---
-if [ ! -f ".env" ]; then
-  if [ -f ".env.example" ]; then
-    cp .env.example .env
-    echo "Created .env from .env.example (no existing .env found)."
+# --- Bootstrap .env: ALWAYS rebuild from clean .env.example + root .env overrides ---
+# This runs on EVERY container start so corruption can never accumulate.
+# The root project dir is mounted read-only at /var/project by docker-compose.
+if [ -f ".env.example" ]; then
+  if [ -f "/var/project/.env" ]; then
+    # Parse both files, merge (root overrides win), write a clean .env with no duplicates.
+    php -r '
+      function p($f) {
+        $v = [];
+        foreach (explode("\n", str_replace(["\r\n","\r"], "\n", @file_get_contents($f) ?: "")) as $l) {
+          $l = trim($l);
+          if ($l === "" || $l[0] === "#") continue;
+          if (preg_match("/^([A-Za-z_][A-Za-z0-9_]*)=(.*)$/", $l, $m)) $v[$m[1]] = $m[2];
+        }
+        return $v;
+      }
+      $m = array_replace(p($argv[1]), p($argv[2]));
+      ksort($m);
+      $o = "";
+      foreach ($m as $k => $v) $o .= "$k=$v\n";
+      file_put_contents($argv[3], $o, LOCK_EX);
+    ' -- .env.example /var/project/.env .env
+    echo "Built .env: merged .env.example + root .env overrides (clean, no duplicates)."
   else
-    touch .env
-    echo "# Auto-generated minimal .env (no .env.example found)" > .env
-    echo "Created minimal .env (app will use config defaults)."
+    cp .env.example .env
+    echo "Built .env from .env.example (no root .env found)."
   fi
+elif [ ! -f ".env" ]; then
+  touch .env
 fi
 
 # Install PHP dependencies if needed (fresh clone)
