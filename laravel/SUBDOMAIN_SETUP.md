@@ -25,7 +25,7 @@ Then clear cookies for `localhost` (and any subdomains) in your browser and log 
 - `APP_DOMAIN` → default empty (session uses `.localhost`)
 - `SESSION_DOMAIN` → default `.localhost`
 
-You can set them in **laravel/.env** or in a **project-root .env**. When running in Docker, if a `.env` file exists in the project root, the entrypoint merges it over **laravel/.env** (root values override), so both files work and root takes precedence.
+You can set them in **laravel/.env** or in a **project-root .env**. When running in Docker, root `.env` is merged into `laravel/.env` at startup (parse → override → write) so root values take precedence.
 
 ## Optional: use a custom domain (e.g. bikeslist.test)
 

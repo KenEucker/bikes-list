@@ -2,9 +2,13 @@
 
 ### Run locally
 
+The app runs even without `.env` files; the entrypoint creates `laravel/.env` from `laravel/.env.example` when missing. Use `make up` to ensure env is bootstrapped, or run directly:
+
 ```bash
 docker compose up --build
 ```
+
+**Env precedence:** Root `.env` is merged into `laravel/.env` at container start—parsed to key/value, overrides applied, written back clean (no duplicates or concatenation).
 
 Then open:
 
@@ -24,7 +28,7 @@ Then open:
 
 ### Uploads (images)
 
-- **Env:** The app reads `laravel/.env`. Copy the MinIO/uploads block from `docs/env-uploads.example` into **laravel/.env** (not the project root `.env`). Restart `docker compose up` after editing.
+- **Env:** The app reads `laravel/.env`. Copy the MinIO/uploads block from `docs/env-uploads.example` into **laravel/.env** or the project root `.env` (root overrides laravel). Restart `docker compose up` after editing.
 - **Admin:** In Admin go to **Roles** → edit your role → enable **Uploads** under System so the **Uploads** menu appears (bucket status and list).
 - **Frontend:** For Sale create/edit pages have an **Images** section; add images there and submit. Processed images appear on the sale and in Admin → Uploads.
 - **401 on upload:** The app’s `config/sanctum.php` treats the **current request host** as stateful, so API uploads work from any subdomain (e.g. `portland.bikeslist.test`) without setting `SANCTUM_STATEFUL_DOMAINS`. If you removed that config, set `SANCTUM_STATEFUL_DOMAINS` to your frontend domain(s).

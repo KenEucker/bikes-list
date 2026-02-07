@@ -1,9 +1,21 @@
-.PHONY: build up down restart shell composer npm install-deps setup
+.PHONY: build up down restart shell composer npm install-deps setup env reset-env
 
-build:
+# Ensure laravel/.env exists before compose (env_file requires it to exist)
+env:
+	@test -f laravel/.env || (cp laravel/.env.example laravel/.env 2>/dev/null && echo "Created laravel/.env from .env.example") || (touch laravel/.env && echo "Created empty laravel/.env")
+
+# Reset laravel/.env to clean state from .env.example (removes corruption/duplicates)
+reset-env:
+	@cp laravel/.env.example laravel/.env && echo "Reset laravel/.env from .env.example"
+
+# Merge root .env into laravel/.env (runs on HOST before up - container never touches .env)
+merge-env:
+	@if [ -f .env ] && [ -f laravel/.env ]; then php docker/merge-env.php laravel/.env .env && echo "Merged .env into laravel/.env"; fi
+
+build: env
 	docker-compose build
 
-up:
+up: env merge-env
 	docker-compose up -d
 
 down:
