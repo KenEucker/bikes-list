@@ -8,9 +8,10 @@ env:
 reset-env:
 	@cp laravel/.env.example laravel/.env && echo "Reset laravel/.env from .env.example"
 
-# Merge root .env into laravel/.env (runs on HOST before up - container never touches .env)
+# Merge root .env into laravel/.env — always starts from the CLEAN .env.example
+# so corruption from previous runs / key:generate / anything else cannot accumulate.
 merge-env:
-	@if [ -f .env ] && [ -f laravel/.env ]; then php docker/merge-env.php laravel/.env .env && echo "Merged .env into laravel/.env"; fi
+	@if [ -f .env ] && [ -f laravel/.env.example ]; then php docker/merge-env.php laravel/.env.example .env laravel/.env && echo "Merged .env into laravel/.env"; fi
 
 build: env
 	docker-compose build
