@@ -24,11 +24,9 @@ const submitting = ref(false);
     <CreatePageLayout
         title="Edit ride"
         :head-title="`BikesList – ${ride.name} – Edit`"
-        breadcrumb="Edit ride"
+        :breadcrumb="[{ label: 'Rides', href: `${cityBaseUrl}/rides` }, { label: ride.name, href: `${cityBaseUrl}/rides/${ride.id}` }, 'Edit']"
         :city="city"
         :city-base-url="cityBaseUrl"
-        :back-url="`${cityBaseUrl}/rides/${ride.id}`"
-        back-label="Back to ride"
         :submitting="submitting"
         submitting-label="Saving…"
         content-max-width="max-w-4xl"

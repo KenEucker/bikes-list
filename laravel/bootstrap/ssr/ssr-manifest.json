@@ -57,7 +57,7 @@
     "/build/assets/DeleteUserForm-b2HRqkfd.js"
   ],
   "resources/js/Components/ModerationQueue.vue": [
-    "/build/assets/ModerationQueue-H0PObq6f.js"
+    "/build/assets/ModerationQueue-Dbul2LGV.js"
   ],
   "resources/js/Components/PageCard.vue": [
     "/build/assets/Index-9OrshHHh.js"
@@ -159,17 +159,20 @@
   "resources/js/Pages/Legal/StaticPage.vue": [
     "/build/assets/StaticPage-DQhmqT38.js"
   ],
+  "resources/js/Pages/Moderation/Claims.vue": [
+    "/build/assets/Claims-DzsVPOSK.js"
+  ],
   "resources/js/Pages/Moderation/Index.vue": [
-    "/build/assets/Index-B-A_zCxT.js"
+    "/build/assets/Index-D8Sh0e1R.js"
   ],
   "resources/js/Pages/Moderation/Pages.vue": [
-    "/build/assets/Pages-D-1_Me11.js"
+    "/build/assets/Pages-BUB4eMNv.js"
   ],
   "resources/js/Pages/Moderation/Rides.vue": [
-    "/build/assets/Rides-DkIyjVex.js"
+    "/build/assets/Rides-rOCtUhYm.js"
   ],
   "resources/js/Pages/Moderation/Sales.vue": [
-    "/build/assets/Sales-DevMj7xP.js"
+    "/build/assets/Sales-RVundy5e.js"
   ],
   "resources/js/Pages/Profile/Edit.vue": [
     "/build/assets/Edit-BmqzVkX2.js"
@@ -193,7 +196,7 @@
     "/build/assets/Edit-C08ATjq8.js"
   ],
   "resources/js/Pages/Rides/Index.vue": [
-    "/build/assets/Index-CjNq_FGp.js"
+    "/build/assets/Index-9HyjrTCp.js"
   ],
   "resources/js/Pages/Rides/Show.vue": [
     "/build/assets/Show-BvueiTA7.js"

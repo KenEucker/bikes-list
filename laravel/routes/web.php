@@ -36,7 +36,7 @@ $cityRoutes = function () {
     Route::delete('/for-sale/{sale}', [SaleController::class, 'destroy'])->name('city.sales.destroy')->middleware(['auth', 'verified']);
     Route::post('/for-sale/{sale}/publish', [SaleController::class, 'publish'])->name('city.sales.publish')->middleware(['auth', 'verified']);
     Route::post('/for-sale/{sale}/sold', [SaleController::class, 'markSold'])->name('city.sales.sold')->middleware(['auth', 'verified']);
-    Route::post('/for-sale/{sale}/flag', [FlagController::class, 'store'])->name('city.sales.flag')->middleware(['auth', 'verified']);
+    Route::post('/for-sale/{sale}/flag', [FlagController::class, 'store'])->name('city.sales.flag');
 
     Route::get('/rides', [RideController::class, 'index'])->name('city.rides.index');
     Route::get('/rides/new', [RideController::class, 'create'])->name('city.rides.create');
@@ -67,13 +67,19 @@ $cityRoutes = function () {
         Route::get('/', [ModerationController::class, 'index'])->name('index');
         Route::get('/sales', [ModerationController::class, 'sales'])->name('sales');
         Route::post('/sales/{sale}/approve', [ModerationActionController::class, 'approveSale'])->name('sales.approve');
+        Route::post('/sales/{sale}/revert', [ModerationActionController::class, 'revertSale'])->name('sales.revert');
         Route::post('/sales/{sale}/remove', [ModerationActionController::class, 'removeSale'])->name('sales.remove');
         Route::get('/rides', [ModerationController::class, 'rides'])->name('rides');
         Route::post('/rides/{ride}/approve', [ModerationActionController::class, 'approveRide'])->name('rides.approve');
+        Route::post('/rides/{ride}/revert', [ModerationActionController::class, 'revertRide'])->name('rides.revert');
         Route::post('/rides/{ride}/remove', [ModerationActionController::class, 'removeRide'])->name('rides.remove');
         Route::get('/pages', [ModerationController::class, 'pages'])->name('pages');
         Route::post('/pages/{page}/approve', [ModerationActionController::class, 'approvePage'])->name('pages.approve');
+        Route::post('/pages/{page}/revert', [ModerationActionController::class, 'revertPage'])->name('pages.revert');
         Route::post('/pages/{page}/remove', [ModerationActionController::class, 'removePage'])->name('pages.remove');
+        Route::get('/claims', [ModerationController::class, 'claims'])->name('claims');
+        Route::post('/claims/{claim}/approve', [ModerationActionController::class, 'approveClaim'])->name('claims.approve');
+        Route::post('/claims/{claim}/reject', [ModerationActionController::class, 'rejectClaim'])->name('claims.reject');
     });
 };
 

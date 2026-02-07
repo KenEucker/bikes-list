@@ -72,6 +72,19 @@ Moderation is performed exclusively through **frontend moderation tools**.
 
 This separation is intentional and preserves a clean boundary between platform administration and community moderation.
 
+### 3.3 Moderator Assignment & Scope
+
+This section defines how moderators are created and scoped.
+
+* Moderators are **assigned by Admins** via backend/admin tooling
+* Assignment associates a user with:
+
+  * One or more cities, **or**
+  * Global moderation scope
+* “Moderator” and “Global Moderator” are **not backend roles**
+* Moderator capability is derived from assignment data and exposed to the frontend
+* Moderators cannot assign, revoke, or modify moderator access
+
 ---
 
 ## 4. Ownership vs Moderation Permissions

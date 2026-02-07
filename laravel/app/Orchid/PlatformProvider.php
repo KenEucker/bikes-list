@@ -40,6 +40,11 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.systems.cities')
                 ->permission('platform.systems.cities'),
 
+            Menu::make(__('Moderators'))
+                ->icon('bs.people')
+                ->route('platform.systems.moderators')
+                ->permission('platform.systems.cities'),
+
             Menu::make(__('Sales'))
                 ->icon('bs.list-ul')
                 ->route('platform.systems.sales')
@@ -54,6 +59,11 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('bs.flag')
                 ->route('platform.moderation.flagged')
                 ->permission('platform.moderation.flagged'),
+
+            Menu::make(__('Moderation audit'))
+                ->icon('bs.journal-text')
+                ->route('platform.moderation.audit')
+                ->permission('platform.systems.roles'),
 
             Menu::make(__('Guidelines'))
                 ->icon('bs.journal-text')

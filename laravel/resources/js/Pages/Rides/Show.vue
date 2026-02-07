@@ -21,9 +21,8 @@ const status = computed(() => page.props.status ?? page.props.flash?.status);
 
 <template>
     <Head :title="`BikesList – ${ride.name}`" />
-    <CityLayout :city="city" :city-base-url="cityBaseUrl" :breadcrumb="['Rides', ride.name]">
+    <CityLayout :city="city" :city-base-url="cityBaseUrl" :breadcrumb="[{ label: 'Rides', href: `${cityBaseUrl}/rides` }, ride.name]">
         <template #nav-right>
-            <a :href="`${cityBaseUrl}/rides`" class="govuk-link">Back to rides</a>
             <Link v-if="$page.props.auth.user && (ride.user_id === $page.props.auth.user.id || ride.community_page_id)" :href="`${cityBaseUrl}/rides/${ride.id}/edit`" class="govuk-link">Edit</Link>
         </template>
 

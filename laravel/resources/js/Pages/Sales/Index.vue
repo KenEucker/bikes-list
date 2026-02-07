@@ -63,10 +63,6 @@ function saleThumbUrl(sale) {
 <template>
     <Head :title="`BikesList – ${city.name} – For Sale`" />
     <CityLayout :city="city" :city-base-url="cityBaseUrl" breadcrumb="For Sale">
-        <template #nav-right>
-            <gv-header-navigation-item v-if="$page.props.auth?.user" :href="$page.props.urls?.accountSettings || '/account/settings'" text="Profile" />
-            <gv-header-navigation-item v-else :href="$page.props.urls?.signIn || '/account/sign-in'" text="Log in" />
-        </template>
 
         <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
             <div class="mb-6 grid gap-4 rounded-token-md border border-border bg-card p-4 sm:grid-cols-2 lg:grid-cols-4 lg:items-end">

@@ -8,7 +8,23 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class ModerationAction extends Model
 {
-    protected $fillable = ['user_id', 'action', 'subject_type', 'subject_id', 'reason', 'metadata'];
+    public const ACTOR_ROLE_MODERATOR = 'moderator';
+    public const ACTOR_ROLE_GLOBAL_MODERATOR = 'global_moderator';
+    public const ACTOR_ROLE_ADMIN = 'admin';
+
+    protected $fillable = [
+        'user_id',
+        'actor_role',
+        'action',
+        'subject_type',
+        'subject_id',
+        'reason_code',
+        'moderation_note',
+        'reason',
+        'metadata',
+        'previous_state',
+        'new_state',
+    ];
 
     protected $casts = [
         'metadata' => 'array',
@@ -22,5 +38,24 @@ class ModerationAction extends Model
     public function subject(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    public static function actorRoleForUser(?User $user): string
+    {
+        if (! $user) {
+            return self::ACTOR_ROLE_MODERATOR;
+        }
+        if (method_exists($user, 'hasAccess') && $user->hasAccess('platform.systems.roles')) {
+            return self::ACTOR_ROLE_ADMIN;
+        }
+        if ($user->isGlobalModerator()) {
+            return self::ACTOR_ROLE_GLOBAL_MODERATOR;
+        }
+        return self::ACTOR_ROLE_MODERATOR;
+    }
+
+    public static function reasonCodes(): array
+    {
+        return config('moderation.reason_codes', []);
     }
 }

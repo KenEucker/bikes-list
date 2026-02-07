@@ -123,6 +123,22 @@ const _sfc_main = {
               }),
               _: 1
             }, _parent2, _scopeId));
+            _push2(ssrRenderComponent(unref(Link), {
+              href: `${__props.cityBaseUrl}/moderation/claims`,
+              class: "govuk-button govuk-button--secondary",
+              role: "button"
+            }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`Claim requests`);
+                } else {
+                  return [
+                    createTextVNode("Claim requests")
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
             _push2(`</div></div>`);
           } else {
             return [
@@ -157,6 +173,16 @@ const _sfc_main = {
                   }, {
                     default: withCtx(() => [
                       createTextVNode("Pages queue")
+                    ]),
+                    _: 1
+                  }, 8, ["href"]),
+                  createVNode(unref(Link), {
+                    href: `${__props.cityBaseUrl}/moderation/claims`,
+                    class: "govuk-button govuk-button--secondary",
+                    role: "button"
+                  }, {
+                    default: withCtx(() => [
+                      createTextVNode("Claim requests")
                     ]),
                     _: 1
                   }, 8, ["href"])

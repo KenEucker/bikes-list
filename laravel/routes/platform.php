@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use App\Orchid\Screens\City\CityEditScreen;
 use App\Orchid\Screens\City\CityListScreen;
+use App\Orchid\Screens\ModerationAuditScreen;
+use App\Orchid\Screens\ModeratorsScreen;
 use App\Orchid\Screens\CommunityPage\ClaimListScreen;
 use App\Orchid\Screens\CommunityPage\CommunityPageCreateScreen;
 use App\Orchid\Screens\CommunityPage\CommunityPageEditScreen;
@@ -53,6 +55,12 @@ Route::screen('cities', CityListScreen::class)
     ->breadcrumbs(fn (Trail $trail) => $trail
         ->parent('platform.index')
         ->push(__('Cities'), route('platform.systems.cities')));
+
+Route::screen('moderators', ModeratorsScreen::class)
+    ->name('platform.systems.moderators')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push(__('Moderators'), route('platform.systems.moderators')));
 
 // Sales
 Route::screen('sales', SaleListScreen::class)
@@ -122,6 +130,12 @@ Route::screen('moderation/flagged-sales', FlaggedSalesScreen::class)
     ->breadcrumbs(fn (Trail $trail) => $trail
         ->parent('platform.index')
         ->push(__('Flagged sales'), route('platform.moderation.flagged')));
+
+Route::screen('moderation/audit', ModerationAuditScreen::class)
+    ->name('platform.moderation.audit')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push(__('Moderation audit'), route('platform.moderation.audit')));
 
 // Guidelines
 Route::screen('guidelines/create', GuidelineEditScreen::class)

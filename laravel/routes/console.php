@@ -1,6 +1,7 @@
 <?php
 
 use App\Jobs\AutoPublishPendingRides;
+use App\Jobs\DeleteRemovedContentJob;
 use App\Jobs\ProcessUploadVariantsJob;
 use App\Jobs\RecurringRideExpiryReminder;
 use App\Models\Upload;
@@ -133,3 +134,4 @@ Artisan::command('uploads:inspect {id : Upload UUID}', function (string $id) {
 
 Schedule::job(new AutoPublishPendingRides(48))->hourly();
 Schedule::job(new RecurringRideExpiryReminder)->daily();
+Schedule::job(new DeleteRemovedContentJob)->daily();

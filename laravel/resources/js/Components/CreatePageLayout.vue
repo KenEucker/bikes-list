@@ -8,7 +8,7 @@ defineProps({
     breadcrumb: { type: [String, Array], required: true },
     city: { type: Object, required: true },
     cityBaseUrl: { type: String, required: true },
-    backUrl: { type: String, required: true },
+    backUrl: { type: String, default: null },
     backLabel: { type: String, default: 'Back' },
     /** Show full-page loading overlay when true (e.g. form.processing) */
     submitting: { type: Boolean, default: false },
@@ -23,9 +23,6 @@ defineProps({
 <template>
     <Head :title="headTitle ?? title" />
     <CityLayout :city="city" :city-base-url="cityBaseUrl" :breadcrumb="breadcrumb">
-        <template #nav-right>
-            <a :href="backUrl" class="govuk-link">{{ backLabel }}</a>
-        </template>
 
         <div
             v-if="submitting"

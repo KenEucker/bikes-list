@@ -253,7 +253,7 @@ class RideController extends Controller
         $ride->update($data);
         $uploadIds = $request->input('upload_ids', []);
         $this->syncRideUploads($ride, is_array($uploadIds) ? array_slice($uploadIds, 0, 1) : [], $request->user()->id);
-        return redirect()->route('city.rides.show', [$citySlug, $ride])->with('status', 'Ride updated.');
+        return redirect()->to(self::cityBaseUrl($request, $citySlug) . '/rides/' . $ride->id)->with('status', 'Ride updated.');
     }
 
     private function syncRideUploads(Ride $ride, array $uploadIds, int $userId): void

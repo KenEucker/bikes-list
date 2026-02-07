@@ -160,10 +160,69 @@ button:focus-visible,
     color: rgb(var(--primary));
 }
 
+/* Account dropdown – light mode */
+:root .account-dropdown-menu,
+[data-theme="light"] .account-dropdown-menu {
+    background-color: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    color: #0f172a !important;
+}
+:root .account-dropdown-menu a,
+[data-theme="light"] .account-dropdown-menu a {
+    color: #0f172a !important;
+}
+:root .account-dropdown-menu a:hover,
+[data-theme="light"] .account-dropdown-menu a:hover {
+    background-color: rgba(15, 23, 42, 0.06) !important;
+    color: #0f172a !important;
+}
+
+/* Account dropdown – dark mode */
+[data-theme="dark"] .account-dropdown-menu {
+    background-color: rgb(var(--card)) !important;
+    border-color: rgb(var(--border)) !important;
+    color: rgb(var(--fg)) !important;
+}
+[data-theme="dark"] .account-dropdown-menu a {
+    color: rgb(var(--fg)) !important;
+}
+[data-theme="dark"] .account-dropdown-menu a:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    color: rgb(var(--fg)) !important;
+}
+
+/* Account trigger: force dark text in light mode (avoid white-on-white from inherited styles) */
+:root .govuk-header__navigation-item button.govuk-header__link,
+[data-theme="light"] .govuk-header__navigation-item button.govuk-header__link {
+    color: #0f172a !important;
+    background-color: transparent !important;
+}
+:root .govuk-header__navigation-item button.govuk-header__link:hover,
+[data-theme="light"] .govuk-header__navigation-item button.govuk-header__link:hover {
+    color: rgb(var(--primary)) !important;
+}
+:root .govuk-header__navigation-item button.govuk-header__link:focus,
+:root .govuk-header__navigation-item button.govuk-header__link:focus-visible,
+[data-theme="light"] .govuk-header__navigation-item button.govuk-header__link:focus,
+[data-theme="light"] .govuk-header__navigation-item button.govuk-header__link:focus-visible {
+    color: #0f172a !important;
+    background-color: transparent !important;
+    outline: 2px solid rgb(var(--focus));
+    outline-offset: 2px;
+}
+
 :root .govuk-header__menu-button {
     color: rgb(var(--fg));
     background-color: transparent;
     border-color: rgb(var(--border));
+}
+
+/* Header nav: allow wrapping so items don’t collapse to "..." on dashboard/pending */
+.govuk-header__navigation .govuk-header__navigation-list {
+    flex-wrap: wrap;
+}
+.govuk-header__navigation-item a {
+    white-space: nowrap;
 }
 
 /* Header: dark mode – use theme background and colours */
@@ -193,6 +252,21 @@ button:focus-visible,
 
 [data-theme="dark"] .govuk-header__navigation-item a:hover {
     color: rgb(var(--primary));
+}
+/* Account dropdown trigger – dark mode (must override :root light-mode !important) */
+[data-theme="dark"] .govuk-header__navigation-item button.govuk-header__link {
+    color: rgb(var(--fg)) !important;
+    background-color: transparent !important;
+}
+[data-theme="dark"] .govuk-header__navigation-item button.govuk-header__link:hover {
+    color: rgb(var(--primary)) !important;
+}
+[data-theme="dark"] .govuk-header__navigation-item button.govuk-header__link:focus,
+[data-theme="dark"] .govuk-header__navigation-item button.govuk-header__link:focus-visible {
+    color: rgb(var(--fg)) !important;
+    background-color: transparent !important;
+    outline: 2px solid rgb(var(--focus));
+    outline-offset: 2px;
 }
 
 [data-theme="dark"] .govuk-header__menu-button {
@@ -282,4 +356,50 @@ button:focus-visible,
 [data-theme="dark"] .govuk-footer__copyright-text,
 [data-theme="dark"] .govuk-footer__meta {
     color: rgb(var(--muted));
+}
+
+/* Notification banners: dark mode – Success and Pending review */
+[data-theme="dark"] .govuk-notification-banner {
+    border-color: rgb(var(--border));
+    background-color: rgb(var(--card));
+}
+
+[data-theme="dark"] .govuk-notification-banner__title,
+[data-theme="dark"] .govuk-notification-banner__heading,
+[data-theme="dark"] .govuk-notification-banner__content,
+[data-theme="dark"] .govuk-notification-banner__content .govuk-body {
+    color: rgb(var(--fg));
+}
+
+[data-theme="dark"] .govuk-notification-banner--success {
+    border-left-color: #34d399;
+    background-color: rgba(6, 95, 70, 0.25);
+}
+
+[data-theme="dark"] .govuk-notification-banner--success .govuk-notification-banner__link {
+    color: rgb(134, 239, 172);
+}
+
+[data-theme="dark"] .govuk-notification-banner--success .govuk-notification-banner__link:hover {
+    color: rgb(187, 247, 208);
+}
+
+/* Warning / Pending review banner in dark mode */
+[data-theme="dark"] .govuk-notification-banner[class*="amber"],
+[data-theme="dark"] .govuk-notification-banner--warning {
+    border-left-color: #fbbf24;
+    background-color: rgba(120, 53, 15, 0.25);
+}
+
+/* Pending review banner: ensure dark mode when using data-theme (class .pending-review-banner) */
+[data-theme="dark"] .pending-review-banner {
+    border-color: rgb(var(--border)) !important;
+    border-left-color: #fbbf24 !important;
+    background-color: rgba(120, 53, 15, 0.35) !important;
+}
+[data-theme="dark"] .pending-review-banner .govuk-body,
+[data-theme="dark"] .pending-review-banner [class*="banner__title"],
+[data-theme="dark"] .pending-review-banner [class*="banner__heading"],
+[data-theme="dark"] .pending-review-banner [class*="banner__content"] {
+    color: rgb(var(--fg)) !important;
 }

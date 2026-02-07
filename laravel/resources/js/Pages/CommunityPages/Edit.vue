@@ -18,11 +18,9 @@ const submitting = ref(false);
     <CreatePageLayout
         :title="`Edit ${communityPage.name}`"
         :head-title="`BikesList – ${communityPage.name} – Edit`"
-        :breadcrumb="['Community pages', communityPage.name, 'Edit']"
+        :breadcrumb="[{ label: 'Community', href: `${cityBaseUrl}/community` }, { label: communityPage.name, href: `${cityBaseUrl}/community/${communityPage.slug}` }, 'Edit']"
         :city="city"
         :city-base-url="cityBaseUrl"
-        :back-url="`${cityBaseUrl}/community/${communityPage.slug}`"
-        back-label="Back to page"
         :submitting="submitting"
         submitting-label="Saving…"
     >

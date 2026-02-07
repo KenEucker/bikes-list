@@ -18,11 +18,9 @@ const submitting = ref(false);
     <CreatePageLayout
         title="New community page"
         :head-title="`BikesList – ${city.name} – New community page`"
-        breadcrumb="New page"
+        :breadcrumb="[{ label: 'Community', href: `${cityBaseUrl}/community` }, 'New page']"
         :city="city"
         :city-base-url="cityBaseUrl"
-        :back-url="`${cityBaseUrl}/community`"
-        back-label="Back to community"
         :submitting="submitting"
         footer-note="Submitting for review will list this item as pending; it will be published automatically if not reviewed by a moderator."
     >

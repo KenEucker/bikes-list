@@ -244,6 +244,11 @@ body {
     border-color: rgb(var(--border)) !important;
 }
 
+/* Table wrappers: allow full height so lists (e.g. Moderators) are not clipped */
+.bg-white.rounded.shadow-sm.mb-3.overflow-hidden .table-responsive {
+    max-height: none;
+}
+
 /* Fieldset bottom (save button area) – dark mode */
 [data-theme="dark"] .bg-light,
 [data-theme="dark"] .rounded-bottom.bg-light {

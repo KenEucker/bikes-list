@@ -13,10 +13,6 @@ defineProps({
 <template>
     <Head :title="`BikesList – ${city.name} – Community`" />
     <CityLayout :city="city" :city-base-url="cityBaseUrl" breadcrumb="Community pages">
-        <template #nav-right>
-            <gv-header-navigation-item v-if="$page.props.auth?.user" :href="`${cityBaseUrl}/dashboard`" text="Dashboard" />
-            <gv-header-navigation-item v-else :href="$page.props.urls?.signIn || '/account/sign-in'" text="Sign in" />
-        </template>
 
         <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
             <div class="mb-6 flex flex-wrap items-center justify-between gap-4">

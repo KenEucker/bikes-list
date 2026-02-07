@@ -1,6 +1,6 @@
 <script setup>
-import { Head, Link, usePage } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { Head, Link, usePage, router } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
 import CityLayout from '@/Layouts/CityLayout.vue';
 import EmailRelayCard from '@/Components/EmailRelayCard.vue';
 import PendingReviewBanner from '@/Components/PendingReviewBanner.vue';
@@ -9,7 +9,6 @@ const props = defineProps({
     city: { type: Object, required: true },
     sale: { type: Object, required: true },
     relayEmailAddress: { type: String, default: null },
-    moderatorRelayEmail: { type: String, default: '' },
     bikeIndexUrl: { type: String, default: 'https://bikeindex.org/search' },
     saleTypes: { type: Object, required: true },
     homeUrl: { type: String, default: '/' },
@@ -19,9 +18,16 @@ const props = defineProps({
 const page = usePage();
 const status = computed(() => page.props.status ?? page.props.flash?.status);
 const error = computed(() => page.props.flash?.error);
+const flagSubmitting = ref(false);
 
 const typeLabel = props.saleTypes[props.sale.type]?.label ?? props.sale.type;
 const mailtoSubject = `Re: Sale – ${props.sale.title} – ${props.sale.id}`;
+
+const flagUrl = `${props.cityBaseUrl}/for-sale/${props.sale.id}/flag`;
+function submitFlag() {
+    flagSubmitting.value = true;
+    router.post(flagUrl, {}, { preserveScroll: true, onFinish: () => { flagSubmitting.value = false; } });
+}
 </script>
 
 <template>
@@ -32,12 +38,7 @@ const mailtoSubject = `Re: Sale – ${props.sale.title} – ${props.sale.id}`;
         <meta property="og:url" :content="page.props.seo?.currentUrl || `${cityBaseUrl}/for-sale/${sale.id}`">
         <link rel="canonical" :href="page.props.seo?.currentUrl || `${cityBaseUrl}/for-sale/${sale.id}`">
     </Head>
-    <CityLayout :city="city" :city-base-url="cityBaseUrl" :breadcrumb="['For Sale', sale.title]">
-            <template #nav-right>
-                <a :href="`${cityBaseUrl}/for-sale`" class="govuk-link">Back to For Sale</a>
-                <Link v-if="$page.props.auth.user" :href="$page.props.urls?.accountSettings || '/account/settings'" class="govuk-link">Account</Link>
-                <Link v-else :href="$page.props.urls?.signIn || '/account/sign-in'" class="govuk-link">Sign in</Link>
-            </template>
+    <CityLayout :city="city" :city-base-url="cityBaseUrl" :breadcrumb="[{ label: 'For Sale', href: `${cityBaseUrl}/for-sale` }, sale.title]">
 
             <gv-notification-banner v-if="status" type="success" title="Success" class="rounded-none border-x-0 border-t-0">
                 <p class="govuk-body">{{ status }}</p>
@@ -80,14 +81,19 @@ const mailtoSubject = `Re: Sale – ${props.sale.title} – ${props.sale.id}`;
                 <a :href="bikeIndexUrl" target="_blank" rel="noopener noreferrer" class="mt-2 inline-block text-primary underline">Search on Bike Index</a>
             </section>
 
-            <div v-if="moderatorRelayEmail" class="mt-8">
-                <EmailRelayCard
-                    :email="moderatorRelayEmail"
-                    label="Report this sale"
-                    note="Email the city moderators. Include the subject so they can identify the item."
-                    :mailto-subject="`Report: Sale – ${sale.title} – ${sale.id}`"
-                />
-            </div>
+            <section class="mt-8 rounded-token-md border border-border bg-card p-4">
+                <h2 class="text-lg font-semibold text-fg">Flag this listing</h2>
+                <p class="mt-1 text-sm text-muted">Something wrong with this listing? Flag it and moderators will review it. You don’t need an account.</p>
+                <form @submit.prevent="submitFlag" class="mt-3">
+                    <button
+                        type="submit"
+                        class="rounded-token-md border border-border bg-card px-4 py-2 text-sm font-medium text-fg hover:opacity-90 disabled:opacity-50"
+                        :disabled="flagSubmitting"
+                    >
+                        {{ flagSubmitting ? 'Submitting…' : 'Flag this listing' }}
+                    </button>
+                </form>
+            </section>
 
             <div class="mt-8 flex flex-wrap gap-3">
                 <Link v-if="$page.props.auth.user && (sale.user_id === $page.props.auth.user.id || sale.community_page_id)" :href="`${cityBaseUrl}/for-sale/${sale.id}/edit`" class="rounded-token-md border border-border bg-card px-4 py-2 text-sm font-medium text-fg hover:opacity-90">Edit</Link>

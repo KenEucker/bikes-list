@@ -36,14 +36,16 @@ const logoutUrl = computed(() => urls.value.logout || '/logout');
                     </li>
                     <li class="govuk-header__navigation-item">
                         <div class="relative">
-                            <Dropdown align="right" width="48">
+                            <Dropdown align="right" width="48" content-classes="account-dropdown-menu py-1 bg-card border border-border rounded-token-md min-w-[10rem]">
                                 <template #trigger>
                                     <span class="inline-flex rounded-md">
                                         <button
                                             type="button"
-                                            class="govuk-header__link inline-flex items-center"
+                                            class="govuk-header__link inline-flex items-center gap-1 border-0 bg-transparent font-inherit text-inherit cursor-pointer underline py-2 pr-0 pl-0"
+                                            aria-expanded="false"
+                                            aria-haspopup="true"
                                         >
-                                            {{ $page.props.auth?.user?.name ?? 'Account' }}
+                                            Account
                                             <svg
                                                 class="-me-0.5 ms-2 h-4 w-4"
                                                 xmlns="http://www.w3.org/2000/svg"

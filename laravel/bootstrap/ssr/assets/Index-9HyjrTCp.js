@@ -55,26 +55,22 @@ const _sfc_main = {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(`<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8"${_scopeId}><div class="mb-6 flex flex-wrap items-center justify-between gap-4"${_scopeId}><h1 class="govuk-heading-l"${_scopeId}>Rides</h1>`);
-            if (_ctx.$page.props.auth?.user) {
-              _push2(ssrRenderComponent(unref(Link), {
-                href: `${__props.cityBaseUrl}/rides/new`,
-                class: "govuk-button",
-                role: "button"
-              }, {
-                default: withCtx((_2, _push3, _parent3, _scopeId2) => {
-                  if (_push3) {
-                    _push3(`Add ride`);
-                  } else {
-                    return [
-                      createTextVNode("Add ride")
-                    ];
-                  }
-                }),
-                _: 1
-              }, _parent2, _scopeId));
-            } else {
-              _push2(`<!---->`);
-            }
+            _push2(ssrRenderComponent(unref(Link), {
+              href: `${__props.cityBaseUrl}/rides/new`,
+              class: "govuk-button",
+              role: "button"
+            }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(`Add ride`);
+                } else {
+                  return [
+                    createTextVNode("Add ride")
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
             _push2(`</div><ul class="govuk-list govuk-!-margin-top-4 divide-y divide-border border-t border-border"${_scopeId}><!--[-->`);
             ssrRenderList(__props.rides.data, (ride) => {
               _push2(`<li class="py-3"${_scopeId}>`);
@@ -117,8 +113,7 @@ const _sfc_main = {
               createVNode("div", { class: "mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8" }, [
                 createVNode("div", { class: "mb-6 flex flex-wrap items-center justify-between gap-4" }, [
                   createVNode("h1", { class: "govuk-heading-l" }, "Rides"),
-                  _ctx.$page.props.auth?.user ? (openBlock(), createBlock(unref(Link), {
-                    key: 0,
+                  createVNode(unref(Link), {
                     href: `${__props.cityBaseUrl}/rides/new`,
                     class: "govuk-button",
                     role: "button"
@@ -127,7 +122,7 @@ const _sfc_main = {
                       createTextVNode("Add ride")
                     ]),
                     _: 1
-                  }, 8, ["href"])) : createCommentVNode("", true)
+                  }, 8, ["href"])
                 ]),
                 createVNode("ul", { class: "govuk-list govuk-!-margin-top-4 divide-y divide-border border-t border-border" }, [
                   (openBlock(true), createBlock(Fragment, null, renderList(__props.rides.data, (ride) => {

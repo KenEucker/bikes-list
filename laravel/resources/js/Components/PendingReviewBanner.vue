@@ -17,7 +17,7 @@ const message = computed(() =>
         v-if="show"
         type="warning"
         title="Pending review"
-        class="rounded-none border-x-0 border-t-0 border-amber-200 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-800"
+        class="pending-review-banner rounded-none border-x-0 border-t-0 border-amber-200 bg-amber-50 dark:border-amber-800 dark:bg-amber-950/40"
     >
         <p class="govuk-body">{{ message }}</p>
     </gv-notification-banner>

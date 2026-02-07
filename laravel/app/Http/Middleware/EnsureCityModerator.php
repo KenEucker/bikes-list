@@ -22,7 +22,7 @@ class EnsureCityModerator
         }
 
         $city = City::query()->where('slug', $citySlug)->first();
-        if (! $city || ! $user->moderatedCities()->where('cities.id', $city->id)->exists()) {
+        if (! $city || ! $user->canModerateCity($city)) {
             abort(403, 'Not authorized to moderate this city.');
         }
 

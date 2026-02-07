@@ -70,14 +70,10 @@ class SaleController extends Controller
             $relayAddress = 'sale-' . $sale->id . '-' . $sale->relayAddress->token . '@' . $relayDomain;
         }
 
-        $reportRelayDomain = parse_url($cityBaseUrl, PHP_URL_HOST) ?? parse_url(config('app.url'), PHP_URL_HOST);
-        $moderatorRelayEmail = 'report-sale-' . $sale->id . '@' . $reportRelayDomain;
-
         return Inertia::render('Sales/Show', [
             'city' => $city,
             'sale' => $sale,
             'relayEmailAddress' => $relayAddress,
-            'moderatorRelayEmail' => $moderatorRelayEmail,
             'bikeIndexUrl' => config('bikeslist.bike_index_search_url'),
             'saleTypes' => config('sale_types'),
             'homeUrl' => config('app.url'),
@@ -242,7 +238,7 @@ class SaleController extends Controller
 
         $sale->update(['state' => Sale::STATE_REMOVED]);
 
-        return redirect()->route('city.sales.index', $citySlug)
+        return redirect()->to(self::cityBaseUrl(request(), $citySlug) . '/for-sale')
             ->with('status', 'Sale removed.');
     }
 

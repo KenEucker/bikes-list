@@ -2,7 +2,7 @@ import { unref, withCtx, createVNode, createTextVNode, useSSRContext } from "vue
 import { ssrRenderComponent } from "vue/server-renderer";
 import { Head, Link } from "@inertiajs/vue3";
 import { _ as _sfc_main$1 } from "./CityLayout-BqIhNtPZ.js";
-import { _ as _sfc_main$2 } from "./ModerationQueue-H0PObq6f.js";
+import { _ as _sfc_main$2 } from "./ModerationQueue-Dbul2LGV.js";
 import "./PublicLayout-CvaWB3EK.js";
 import "./ThemeToggle-Mk6IgKQe.js";
 import "./StatusTag-BeNLpE6N.js";
@@ -12,7 +12,8 @@ const _sfc_main = {
   props: {
     city: { type: Object, required: true },
     pages: { type: Object, required: true },
-    cityBaseUrl: { type: String, required: true }
+    cityBaseUrl: { type: String, required: true },
+    reasonCodes: { type: Object, default: () => ({}) }
   },
   setup(__props) {
     return (_ctx, _push, _parent, _attrs) => {
@@ -58,7 +59,7 @@ const _sfc_main = {
         }),
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(`<main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8"${_scopeId}><h1 class="govuk-heading-l"${_scopeId}>Pending community pages</h1>`);
+            _push2(`<main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8"${_scopeId}><h1 class="govuk-heading-l"${_scopeId}>Pending community pages</h1><p class="mt-2 text-sm text-muted"${_scopeId}>Approve or remove. Every action requires a reason code.</p>`);
             _push2(ssrRenderComponent(_sfc_main$2, {
               items: __props.pages.data || [],
               "entity-label": "pages",
@@ -68,13 +69,15 @@ const _sfc_main = {
               "remove-url-fn": (item) => `${__props.cityBaseUrl}/moderation/pages/${item.id}/remove`,
               "subtitle-fn": (item) => `By ${item.created_by_user?.name ?? "Unknown"}`,
               "status-value": "pending",
-              "empty-message": "No pending pages."
+              "empty-message": "No pending pages.",
+              "reason-codes": __props.reasonCodes
             }, null, _parent2, _scopeId));
             _push2(`</main>`);
           } else {
             return [
               createVNode("main", { class: "mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8" }, [
                 createVNode("h1", { class: "govuk-heading-l" }, "Pending community pages"),
+                createVNode("p", { class: "mt-2 text-sm text-muted" }, "Approve or remove. Every action requires a reason code."),
                 createVNode(_sfc_main$2, {
                   items: __props.pages.data || [],
                   "entity-label": "pages",
@@ -84,8 +87,9 @@ const _sfc_main = {
                   "remove-url-fn": (item) => `${__props.cityBaseUrl}/moderation/pages/${item.id}/remove`,
                   "subtitle-fn": (item) => `By ${item.created_by_user?.name ?? "Unknown"}`,
                   "status-value": "pending",
-                  "empty-message": "No pending pages."
-                }, null, 8, ["items", "show-url-fn", "approve-url-fn", "remove-url-fn", "subtitle-fn"])
+                  "empty-message": "No pending pages.",
+                  "reason-codes": __props.reasonCodes
+                }, null, 8, ["items", "show-url-fn", "approve-url-fn", "remove-url-fn", "subtitle-fn", "reason-codes"])
               ])
             ];
           }

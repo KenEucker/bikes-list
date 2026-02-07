@@ -22,11 +22,9 @@ const submitting = ref(false);
     <CreatePageLayout
         title="Add new sale"
         :head-title="`BikesList – ${city.name} – Add new sale`"
-        breadcrumb="Add new sale"
+        :breadcrumb="[{ label: 'For Sale', href: `${cityBaseUrl}/for-sale` }, 'Add new sale']"
         :city="city"
         :city-base-url="cityBaseUrl"
-        :back-url="`${cityBaseUrl}/for-sale`"
-        back-label="Back to For Sale"
         :submitting="submitting"
         footer-note="Submitting for review will list this item as pending; it will be published automatically if not reviewed by a moderator."
     >

@@ -13,13 +13,17 @@ defineProps({
 <template>
     <Head :title="`BikesList – ${city.name} – Dashboard`" />
     <CityLayout :city="city" :city-base-url="cityBaseUrl" breadcrumb="Dashboard">
-        <template #nav-right>
-            <gv-header-navigation-item :href="$page.props.urls?.accountSettings || '/account/settings'" text="Account" />
-        </template>
-
         <div class="govuk-width-container govuk-!-padding-top-8 govuk-!-padding-bottom-8">
             <h1 class="govuk-heading-l">Dashboard</h1>
             <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <Link
+                    v-if="$page.props.canAccessModeration && $page.props.moderationUrl"
+                    :href="$page.props.moderationUrl"
+                    class="rounded-token-md border border-border bg-card p-4 no-underline"
+                >
+                    <span class="font-medium text-fg">Moderation</span>
+                    <p class="mt-1 text-sm text-muted">Review and approve content</p>
+                </Link>
                 <Link :href="`${cityBaseUrl}/dashboard/sales`" class="rounded-token-md border border-border bg-card p-4 no-underline">
                     <span class="font-medium text-fg">For Sale</span>
                     <p class="mt-1 text-2xl font-semibold text-muted">{{ counts.sales ?? 0 }}</p>

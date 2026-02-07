@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 use Orchid\Filters\Types\Like;
 use Orchid\Filters\Types\Where;
 use Orchid\Filters\Types\WhereDateStartEnd;
@@ -87,8 +88,26 @@ class User extends Authenticatable
     public function moderatedCities(): BelongsToMany
     {
         return $this->belongsToMany(City::class, 'city_user')
+            ->wherePivotNotNull('city_id')
             ->withPivot('role')
             ->withTimestamps();
+    }
+
+    public function isGlobalModerator(): bool
+    {
+        return DB::table('city_user')
+            ->where('user_id', $this->id)
+            ->whereNull('city_id')
+            ->where('role', 'global')
+            ->exists();
+    }
+
+    public function canModerateCity(City $city): bool
+    {
+        if ($this->isGlobalModerator()) {
+            return true;
+        }
+        return $this->moderatedCities()->where('cities.id', $city->id)->exists();
     }
 
     public function managedCommunityPages(): BelongsToMany

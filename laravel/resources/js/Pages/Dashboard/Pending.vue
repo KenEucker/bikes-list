@@ -16,11 +16,6 @@ defineProps({
 <template>
     <Head :title="`BikesList – ${city.name} – Pending`" />
     <CityLayout :city="city" :city-base-url="cityBaseUrl" :breadcrumb="['Dashboard', 'Pending']">
-        <template #nav-right>
-            <Link :href="`${cityBaseUrl}/dashboard`" class="govuk-link">Dashboard</Link>
-            <Link :href="$page.props.urls?.accountSettings || '/account/settings'" class="govuk-link">Account</Link>
-        </template>
-
         <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
             <h1 class="text-2xl font-bold text-fg">Pending review</h1>
             <p class="mt-2 text-sm text-muted">These items will be published or approved automatically if not reviewed by a moderator.</p>
