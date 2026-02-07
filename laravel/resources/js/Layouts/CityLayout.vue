@@ -3,8 +3,7 @@ import { usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
 import ThemeToggle from '@/Components/ThemeToggle.vue';
-import Dropdown from '@/Components/Dropdown.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
+import { Link } from '@inertiajs/vue3';
 
 const props = defineProps({
     city: { type: Object, required: true },
@@ -53,32 +52,25 @@ function breadcrumbLabel(item) {
                     <li class="govuk-header__navigation-item">
                         <ThemeToggle />
                     </li>
-                    <li v-if="page.props.auth?.user" class="govuk-header__navigation-item">
-                        <Dropdown align="right" width="48" content-classes="account-dropdown-menu py-1 bg-card border border-border rounded-token-md min-w-[10rem]">
-                            <template #trigger>
-                                <button
-                                    type="button"
-                                    class="inline-flex items-center gap-1 py-2 pl-0 pr-0 underline bg-transparent border-0 cursor-pointer govuk-header__link font-inherit text-inherit"
-                                    aria-expanded="false"
-                                    aria-haspopup="true"
-                                >
-                                    Account
-                                    <span aria-hidden="true" class="ml-0.5 text-[0.6em]">▼</span>
-                                </button>
-                            </template>
-                            <template #content>
-                                <DropdownLink :href="`${cityBaseUrl}/dashboard`">Dashboard</DropdownLink>
-                                <DropdownLink
-                                    v-if="page.props.canAccessModeration && page.props.moderationUrl"
-                                    :href="page.props.moderationUrl"
-                                >
-                                    Moderation
-                                </DropdownLink>
-                                <DropdownLink :href="page.props.urls?.accountSettings || '/account/settings'">Account settings</DropdownLink>
-                                <DropdownLink :href="page.props.urls?.logout || '/logout'" method="post" as="button">Log out</DropdownLink>
-                            </template>
-                        </Dropdown>
-                    </li>
+                    <template v-if="page.props.auth?.user">
+                        <gv-header-navigation-item :href="`${cityBaseUrl}/dashboard`" text="Dashboard" />
+                        <gv-header-navigation-item
+                            v-if="page.props.canAccessModeration && page.props.moderationUrl"
+                            :href="page.props.moderationUrl"
+                            text="Moderation"
+                        />
+                        <gv-header-navigation-item :href="page.props.urls?.accountSettings || '/account/settings'" text="Account" />
+                        <li class="govuk-header__navigation-item">
+                            <Link
+                                :href="page.props.urls?.logout || '/logout'"
+                                method="post"
+                                as="button"
+                                class="govuk-header__link border-0 bg-transparent font-inherit text-inherit cursor-pointer py-2"
+                            >
+                                Sign out
+                            </Link>
+                        </li>
+                    </template>
                     <slot name="nav-right" />
                     <gv-header-navigation-item
                         v-if="!page.props.auth?.user"

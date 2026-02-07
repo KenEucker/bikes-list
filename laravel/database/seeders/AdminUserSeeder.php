@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Orchid\Platform\Models\Role;
 
@@ -20,6 +21,16 @@ class AdminUserSeeder extends Seeder
                 'email_verified_at' => Carbon::now(),
             ]
         );
+
+        if (! DB::table('city_user')->where('user_id', $adminUser->id)->whereNull('city_id')->where('role', 'global')->exists()) {
+            DB::table('city_user')->insert([
+                'user_id' => $adminUser->id,
+                'city_id' => null,
+                'role' => 'global',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
 
         $adminRole = Role::query()->updateOrCreate(
             ['slug' => 'admin'],

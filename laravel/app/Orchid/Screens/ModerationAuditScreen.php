@@ -40,16 +40,16 @@ class ModerationAuditScreen extends Screen
     {
         return [
             Layout::table('actions', [
-                TD::make('id', __('ID'))->width('60px'),
+                TD::make('id', __('ID'))->width('60px')->render(fn (ModerationAction $a) => $a->id),
                 TD::make('created_at', __('Date'))->render(fn (ModerationAction $a) => $a->created_at->toDateTimeString()),
-                TD::make('actor_role', __('Actor role')),
+                TD::make('actor_role', __('Actor role'))->render(fn (ModerationAction $a) => $a->actor_role ?? '—'),
                 TD::make('user', __('User'))->render(fn (ModerationAction $a) => $a->user?->name ?? '—'),
-                TD::make('action', __('Action')),
+                TD::make('action', __('Action'))->render(fn (ModerationAction $a) => $a->action ?? '—'),
                 TD::make('subject_type', __('Content type'))->render(fn (ModerationAction $a) => class_basename($a->subject_type)),
-                TD::make('subject_id', __('Content ID'))->width('80px'),
-                TD::make('reason_code', __('Reason')),
-                TD::make('previous_state', __('From'))->width('100px'),
-                TD::make('new_state', __('To'))->width('100px'),
+                TD::make('subject_id', __('Content ID'))->width('80px')->render(fn (ModerationAction $a) => $a->subject_id),
+                TD::make('reason_code', __('Reason'))->render(fn (ModerationAction $a) => $a->reason_code ?? '—'),
+                TD::make('previous_state', __('From'))->width('100px')->render(fn (ModerationAction $a) => $a->previous_state ?? '—'),
+                TD::make('new_state', __('To'))->width('100px')->render(fn (ModerationAction $a) => $a->new_state ?? '—'),
             ])->title(__('Moderation audit log')),
         ];
     }

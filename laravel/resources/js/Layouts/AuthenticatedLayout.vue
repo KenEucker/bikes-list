@@ -1,8 +1,6 @@
 <script setup>
 import { computed } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
-import Dropdown from '@/Components/Dropdown.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
 import ThemeToggle from '@/Components/ThemeToggle.vue';
 import { Link, usePage } from '@inertiajs/vue3';
 
@@ -34,43 +32,16 @@ const logoutUrl = computed(() => urls.value.logout || '/logout');
                     <li class="govuk-header__navigation-item">
                         <ThemeToggle />
                     </li>
+                    <gv-header-navigation-item :href="accountUrl" text="Account" />
                     <li class="govuk-header__navigation-item">
-                        <div class="relative">
-                            <Dropdown align="right" width="48" content-classes="account-dropdown-menu py-1 bg-card border border-border rounded-token-md min-w-[10rem]">
-                                <template #trigger>
-                                    <span class="inline-flex rounded-md">
-                                        <button
-                                            type="button"
-                                            class="govuk-header__link inline-flex items-center gap-1 border-0 bg-transparent font-inherit text-inherit cursor-pointer underline py-2 pr-0 pl-0"
-                                            aria-expanded="false"
-                                            aria-haspopup="true"
-                                        >
-                                            Account
-                                            <svg
-                                                class="-me-0.5 ms-2 h-4 w-4"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20"
-                                                fill="currentColor"
-                                            >
-                                                <path
-                                                    fill-rule="evenodd"
-                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                    clip-rule="evenodd"
-                                                />
-                                            </svg>
-                                        </button>
-                                    </span>
-                                </template>
-                                <template #content>
-                                    <DropdownLink :href="accountUrl">
-                                        Profile
-                                    </DropdownLink>
-                                    <DropdownLink :href="logoutUrl" method="post" as="button">
-                                        Log Out
-                                    </DropdownLink>
-                                </template>
-                            </Dropdown>
-                        </div>
+                        <Link
+                            :href="logoutUrl"
+                            method="post"
+                            as="button"
+                            class="govuk-header__link border-0 bg-transparent font-inherit text-inherit cursor-pointer py-2"
+                        >
+                            Sign out
+                        </Link>
                     </li>
                 </template>
             </gv-header>

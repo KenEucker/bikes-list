@@ -28,8 +28,8 @@ $cityRoutes = function () {
     Route::get('/search', [SearchController::class, 'index'])->name('city.search');
 
     Route::get('/for-sale', [SaleController::class, 'index'])->name('city.sales.index');
-    Route::get('/for-sale/new', [SaleController::class, 'create'])->name('city.sales.create')->middleware(['auth', 'verified']);
-    Route::post('/for-sale', [SaleController::class, 'store'])->name('city.sales.store')->middleware(['auth', 'verified']);
+    Route::get('/for-sale/new', [SaleController::class, 'create'])->name('city.sales.create');
+    Route::post('/for-sale', [SaleController::class, 'store'])->name('city.sales.store');
     Route::get('/for-sale/{sale}', [SaleController::class, 'show'])->name('city.sales.show');
     Route::get('/for-sale/{sale}/edit', [SaleController::class, 'edit'])->name('city.sales.edit')->middleware(['auth', 'verified']);
     Route::put('/for-sale/{sale}', [SaleController::class, 'update'])->name('city.sales.update')->middleware(['auth', 'verified']);

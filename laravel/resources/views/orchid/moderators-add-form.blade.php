@@ -18,14 +18,14 @@
             <option value="global">{{ __('Global moderator (all cities)') }}</option>
         </select>
     </div>
-    <div class="col-auto" id="moderator_city_wrap">
+    <div class="col-12" id="moderator_city_wrap">
         <label class="form-label">{{ __('Cities') }}</label>
         <div id="moderator_city_pills" class="d-flex flex-wrap gap-1 mb-2 min-height-pills" style="min-height: 2rem;"></div>
         <div class="dropdown moderator-city-dropdown">
             <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" id="moderator_city_toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 {{ __('Select cities…') }}
             </button>
-            <ul class="dropdown-menu moderator-city-menu px-2" style="max-height: 20rem; overflow: hidden; display: flex; flex-direction: column;">
+            <ul class="dropdown-menu moderator-city-menu px-2" style="max-height: 20rem; overflow: hidden;">
                 <li class="dropdown-item-text py-2 sticky-top bg-body border-bottom moderator-city-search-wrap">
                     <input type="text" class="form-control form-control-sm" id="moderator_city_search" placeholder="{{ __('Search cities…') }}" autocomplete="off">
                 </li>
@@ -44,12 +44,20 @@
             </ul>
         </div>
     </div>
-    <div class="col-auto">
+    <div class="col-12">
         <button type="button" id="moderator_submit_btn" class="btn btn-primary">{{ __('Add moderator') }}</button>
     </div>
 </div>
 
 <style>
+.moderator-city-dropdown .dropdown-menu.moderator-city-menu {
+    display: none;
+    flex-direction: column;
+}
+.moderator-city-dropdown.show .dropdown-menu.moderator-city-menu,
+.moderator-city-dropdown.moderator-city-open .dropdown-menu.moderator-city-menu {
+    display: flex !important;
+}
 .moderator-city-menu .dropdown-item-text { cursor: default; }
 .moderator-city-menu .form-check-input { cursor: pointer; }
 .moderator-city-pill { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.2rem 0.5rem; font-size: 0.875rem; background: var(--bs-secondary-bg, #e9ecef); border-radius: 9999px; }
@@ -130,8 +138,34 @@
         toggleCity();
     }
 
+    var dropdownEl = document.querySelector('.moderator-city-dropdown');
     var cityMenu = document.querySelector('.moderator-city-menu');
+
+    function closeCityDropdown() {
+        if (dropdownEl) dropdownEl.classList.remove('moderator-city-open', 'show');
+    }
+    function toggleCityDropdown() {
+        if (!dropdownEl) return;
+        dropdownEl.classList.toggle('moderator-city-open');
+        dropdownEl.classList.toggle('show');
+    }
+    if (cityToggle && dropdownEl) {
+        cityToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var wasOpen = dropdownEl.classList.contains('moderator-city-open');
+            toggleCityDropdown();
+            if (!wasOpen && dropdownEl.classList.contains('moderator-city-open')) {
+                if (citySearch) {
+                    citySearch.value = '';
+                    filterCityRows();
+                    citySearch.focus();
+                }
+            }
+        });
+    }
     if (cityMenu) cityMenu.addEventListener('click', function(e) { e.stopPropagation(); });
+    document.addEventListener('click', function() { closeCityDropdown(); });
 
     var citySearch = document.getElementById('moderator_city_search');
     var cityList = document.getElementById('moderator_city_list');
@@ -147,14 +181,6 @@
     if (citySearch) {
         citySearch.addEventListener('input', filterCityRows);
         citySearch.addEventListener('keydown', function(e) { e.stopPropagation(); });
-    }
-    var dropdownEl = document.querySelector('.moderator-city-dropdown');
-    if (dropdownEl && citySearch) {
-        dropdownEl.addEventListener('shown.bs.dropdown', function() {
-            citySearch.value = '';
-            filterCityRows();
-            citySearch.focus();
-        });
     }
 
     function ensureIframe() {

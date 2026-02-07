@@ -70,11 +70,19 @@ class SaleController extends Controller
             $relayAddress = 'sale-' . $sale->id . '-' . $sale->relayAddress->token . '@' . $relayDomain;
         }
 
+        $bikeIndexBase = rtrim(config('bikeslist.bike_index_search_url'), '/');
+        $bikeIndexUrl = $bikeIndexBase . '/registrations?' . self::bikeIndexSearchParams($sale, $city);
+
+        $serialNumberDisplay = ($sale->serial_number && filter_var($sale->serial_private, FILTER_VALIDATE_BOOLEAN) === false)
+            ? $sale->serial_number
+            : null;
+
         return Inertia::render('Sales/Show', [
             'city' => $city,
             'sale' => $sale,
+            'serial_number_display' => $serialNumberDisplay,
             'relayEmailAddress' => $relayAddress,
-            'bikeIndexUrl' => config('bikeslist.bike_index_search_url'),
+            'bikeIndexUrl' => $bikeIndexUrl,
             'saleTypes' => config('sale_types'),
             'homeUrl' => config('app.url'),
             'cityBaseUrl' => $cityBaseUrl,
@@ -87,12 +95,15 @@ class SaleController extends Controller
         Gate::authorize('create', Sale::class);
 
         $user = $request->user();
-        $managedPages = $user->managedCommunityPages()->where('community_pages.city_id', $city->id)->where('community_pages.state', 'approved')->get();
+        $managedPages = $user
+            ? $user->managedCommunityPages()->where('community_pages.city_id', $city->id)->where('community_pages.state', 'approved')->get()
+            : [];
         $cityBaseUrl = self::cityBaseUrl($request, $citySlug);
 
         $saleTypes = config('sale_types');
         $conditions = $saleTypes['conditions'] ?? [];
-        unset($saleTypes['conditions']);
+        $fullBicycleOptions = $saleTypes['full_bicycle_options'] ?? [];
+        unset($saleTypes['conditions'], $saleTypes['full_bicycle_options']);
         $errors = $request->session()->get('errors');
         $errorBag = $errors && $errors->hasBag('default') ? $errors->getBag('default')->toArray() : [];
 
@@ -100,7 +111,9 @@ class SaleController extends Controller
             'city' => $city,
             'saleTypes' => $saleTypes,
             'conditions' => $conditions,
+            'fullBicycleOptions' => $fullBicycleOptions,
             'managedCommunityPages' => $managedPages,
+            'authUser' => $user ? ['id' => $user->id, 'email' => $user->email] : null,
             'homeUrl' => config('app.url'),
             'cityBaseUrl' => $cityBaseUrl,
             'errors' => $errorBag,
@@ -113,12 +126,13 @@ class SaleController extends Controller
         $city = City::query()->where('slug', $citySlug)->firstOrFail();
         Gate::authorize('create', Sale::class);
 
+        $user = $request->user();
         $request->merge([
             'community_page_id' => in_array($request->input('community_page_id'), [null, '', 'null'], true) ? null : $request->input('community_page_id'),
             'price' => in_array($request->input('price'), [null, '', 'null'], true) ? null : $request->input('price'),
         ]);
 
-        $validated = $request->validate([
+        $rules = [
             'title' => ['required', 'string', 'min:6', 'max:80'],
             'description' => ['required', 'string', 'min:20'],
             'type' => ['required', 'string', 'in:full_bicycle,parts,clothing,miscellaneous'],
@@ -131,14 +145,34 @@ class SaleController extends Controller
             'serial_private' => ['boolean'],
             'upload_ids' => ['nullable', 'array'],
             'upload_ids.*' => ['uuid', 'exists:uploads,id'],
-        ]);
+        ];
+
+        if (! $user) {
+            $rules['contact_email'] = ['required', 'email'];
+        }
+
+        if ($request->input('type') === 'full_bicycle') {
+            $rules['frame_size'] = ['nullable', 'string', 'max:50'];
+            $rules['make'] = ['nullable', 'string', 'max:100'];
+            $rules['model'] = ['nullable', 'string', 'max:100'];
+            $rules['bicycle_type'] = ['nullable', 'string', 'max:50'];
+            $rules['wheel_size'] = ['nullable', 'string', 'max:20'];
+            $rules['frame_material'] = ['nullable', 'string', 'max:50'];
+            $rules['suspension'] = ['nullable', 'string', 'max:50'];
+            $rules['handlebar_type'] = ['nullable', 'string', 'max:50'];
+            $rules['electric_assist'] = ['nullable', 'string', 'max:50'];
+        }
+
+        $validated = $request->validate($rules);
 
         $validated['city_id'] = $city->id;
-        $validated['user_id'] = $request->user()->id;
+        $validated['user_id'] = $user?->id;
+        $validated['contact_email'] = $user ? $user->email : $request->input('contact_email');
         $validated['state'] = ($request->boolean('submit_for_review')) ? Sale::STATE_PENDING_REVIEW : Sale::STATE_DRAFT;
-        $validated['serial_private'] = $request->boolean('serial_private', true);
-        if (isset($validated['community_page_id']) && $validated['community_page_id']) {
-            if (!$request->user()->managedCommunityPages()->where('community_pages.id', $validated['community_page_id'])->exists()) {
+        $validated['serial_private'] = filter_var($request->input('serial_private', true), FILTER_VALIDATE_BOOLEAN);
+
+        if ($user && isset($validated['community_page_id']) && $validated['community_page_id']) {
+            if (! $user->managedCommunityPages()->where('community_pages.id', $validated['community_page_id'])->exists()) {
                 abort(403);
             }
         } else {
@@ -147,7 +181,12 @@ class SaleController extends Controller
 
         $sale = Sale::create($validated);
 
-        $this->syncSaleUploads($sale, $request->input('upload_ids', []), $request->user()->id);
+        if ($user) {
+            $this->syncSaleUploads($sale, $request->input('upload_ids', []), $user->id);
+        } else {
+            $request->session()->push('guest_created_sale_ids', $sale->id);
+            $request->session()->put('guest_created_sale_ids', array_slice($request->session()->get('guest_created_sale_ids', []), -20));
+        }
 
         $status = $sale->state === Sale::STATE_PENDING_REVIEW
             ? 'Sale submitted for review. It will be published automatically if not reviewed by a moderator.'
@@ -173,13 +212,15 @@ class SaleController extends Controller
         $cityBaseUrl = self::cityBaseUrl(request(), $citySlug);
         $saleTypes = config('sale_types');
         $conditions = $saleTypes['conditions'] ?? [];
-        unset($saleTypes['conditions']);
+        $fullBicycleOptions = $saleTypes['full_bicycle_options'] ?? [];
+        unset($saleTypes['conditions'], $saleTypes['full_bicycle_options']);
 
         return Inertia::render('Sales/Edit', [
             'city' => $city,
             'sale' => $sale,
             'saleTypes' => $saleTypes,
             'conditions' => $conditions,
+            'fullBicycleOptions' => $fullBicycleOptions,
             'managedCommunityPages' => $managedPages,
             'homeUrl' => config('app.url'),
             'cityBaseUrl' => $cityBaseUrl,
@@ -194,7 +235,7 @@ class SaleController extends Controller
         }
         Gate::authorize('update', $sale);
 
-        $validated = $request->validate([
+        $updateRules = [
             'title' => ['required', 'string', 'min:6', 'max:80'],
             'description' => ['required', 'string', 'min:20'],
             'type' => ['required', 'string', 'in:full_bicycle,parts,clothing,miscellaneous'],
@@ -207,7 +248,19 @@ class SaleController extends Controller
             'serial_private' => ['boolean'],
             'upload_ids' => ['nullable', 'array'],
             'upload_ids.*' => ['uuid', 'exists:uploads,id'],
-        ]);
+        ];
+        if ($request->input('type') === 'full_bicycle') {
+            $updateRules['frame_size'] = ['nullable', 'string', 'max:50'];
+            $updateRules['make'] = ['nullable', 'string', 'max:100'];
+            $updateRules['model'] = ['nullable', 'string', 'max:100'];
+            $updateRules['bicycle_type'] = ['nullable', 'string', 'max:50'];
+            $updateRules['wheel_size'] = ['nullable', 'string', 'max:20'];
+            $updateRules['frame_material'] = ['nullable', 'string', 'max:50'];
+            $updateRules['suspension'] = ['nullable', 'string', 'max:50'];
+            $updateRules['handlebar_type'] = ['nullable', 'string', 'max:50'];
+            $updateRules['electric_assist'] = ['nullable', 'string', 'max:50'];
+        }
+        $validated = $request->validate($updateRules);
 
         if (isset($validated['community_page_id']) && $validated['community_page_id']) {
             if (! $request->user()->managedCommunityPages()->where('community_pages.id', $validated['community_page_id'])->exists()) {
@@ -217,7 +270,7 @@ class SaleController extends Controller
             $validated['community_page_id'] = null;
         }
 
-        $validated['serial_private'] = $request->boolean('serial_private', true);
+        $validated['serial_private'] = filter_var($request->input('serial_private', true), FILTER_VALIDATE_BOOLEAN);
         $sale->update($validated);
 
         $this->syncSaleUploads($sale, $request->input('upload_ids', []), $request->user()->id);
@@ -302,5 +355,35 @@ class SaleController extends Controller
         Upload::query()
             ->whereIn('id', $allowed)
             ->update(['resource_type' => 'sales', 'resource_id' => (string) $sale->id]);
+    }
+
+    /**
+     * Build Bike Index registrations search query string (serial, location, query_items, distance, stolenness).
+     */
+    private static function bikeIndexSearchParams(Sale $sale, City $city): string
+    {
+        $opts = config('sale_types.full_bicycle_options', []);
+        $params = [
+            'distance' => '100',
+            'stolenness' => 'proximity',
+            'serial' => '',
+            'location' => '',
+            'query_items' => '',
+        ];
+
+        if ($sale->serial_number && ! $sale->serial_private) {
+            $params['serial'] = $sale->serial_number;
+        }
+
+        $params['location'] = trim((string) ($city->name ?? ''));
+
+        $queryParts = array_filter([
+            $sale->make,
+            $sale->model,
+            $sale->bicycle_type ? ($opts['bicycle_type'][$sale->bicycle_type] ?? $sale->bicycle_type) : null,
+        ]);
+        $params['query_items'] = implode(' ', $queryParts);
+
+        return http_build_query($params);
     }
 }

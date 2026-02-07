@@ -311,6 +311,19 @@ button:focus-visible,
     color: rgb(var(--muted));
 }
 
+/* Summary list (e.g. posting details on sale page) – dark mode */
+[data-theme="dark"] .govuk-summary-list,
+[data-theme="dark"] .govuk-summary-list__row,
+[data-theme="dark"] .govuk-summary-list__key,
+[data-theme="dark"] .govuk-summary-list__value,
+[data-theme="dark"] .govuk-summary-list__actions {
+    color: rgb(var(--fg));
+    border-color: rgb(var(--border));
+}
+[data-theme="dark"] .govuk-summary-list__key {
+    color: rgb(var(--muted));
+}
+
 /* Footer logo: invert in dark mode */
 [data-theme="dark"] .govuk-footer img {
     filter: invert(1);
@@ -358,17 +371,48 @@ button:focus-visible,
     color: rgb(var(--muted));
 }
 
-/* Notification banners: dark mode – Success and Pending review */
+/* Pending review banner: explicit light mode (amber background, dark text). Applies when theme is light or not set. */
+html:not([data-theme="dark"]) .pending-review-banner {
+    border-color: #fde68a !important;
+    background-color: #fffbeb !important;
+}
+html:not([data-theme="dark"]) .pending-review-banner .govuk-notification-banner__content,
+html:not([data-theme="dark"]) .pending-review-banner .govuk-notification-banner__content-inner,
+html:not([data-theme="dark"]) .pending-review-banner [class*="banner__content"],
+html:not([data-theme="dark"]) .pending-review-banner div,
+html:not([data-theme="dark"]) .pending-review-banner section {
+    background-color: transparent !important;
+}
+html:not([data-theme="dark"]) .pending-review-banner .govuk-body,
+html:not([data-theme="dark"]) .pending-review-banner [class*="banner__title"],
+html:not([data-theme="dark"]) .pending-review-banner [class*="banner__heading"],
+html:not([data-theme="dark"]) .pending-review-banner [class*="banner__content"],
+html:not([data-theme="dark"]) .pending-review-banner [class*="banner__content"] *,
+html:not([data-theme="dark"]) .pending-review-banner p {
+    color: #1f2937 !important;
+}
+
+/* Notification banners: dark mode – Success, Error, Pending review */
 [data-theme="dark"] .govuk-notification-banner {
     border-color: rgb(var(--border));
     background-color: rgb(var(--card));
 }
 
+/* Force dark background on all inner banner sections (GOV.UK often sets white on __content) */
+[data-theme="dark"] .govuk-notification-banner__content,
+[data-theme="dark"] .govuk-notification-banner__content .govuk-notification-banner__content-inner,
+[data-theme="dark"] .govuk-notification-banner .govuk-notification-banner__content-inner,
+[data-theme="dark"] .govuk-notification-banner .govuk-notification-banner__content div,
+[data-theme="dark"] .govuk-notification-banner .govuk-notification-banner__content section {
+    background-color: transparent !important;
+}
+
 [data-theme="dark"] .govuk-notification-banner__title,
 [data-theme="dark"] .govuk-notification-banner__heading,
 [data-theme="dark"] .govuk-notification-banner__content,
-[data-theme="dark"] .govuk-notification-banner__content .govuk-body {
-    color: rgb(var(--fg));
+[data-theme="dark"] .govuk-notification-banner__content .govuk-body,
+[data-theme="dark"] .govuk-notification-banner__content p {
+    color: rgb(var(--fg)) !important;
 }
 
 [data-theme="dark"] .govuk-notification-banner--success {
@@ -384,6 +428,19 @@ button:focus-visible,
     color: rgb(187, 247, 208);
 }
 
+/* Error banner in dark mode */
+[data-theme="dark"] .govuk-notification-banner--error {
+    border-left-color: rgb(239, 68, 68);
+    background-color: rgba(127, 29, 29, 0.35);
+}
+
+[data-theme="dark"] .govuk-notification-banner--error .govuk-notification-banner__title,
+[data-theme="dark"] .govuk-notification-banner--error .govuk-notification-banner__heading,
+[data-theme="dark"] .govuk-notification-banner--error .govuk-notification-banner__content,
+[data-theme="dark"] .govuk-notification-banner--error .govuk-notification-banner__content .govuk-body {
+    color: rgb(var(--fg)) !important;
+}
+
 /* Warning / Pending review banner in dark mode */
 [data-theme="dark"] .govuk-notification-banner[class*="amber"],
 [data-theme="dark"] .govuk-notification-banner--warning {
@@ -391,15 +448,32 @@ button:focus-visible,
     background-color: rgba(120, 53, 15, 0.25);
 }
 
+[data-theme="dark"] .govuk-notification-banner[class*="amber"] .govuk-body,
+[data-theme="dark"] .govuk-notification-banner--warning .govuk-body,
+[data-theme="dark"] .govuk-notification-banner[class*="amber"] [class*="banner__"],
+[data-theme="dark"] .govuk-notification-banner--warning [class*="banner__"] {
+    color: rgb(var(--fg)) !important;
+}
+
 /* Pending review banner: ensure dark mode when using data-theme (class .pending-review-banner) */
 [data-theme="dark"] .pending-review-banner {
     border-color: rgb(var(--border)) !important;
     border-left-color: #fbbf24 !important;
-    background-color: rgba(120, 53, 15, 0.35) !important;
+    background-color: rgba(120, 53, 15, 0.5) !important;
+}
+/* Remove white background from any inner wrapper (GOV.UK / govuk-vue often adds it) */
+[data-theme="dark"] .pending-review-banner .govuk-notification-banner__content,
+[data-theme="dark"] .pending-review-banner .govuk-notification-banner__content-inner,
+[data-theme="dark"] .pending-review-banner [class*="banner__content"],
+[data-theme="dark"] .pending-review-banner div,
+[data-theme="dark"] .pending-review-banner section {
+    background-color: transparent !important;
 }
 [data-theme="dark"] .pending-review-banner .govuk-body,
 [data-theme="dark"] .pending-review-banner [class*="banner__title"],
 [data-theme="dark"] .pending-review-banner [class*="banner__heading"],
-[data-theme="dark"] .pending-review-banner [class*="banner__content"] {
+[data-theme="dark"] .pending-review-banner [class*="banner__content"],
+[data-theme="dark"] .pending-review-banner [class*="banner__content"] *,
+[data-theme="dark"] .pending-review-banner p {
     color: rgb(var(--fg)) !important;
 }

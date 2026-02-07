@@ -116,7 +116,7 @@ function saleThumbUrl(sale) {
 
             <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
                 <h1 class="govuk-heading-l">For Sale</h1>
-                <Link v-if="$page.props.auth?.user" :href="`${cityBaseUrl}/for-sale/new`" class="govuk-button" role="button">Add new sale</Link>
+                <Link :href="`${cityBaseUrl}/for-sale/new`" class="govuk-button" role="button">Add new sale</Link>
             </div>
             <ul class="govuk-list govuk-!-margin-top-4 divide-y divide-border border-t border-border">
                 <li v-for="sale in sales.data" :key="sale.id" class="py-3">

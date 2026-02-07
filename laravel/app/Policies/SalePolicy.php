@@ -17,6 +17,10 @@ class SalePolicy
         if ($sale->state === Sale::STATE_PUBLISHED || $sale->state === Sale::STATE_SOLD) {
             return true;
         }
+        // Guest-created draft: allow if session tracks this sale
+        if (! $user && ! $sale->user_id && in_array($sale->id, request()->session()->get('guest_created_sale_ids', []))) {
+            return true;
+        }
         if (! $user) {
             return false;
         }
@@ -29,13 +33,16 @@ class SalePolicy
         return $user->moderatedCities()->where('cities.id', $sale->city_id)->exists();
     }
 
-    public function create(User $user): bool
+    public function create(?User $user): bool
     {
-        return true;
+        return true; // Guests can create with email; logged-in users can create as usual
     }
 
-    public function update(User $user, Sale $sale): bool
+    public function update(?User $user, Sale $sale): bool
     {
+        if (! $user) {
+            return false;
+        }
         if ($user->id === $sale->user_id) {
             return true;
         }

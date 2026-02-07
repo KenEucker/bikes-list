@@ -8,7 +8,9 @@ defineProps({
     city: { type: Object, required: true },
     saleTypes: { type: Object, required: true },
     conditions: { type: Object, default: () => ({}) },
+    fullBicycleOptions: { type: Object, default: () => ({}) },
     managedCommunityPages: { type: Array, default: () => [] },
+    authUser: { type: Object, default: null },
     cityBaseUrl: { type: String, required: true },
     errors: { type: Object, default: () => ({}) },
     old: { type: Object, default: () => ({}) },
@@ -36,7 +38,9 @@ const submitting = ref(false);
             :sale="null"
             :sale-types="saleTypes"
             :conditions="conditions"
+            :full-bicycle-options="fullBicycleOptions"
             :managed-community-pages="managedCommunityPages"
+            :auth-user="authUser"
             :city-base-url="cityBaseUrl"
             :old="old"
             @update:processing="submitting = $event"
