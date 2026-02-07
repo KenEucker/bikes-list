@@ -152,6 +152,9 @@ class RideController extends Controller
         $data['state'] = Ride::STATE_PENDING_REVIEW;
         $data['submitted_at'] = now();
         $ride = Ride::create($data);
+
+        RideCreated::dispatch($ride);
+
         foreach ($request->input('guideline_ids', []) as $guidelineId) {
             RideGuidelineAcceptance::create([
                 'ride_id' => $ride->id,

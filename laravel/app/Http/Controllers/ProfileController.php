@@ -24,11 +24,22 @@ class ProfileController extends Controller
         $city = $citySlug ? City::query()->where('slug', $citySlug)->first() : null;
         $cityBaseUrl = $city ? self::cityBaseUrl($request, $city->slug) : null;
 
+        $user = $request->user();
+        $socialAccounts = $user->socialAccounts()->get(['id', 'provider', 'provider_email', 'avatar_url']);
+        $linkedProviders = $user->linkedProviders()->all();
+        $hasPassword = $user->password !== null && $user->password !== '';
+        $canDisconnectSocial = $socialAccounts->count() > 1 || $hasPassword;
+
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
+            'error' => session('error'),
             'city' => $city,
             'cityBaseUrl' => $cityBaseUrl,
+            'socialAccounts' => $socialAccounts,
+            'linkedProviders' => $linkedProviders,
+            'supportedSocialProviders' => ['google', 'discord'],
+            'canDisconnectSocial' => $canDisconnectSocial,
         ]);
     }
 

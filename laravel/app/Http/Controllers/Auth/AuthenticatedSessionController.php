@@ -22,6 +22,7 @@ class AuthenticatedSessionController extends Controller
         return Inertia::render('Auth/Login', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
+            'error' => session('error'),
             'submitUrl' => $base . (request()->is('account/*') ? '/account/sign-in' : '/login'),
             'signUpUrl' => $base . (request()->is('account/*') ? '/account/sign-up' : '/register'),
             'passwordRequestUrl' => $base . '/forgot-password',

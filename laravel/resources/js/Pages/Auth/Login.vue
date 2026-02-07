@@ -1,14 +1,22 @@
 <script setup>
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 
 const props = defineProps({
     canResetPassword: { type: Boolean },
     status: { type: String },
+    error: { type: String },
     submitUrl: { type: String, default: '' },
     signUpUrl: { type: String, default: '' },
     passwordRequestUrl: { type: String, default: '' },
+    authGoogleRedirect: { type: String, default: '' },
+    authDiscordRedirect: { type: String, default: '' },
 });
+
+const page = usePage();
+const authGoogleRedirectUrl = () => props.authGoogleRedirect || page.props.urls?.authGoogleRedirect || '';
+const authDiscordRedirectUrl = () => props.authDiscordRedirect || page.props.urls?.authDiscordRedirect || '';
+const showSocialLogin = () => authGoogleRedirectUrl() || authDiscordRedirectUrl();
 
 const form = useForm({
     email: '',
@@ -33,6 +41,32 @@ const hasErrors = () => Object.keys(form.errors).length > 0;
         <gv-notification-banner v-if="status" type="success" title="Success">
             <p class="govuk-body">{{ status }}</p>
         </gv-notification-banner>
+        <gv-notification-banner v-if="error" type="error" title="Error">
+            <p class="govuk-body">{{ error }}</p>
+        </gv-notification-banner>
+
+        <div v-if="showSocialLogin()" class="govuk-!-margin-bottom-6">
+            <p class="govuk-body govuk-!-margin-bottom-3">Continue with:</p>
+            <div class="govuk-button-group">
+                <a
+                    v-if="authGoogleRedirectUrl()"
+                    :href="authGoogleRedirectUrl()"
+                    class="govuk-button govuk-button--secondary"
+                    style="background-color: #fff; color: #1f1f1f; border: 1px solid #1f1f1f;"
+                >
+                    Google
+                </a>
+                <a
+                    v-if="authDiscordRedirectUrl()"
+                    :href="authDiscordRedirectUrl()"
+                    class="govuk-button govuk-button--secondary"
+                    style="background-color: #5865f2; color: #fff; border: 1px solid #5865f2;"
+                >
+                    Discord
+                </a>
+            </div>
+            <p class="govuk-body govuk-!-margin-top-4 govuk-!-margin-bottom-0" style="color: #505a5f;">or</p>
+        </div>
 
         <form @submit.prevent="submit">
             <gv-error-summary v-if="hasErrors()" title="There is a problem">

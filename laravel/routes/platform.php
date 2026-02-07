@@ -28,6 +28,9 @@ use App\Orchid\Screens\Upload\BucketStatusScreen;
 use App\Orchid\Screens\Upload\UploadDetailScreen;
 use App\Orchid\Screens\Upload\UploadListScreen;
 use App\Orchid\Screens\User\UserEditScreen;
+use App\Orchid\Screens\Webhook\WebhookDeliveryListScreen;
+use App\Orchid\Screens\Webhook\WebhookEndpointEditScreen;
+use App\Orchid\Screens\Webhook\WebhookEndpointListScreen;
 use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\User\UserProfileScreen;
 use Illuminate\Support\Facades\Route;
@@ -243,3 +246,28 @@ Route::screen('uploads/{upload}', UploadDetailScreen::class)
     ->breadcrumbs(fn (Trail $trail, $upload) => $trail
         ->parent('platform.uploads.list')
         ->push($upload->id ?? __('Upload'), route('platform.uploads.detail', $upload)));
+
+// Webhooks
+Route::screen('webhooks', WebhookEndpointListScreen::class)
+    ->name('platform.systems.webhooks')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push(__('Webhooks'), route('platform.systems.webhooks')));
+
+Route::screen('webhooks/create', WebhookEndpointEditScreen::class)
+    ->name('platform.systems.webhooks.create')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.systems.webhooks')
+        ->push(__('Create'), route('platform.systems.webhooks.create')));
+
+Route::screen('webhooks/{endpoint}/edit', WebhookEndpointEditScreen::class)
+    ->name('platform.systems.webhooks.edit')
+    ->breadcrumbs(fn (Trail $trail, $endpoint) => $trail
+        ->parent('platform.systems.webhooks')
+        ->push(__('Edit'), route('platform.systems.webhooks.edit', $endpoint)));
+
+Route::screen('webhooks/{endpoint}/deliveries', WebhookDeliveryListScreen::class)
+    ->name('platform.systems.webhooks.deliveries')
+    ->breadcrumbs(fn (Trail $trail, $endpoint) => $trail
+        ->parent('platform.systems.webhooks')
+        ->push(__('Deliveries'), route('platform.systems.webhooks.deliveries', $endpoint)));

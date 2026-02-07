@@ -98,11 +98,13 @@ Route::get('/privacy', [LegalController::class, 'privacy'])->name('privacy');
 
 require __DIR__ . '/account.php';
 
-Route::get('/auth/google/callback', function () {
-    return redirect('/')->with('status', 'Google login not configured.');
-})->name('auth.google.callback');
-Route::get('/auth/discord/callback', function () {
-    return redirect('/')->with('status', 'Discord login not configured.');
-})->name('auth.discord.callback');
+Route::middleware('guest')->group(function () {
+    Route::get('/auth/{provider}/redirect', [\App\Http\Controllers\Auth\SocialLoginController::class, 'redirect'])
+        ->where('provider', 'google|discord')
+        ->name('auth.social.redirect');
+});
+Route::get('/auth/{provider}/callback', [\App\Http\Controllers\Auth\SocialLoginController::class, 'callback'])
+    ->where('provider', 'google|discord')
+    ->name('auth.social.callback');
 
 require __DIR__ . '/auth.php';

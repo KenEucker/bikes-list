@@ -4,13 +4,16 @@ import CityLayout from '@/Layouts/CityLayout.vue';
 import DeleteUserForm from './Partials/DeleteUserForm.vue';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
-import { Head, Link, usePage } from '@inertiajs/vue3';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
 
-defineProps({
+const props = defineProps({
     mustVerifyEmail: {
         type: Boolean,
     },
     status: {
+        type: String,
+    },
+    error: {
         type: String,
     },
     city: {
@@ -21,11 +24,46 @@ defineProps({
         type: String,
         default: null,
     },
+    socialAccounts: {
+        type: Array,
+        default: () => [],
+    },
+    linkedProviders: {
+        type: Array,
+        default: () => [],
+    },
+    supportedSocialProviders: {
+        type: Array,
+        default: () => ['google', 'discord'],
+    },
+    canDisconnectSocial: {
+        type: Boolean,
+        default: false,
+    },
 });
 
-const savedSearchesUrl = usePage().props.urls?.savedSearches || '#';
+const page = usePage();
+const savedSearchesUrl = page.props.urls?.savedSearches || '#';
+const authSocialDisconnectBase = page.props.urls?.authSocialDisconnect || '/account/settings/social';
+const authGoogleRedirect = page.props.urls?.authGoogleRedirect || '';
+const authDiscordRedirect = page.props.urls?.authDiscordRedirect || '';
 
-const useCityLayout = (props) => props.city && props.cityBaseUrl;
+const useCityLayout = (p) => p.city && p.cityBaseUrl;
+
+const socialRedirectUrl = (provider) => {
+    if (provider === 'google') return authGoogleRedirect;
+    if (provider === 'discord') return authDiscordRedirect;
+    return '#';
+};
+
+const disconnectUrl = (provider) => `${authSocialDisconnectBase}/${provider}/disconnect`;
+
+const disconnect = (provider) => {
+    router.post(disconnectUrl(provider), {}, { preserveScroll: true });
+};
+
+const isLinked = (provider) => props.linkedProviders.includes(provider);
+const socialAccountFor = (provider) => props.socialAccounts.find((a) => a.provider === provider);
 </script>
 
 <template>
@@ -40,12 +78,58 @@ const useCityLayout = (props) => props.city && props.cityBaseUrl;
         <div class="py-12">
             <div class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
                 <h1 class="govuk-heading-l">Account settings</h1>
+                <gv-notification-banner v-if="error" type="error" title="Error" class="mb-4">
+                    <p class="govuk-body">{{ error }}</p>
+                </gv-notification-banner>
                 <div class="bg-card border border-border p-4 shadow sm:rounded-lg sm:p-8">
                     <UpdateProfileInformationForm
                         :must-verify-email="mustVerifyEmail"
                         :status="status"
                         class="max-w-xl"
                     />
+                </div>
+
+                <div class="bg-card border border-border p-4 shadow sm:rounded-lg sm:p-8">
+                    <h3 class="text-lg font-medium text-fg">Connected accounts</h3>
+                    <p class="mt-1 text-sm text-muted">Link Google or Discord to sign in with one click.</p>
+                    <div class="mt-4 space-y-4">
+                        <div
+                            v-for="provider in supportedSocialProviders"
+                            :key="provider"
+                            class="flex flex-wrap items-center gap-3 rounded border border-border p-3"
+                        >
+                            <span class="font-medium capitalize">{{ provider }}</span>
+                            <template v-if="isLinked(provider)">
+                                <span v-if="socialAccountFor(provider)?.provider_email" class="text-sm text-muted">
+                                    {{ socialAccountFor(provider).provider_email }}
+                                </span>
+                                <img
+                                    v-if="socialAccountFor(provider)?.avatar_url"
+                                    :src="socialAccountFor(provider).avatar_url"
+                                    :alt="provider"
+                                    class="h-8 w-8 rounded-full"
+                                />
+                                <button
+                                    v-if="canDisconnectSocial"
+                                    type="button"
+                                    class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0"
+                                    @click="disconnect(provider)"
+                                >
+                                    Disconnect
+                                </button>
+                                <span v-else class="text-sm text-amber-600">
+                                    Add a password or another connected account before disconnecting.
+                                </span>
+                            </template>
+                            <a
+                                v-else
+                                :href="socialRedirectUrl(provider)"
+                                class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0"
+                            >
+                                Connect
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="bg-card border border-border p-4 shadow sm:rounded-lg sm:p-8">
@@ -74,12 +158,58 @@ const useCityLayout = (props) => props.city && props.cityBaseUrl;
 
         <div class="py-12">
             <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
+                <gv-notification-banner v-if="error" type="error" title="Error" class="mb-4">
+                    <p class="govuk-body">{{ error }}</p>
+                </gv-notification-banner>
                 <div class="bg-card border border-border p-4 shadow sm:rounded-lg sm:p-8">
                     <UpdateProfileInformationForm
                         :must-verify-email="mustVerifyEmail"
                         :status="status"
                         class="max-w-xl"
                     />
+                </div>
+
+                <div class="bg-card border border-border p-4 shadow sm:rounded-lg sm:p-8">
+                    <h3 class="text-lg font-medium text-fg">Connected accounts</h3>
+                    <p class="mt-1 text-sm text-muted">Link Google or Discord to sign in with one click.</p>
+                    <div class="mt-4 space-y-4">
+                        <div
+                            v-for="provider in supportedSocialProviders"
+                            :key="provider"
+                            class="flex flex-wrap items-center gap-3 rounded border border-border p-3"
+                        >
+                            <span class="font-medium capitalize">{{ provider }}</span>
+                            <template v-if="isLinked(provider)">
+                                <span v-if="socialAccountFor(provider)?.provider_email" class="text-sm text-muted">
+                                    {{ socialAccountFor(provider).provider_email }}
+                                </span>
+                                <img
+                                    v-if="socialAccountFor(provider)?.avatar_url"
+                                    :src="socialAccountFor(provider).avatar_url"
+                                    :alt="provider"
+                                    class="h-8 w-8 rounded-full"
+                                />
+                                <button
+                                    v-if="canDisconnectSocial"
+                                    type="button"
+                                    class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0"
+                                    @click="disconnect(provider)"
+                                >
+                                    Disconnect
+                                </button>
+                                <span v-else class="text-sm text-amber-600">
+                                    Add a password or another connected account before disconnecting.
+                                </span>
+                            </template>
+                            <a
+                                v-else
+                                :href="socialRedirectUrl(provider)"
+                                class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0"
+                            >
+                                Connect
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="bg-card border border-border p-4 shadow sm:rounded-lg sm:p-8">

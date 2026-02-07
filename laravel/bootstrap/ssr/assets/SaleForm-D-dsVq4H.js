@@ -39,7 +39,7 @@ const _sfc_main = {
       condition: oldInput.condition ?? sale.condition ?? "good",
       location_address: oldInput.location_address ?? sale.location_address ?? "",
       community_page_id: oldInput.community_page_id ?? sale.community_page_id ?? "",
-      contact_email: oldInput.contact_email ?? sale.contact_email ?? loggedInEmail() ?? "",
+      contact_email: oldInput.contact_email ?? sale.contact_email ?? loggedInEmail.value ?? "",
       serial_number: oldInput.serial_number ?? sale.serial_number ?? "",
       /* gv-checkbox is inverted: "checked" = false, "unchecked" = true. So we store the opposite of DB value for display, and flip back on submit. */
       serial_private: (() => {
@@ -153,9 +153,9 @@ const _sfc_main = {
       const _component_gv_select_option = resolveComponent("gv-select-option");
       const _component_gv_input = resolveComponent("gv-input");
       const _component_gv_textarea = resolveComponent("gv-textarea");
-      const _component_gv_button = resolveComponent("gv-button");
       const _component_gv_checkbox = resolveComponent("gv-checkbox");
-      _push(`<form${ssrRenderAttrs(_attrs)} data-v-7138b5b5>`);
+      const _component_gv_button = resolveComponent("gv-button");
+      _push(`<form${ssrRenderAttrs(_attrs)} data-v-a0a2fd55>`);
       if (hasErrors()) {
         _push(ssrRenderComponent(_component_gv_error_summary, { title: "There is a problem" }, {
           default: withCtx((_, _push2, _parent2, _scopeId) => {
@@ -186,7 +186,7 @@ const _sfc_main = {
       } else {
         _push(`<!---->`);
       }
-      _push(`<div class="w-full max-w-5xl sale-form-grid" data-v-7138b5b5><div class="sale-form-col sale-form-col-main" data-v-7138b5b5>`);
+      _push(`<div class="w-full max-w-5xl sale-form-grid" data-v-a0a2fd55><div class="sale-form-col sale-form-col-main" data-v-a0a2fd55>`);
       _push(ssrRenderComponent(_component_gv_accordion, { class: "govuk-!-width-full" }, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
@@ -424,82 +424,27 @@ const _sfc_main = {
                   } else {
                     _push3(`<!---->`);
                   }
-                  _push3(`<div class="govuk-form-group govuk-!-margin-top-4" data-v-7138b5b5${_scopeId2}><label class="govuk-label" for="images" data-v-7138b5b5${_scopeId2}>Images</label><p class="govuk-hint" data-v-7138b5b5${_scopeId2}>JPEG, PNG, WebP or BMP. Max 10MB each. You can add up to several images.</p><input id="images" type="file" accept="image/jpeg,image/png,image/webp,image/bmp" class="govuk-file-upload"${ssrIncludeBooleanAttr(uploadProcessing.value) ? " disabled" : ""} data-v-7138b5b5${_scopeId2}>`);
+                  _push3(`<div class="govuk-form-group govuk-!-margin-top-4" data-v-a0a2fd55${_scopeId2}><label class="govuk-label" for="images" data-v-a0a2fd55${_scopeId2}>Images</label><p class="govuk-hint" data-v-a0a2fd55${_scopeId2}>JPEG, PNG, WebP or BMP. Max 10MB each. You can add up to several images.</p><input id="images" type="file" accept="image/jpeg,image/png,image/webp,image/bmp" class="govuk-file-upload"${ssrIncludeBooleanAttr(uploadProcessing.value) ? " disabled" : ""} data-v-a0a2fd55${_scopeId2}>`);
                   if (uploadError.value) {
-                    _push3(`<p class="govuk-error-message govuk-!-margin-top-2" data-v-7138b5b5${_scopeId2}>${ssrInterpolate(uploadError.value)}</p>`);
+                    _push3(`<p class="govuk-error-message govuk-!-margin-top-2" data-v-a0a2fd55${_scopeId2}>${ssrInterpolate(uploadError.value)}</p>`);
                   } else {
                     _push3(`<!---->`);
                   }
                   if (uploadProcessing.value) {
-                    _push3(`<p class="govuk-body govuk-!-margin-top-2" data-v-7138b5b5${_scopeId2}>Uploading…</p>`);
+                    _push3(`<p class="govuk-body govuk-!-margin-top-2" data-v-a0a2fd55${_scopeId2}>Uploading…</p>`);
                   } else {
                     _push3(`<!---->`);
                   }
                   if (unref(form).upload_ids && unref(form).upload_ids.length) {
-                    _push3(`<ul class="govuk-list govuk-!-margin-top-2" data-v-7138b5b5${_scopeId2}><!--[-->`);
+                    _push3(`<ul class="govuk-list govuk-!-margin-top-2" data-v-a0a2fd55${_scopeId2}><!--[-->`);
                     ssrRenderList(unref(form).upload_ids, (uid, idx) => {
-                      _push3(`<li class="govuk-!-margin-bottom-1" data-v-7138b5b5${_scopeId2}><span class="govuk-body-s" data-v-7138b5b5${_scopeId2}>Image ${ssrInterpolate(idx + 1)}</span><button type="button" class="govuk-link govuk-body-s govuk-!-margin-left-2" data-v-7138b5b5${_scopeId2}> Remove </button></li>`);
+                      _push3(`<li class="govuk-!-margin-bottom-1" data-v-a0a2fd55${_scopeId2}><span class="govuk-body-s" data-v-a0a2fd55${_scopeId2}>Image ${ssrInterpolate(idx + 1)}</span><button type="button" class="govuk-link govuk-body-s govuk-!-margin-left-2" data-v-a0a2fd55${_scopeId2}> Remove </button></li>`);
                     });
                     _push3(`<!--]--></ul>`);
                   } else {
                     _push3(`<!---->`);
                   }
-                  _push3(`</div><div class="govuk-button-group govuk-!-margin-top-6" data-v-7138b5b5${_scopeId2}>`);
-                  if (!isEdit.value) {
-                    _push3(`<!--[-->`);
-                    _push3(ssrRenderComponent(_component_gv_button, {
-                      type: "submit",
-                      variant: "primary",
-                      disabled: unref(form).processing
-                    }, {
-                      default: withCtx((_3, _push4, _parent4, _scopeId3) => {
-                        if (_push4) {
-                          _push4(` Submit for review `);
-                        } else {
-                          return [
-                            createTextVNode(" Submit for review ")
-                          ];
-                        }
-                      }),
-                      _: 1
-                    }, _parent3, _scopeId2));
-                    _push3(ssrRenderComponent(_component_gv_button, {
-                      type: "button",
-                      variant: "secondary",
-                      disabled: unref(form).processing,
-                      onClick: ($event) => submit(false)
-                    }, {
-                      default: withCtx((_3, _push4, _parent4, _scopeId3) => {
-                        if (_push4) {
-                          _push4(` Save draft `);
-                        } else {
-                          return [
-                            createTextVNode(" Save draft ")
-                          ];
-                        }
-                      }),
-                      _: 1
-                    }, _parent3, _scopeId2));
-                    _push3(`<!--]-->`);
-                  } else {
-                    _push3(ssrRenderComponent(_component_gv_button, {
-                      type: "submit",
-                      variant: "primary",
-                      disabled: unref(form).processing
-                    }, {
-                      default: withCtx((_3, _push4, _parent4, _scopeId3) => {
-                        if (_push4) {
-                          _push4(` Save `);
-                        } else {
-                          return [
-                            createTextVNode(" Save ")
-                          ];
-                        }
-                      }),
-                      _: 1
-                    }, _parent3, _scopeId2));
-                  }
-                  _push3(`<a${ssrRenderAttr("href", isEdit.value ? `${__props.cityBaseUrl}/for-sale/${unref(sale).id}` : `${__props.cityBaseUrl}/for-sale`)} class="govuk-link" data-v-7138b5b5${_scopeId2}>Cancel</a></div>`);
+                  _push3(`</div>`);
                 } else {
                   return [
                     createVNode(_component_gv_select, {
@@ -678,45 +623,6 @@ const _sfc_main = {
                           ]);
                         }), 128))
                       ])) : createCommentVNode("", true)
-                    ]),
-                    createVNode("div", { class: "govuk-button-group govuk-!-margin-top-6" }, [
-                      !isEdit.value ? (openBlock(), createBlock(Fragment, { key: 0 }, [
-                        createVNode(_component_gv_button, {
-                          type: "submit",
-                          variant: "primary",
-                          disabled: unref(form).processing
-                        }, {
-                          default: withCtx(() => [
-                            createTextVNode(" Submit for review ")
-                          ]),
-                          _: 1
-                        }, 8, ["disabled"]),
-                        createVNode(_component_gv_button, {
-                          type: "button",
-                          variant: "secondary",
-                          disabled: unref(form).processing,
-                          onClick: ($event) => submit(false)
-                        }, {
-                          default: withCtx(() => [
-                            createTextVNode(" Save draft ")
-                          ]),
-                          _: 1
-                        }, 8, ["disabled", "onClick"])
-                      ], 64)) : (openBlock(), createBlock(_component_gv_button, {
-                        key: 1,
-                        type: "submit",
-                        variant: "primary",
-                        disabled: unref(form).processing
-                      }, {
-                        default: withCtx(() => [
-                          createTextVNode(" Save ")
-                        ]),
-                        _: 1
-                      }, 8, ["disabled"])),
-                      createVNode("a", {
-                        href: isEdit.value ? `${__props.cityBaseUrl}/for-sale/${unref(sale).id}` : `${__props.cityBaseUrl}/for-sale`,
-                        class: "govuk-link"
-                      }, "Cancel", 8, ["href"])
                     ])
                   ];
                 }
@@ -908,45 +814,6 @@ const _sfc_main = {
                         ]);
                       }), 128))
                     ])) : createCommentVNode("", true)
-                  ]),
-                  createVNode("div", { class: "govuk-button-group govuk-!-margin-top-6" }, [
-                    !isEdit.value ? (openBlock(), createBlock(Fragment, { key: 0 }, [
-                      createVNode(_component_gv_button, {
-                        type: "submit",
-                        variant: "primary",
-                        disabled: unref(form).processing
-                      }, {
-                        default: withCtx(() => [
-                          createTextVNode(" Submit for review ")
-                        ]),
-                        _: 1
-                      }, 8, ["disabled"]),
-                      createVNode(_component_gv_button, {
-                        type: "button",
-                        variant: "secondary",
-                        disabled: unref(form).processing,
-                        onClick: ($event) => submit(false)
-                      }, {
-                        default: withCtx(() => [
-                          createTextVNode(" Save draft ")
-                        ]),
-                        _: 1
-                      }, 8, ["disabled", "onClick"])
-                    ], 64)) : (openBlock(), createBlock(_component_gv_button, {
-                      key: 1,
-                      type: "submit",
-                      variant: "primary",
-                      disabled: unref(form).processing
-                    }, {
-                      default: withCtx(() => [
-                        createTextVNode(" Save ")
-                      ]),
-                      _: 1
-                    }, 8, ["disabled"])),
-                    createVNode("a", {
-                      href: isEdit.value ? `${__props.cityBaseUrl}/for-sale/${unref(sale).id}` : `${__props.cityBaseUrl}/for-sale`,
-                      class: "govuk-link"
-                    }, "Cancel", 8, ["href"])
                   ])
                 ]),
                 _: 1
@@ -958,7 +825,7 @@ const _sfc_main = {
       }, _parent));
       _push(`</div>`);
       if (unref(form).type === "full_bicycle") {
-        _push(`<div class="sale-form-col sale-form-col-posting" data-v-7138b5b5>`);
+        _push(`<div class="sale-form-col sale-form-col-posting" data-v-a0a2fd55>`);
         _push(ssrRenderComponent(_component_gv_accordion, { class: "govuk-!-width-full" }, {
           default: withCtx((_, _push2, _parent2, _scopeId) => {
             if (_push2) {
@@ -970,7 +837,7 @@ const _sfc_main = {
               }, {
                 default: withCtx((_2, _push3, _parent3, _scopeId2) => {
                   if (_push3) {
-                    _push3(`<p class="govuk-hint govuk-!-margin-bottom-4" data-v-7138b5b5${_scopeId2}>More information about the bike.</p>`);
+                    _push3(`<p class="govuk-hint govuk-!-margin-bottom-4" data-v-a0a2fd55${_scopeId2}>More information about the bike.</p>`);
                     _push3(ssrRenderComponent(_component_gv_input, {
                       id: "frame_size",
                       modelValue: unref(form).frame_size,
@@ -1871,7 +1738,66 @@ const _sfc_main = {
       } else {
         _push(`<!---->`);
       }
-      _push(`</div></form>`);
+      _push(`</div><div class="sale-form-actions govuk-button-group govuk-!-margin-top-6" data-v-a0a2fd55>`);
+      if (!isEdit.value) {
+        _push(`<!--[-->`);
+        _push(ssrRenderComponent(_component_gv_button, {
+          type: "submit",
+          variant: "primary",
+          disabled: unref(form).processing
+        }, {
+          default: withCtx((_, _push2, _parent2, _scopeId) => {
+            if (_push2) {
+              _push2(` Submit for review `);
+            } else {
+              return [
+                createTextVNode(" Submit for review ")
+              ];
+            }
+          }),
+          _: 1
+        }, _parent));
+        if (isLoggedIn.value) {
+          _push(ssrRenderComponent(_component_gv_button, {
+            type: "button",
+            variant: "secondary",
+            disabled: unref(form).processing,
+            onClick: ($event) => submit(false)
+          }, {
+            default: withCtx((_, _push2, _parent2, _scopeId) => {
+              if (_push2) {
+                _push2(` Save draft `);
+              } else {
+                return [
+                  createTextVNode(" Save draft ")
+                ];
+              }
+            }),
+            _: 1
+          }, _parent));
+        } else {
+          _push(`<!---->`);
+        }
+        _push(`<!--]-->`);
+      } else {
+        _push(ssrRenderComponent(_component_gv_button, {
+          type: "submit",
+          variant: "primary",
+          disabled: unref(form).processing
+        }, {
+          default: withCtx((_, _push2, _parent2, _scopeId) => {
+            if (_push2) {
+              _push2(` Save `);
+            } else {
+              return [
+                createTextVNode(" Save ")
+              ];
+            }
+          }),
+          _: 1
+        }, _parent));
+      }
+      _push(`<a${ssrRenderAttr("href", isEdit.value ? `${__props.cityBaseUrl}/for-sale/${unref(sale).id}` : `${__props.cityBaseUrl}/for-sale`)} class="govuk-link" data-v-a0a2fd55>Cancel</a></div></form>`);
     };
   }
 };
@@ -1881,7 +1807,7 @@ _sfc_main.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("resources/js/Components/Forms/SaleForm.vue");
   return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
 };
-const SaleForm = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-7138b5b5"]]);
+const SaleForm = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-a0a2fd55"]]);
 export {
   SaleForm as S
 };

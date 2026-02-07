@@ -61,6 +61,9 @@ class HandleInertiaRequests extends Middleware
                 'mainSite' => rtrim(config('app.url'), '/') . '/',
                 'terms' => $base . '/terms',
                 'privacy' => $base . '/privacy',
+                'authGoogleRedirect' => $base . '/auth/google/redirect',
+                'authDiscordRedirect' => $base . '/auth/discord/redirect',
+                'authSocialDisconnect' => $base . '/account/settings/social', // append /{provider}/disconnect and POST
             ],
             'dashboardUrl' => $base . '/dashboard',
             'logo' => asset('bikeslist.png'),

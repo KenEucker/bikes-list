@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
@@ -20,6 +21,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'email_verified_at',
         'password',
     ];
 
@@ -120,6 +122,24 @@ class User extends Authenticatable
     public function rides(): HasMany
     {
         return $this->hasMany(Ride::class);
+    }
+
+    public function socialAccounts(): HasMany
+    {
+        return $this->hasMany(SocialAccount::class);
+    }
+
+    /**
+     * @return Collection<int, string>
+     */
+    public function linkedProviders(): Collection
+    {
+        return $this->socialAccounts()->pluck('provider');
+    }
+
+    public function hasSocialAccount(string $provider): bool
+    {
+        return $this->socialAccounts()->where('provider', $provider)->exists();
     }
 
     public function isEstablished(): bool

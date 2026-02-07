@@ -49,12 +49,12 @@
     "/build/assets/RideForm-C1ZYurex.css"
   ],
   "resources/js/Components/Forms/SaleForm.vue": [
-    "/build/assets/SaleForm-C5KD2fKc.js",
-    "/build/assets/SaleForm-B0a4KpUb.css"
+    "/build/assets/SaleForm-D-dsVq4H.js",
+    "/build/assets/SaleForm-RRxgClAl.css"
   ],
-  "resources/js/Components/Forms/SaleForm.vue?vue&type=style&index=0&scoped=7138b5b5&lang.css": [
-    "/build/assets/SaleForm-C5KD2fKc.js",
-    "/build/assets/SaleForm-B0a4KpUb.css"
+  "resources/js/Components/Forms/SaleForm.vue?vue&type=style&index=0&scoped=a0a2fd55&lang.css": [
+    "/build/assets/SaleForm-D-dsVq4H.js",
+    "/build/assets/SaleForm-RRxgClAl.css"
   ],
   "resources/js/Components/Modal.vue": [
     "/build/assets/DeleteUserForm-b2HRqkfd.js"
@@ -106,7 +106,7 @@
     "/build/assets/ForgotPassword-6IMa6fzq.js"
   ],
   "resources/js/Pages/Auth/Login.vue": [
-    "/build/assets/Login-B42-NY5P.js"
+    "/build/assets/Login-DLbH6ALX.js"
   ],
   "resources/js/Pages/Auth/Register.vue": [
     "/build/assets/Register-DyY0zOiR.js"
@@ -179,7 +179,7 @@
     "/build/assets/Sales-Cm5AdChP.js"
   ],
   "resources/js/Pages/Profile/Edit.vue": [
-    "/build/assets/Edit-zTTBwSgd.js"
+    "/build/assets/Edit-B7HkZ41c.js"
   ],
   "resources/js/Pages/Profile/Partials/DeleteUserForm.vue": [
     "/build/assets/DeleteUserForm-b2HRqkfd.js"
@@ -206,10 +206,10 @@
     "/build/assets/Show-D4HJxm7L.js"
   ],
   "resources/js/Pages/Sales/Create.vue": [
-    "/build/assets/Create-DXF2U99o.js"
+    "/build/assets/Create-BxRxd-6t.js"
   ],
   "resources/js/Pages/Sales/Edit.vue": [
-    "/build/assets/Edit-DYfEyYNS.js"
+    "/build/assets/Edit-BVaKfBZv.js"
   ],
   "resources/js/Pages/Sales/Index.vue": [
     "/build/assets/Index-3T2ipCLl.js"

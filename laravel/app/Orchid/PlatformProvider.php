@@ -105,6 +105,11 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('bs.shield')
                 ->route('platform.systems.roles')
                 ->permission('platform.systems.roles'),
+
+            Menu::make(__('Webhooks'))
+                ->icon('bs.link-45deg')
+                ->route('platform.systems.webhooks')
+                ->permission('platform.systems.webhooks'),
         ];
     }
 
@@ -125,7 +130,8 @@ class PlatformProvider extends OrchidServiceProvider
                 ->addPermission('platform.systems.ride-tags', __('Ride tags'))
                 ->addPermission('platform.systems.roles', __('Roles'))
                 ->addPermission('platform.systems.users', __('Users'))
-                ->addPermission('platform.systems.uploads', __('Uploads')),
+                ->addPermission('platform.systems.uploads', __('Uploads'))
+                ->addPermission('platform.systems.webhooks', __('Webhooks')),
             ItemPermission::group(__('Moderation'))
                 ->addPermission('platform.moderation.flagged', __('Flagged sales'))
                 ->addPermission('platform.moderation.claims', __('Claim requests')),

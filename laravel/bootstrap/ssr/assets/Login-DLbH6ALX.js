@@ -1,7 +1,7 @@
 import { resolveComponent, withCtx, unref, createVNode, toDisplayString, openBlock, createBlock, Fragment, renderList, createTextVNode, createCommentVNode, withModifiers, useSSRContext } from "vue";
-import { ssrRenderComponent, ssrInterpolate, ssrRenderList } from "vue/server-renderer";
+import { ssrRenderComponent, ssrInterpolate, ssrRenderAttr, ssrRenderStyle, ssrRenderList } from "vue/server-renderer";
 import { _ as _sfc_main$1 } from "./GuestLayout-B5FnYSTG.js";
-import { useForm, Head, Link } from "@inertiajs/vue3";
+import { usePage, useForm, Head, Link } from "@inertiajs/vue3";
 import "./ApplicationLogo-D72Pm_U0.js";
 const _sfc_main = {
   __name: "Login",
@@ -9,12 +9,19 @@ const _sfc_main = {
   props: {
     canResetPassword: { type: Boolean },
     status: { type: String },
+    error: { type: String },
     submitUrl: { type: String, default: "" },
     signUpUrl: { type: String, default: "" },
-    passwordRequestUrl: { type: String, default: "" }
+    passwordRequestUrl: { type: String, default: "" },
+    authGoogleRedirect: { type: String, default: "" },
+    authDiscordRedirect: { type: String, default: "" }
   },
   setup(__props) {
     const props = __props;
+    const page = usePage();
+    const authGoogleRedirectUrl = () => props.authGoogleRedirect || page.props.urls?.authGoogleRedirect || "";
+    const authDiscordRedirectUrl = () => props.authDiscordRedirect || page.props.urls?.authDiscordRedirect || "";
+    const showSocialLogin = () => authGoogleRedirectUrl() || authDiscordRedirectUrl();
     const form = useForm({
       email: "",
       password: "",
@@ -54,6 +61,41 @@ const _sfc_main = {
                 }),
                 _: 1
               }, _parent2, _scopeId));
+            } else {
+              _push2(`<!---->`);
+            }
+            if (__props.error) {
+              _push2(ssrRenderComponent(_component_gv_notification_banner, {
+                type: "error",
+                title: "Error"
+              }, {
+                default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                  if (_push3) {
+                    _push3(`<p class="govuk-body"${_scopeId2}>${ssrInterpolate(__props.error)}</p>`);
+                  } else {
+                    return [
+                      createVNode("p", { class: "govuk-body" }, toDisplayString(__props.error), 1)
+                    ];
+                  }
+                }),
+                _: 1
+              }, _parent2, _scopeId));
+            } else {
+              _push2(`<!---->`);
+            }
+            if (showSocialLogin()) {
+              _push2(`<div class="govuk-!-margin-bottom-6"${_scopeId}><p class="govuk-body govuk-!-margin-bottom-3"${_scopeId}>Continue with:</p><div class="govuk-button-group"${_scopeId}>`);
+              if (authGoogleRedirectUrl()) {
+                _push2(`<a${ssrRenderAttr("href", authGoogleRedirectUrl())} class="govuk-button govuk-button--secondary" style="${ssrRenderStyle({ "background-color": "#fff", "color": "#1f1f1f", "border": "1px solid #1f1f1f" })}"${_scopeId}> Google </a>`);
+              } else {
+                _push2(`<!---->`);
+              }
+              if (authDiscordRedirectUrl()) {
+                _push2(`<a${ssrRenderAttr("href", authDiscordRedirectUrl())} class="govuk-button govuk-button--secondary" style="${ssrRenderStyle({ "background-color": "#5865f2", "color": "#fff", "border": "1px solid #5865f2" })}"${_scopeId}> Discord </a>`);
+              } else {
+                _push2(`<!---->`);
+              }
+              _push2(`</div><p class="govuk-body govuk-!-margin-top-4 govuk-!-margin-bottom-0" style="${ssrRenderStyle({ "color": "#505a5f" })}"${_scopeId}>or</p></div>`);
             } else {
               _push2(`<!---->`);
             }
@@ -181,6 +223,40 @@ const _sfc_main = {
                 ]),
                 _: 1
               })) : createCommentVNode("", true),
+              __props.error ? (openBlock(), createBlock(_component_gv_notification_banner, {
+                key: 1,
+                type: "error",
+                title: "Error"
+              }, {
+                default: withCtx(() => [
+                  createVNode("p", { class: "govuk-body" }, toDisplayString(__props.error), 1)
+                ]),
+                _: 1
+              })) : createCommentVNode("", true),
+              showSocialLogin() ? (openBlock(), createBlock("div", {
+                key: 2,
+                class: "govuk-!-margin-bottom-6"
+              }, [
+                createVNode("p", { class: "govuk-body govuk-!-margin-bottom-3" }, "Continue with:"),
+                createVNode("div", { class: "govuk-button-group" }, [
+                  authGoogleRedirectUrl() ? (openBlock(), createBlock("a", {
+                    key: 0,
+                    href: authGoogleRedirectUrl(),
+                    class: "govuk-button govuk-button--secondary",
+                    style: { "background-color": "#fff", "color": "#1f1f1f", "border": "1px solid #1f1f1f" }
+                  }, " Google ", 8, ["href"])) : createCommentVNode("", true),
+                  authDiscordRedirectUrl() ? (openBlock(), createBlock("a", {
+                    key: 1,
+                    href: authDiscordRedirectUrl(),
+                    class: "govuk-button govuk-button--secondary",
+                    style: { "background-color": "#5865f2", "color": "#fff", "border": "1px solid #5865f2" }
+                  }, " Discord ", 8, ["href"])) : createCommentVNode("", true)
+                ]),
+                createVNode("p", {
+                  class: "govuk-body govuk-!-margin-top-4 govuk-!-margin-bottom-0",
+                  style: { "color": "#505a5f" }
+                }, "or")
+              ])) : createCommentVNode("", true),
               createVNode("form", {
                 onSubmit: withModifiers(submit, ["prevent"])
               }, [

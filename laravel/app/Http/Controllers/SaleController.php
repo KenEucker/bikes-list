@@ -181,6 +181,8 @@ class SaleController extends Controller
 
         $sale = Sale::create($validated);
 
+        SaleCreated::dispatch($sale);
+
         if ($user) {
             $this->syncSaleUploads($sale, $request->input('upload_ids', []), $user->id);
         } else {

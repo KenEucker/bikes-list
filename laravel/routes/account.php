@@ -21,6 +21,9 @@ Route::middleware('auth')->group(function () {
     Route::get('account/settings', [ProfileController::class, 'edit'])->name('account.settings');
     Route::patch('account/settings', [ProfileController::class, 'update'])->name('account.settings.update');
     Route::delete('account/settings', [ProfileController::class, 'destroy'])->name('account.settings.destroy');
+    Route::post('account/settings/social/{provider}/disconnect', [\App\Http\Controllers\Auth\SocialLoginController::class, 'disconnect'])
+        ->where('provider', 'google|discord')
+        ->name('auth.social.disconnect');
     Route::get('account/magic-link', function () {
         return Inertia::render('Account/MagicLink');
     })->name('account.magic-link');

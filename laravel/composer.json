@@ -9,12 +9,14 @@
         "php": "^8.2",
         "inertiajs/inertia-laravel": "^2.0",
         "laravel/framework": "^12.0",
-        "league/flysystem-aws-s3-v3": "^3.25",
         "laravel/sanctum": "^4.0",
         "laravel/scout": "^10.23",
+        "laravel/socialite": "^5.24",
         "laravel/tinker": "^2.10.1",
+        "league/flysystem-aws-s3-v3": "^3.25",
         "meilisearch/meilisearch-php": "^1.16",
         "orchid/platform": "^14.0",
+        "socialiteproviders/discord": "^4.2",
         "tightenco/ziggy": "^2.0"
     },
     "require-dev": {
