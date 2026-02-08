@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+trap 'e=$?; [ $e -ne 0 ] && echo "Entrypoint failed with exit code $e" >&2' EXIT
 
 cd /var/www/html
 
@@ -77,7 +78,7 @@ if [ "${APP_ENV:-}" = "local" ] && [ -f "artisan" ]; then
   php artisan config:clear 2>/dev/null || true
 fi
 
-# Wait for Postgres first so key:generate can boot Laravel without connection errors
+# Wait for Postgres
 if [ -n "${DB_HOST:-}" ]; then
   echo "Waiting for Postgres at ${DB_HOST}:${DB_PORT:-5432}..."
   PG_WAIT_END=$(($(date +%s) + 120))
@@ -90,49 +91,21 @@ if [ -n "${DB_HOST:-}" ]; then
   done
 fi
 
-# --- APP_KEY: generate if missing so the app always has a key at container creation ---
+# --- APP_KEY: load from env/.app_key/.env before migrate (Laravel may need it); generate after migrate ---
 mkdir -p storage/app
 has_valid_key() {
   [ -s "$APP_KEY_FILE" ] 2>/dev/null && head -1 "$APP_KEY_FILE" | grep -q '^base64:'
 }
-# 1) Container env has key: save to .app_key
+# Pre-migrate: ensure .app_key has a value from env or .env so migrate can boot Laravel if key exists
 if [ -n "${APP_KEY:-}" ] && [ "$APP_KEY" = "base64:"* ]; then
   echo "$APP_KEY" > "$APP_KEY_FILE"
-  echo "Saved APP_KEY from environment to $APP_KEY_FILE"
 fi
-# 2) .env has valid key but .app_key doesn't: copy to .app_key
 if [ ! -s "$APP_KEY_FILE" ] 2>/dev/null && [ -f .env ]; then
   KEY=$(grep '^APP_KEY=base64:' .env 2>/dev/null | head -1 | cut -d= -f2- | tr -d '\n\r') || true
   if [ -n "$KEY" ]; then
     echo "$KEY" > "$APP_KEY_FILE"
-    echo "Copied APP_KEY from .env to $APP_KEY_FILE"
   fi
 fi
-# 3) No key yet: generate one at container creation (retry a few times)
-if ! has_valid_key; then
-  unset APP_KEY
-  NEW_KEY=""
-  for attempt in 1 2 3 4 5; do
-    if NEW_KEY=$(php artisan key:generate --show 2>/dev/null); then
-      break
-    fi
-    echo "key:generate attempt $attempt failed, retrying in 2s..."
-    sleep 2
-  done
-  if [ -n "$NEW_KEY" ] && [ "$NEW_KEY" = "base64:"* ]; then
-    echo "$NEW_KEY" > "$APP_KEY_FILE"
-    export APP_KEY="$NEW_KEY"
-    # Persist to .env so it survives and is visible (append if APP_KEY line missing)
-    if [ -f .env ] && ! grep -q '^APP_KEY=base64:' .env 2>/dev/null; then
-      echo "APP_KEY=$NEW_KEY" >> .env
-    fi
-    echo "Generated APP_KEY and saved to $APP_KEY_FILE and .env"
-  else
-    echo "Error: Could not generate APP_KEY. Set APP_KEY=base64:... in .env or environment." >&2
-    exit 1
-  fi
-fi
-# 4) Export for PHP
 if has_valid_key; then
   export APP_KEY=$(cat "$APP_KEY_FILE" | tr -d '\n\r')
 fi
@@ -146,10 +119,38 @@ if [ -f /tmp/locations.json ]; then
   fi
 fi
 
-# Run migrations + seed (idempotent) unless explicitly disabled
+# Run migrations so DB is ready before key:generate (SettingsServiceProvider uses Schema::hasTable)
 if [ "${RUN_MIGRATIONS:-true}" = "true" ]; then
   php artisan migrate --force --ansi || echo "Warning: migrate failed, continuing."
   php artisan db:seed --force --ansi || echo "Warning: db:seed failed, continuing."
+fi
+
+# Generate APP_KEY if still missing (after migrate so Laravel boot in key:generate is safe)
+if ! has_valid_key; then
+  unset APP_KEY
+  NEW_KEY=""
+  for attempt in 1 2 3 4 5; do
+    if NEW_KEY=$(php artisan key:generate --show 2>/dev/null); then
+      break
+    fi
+    echo "key:generate attempt $attempt failed, retrying in 2s..."
+    sleep 2
+  done
+  if [ -n "$NEW_KEY" ] && [ "$NEW_KEY" = "base64:"* ]; then
+    echo "$NEW_KEY" > "$APP_KEY_FILE"
+    export APP_KEY="$NEW_KEY"
+    if [ -f .env ] && ! grep -q '^APP_KEY=base64:' .env 2>/dev/null; then
+      echo "APP_KEY=$NEW_KEY" >> .env || true
+    fi
+    echo "Generated APP_KEY and saved to $APP_KEY_FILE and .env"
+  else
+    echo "Error: Could not generate APP_KEY. Set APP_KEY=base64:... in .env or environment." >&2
+    exit 1
+  fi
+else
+  if has_valid_key; then
+    export APP_KEY=$(cat "$APP_KEY_FILE" | tr -d '\n\r')
+  fi
 fi
 
 # Build frontend only in the app container (queue skips this)
