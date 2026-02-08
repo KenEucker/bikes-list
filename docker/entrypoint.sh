@@ -8,19 +8,34 @@ if [ -d ".git" ]; then
     git config --global --add safe.directory /var/www/html || true
 fi
 
-# Check if vendor directory exists, if not install dependencies
-# Also check if composer.lock changed (new dependencies added)
-# --no-plugins avoids "cannot find tmp-*.zip" race on DO/docker (installer plugin Promise bug)
-if [ ! -d "vendor" ] && [ -f "composer.json" ]; then
-    echo "Installing Composer dependencies..."
-    composer install --no-interaction --no-security-blocking --no-plugins --prefer-dist || {
-        echo "Warning: Composer install failed. Continuing anyway..."
-    }
-elif [ -d "vendor" ] && [ -f "composer.json" ]; then
-    echo "Ensuring all dependencies are installed..."
-    composer install --no-interaction --no-security-blocking --no-plugins --prefer-dist || {
-        echo "Warning: Composer install failed. Continuing anyway..."
-    }
+# Run composer only under a shared lock so app and queue don't run it at once
+# (concurrent runs corrupt temp zips → 0-byte/corrupted archives). --no-plugins avoids plugin race.
+COMPOSER_LOCK_DIR="/var/www/html/.composer-install.lock"
+run_composer_if_needed() {
+    if [ ! -d "vendor" ] || [ ! -f "vendor/autoload.php" ]; then
+        echo "Installing Composer dependencies..."
+        composer install --no-interaction --no-security-blocking --no-plugins --prefer-dist || true
+    elif [ -d "vendor" ] && [ -f "composer.json" ]; then
+        echo "Ensuring all dependencies are installed..."
+        composer install --no-interaction --no-security-blocking --no-plugins --prefer-dist || true
+    fi
+}
+if [ -f "composer.json" ]; then
+    WAIT_END=$(($(date +%s) + 600))
+    while [ $(date +%s) -lt "$WAIT_END" ]; do
+        if mkdir "$COMPOSER_LOCK_DIR" 2>/dev/null; then
+            trap 'rmdir "$COMPOSER_LOCK_DIR" 2>/dev/null' EXIT
+            run_composer_if_needed
+            rmdir "$COMPOSER_LOCK_DIR" 2>/dev/null
+            break
+        fi
+        [ -f "vendor/autoload.php" ] && break
+        echo "Waiting for another container to finish composer install..."
+        sleep 5
+    done
+    if [ ! -f "vendor/autoload.php" ] && [ ! -d "vendor" ]; then
+        echo "Warning: composer install did not complete in time or failed. Continuing anyway..."
+    fi
 fi
 
 # Check if artisan exists and vendor is available before trying to use artisan

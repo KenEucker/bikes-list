@@ -44,10 +44,32 @@ elif [ ! -f ".env" ]; then
   touch .env
 fi
 
-# Install PHP dependencies if needed (fresh clone or volume overwrote vendor)
-# --no-plugins avoids "cannot find tmp-*.zip" race (installer plugin Promise handling bug)
-if [ ! -f "vendor/autoload.php" ] && [ -f "composer.json" ]; then
-  composer install --no-interaction --prefer-dist --no-plugins
+# Install PHP dependencies if needed (fresh clone or volume overwrote vendor).
+# Only ONE process must run composer at a time: app and queue share the same volume,
+# so concurrent composer installs overwrite each other's temp zips (0-byte/corrupted).
+# Use an atomic mkdir lock (no extra packages); --no-plugins avoids plugin Promise race.
+COMPOSER_LOCK_DIR="/var/www/html/.composer-install.lock"
+if [ -f "composer.json" ] && [ ! -f "vendor/autoload.php" ]; then
+  WAIT_END=$(($(date +%s) + 600))
+  while [ $(date +%s) -lt "$WAIT_END" ]; do
+    [ -f vendor/autoload.php ] && break
+    if mkdir "$COMPOSER_LOCK_DIR" 2>/dev/null; then
+      trap 'rmdir "$COMPOSER_LOCK_DIR" 2>/dev/null' EXIT
+      if [ ! -f vendor/autoload.php ]; then
+        echo "Installing Composer dependencies (this container holds the lock)..."
+        composer install --no-interaction --prefer-dist --no-plugins
+      fi
+      rmdir "$COMPOSER_LOCK_DIR" 2>/dev/null
+      break
+    fi
+    echo "Waiting for another container to finish composer install..."
+    sleep 5
+  done
+  if [ ! -f vendor/autoload.php ]; then
+    echo "Error: composer install did not complete in time or failed." >&2
+    exit 1
+  fi
+  echo "Composer dependencies ready."
 fi
 
 # --- Config: avoid cached config so APP_DOMAIN/SESSION_DOMAIN are used (local) ---
