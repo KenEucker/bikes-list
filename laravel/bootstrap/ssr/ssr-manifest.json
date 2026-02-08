@@ -63,14 +63,14 @@
     "/build/assets/ModerationQueue-B28swC-7.js"
   ],
   "resources/js/Components/PageCard.vue": [
-    "/build/assets/Index-Bd-J7y7N.js"
+    "/build/assets/Index-CWsAnxC5.js"
   ],
   "resources/js/Components/PendingReviewBanner.vue": [
     "/build/assets/PendingReviewBanner-B1VUICoC.js",
     "/build/assets/PendingReviewBanner-CIXSEXKI.css"
   ],
   "resources/js/Components/RideCard.vue": [
-    "/build/assets/Index-Bd-J7y7N.js"
+    "/build/assets/Index-CWsAnxC5.js"
   ],
   "resources/js/Components/SaleCard.vue": [
     "/build/assets/SaleCard-C99lGHmL.js"
@@ -218,7 +218,7 @@
     "/build/assets/Show-CDGMJFG7.js"
   ],
   "resources/js/Pages/Search/Index.vue": [
-    "/build/assets/Index-Bd-J7y7N.js"
+    "/build/assets/Index-CWsAnxC5.js"
   ],
   "resources/js/ssr.js": [],
   "vendor/tightenco/ziggy/dist/index.js": []

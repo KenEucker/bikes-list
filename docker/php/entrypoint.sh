@@ -44,9 +44,10 @@ elif [ ! -f ".env" ]; then
   touch .env
 fi
 
-# Install PHP dependencies if needed (fresh clone)
+# Install PHP dependencies if needed (fresh clone or volume overwrote vendor)
+# --no-plugins avoids "cannot find tmp-*.zip" race (installer plugin Promise handling bug)
 if [ ! -f "vendor/autoload.php" ] && [ -f "composer.json" ]; then
-  composer install --no-interaction --prefer-dist
+  composer install --no-interaction --prefer-dist --no-plugins
 fi
 
 # --- Config: avoid cached config so APP_DOMAIN/SESSION_DOMAIN are used (local) ---

@@ -10,16 +10,15 @@ fi
 
 # Check if vendor directory exists, if not install dependencies
 # Also check if composer.lock changed (new dependencies added)
+# --no-plugins avoids "cannot find tmp-*.zip" race on DO/docker (installer plugin Promise bug)
 if [ ! -d "vendor" ] && [ -f "composer.json" ]; then
     echo "Installing Composer dependencies..."
-    composer install --no-interaction --no-security-blocking || {
+    composer install --no-interaction --no-security-blocking --no-plugins --prefer-dist || {
         echo "Warning: Composer install failed. Continuing anyway..."
     }
 elif [ -d "vendor" ] && [ -f "composer.json" ]; then
-    # Always run composer install to ensure all dependencies are present
-    # This handles cases where new packages (like Predis) were added
     echo "Ensuring all dependencies are installed..."
-    composer install --no-interaction --no-security-blocking || {
+    composer install --no-interaction --no-security-blocking --no-plugins --prefer-dist || {
         echo "Warning: Composer install failed. Continuing anyway..."
     }
 fi

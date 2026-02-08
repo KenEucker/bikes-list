@@ -111,18 +111,6 @@ const _sfc_main = {
         "city-base-url": __props.cityBaseUrl,
         breadcrumb: "Search"
       }, {
-        "nav-right": withCtx((_, _push2, _parent2, _scopeId) => {
-          if (_push2) {
-            _push2(`<a${ssrRenderAttr("href", __props.cityBaseUrl)} class="govuk-link"${_scopeId}>Back to city</a>`);
-          } else {
-            return [
-              createVNode("a", {
-                href: __props.cityBaseUrl,
-                class: "govuk-link"
-              }, "Back to city", 8, ["href"])
-            ];
-          }
-        }),
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(`<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8"${_scopeId}><h1 class="text-2xl font-bold text-fg"${_scopeId}>Search</h1><form class="mt-4 flex flex-wrap gap-2"${_scopeId}><div class="min-w-0 flex-1 basis-40"${_scopeId}><input${ssrRenderAttr("value", q.value)} type="search" placeholder="Search sales, rides, pages..." class="block w-full min-w-0 rounded-token-md border border-border bg-input text-fg shadow-sm focus:border-focus focus:ring-focus"${_scopeId}></div><button type="submit" class="rounded-token-md bg-primary px-4 py-2 text-sm font-medium text-primary-fg hover:opacity-90 shrink-0"${_scopeId}> Search </button></form><div class="mt-6 flex gap-4 border-b border-border"${_scopeId}><button type="button" class="${ssrRenderClass([currentTab.value === "sales" ? "border-primary text-primary" : "border-transparent text-muted hover:text-fg", "border-b-2 px-2 py-2 text-sm font-medium"])}"${_scopeId}> For Sale </button><button type="button" class="${ssrRenderClass([currentTab.value === "rides" ? "border-primary text-primary" : "border-transparent text-muted hover:text-fg", "border-b-2 px-2 py-2 text-sm font-medium"])}"${_scopeId}> Rides </button><button type="button" class="${ssrRenderClass([currentTab.value === "pages" ? "border-primary text-primary" : "border-transparent text-muted hover:text-fg", "border-b-2 px-2 py-2 text-sm font-medium"])}"${_scopeId}> Pages </button></div><div class="mt-6"${_scopeId}><div class="space-y-4" style="${ssrRenderStyle(currentTab.value === "sales" ? null : { display: "none" })}"${_scopeId}>`);

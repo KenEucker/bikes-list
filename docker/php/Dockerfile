@@ -25,7 +25,8 @@ RUN apk add --no-cache \
         pgsql \
         zip
 
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+# Use Composer 2.9+ to avoid tmp zip extraction race with plugins (Promise handling)
+COPY --from=composer:2.9 /usr/bin/composer /usr/bin/composer
 
 # Pre-build frontend assets so the image has a fallback when manifest is missing at runtime
 # Install PHP deps first so vendor/tightenco/ziggy exists (app.js imports it)
@@ -34,7 +35,8 @@ COPY laravel/app ./app
 COPY laravel/bootstrap ./bootstrap
 COPY laravel/config ./config
 COPY laravel/database ./database
-RUN composer install --no-dev --no-scripts --no-interaction --prefer-dist
+# --no-plugins avoids "cannot find tmp-*.zip" race when installer plugins don't await download Promise
+RUN composer install --no-dev --no-scripts --no-interaction --prefer-dist --no-plugins
 
 COPY laravel/package.json laravel/package-lock.json* laravel/vite.config.js laravel/tailwind.config.js laravel/postcss.config.js laravel/jsconfig.json ./
 COPY laravel/resources ./resources
