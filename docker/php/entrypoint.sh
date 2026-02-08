@@ -98,21 +98,29 @@ fi
 # 3) Still no key: generate one and save to .app_key (never modify .env to avoid duplicates)
 if ! has_valid_key; then
   unset APP_KEY
-  NEW_KEY=$(php artisan key:generate --show)
-  echo "$NEW_KEY" > "$APP_KEY_FILE"
-  export APP_KEY="$NEW_KEY"
-  echo "Generated APP_KEY ($NEW_KEY) and saved to $APP_KEY_FILE"
+  if NEW_KEY=$(php artisan key:generate --show 2>/dev/null); then
+    echo "$NEW_KEY" > "$APP_KEY_FILE"
+    export APP_KEY="$NEW_KEY"
+    echo "Generated APP_KEY and saved to $APP_KEY_FILE"
+  else
+    echo "Warning: key:generate failed (vendor/artisan may be missing). Set APP_KEY in .env or env."
+  fi
 fi
 # 4) Export for PHP (Laravel reads from getenv first; .env is never modified by us)
 if has_valid_key; then
   export APP_KEY=$(cat "$APP_KEY_FILE" | tr -d '\n\r')
 fi
 
-# Wait for Postgres
+# Wait for Postgres (with timeout so we don't hang forever)
 if [ -n "${DB_HOST:-}" ]; then
   echo "Waiting for Postgres at ${DB_HOST}:${DB_PORT:-5432}..."
+  PG_WAIT_END=$(($(date +%s) + 120))
   until pg_isready -h "${DB_HOST}" -p "${DB_PORT:-5432}" -U "${DB_USERNAME:-laravel}" >/dev/null 2>&1; do
-    sleep 1
+    if [ $(date +%s) -ge "$PG_WAIT_END" ]; then
+      echo "Warning: Postgres not ready after 120s, continuing anyway."
+      break
+    fi
+    sleep 2
   done
 fi
 
@@ -127,8 +135,8 @@ fi
 
 # Run migrations + seed (idempotent) unless explicitly disabled
 if [ "${RUN_MIGRATIONS:-true}" = "true" ]; then
-  php artisan migrate --force --ansi
-  php artisan db:seed --force --ansi
+  php artisan migrate --force --ansi || echo "Warning: migrate failed, continuing."
+  php artisan db:seed --force --ansi || echo "Warning: db:seed failed, continuing."
 fi
 
 # Build frontend only in the app container (queue skips this)
@@ -137,7 +145,7 @@ if [ "${RUN_MIGRATIONS:-true}" = "true" ] && [ -f "package.json" ]; then
   mkdir -p public/build
   # Clean node_modules to avoid ENOTEMPTY/caniuse-lite issues when host dir is mounted
   rm -rf node_modules
-  npm install --no-audit --no-fund && npm run build
+  (npm install --no-audit --no-fund && npm run build) || echo "Warning: npm build failed, continuing."
   echo "Frontend build complete."
   if [ "${VITE_WATCH:-0}" = "1" ]; then
     echo "Starting Vite in watch mode (rebuilds on frontend changes)..."
@@ -145,5 +153,10 @@ if [ "${RUN_MIGRATIONS:-true}" = "true" ] && [ -f "package.json" ]; then
   fi
 fi
 
-exec php-fpm
+# Queue container must run the CMD (e.g. queue:work); app container runs php-fpm
+if [ "${APP_RUNTIME:-}" = "worker" ]; then
+  exec "$@"
+else
+  exec php-fpm
+fi
 
