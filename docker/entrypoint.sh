@@ -98,15 +98,7 @@ if [ "$HAS_ARTISAN" = true ]; then
     fi
 fi
 
-# Generate app key if not set (only if artisan exists and key is truly empty)
-if [ "$HAS_ARTISAN" = true ]; then
-    if [ -z "$APP_KEY" ] || [ "$APP_KEY" = "" ] || [ "$APP_KEY" = "base64:" ]; then
-        echo "Generating application key..."
-        php artisan key:generate --ansi --force || true
-    else
-        echo "Application key already set, skipping generation."
-    fi
-fi
+# APP_KEY is set from env or .env at deploy time; do not run artisan key:generate here.
 
 # Install and build frontend assets (only in app container, not worker)
 # Temporarily disable exit on error for npm commands

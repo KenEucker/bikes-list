@@ -19,7 +19,7 @@ APP_KEY_FILE="storage/app/.app_key"
 # The root project dir is mounted read-only at /var/project by docker-compose.
 if [ -f ".env.example" ]; then
   if [ -f "/var/project/.env" ]; then
-    # Parse both files, merge (root overrides win), write a clean .env with no duplicates.
+    # Merge .env.example + root .env. Preserve APP_KEY from existing .env if merge would wipe it.
     php -r '
       function p($f) {
         $v = [];
@@ -31,9 +31,13 @@ if [ -f ".env.example" ]; then
         return $v;
       }
       $m = array_replace(p($argv[1]), p($argv[2]));
+      $existing = file_exists($argv[3]) ? p($argv[3]) : [];
+      if (!empty($existing["APP_KEY"]) && strpos($existing["APP_KEY"], "base64:") === 0) {
+        $m["APP_KEY"] = $existing["APP_KEY"];
+      }
       ksort($m);
       $o = "";
-      foreach ($m as $k => $v) $o .= "$k=$v\n";
+      foreach ($m as $k => $v) $o .= $k . "=" . $v . "\n";
       file_put_contents($argv[3], $o, LOCK_EX);
     ' -- .env.example /var/project/.env .env
     echo "Built .env: merged .env.example + root .env overrides (clean, no duplicates)."
@@ -43,6 +47,37 @@ if [ -f ".env.example" ]; then
   fi
 elif [ ! -f ".env" ]; then
   touch .env
+fi
+
+# --- Set APP_KEY before anything else: env > .app_key file > .env > generate (PHP only, no artisan) ---
+mkdir -p storage/app
+APP_KEY_FILE="storage/app/.app_key"
+if [ -n "${APP_KEY:-}" ] && [ "${APP_KEY#base64:}" != "$APP_KEY" ]; then
+  echo "$APP_KEY" > "$APP_KEY_FILE"
+  export APP_KEY
+elif [ -s "$APP_KEY_FILE" ] && head -1 "$APP_KEY_FILE" | grep -q '^base64:'; then
+  export APP_KEY=$(head -1 "$APP_KEY_FILE" | tr -d '\n\r')
+elif [ -f .env ]; then
+  K=$(grep '^APP_KEY=base64:' .env 2>/dev/null | head -1 | cut -d= -f2- | tr -d '\n\r') || true
+  if [ -n "$K" ]; then
+    echo "$K" > "$APP_KEY_FILE"
+    export APP_KEY="$K"
+  fi
+fi
+if [ -z "${APP_KEY:-}" ] || [ "${APP_KEY#base64:}" = "$APP_KEY" ]; then
+  if [ "${APP_RUNTIME:-}" = "worker" ]; then
+    echo "Waiting for APP_KEY (.app_key from app container)..."
+    for _ in $(seq 1 100); do
+      [ -s "$APP_KEY_FILE" ] && head -1 "$APP_KEY_FILE" | grep -q '^base64:' && break
+      sleep 3
+    done
+    [ -s "$APP_KEY_FILE" ] && export APP_KEY=$(head -1 "$APP_KEY_FILE" | tr -d '\n\r') || { echo "APP_KEY not found." >&2; exit 1; }
+  else
+    export APP_KEY="base64:$(php -r 'echo base64_encode(random_bytes(32));')"
+    echo "$APP_KEY" > "$APP_KEY_FILE"
+    grep -q '^APP_KEY=' .env 2>/dev/null || echo "APP_KEY=$APP_KEY" >> .env
+    echo "APP_KEY set (generated)."
+  fi
 fi
 
 # Install PHP dependencies if needed (fresh clone or volume overwrote vendor).
@@ -91,25 +126,6 @@ if [ -n "${DB_HOST:-}" ]; then
   done
 fi
 
-# --- APP_KEY: load from env/.app_key/.env before migrate (Laravel may need it); generate after migrate ---
-mkdir -p storage/app
-has_valid_key() {
-  [ -s "$APP_KEY_FILE" ] 2>/dev/null && head -1 "$APP_KEY_FILE" | grep -q '^base64:'
-}
-# Pre-migrate: ensure .app_key has a value from env or .env so migrate can boot Laravel if key exists
-if [ -n "${APP_KEY:-}" ] && [ "$APP_KEY" = "base64:"* ]; then
-  echo "$APP_KEY" > "$APP_KEY_FILE"
-fi
-if [ ! -s "$APP_KEY_FILE" ] 2>/dev/null && [ -f .env ]; then
-  KEY=$(grep '^APP_KEY=base64:' .env 2>/dev/null | head -1 | cut -d= -f2- | tr -d '\n\r') || true
-  if [ -n "$KEY" ]; then
-    echo "$KEY" > "$APP_KEY_FILE"
-  fi
-fi
-if has_valid_key; then
-  export APP_KEY=$(cat "$APP_KEY_FILE" | tr -d '\n\r')
-fi
-
 # Copy city seed JSON into app so CitySeeder can find it when only laravel is mounted
 if [ -f /tmp/locations.json ]; then
   mkdir -p database/data
@@ -119,43 +135,10 @@ if [ -f /tmp/locations.json ]; then
   fi
 fi
 
-# Run migrations so DB is ready before key:generate (SettingsServiceProvider uses Schema::hasTable)
+# Run migrations
 if [ "${RUN_MIGRATIONS:-true}" = "true" ]; then
   php artisan migrate --force --ansi || echo "Warning: migrate failed, continuing."
   php artisan db:seed --force --ansi || echo "Warning: db:seed failed, continuing."
-fi
-
-# APP_KEY: generate only in app container (APP_RUNTIME!=worker); queue (worker) waits for .app_key file
-if ! has_valid_key; then
-  if [ "${APP_RUNTIME:-}" = "worker" ]; then
-    # Queue container: wait for app to create .app_key (shared volume)
-    echo "Waiting for APP_KEY (.app_key) to be created by app container..."
-    WAIT_END=$(($(date +%s) + 300))
-    while [ $(date +%s) -lt "$WAIT_END" ]; do
-      [ -s "$APP_KEY_FILE" ] && head -1 "$APP_KEY_FILE" | grep -q '^base64:' && break
-      sleep 3
-    done
-    if ! has_valid_key; then
-      echo "Error: APP_KEY not found after 300s. Ensure app container runs first and completes key generation." >&2
-      exit 1
-    fi
-    export APP_KEY=$(cat "$APP_KEY_FILE" | tr -d '\n\r')
-    echo "APP_KEY ready (from .app_key)."
-  else
-    # App container: generate key with PHP (no Laravel boot; same format as artisan key:generate)
-    unset APP_KEY
-    NEW_KEY="base64:$(php -r 'echo base64_encode(random_bytes(32));')"
-    echo "$NEW_KEY" > "$APP_KEY_FILE"
-    export APP_KEY="$NEW_KEY"
-    if [ -f .env ] && ! grep -q '^APP_KEY=base64:' .env 2>/dev/null; then
-      echo "APP_KEY=$NEW_KEY" >> .env || true
-    fi
-    echo "Generated APP_KEY and saved to $APP_KEY_FILE and .env"
-  fi
-else
-  if has_valid_key; then
-    export APP_KEY=$(cat "$APP_KEY_FILE" | tr -d '\n\r')
-  fi
 fi
 
 # Build frontend only in the app container (queue skips this)
