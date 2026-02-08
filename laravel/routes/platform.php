@@ -31,6 +31,7 @@ use App\Orchid\Screens\User\UserEditScreen;
 use App\Orchid\Screens\Webhook\WebhookDeliveryListScreen;
 use App\Orchid\Screens\Webhook\WebhookEndpointEditScreen;
 use App\Orchid\Screens\Webhook\WebhookEndpointListScreen;
+use App\Orchid\Screens\Settings\SettingsListScreen;
 use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\User\UserProfileScreen;
 use Illuminate\Support\Facades\Route;
@@ -271,3 +272,10 @@ Route::screen('webhooks/{endpoint}/deliveries', WebhookDeliveryListScreen::class
     ->breadcrumbs(fn (Trail $trail, $endpoint) => $trail
         ->parent('platform.systems.webhooks')
         ->push(__('Deliveries'), route('platform.systems.webhooks.deliveries', $endpoint)));
+
+// Settings
+Route::screen('settings', SettingsListScreen::class)
+    ->name('platform.settings')
+    ->breadcrumbs(fn (Trail $trail) => $trail
+        ->parent('platform.index')
+        ->push(__('Settings'), route('platform.settings')));

@@ -17,6 +17,7 @@ services:
       APP_DEBUG: "true"
       APP_URL: ${APP_URL:-http://localhost}
       APP_DOMAIN: ${APP_DOMAIN:-}
+      APP_NAME: ${APP_NAME:-BikesList}
       PLATFORM_PREFIX: /admin
 
       LOG_CHANNEL: stderr

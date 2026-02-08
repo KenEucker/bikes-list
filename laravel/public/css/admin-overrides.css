@@ -259,3 +259,109 @@ body {
 [data-theme="dark"] fieldset .rounded-bottom {
     border-color: rgb(var(--border)) !important;
 }
+
+/* Form labels, legends, placeholders – dark mode (roles/edit and all forms) */
+[data-theme="dark"] .form-label,
+[data-theme="dark"] label.form-label,
+[data-theme="dark"] .form-check-label,
+[data-theme="dark"] legend,
+[data-theme="dark"] legend.text-body-emphasis,
+[data-theme="dark"] .card-title,
+[data-theme="dark"] h5.card-title {
+    color: rgb(var(--fg)) !important;
+}
+[data-theme="dark"] .form-control::placeholder,
+[data-theme="dark"] .form-select::placeholder,
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+    color: rgb(var(--muted)) !important;
+    opacity: 1;
+}
+[data-theme="dark"] .form-text.text-muted,
+[data-theme="dark"] small.form-text {
+    color: rgb(var(--muted)) !important;
+}
+/* Block layout wrapper (Role/Permission cards) – ensure inner content uses fg */
+[data-theme="dark"] .layout-wrapper,
+[data-theme="dark"] .layout-wrapper .form-group,
+[data-theme="dark"] .layout-wrapper .form-check {
+    color: rgb(var(--fg)) !important;
+}
+
+/* Settings page: compact filter bar and table directly below */
+.settings-filters-bar {
+    background-color: rgb(var(--card));
+    border: 1px solid rgb(var(--border));
+}
+.settings-filters-bar .form-label,
+.settings-filters-bar .form-control,
+.settings-filters-bar .form-select {
+    color: rgb(var(--fg));
+}
+.settings-filters-bar .form-control::placeholder {
+    color: rgb(var(--muted));
+    opacity: 1;
+}
+#settings-filters-bar + .skip-link {
+    position: absolute;
+    left: -9999px;
+}
+#settings-table {
+    scroll-margin-top: 1rem;
+}
+
+/* Modal – dark mode */
+[data-theme="dark"] .modal-content {
+    background-color: rgb(var(--card)) !important;
+    color: rgb(var(--fg)) !important;
+    border-color: rgb(var(--border)) !important;
+}
+[data-theme="dark"] .modal-header {
+    background-color: rgb(var(--card)) !important;
+    color: rgb(var(--fg)) !important;
+    border-color: rgb(var(--border)) !important;
+}
+[data-theme="dark"] .modal-title,
+[data-theme="dark"] .modal-header .text-body-emphasis {
+    color: rgb(var(--fg)) !important;
+}
+[data-theme="dark"] .modal .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+    opacity: 0.8;
+}
+[data-theme="dark"] .modal-body {
+    background-color: rgb(var(--card)) !important;
+    color: rgb(var(--fg)) !important;
+    border-color: rgb(var(--border)) !important;
+}
+[data-theme="dark"] .modal-body .form-control,
+[data-theme="dark"] .modal-body .form-select,
+[data-theme="dark"] .modal-body input:not([type="checkbox"]):not([type="radio"]),
+[data-theme="dark"] .modal-body textarea {
+    background-color: rgba(var(--fg), 0.08) !important;
+    color: rgb(var(--fg)) !important;
+    border-color: rgb(var(--border)) !important;
+}
+[data-theme="dark"] .modal-body .form-control:disabled,
+[data-theme="dark"] .modal-body .form-select:disabled {
+    opacity: 0.9;
+}
+[data-theme="dark"] .modal-footer {
+    background-color: rgb(var(--card)) !important;
+    color: rgb(var(--fg)) !important;
+    border-color: rgb(var(--border)) !important;
+}
+[data-theme="dark"] .modal-footer .btn-link {
+    color: rgb(var(--primary)) !important;
+}
+[data-theme="dark"] .modal-footer .btn-link:hover {
+    color: rgb(var(--fg)) !important;
+}
+[data-theme="dark"] .modal-footer .btn-default {
+    background-color: rgb(var(--primary)) !important;
+    color: rgb(var(--primary-fg)) !important;
+    border-color: rgb(var(--primary)) !important;
+}
+[data-theme="dark"] .modal-placeholder .placeholder {
+    background-color: rgba(var(--fg), 0.15) !important;
+}

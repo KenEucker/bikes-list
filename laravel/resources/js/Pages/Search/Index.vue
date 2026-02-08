@@ -32,10 +32,6 @@ function doSearch() {
 <template>
     <Head :title="`BikesList – ${city.name} – Search`" />
     <CityLayout :city="city" :city-base-url="cityBaseUrl" breadcrumb="Search">
-        <template #nav-right>
-            <a :href="cityBaseUrl" class="govuk-link">Back to city</a>
-        </template>
-
         <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
             <h1 class="text-2xl font-bold text-fg">Search</h1>
             <form class="mt-4 flex flex-wrap gap-2" @submit.prevent="doSearch">

@@ -99,7 +99,7 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('bs.people')
                 ->route('platform.systems.users')
                 ->permission('platform.systems.users')
-                ->title(__('Access Controls')),
+                ->title(__('System')),
 
             Menu::make(__('Roles'))
                 ->icon('bs.shield')
@@ -110,6 +110,11 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('bs.link-45deg')
                 ->route('platform.systems.webhooks')
                 ->permission('platform.systems.webhooks'),
+
+            Menu::make(__('Settings'))
+                ->icon('bs.gear')
+                ->route('platform.settings')
+                ->permission('platform.settings'),
         ];
     }
 
@@ -122,6 +127,7 @@ class PlatformProvider extends OrchidServiceProvider
     {
         return [
             ItemPermission::group(__('System'))
+                ->addPermission('platform.settings', __('Settings'))
                 ->addPermission('platform.systems.cities', __('Cities'))
                 ->addPermission('platform.systems.sales', __('Sales'))
                 ->addPermission('platform.systems.rides', __('Rides'))
