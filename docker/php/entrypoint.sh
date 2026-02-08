@@ -125,32 +125,10 @@ if [ "${RUN_MIGRATIONS:-true}" = "true" ]; then
   php artisan db:seed --force --ansi || echo "Warning: db:seed failed, continuing."
 fi
 
-# APP_KEY: generate only in app container (which runs migrate); queue waits for .app_key file
+# APP_KEY: generate only in app container (APP_RUNTIME!=worker); queue (worker) waits for .app_key file
 if ! has_valid_key; then
-  if [ "${RUN_MIGRATIONS:-true}" = "true" ]; then
-    # App container: run key:generate (writes to .env; --show can require existing key so we use plain key:generate)
-    unset APP_KEY
-    for attempt in 1 2 3 4 5; do
-      if php artisan key:generate --force 2>/dev/null; then
-        NEW_KEY=$(grep '^APP_KEY=base64:' .env 2>/dev/null | head -1 | cut -d= -f2- | tr -d '\n\r') || true
-        if [ -n "$NEW_KEY" ] && [ "$NEW_KEY" = "base64:"* ]; then
-          echo "$NEW_KEY" > "$APP_KEY_FILE"
-          export APP_KEY="$NEW_KEY"
-          echo "Generated APP_KEY and saved to $APP_KEY_FILE and .env"
-          break
-        fi
-      fi
-      if [ $attempt -lt 5 ]; then
-        echo "key:generate attempt $attempt failed, retrying in 2s..."
-        sleep 2
-      else
-        echo "Error: Could not generate APP_KEY. Set APP_KEY=base64:... in .env or environment." >&2
-        php artisan key:generate --force 2>&1 || true
-        exit 1
-      fi
-    done
-  else
-    # Queue (or other) container: wait for app to create .app_key (shared volume)
+  if [ "${APP_RUNTIME:-}" = "worker" ]; then
+    # Queue container: wait for app to create .app_key (shared volume)
     echo "Waiting for APP_KEY (.app_key) to be created by app container..."
     WAIT_END=$(($(date +%s) + 300))
     while [ $(date +%s) -lt "$WAIT_END" ]; do
@@ -163,6 +141,16 @@ if ! has_valid_key; then
     fi
     export APP_KEY=$(cat "$APP_KEY_FILE" | tr -d '\n\r')
     echo "APP_KEY ready (from .app_key)."
+  else
+    # App container: generate key with PHP (no Laravel boot; same format as artisan key:generate)
+    unset APP_KEY
+    NEW_KEY="base64:$(php -r 'echo base64_encode(random_bytes(32));')"
+    echo "$NEW_KEY" > "$APP_KEY_FILE"
+    export APP_KEY="$NEW_KEY"
+    if [ -f .env ] && ! grep -q '^APP_KEY=base64:' .env 2>/dev/null; then
+      echo "APP_KEY=$NEW_KEY" >> .env || true
+    fi
+    echo "Generated APP_KEY and saved to $APP_KEY_FILE and .env"
   fi
 else
   if has_valid_key; then
