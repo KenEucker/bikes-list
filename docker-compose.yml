@@ -39,6 +39,12 @@ services:
       # Session in DB so login persists after server restart
       SESSION_DRIVER: database
       SESSION_DOMAIN: ${SESSION_DOMAIN:-.localhost}
+    healthcheck:
+      test: ["CMD", "php", "-r", "@fsockopen('127.0.0.1', 9000) or exit(1);"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 120s
     depends_on:
       db:
         condition: service_healthy
@@ -50,8 +56,10 @@ services:
   web:
     image: nginx:1.27-alpine
     depends_on:
-      - app
-      - minio
+      app:
+        condition: service_healthy
+      minio:
+        condition: service_started
     ports:
       - "80:80"
     volumes:
