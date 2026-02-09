@@ -143,16 +143,23 @@ fi
 
 # Build frontend only in the app container (queue skips this)
 if [ "${RUN_MIGRATIONS:-true}" = "true" ] && [ -f "package.json" ]; then
-  echo "Building frontend assets..."
   mkdir -p public/build
-  # Clean node_modules to avoid ENOTEMPTY/caniuse-lite issues when host dir is mounted
-  rm -rf node_modules
-  (npm install --no-audit --no-fund && npm run build) || echo "Warning: npm build failed, continuing."
-  echo "Frontend build complete."
-  if [ "${VITE_WATCH:-0}" = "1" ]; then
-    echo "Starting Vite in watch mode (rebuilds on frontend changes)..."
-    npm run build:watch &
+  # Restore pre-built assets from Docker image so PHP-FPM can serve pages
+  # immediately while a fresh npm build runs in the background.
+  if [ -d /tmp/vite-build ] && [ ! -f public/build/manifest.json ]; then
+    cp -r /tmp/vite-build/. public/build/
+    echo "Restored pre-built frontend assets from image."
   fi
+  # Run the full npm build in the background so php-fpm starts without delay.
+  (
+    rm -rf node_modules
+    npm install --no-audit --no-fund && npm run build
+    echo "Frontend build complete."
+    if [ "${VITE_WATCH:-0}" = "1" ]; then
+      echo "Starting Vite in watch mode (rebuilds on frontend changes)..."
+      exec npm run build:watch
+    fi
+  ) &
 fi
 
 # Queue container must run the CMD (e.g. queue:work); app container runs php-fpm
