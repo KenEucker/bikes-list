@@ -14,8 +14,8 @@ services:
         required: false
     environment:
       APP_RUNTIME: consumer
-      APP_ENV: local
-      APP_DEBUG: "true"
+      APP_ENV: ${APP_ENV:-local}
+      APP_DEBUG: "${APP_DEBUG:-true}"
       APP_URL: ${APP_URL:-http://localhost}
       APP_DOMAIN: ${APP_DOMAIN:-}
       APP_NAME: ${APP_NAME:-BikesList}
@@ -34,7 +34,7 @@ services:
       MEILISEARCH_HOST: http://meilisearch:7700
 
       RUN_MIGRATIONS: "true"
-      VITE_WATCH: "1"
+      VITE_WATCH: "${VITE_WATCH:-0}"
 
       # Session in DB so login persists after server restart
       SESSION_DRIVER: database

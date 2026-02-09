@@ -141,26 +141,31 @@ if [ "${RUN_MIGRATIONS:-true}" = "true" ]; then
   php artisan db:seed --force --ansi || echo "Warning: db:seed failed, continuing."
 fi
 
-# Build frontend only in the app container (queue skips this)
+# Build frontend only in the app container (queue skips this).
+# In production the Docker image already contains pre-built assets, so skip
+# the slow npm install + build entirely and just restore the image copy.
 if [ "${RUN_MIGRATIONS:-true}" = "true" ] && [ -f "package.json" ]; then
   mkdir -p public/build
-  # Restore pre-built assets from Docker image so PHP-FPM can serve pages
-  # immediately while a fresh npm build runs in the background.
   if [ -d /tmp/vite-build ] && [ ! -f public/build/manifest.json ]; then
     cp -r /tmp/vite-build/. public/build/
     echo "Restored pre-built frontend assets from image."
   fi
-  # Run the full npm build in the background so php-fpm starts without delay.
-  (
-    rm -rf node_modules
-    npm install --no-audit --no-fund && npm run build
-    echo "Frontend build complete."
-    if [ "${VITE_WATCH:-0}" = "1" ]; then
-      echo "Starting Vite in watch mode (rebuilds on frontend changes)..."
-      exec npm run build:watch
-    fi
-  ) &
+  if [ "${APP_ENV:-local}" != "production" ]; then
+    # Dev: rebuild in background so php-fpm starts without delay.
+    (
+      rm -rf node_modules
+      npm install --no-audit --no-fund && npm run build
+      echo "Frontend build complete."
+      if [ "${VITE_WATCH:-0}" = "1" ]; then
+        echo "Starting Vite in watch mode (rebuilds on frontend changes)..."
+        exec npm run build:watch
+      fi
+    ) &
+  fi
 fi
+
+# Ensure storage dirs are writable by the php-fpm worker (www-data).
+chown -R www-data:www-data storage bootstrap/cache
 
 # Queue container must run the CMD (e.g. queue:work); app container runs php-fpm
 if [ "${APP_RUNTIME:-}" = "worker" ]; then
