@@ -56,10 +56,15 @@ COPY . .
 # Copy built assets
 COPY --from=frontend /var/www/html/public/build ./public/build
 
-# Set permissions
+# Ensure storage directory structure exists (contents excluded by .dockerignore)
+RUN mkdir -p /var/www/html/storage/framework/{views,cache,sessions,testing} \
+    && mkdir -p /var/www/html/storage/logs \
+    && mkdir -p /var/www/html/bootstrap/cache
+
+# Set permissions - use 775 so www-data group can also write
 RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html/storage \
-    && chmod -R 755 /var/www/html/bootstrap/cache
+    && chmod -R 775 /var/www/html/storage \
+    && chmod -R 775 /var/www/html/bootstrap/cache
 
 # Copy entrypoint script
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh

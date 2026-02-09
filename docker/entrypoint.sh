@@ -129,6 +129,13 @@ if [ "$APP_RUNTIME" != "worker" ] && [ -f "package.json" ]; then
     set -e
 fi
 
+# Ensure storage and bootstrap/cache are writable by www-data.
+# The setup steps above (composer, artisan, npm) run as root and may create
+# files owned by root. PHP-FPM runs as www-data and needs write access.
+mkdir -p storage/framework/{views,cache,sessions} storage/logs bootstrap/cache
+chown -R www-data:www-data storage bootstrap/cache
+chmod -R 775 storage bootstrap/cache
+
 # Start services based on APP_RUNTIME
 case "$APP_RUNTIME" in
     worker)
