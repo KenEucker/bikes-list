@@ -165,7 +165,12 @@ if [ "${RUN_MIGRATIONS:-true}" = "true" ] && [ -f "package.json" ]; then
 fi
 
 # Ensure storage dirs are writable by the php-fpm worker (www-data).
+# The entrypoint (and artisan commands above) run as root, creating
+# root-owned files.  PHP-FPM workers run as www-data and need write
+# access to views, cache, sessions, and logs.
+mkdir -p storage/framework/{views,cache,sessions,testing} storage/logs storage/app bootstrap/cache
 chown -R www-data:www-data storage bootstrap/cache
+chmod -R 775 storage bootstrap/cache
 
 # Queue container must run the CMD (e.g. queue:work); app container runs php-fpm
 if [ "${APP_RUNTIME:-}" = "worker" ]; then
