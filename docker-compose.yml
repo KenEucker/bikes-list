@@ -14,14 +14,9 @@ services:
       - path: .env
         required: false
     environment:
+      # APP_ENV, APP_DEBUG, APP_URL, etc. come from env_file (laravel/.env
+      # or .env).  Only Docker/runtime overrides belong here.
       APP_RUNTIME: consumer
-      APP_ENV: ${APP_ENV:-local}
-      APP_DEBUG: "${APP_DEBUG:-true}"
-      APP_URL: ${APP_URL:-http://localhost}
-      APP_DOMAIN: ${APP_DOMAIN:-}
-      APP_NAME: ${APP_NAME:-BikesList}
-      PLATFORM_PREFIX: /admin
-
       LOG_CHANNEL: stderr
 
       DB_CONNECTION: pgsql
@@ -37,7 +32,6 @@ services:
       RUN_MIGRATIONS: "true"
       VITE_WATCH: "${VITE_WATCH:-0}"
 
-      # Session in DB so login persists after server restart
       SESSION_DRIVER: database
       SESSION_DOMAIN: ${SESSION_DOMAIN:-.localhost}
     healthcheck:
@@ -109,10 +103,8 @@ services:
         required: false
     environment:
       APP_RUNTIME: worker
-      APP_ENV: local
-      APP_URL: ${APP_URL:-http://localhost}
-      APP_DOMAIN: ${APP_DOMAIN:-}
-      SESSION_DOMAIN: ${SESSION_DOMAIN:-.localhost}
+      LOG_CHANNEL: stderr
+
       DB_CONNECTION: pgsql
       DB_HOST: db
       DB_PORT: 5432
