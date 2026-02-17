@@ -3,16 +3,15 @@
 # Usage:
 #   docker compose -f docker-compose.prod.yml up -d --build
 #
-# Set CERTBOT_EMAIL in .env for automatic Let's Encrypt certificate provisioning.
+# Required in .env:
+#   DO_AUTH_TOKEN   – DigitalOcean API token (for wildcard DNS-01 cert)
+#   CADDY_ACME_EMAIL – email for Let's Encrypt notifications
 
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - "80:80"
-      - "443:443"
     env_file:
       - path: .env
         required: true
@@ -32,18 +31,37 @@ services:
       SESSION_DRIVER: database
       SESSION_DOMAIN: ${SESSION_DOMAIN:-.bikeslist.org}
     volumes:
-      - certbot_www:/var/www/certbot:ro
-      - certbot_conf:/etc/letsencrypt
+      - app_public:/var/www/html/public
     depends_on:
       db:
         condition: service_healthy
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80/.well-known/acme-challenge/"]
+      test: ["CMD", "php", "-r", "@fsockopen('127.0.0.1', 9000) or exit(1);"]
       interval: 10s
       timeout: 5s
       retries: 3
       start_period: 120s
+
+  caddy:
+    build:
+      context: ./docker/caddy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DO_AUTH_TOKEN: ${DO_AUTH_TOKEN}
+      CADDY_ACME_EMAIL: ${CADDY_ACME_EMAIL}
+    volumes:
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+      - app_public:/var/www/html/public:ro
+    depends_on:
+      app:
+        condition: service_healthy
+    restart: unless-stopped
 
   db:
     image: postgres:17
@@ -61,20 +79,8 @@ services:
       start_period: 10s
     restart: unless-stopped
 
-  certbot:
-    image: certbot/certbot
-    volumes:
-      - certbot_www:/var/www/certbot
-      - certbot_conf:/etc/letsencrypt
-      - ./docker/certbot-entrypoint.sh:/certbot-entrypoint.sh:ro
-    environment:
-      CERTBOT_EMAIL: ${CERTBOT_EMAIL:-}
-    entrypoint: /certbot-entrypoint.sh
-    depends_on:
-      - app
-    restart: unless-stopped
-
 volumes:
   pgdata:
-  certbot_www:
-  certbot_conf:
+  caddy_data:
+  caddy_config:
+  app_public:

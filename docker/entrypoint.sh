@@ -147,25 +147,8 @@ case "$APP_RUNTIME" in
         exec php artisan queue:work --verbose --tries=3 --timeout=90
         ;;
     admin|consumer)
-        echo "Starting web server (runtime: $APP_RUNTIME)..."
-
-        # If SSL certs don't exist yet, generate a temporary self-signed cert
-        # so Nginx can start and serve ACME challenges for initial Let's Encrypt provisioning.
-        CERT_PATH="/etc/letsencrypt/live/bikeslist.org"
-        if [ ! -f "$CERT_PATH/fullchain.pem" ] || [ ! -f "$CERT_PATH/privkey.pem" ]; then
-            echo "SSL certificates not found. Generating temporary self-signed certificate..."
-            mkdir -p "$CERT_PATH"
-            openssl req -x509 -nodes -days 1 -newkey rsa:2048 \
-                -keyout "$CERT_PATH/privkey.pem" \
-                -out "$CERT_PATH/fullchain.pem" \
-                -subj "/CN=bikeslist.org" 2>/dev/null
-            echo "Temporary self-signed certificate created. Run certbot to get a real certificate."
-        fi
-
-        # Start PHP-FPM
-        php-fpm -D
-        # Start Nginx
-        exec nginx -g "daemon off;"
+        echo "Starting PHP-FPM (runtime: $APP_RUNTIME)..."
+        exec php-fpm
         ;;
     *)
         echo "Unknown APP_RUNTIME: $APP_RUNTIME"

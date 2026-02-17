@@ -10,15 +10,12 @@ FROM php:8.4-fpm AS base
 RUN apt-get update && apt-get install -y \
     git \
     curl \
-    openssl \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
     libzip-dev \
     zip \
     unzip \
-    nginx \
-    supervisor \
     postgresql-client \
     libpq-dev \
     && docker-php-ext-install pdo_pgsql pgsql mbstring exif pcntl bcmath gd zip \
@@ -75,10 +72,7 @@ RUN chown -R www-data:www-data /var/www/html \
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Copy Nginx configuration
-COPY docker/nginx.conf /etc/nginx/sites-available/default
-
-# Expose ports (80 for ACME challenges, 443 for HTTPS)
-EXPOSE 80 443
+# Expose PHP-FPM port (Caddy reverse-proxies to this)
+EXPOSE 9000
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
