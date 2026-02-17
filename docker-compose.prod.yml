@@ -1,23 +1,64 @@
-# Production overrides – run with:
-#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+# Production compose – self-contained (does NOT overlay docker-compose.yml).
 #
-# Adds the nginx-proxy (ports 80/443) and certbot for Let's Encrypt.
+# Usage:
+#   docker compose -f docker-compose.prod.yml up -d --build
+#
 # Before first deploy, run:  ./docker/init-letsencrypt.sh
 
 services:
-  # Override: in production the web service IS the nginx-proxy
-  web:
-    image: nginx:1.27-alpine
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "80:80"
       - "443:443"
+    env_file:
+      - path: .env
+        required: true
+    environment:
+      APP_RUNTIME: consumer
+      LOG_CHANNEL: stderr
+
+      DB_CONNECTION: pgsql
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: ${DB_DATABASE:-laravel}
+      DB_USERNAME: ${DB_USERNAME:-laravel}
+      DB_PASSWORD: ${DB_PASSWORD:-laravel}
+
+      RUN_MIGRATIONS: "true"
+
+      SESSION_DRIVER: database
+      SESSION_DOMAIN: ${SESSION_DOMAIN:-.bikeslist.org}
     volumes:
-      - ./docker/nginx-proxy.conf:/etc/nginx/nginx.conf:ro
       - certbot_www:/var/www/certbot:ro
       - certbot_conf:/etc/letsencrypt:ro
     depends_on:
-      app:
+      db:
         condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/.well-known/acme-challenge/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 120s
+
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-laravel}
+      POSTGRES_USER: ${DB_USERNAME:-laravel}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-laravel}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-laravel} -d ${DB_DATABASE:-laravel}"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+      start_period: 10s
     restart: unless-stopped
 
   certbot:
@@ -29,5 +70,6 @@ services:
     restart: unless-stopped
 
 volumes:
+  pgdata:
   certbot_www:
   certbot_conf:
