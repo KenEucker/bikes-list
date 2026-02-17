@@ -1,4 +1,8 @@
 # Multi-stage build for Bikeslist Platform
+#
+# The Laravel application lives in the laravel/ subdirectory.
+# The build copies from laravel/ into the container's /var/www/html.
+
 # Stage 1: Base PHP image with system dependencies
 FROM php:8.3-fpm AS base
 
@@ -32,16 +36,16 @@ WORKDIR /var/www/html
 # Stage 2: Install Composer dependencies
 FROM base AS vendor
 
-COPY composer.json composer.lock* ./
+COPY laravel/composer.json laravel/composer.lock ./
 RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
 
 # Stage 3: Build frontend assets
 FROM base AS frontend
 
-COPY package.json package-lock.json* ./
+COPY laravel/package.json laravel/package-lock.json ./
 RUN npm ci
 
-COPY . .
+COPY laravel/ .
 RUN npm run build
 
 # Stage 4: Runtime image
@@ -50,8 +54,8 @@ FROM base AS runtime
 # Copy Composer dependencies
 COPY --from=vendor /var/www/html/vendor ./vendor
 
-# Copy application code
-COPY . .
+# Copy application code from laravel/ subdirectory
+COPY laravel/ .
 
 # Copy built assets
 COPY --from=frontend /var/www/html/public/build ./public/build
