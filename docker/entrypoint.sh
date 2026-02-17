@@ -33,10 +33,10 @@ fi
 # ---------------------------------------------------------------------------
 # Wait for the database
 # ---------------------------------------------------------------------------
-if [ "$HAS_ARTISAN" = true ]; then
-    echo "Waiting for database connection..."
+if [ -n "${DB_HOST:-}" ]; then
+    echo "Waiting for Postgres at ${DB_HOST}:${DB_PORT:-5432}..."
     for i in {1..30}; do
-        if php artisan db:show > /dev/null 2>&1; then
+        if pg_isready -h "${DB_HOST}" -p "${DB_PORT:-5432}" -U "${DB_USERNAME:-laravel}" > /dev/null 2>&1; then
             echo "Database is ready!"
             break
         fi

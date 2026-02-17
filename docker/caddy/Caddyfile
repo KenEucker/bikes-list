@@ -29,7 +29,8 @@
 
 	# Block dotfiles except .well-known
 	@dotfiles {
-		path_regexp dotfile /\.(?!well-known)
+		path /.*
+		not path /.well-known/*
 	}
 	respond @dotfiles 403
 
