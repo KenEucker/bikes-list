@@ -73,7 +73,7 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 # Copy Nginx configuration
 COPY docker/nginx.conf /etc/nginx/sites-available/default
 
-# Expose port
-EXPOSE 80
+# Expose ports (80 for ACME challenges, 443 for HTTPS)
+EXPOSE 80 443
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
