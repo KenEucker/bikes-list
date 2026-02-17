@@ -1,0 +1,33 @@
+# Production overrides – run with:
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+#
+# Adds the nginx-proxy (ports 80/443) and certbot for Let's Encrypt.
+# Before first deploy, run:  ./docker/init-letsencrypt.sh
+
+services:
+  # Override: in production the web service IS the nginx-proxy
+  web:
+    image: nginx:1.27-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx-proxy.conf:/etc/nginx/nginx.conf:ro
+      - certbot_www:/var/www/certbot:ro
+      - certbot_conf:/etc/letsencrypt:ro
+    depends_on:
+      app:
+        condition: service_healthy
+    restart: unless-stopped
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - certbot_www:/var/www/certbot
+      - certbot_conf:/etc/letsencrypt
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    restart: unless-stopped
+
+volumes:
+  certbot_www:
+  certbot_conf:
