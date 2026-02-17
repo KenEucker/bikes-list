@@ -4,7 +4,7 @@
 # The build copies from laravel/ into the container's /var/www/html.
 
 # Stage 1: Base PHP image with system dependencies
-FROM php:8.3-fpm AS base
+FROM php:8.4-fpm AS base
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
