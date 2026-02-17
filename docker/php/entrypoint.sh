@@ -139,6 +139,7 @@ fi
 if [ "${RUN_MIGRATIONS:-true}" = "true" ]; then
   php artisan migrate --force --ansi || echo "Warning: migrate failed, continuing."
   php artisan db:seed --force --ansi || echo "Warning: db:seed failed, continuing."
+  php artisan orchid:publish --ansi || echo "Warning: orchid:publish failed, continuing."
 fi
 
 # Build frontend only in the app container (queue skips this).
