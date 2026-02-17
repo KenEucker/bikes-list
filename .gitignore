@@ -140,6 +140,10 @@ vite.config.ts.timestamp-*
 
 .astro/
 .DS_Store
+
+# SSL certificates (generated or provided)
+docker/ssl/
+
 vendor/
 admin/vendor/
 !laravel/resources/views/vendor/
