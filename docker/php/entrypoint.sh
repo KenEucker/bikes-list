@@ -143,25 +143,36 @@ if [ "${RUN_MIGRATIONS:-true}" = "true" ]; then
 fi
 
 # Build frontend only in the app container (queue skips this).
-# In production the Docker image already contains pre-built assets, so skip
-# the slow npm install + build entirely and just restore the image copy.
+# 1. Restore pre-built assets from the Docker image as an immediate fallback.
+# 2. If the manifest is still missing, run npm install + build synchronously
+#    so assets are ready before php-fpm accepts requests.
 if [ "${RUN_MIGRATIONS:-true}" = "true" ] && [ -f "package.json" ]; then
   mkdir -p public/build
+
+  # Restore cached build from the Docker image (fast, covers production)
   if [ -d /tmp/vite-build ] && [ ! -f public/build/manifest.json ]; then
     cp -r /tmp/vite-build/. public/build/
     echo "Restored pre-built frontend assets from image."
   fi
-  if [ "${APP_ENV:-local}" != "production" ]; then
-    # Dev: rebuild in background so php-fpm starts without delay.
-    (
-      rm -rf node_modules
-      npm install --no-audit --no-fund && npm run build
+
+  # If manifest is still missing (e.g. fresh volume, image had no pre-build),
+  # run a full npm install + build so the site is usable on first request.
+  if [ ! -f public/build/manifest.json ]; then
+    echo "Frontend manifest missing — running npm install + build..."
+    rm -rf node_modules
+    if npm install --no-audit --no-fund && npm run build; then
       echo "Frontend build complete."
-      if [ "${VITE_WATCH:-0}" = "1" ]; then
-        echo "Starting Vite in watch mode (rebuilds on frontend changes)..."
-        exec npm run build:watch
-      fi
-    ) &
+    else
+      echo "Warning: frontend build failed. The site may be missing styles/JS."
+    fi
+  else
+    echo "Frontend assets present, skipping build."
+  fi
+
+  # Optional: watch mode for live-reload during development
+  if [ "${VITE_WATCH:-0}" = "1" ] && [ "${APP_ENV:-local}" != "production" ]; then
+    echo "Starting Vite in watch mode (rebuilds on frontend changes)..."
+    npm run build:watch &
   fi
 fi
 
