@@ -1,5 +1,21 @@
 <?php
 
+/*
+|--------------------------------------------------------------------------
+| Resolve an OAuth redirect URI against APP_URL when the value is a
+| relative path.  This ensures the redirect always points to the main
+| domain (not a city subdomain) and uses the correct scheme, so only
+| one callback URL needs to be registered per provider.
+|--------------------------------------------------------------------------
+*/
+$resolveRedirect = function (string $envKey, string $default): string {
+    $uri = env($envKey, $default);
+
+    return str_starts_with($uri, '/')
+        ? rtrim(env('APP_URL', 'http://localhost'), '/') . $uri
+        : $uri;
+};
+
 return [
 
     /*
@@ -35,31 +51,16 @@ return [
         ],
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | OAuth Redirect URIs
-    |--------------------------------------------------------------------------
-    |
-    | Relative paths (e.g. /auth/discord/callback) are resolved at request
-    | time by Socialite using the current scheme + host.  For this to
-    | produce correct HTTPS URLs behind a proxy, TrustProxies must be
-    | configured (see bootstrap/app.php).
-    |
-    | You may also set a full URL to pin the callback to a specific domain:
-    |   DISCORD_REDIRECT_URI=https://portland.bikeslist.org/auth/discord/callback
-    |
-    */
-
     'google' => [
         'client_id'     => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-        'redirect'      => env('GOOGLE_REDIRECT_URI', '/auth/google/callback'),
+        'redirect'      => $resolveRedirect('GOOGLE_REDIRECT_URI', '/auth/google/callback'),
     ],
 
     'discord' => [
         'client_id'     => env('DISCORD_CLIENT_ID'),
         'client_secret' => env('DISCORD_CLIENT_SECRET'),
-        'redirect'      => env('DISCORD_REDIRECT_URI', '/auth/discord/callback'),
+        'redirect'      => $resolveRedirect('DISCORD_REDIRECT_URI', '/auth/discord/callback'),
     ],
 
 ];
