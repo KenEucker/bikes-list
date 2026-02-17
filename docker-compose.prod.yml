@@ -33,7 +33,7 @@ services:
       SESSION_DOMAIN: ${SESSION_DOMAIN:-.bikeslist.org}
     volumes:
       - certbot_www:/var/www/certbot:ro
-      - certbot_conf:/etc/letsencrypt:ro
+      - certbot_conf:/etc/letsencrypt
     depends_on:
       db:
         condition: service_healthy

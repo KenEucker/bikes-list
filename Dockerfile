@@ -10,6 +10,7 @@ FROM php:8.4-fpm AS base
 RUN apt-get update && apt-get install -y \
     git \
     curl \
+    openssl \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
