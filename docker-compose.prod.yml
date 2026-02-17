@@ -3,7 +3,7 @@
 # Usage:
 #   docker compose -f docker-compose.prod.yml up -d --build
 #
-# Before first deploy, run:  ./docker/init-letsencrypt.sh
+# Set CERTBOT_EMAIL in .env for automatic Let's Encrypt certificate provisioning.
 
 services:
   app:
@@ -66,7 +66,12 @@ services:
     volumes:
       - certbot_www:/var/www/certbot
       - certbot_conf:/etc/letsencrypt
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+      - ./docker/certbot-entrypoint.sh:/certbot-entrypoint.sh:ro
+    environment:
+      CERTBOT_EMAIL: ${CERTBOT_EMAIL:-}
+    entrypoint: /certbot-entrypoint.sh
+    depends_on:
+      - app
     restart: unless-stopped
 
 volumes:
