@@ -1,0 +1,6365 @@
+[
+  {
+    "slug": "caribbean",
+    "city": "caribbean islands",
+    "state_province": null,
+    "country": null,
+    "latitude": 19.0933,
+    "longitude": -74.619102,
+    "timezone": "America/Jamaica"
+  },
+  {
+    "slug": "dubai",
+    "city": "united arab emirates",
+    "state_province": null,
+    "country": "AE",
+    "latitude": 25.269699,
+    "longitude": 55.309502,
+    "timezone": "Asia/Dubai"
+  },
+  {
+    "slug": "buenosaires",
+    "city": "buenos aires",
+    "state_province": null,
+    "country": "AR",
+    "latitude": -34.6036,
+    "longitude": -58.381699,
+    "timezone": "America/Cordoba"
+  },
+  {
+    "slug": "vienna",
+    "city": "vienna",
+    "state_province": null,
+    "country": "AT",
+    "latitude": 48.211899,
+    "longitude": 16.359301,
+    "timezone": "Europe/Vienna"
+  },
+  {
+    "slug": "canberra",
+    "city": "canberra",
+    "state_province": "NSW",
+    "country": "AU",
+    "latitude": -35.282799,
+    "longitude": 149.130997,
+    "timezone": "Australia/Sydney"
+  },
+  {
+    "slug": "ntl",
+    "city": "newcastle",
+    "state_province": "NSW",
+    "country": "AU",
+    "latitude": -32.927101,
+    "longitude": 151.776001,
+    "timezone": "Australia/Sydney"
+  },
+  {
+    "slug": "sydney",
+    "city": "sydney",
+    "state_province": "NSW",
+    "country": "AU",
+    "latitude": -33.868301,
+    "longitude": 151.209,
+    "timezone": "Australia/Sydney"
+  },
+  {
+    "slug": "wollongong",
+    "city": "wollongong",
+    "state_province": "NSW",
+    "country": "AU",
+    "latitude": -34.4333,
+    "longitude": 150.882996,
+    "timezone": "Australia/Sydney"
+  },
+  {
+    "slug": "darwin",
+    "city": "darwin",
+    "state_province": "NT",
+    "country": "AU",
+    "latitude": -12.4667,
+    "longitude": 130.832993,
+    "timezone": "Australia/Darwin"
+  },
+  {
+    "slug": "brisbane",
+    "city": "brisbane",
+    "state_province": "QLD",
+    "country": "AU",
+    "latitude": -27.4667,
+    "longitude": 153.033005,
+    "timezone": "Australia/Brisbane"
+  },
+  {
+    "slug": "cairns",
+    "city": "cairns",
+    "state_province": "QLD",
+    "country": "AU",
+    "latitude": -16.9167,
+    "longitude": 145.766998,
+    "timezone": "Australia/Brisbane"
+  },
+  {
+    "slug": "goldcoast",
+    "city": "gold coast",
+    "state_province": "QLD",
+    "country": "AU",
+    "latitude": -28,
+    "longitude": 153.432999,
+    "timezone": "Australia/Brisbane"
+  },
+  {
+    "slug": "adelaide",
+    "city": "adelaide",
+    "state_province": "SA",
+    "country": "AU",
+    "latitude": -34.9333,
+    "longitude": 138.582993,
+    "timezone": "Australia/Adelaide"
+  },
+  {
+    "slug": "hobart",
+    "city": "tasmania",
+    "state_province": "TAS",
+    "country": "AU",
+    "latitude": -42.8806,
+    "longitude": 147.324997,
+    "timezone": "Australia/Melbourne"
+  },
+  {
+    "slug": "melbourne",
+    "city": "melbourne",
+    "state_province": "VIC",
+    "country": "AU",
+    "latitude": -37.783298,
+    "longitude": 144.966995,
+    "timezone": "Australia/Hobart"
+  },
+  {
+    "slug": "perth",
+    "city": "perth",
+    "state_province": "WA",
+    "country": "AU",
+    "latitude": -31.9554,
+    "longitude": 115.859001,
+    "timezone": "Australia/Perth"
+  },
+  {
+    "slug": "bangladesh",
+    "city": "bangladesh",
+    "state_province": null,
+    "country": "BD",
+    "latitude": 23.851101,
+    "longitude": 89.925003,
+    "timezone": "Asia/Dhaka"
+  },
+  {
+    "slug": "brussels",
+    "city": "belgium",
+    "state_province": null,
+    "country": "BE",
+    "latitude": 50.85,
+    "longitude": 4.35,
+    "timezone": "Europe/Brussels"
+  },
+  {
+    "slug": "bulgaria",
+    "city": "bulgaria",
+    "state_province": null,
+    "country": "BG",
+    "latitude": 42.697498,
+    "longitude": 23.3241,
+    "timezone": "Europe/Sofia"
+  },
+  {
+    "slug": "lapaz",
+    "city": "bolivia",
+    "state_province": null,
+    "country": "BO",
+    "latitude": -19.0431,
+    "longitude": -65.259201,
+    "timezone": "America/La_Paz"
+  },
+  {
+    "slug": "belohorizonte",
+    "city": "belo horizonte",
+    "state_province": null,
+    "country": "BR",
+    "latitude": -19.891701,
+    "longitude": -43.9478,
+    "timezone": "America/Sao_Paulo"
+  },
+  {
+    "slug": "brasilia",
+    "city": "brasilia",
+    "state_province": null,
+    "country": "BR",
+    "latitude": -15.7883,
+    "longitude": -47.926498,
+    "timezone": "America/Sao_Paulo"
+  },
+  {
+    "slug": "curitiba",
+    "city": "curitiba",
+    "state_province": null,
+    "country": "BR",
+    "latitude": -25.4687,
+    "longitude": -49.253502,
+    "timezone": "America/Sao_Paulo"
+  },
+  {
+    "slug": "fortaleza",
+    "city": "fortaleza",
+    "state_province": null,
+    "country": "BR",
+    "latitude": -3.82863,
+    "longitude": -38.595001,
+    "timezone": "America/Fortaleza"
+  },
+  {
+    "slug": "portoalegre",
+    "city": "porto alegre",
+    "state_province": null,
+    "country": "BR",
+    "latitude": -30.0049,
+    "longitude": -51.185299,
+    "timezone": "America/Sao_Paulo"
+  },
+  {
+    "slug": "recife",
+    "city": "recife",
+    "state_province": null,
+    "country": "BR",
+    "latitude": -8.05556,
+    "longitude": -34.891102,
+    "timezone": "America/Fortaleza"
+  },
+  {
+    "slug": "rio",
+    "city": "rio de janeiro",
+    "state_province": null,
+    "country": "BR",
+    "latitude": -22.9083,
+    "longitude": -43.243599,
+    "timezone": "America/Sao_Paulo"
+  },
+  {
+    "slug": "salvador",
+    "city": "salvador",
+    "state_province": null,
+    "country": "BR",
+    "latitude": -12.9833,
+    "longitude": -38.516701,
+    "timezone": "America/Fortaleza"
+  },
+  {
+    "slug": "saopaulo",
+    "city": "sao paulo",
+    "state_province": null,
+    "country": "BR",
+    "latitude": -23.566999,
+    "longitude": -46.632999,
+    "timezone": "America/Sao_Paulo"
+  },
+  {
+    "slug": "calgary",
+    "city": "calgary",
+    "state_province": "AB",
+    "country": "CA",
+    "latitude": 51.054401,
+    "longitude": -114.067001,
+    "timezone": "America/Edmonton"
+  },
+  {
+    "slug": "edmonton",
+    "city": "edmonton",
+    "state_province": "AB",
+    "country": "CA",
+    "latitude": 53.547199,
+    "longitude": -113.500999,
+    "timezone": "America/Edmonton"
+  },
+  {
+    "slug": "ftmcmurray",
+    "city": "ft mcmurray",
+    "state_province": "AB",
+    "country": "CA",
+    "latitude": 56.742199,
+    "longitude": -111.443001,
+    "timezone": "America/Edmonton"
+  },
+  {
+    "slug": "lethbridge",
+    "city": "lethbridge",
+    "state_province": "AB",
+    "country": "CA",
+    "latitude": 49.696098,
+    "longitude": -112.830002,
+    "timezone": "America/Edmonton"
+  },
+  {
+    "slug": "hat",
+    "city": "medicine hat",
+    "state_province": "AB",
+    "country": "CA",
+    "latitude": 50.050098,
+    "longitude": -110.667999,
+    "timezone": "America/Edmonton"
+  },
+  {
+    "slug": "peace",
+    "city": "peace river country",
+    "state_province": "AB",
+    "country": "CA",
+    "latitude": 56.250099,
+    "longitude": -117.286003,
+    "timezone": "America/Edmonton"
+  },
+  {
+    "slug": "reddeer",
+    "city": "red deer",
+    "state_province": "AB",
+    "country": "CA",
+    "latitude": 52.2747,
+    "longitude": -113.815002,
+    "timezone": "America/Edmonton"
+  },
+  {
+    "slug": "cariboo",
+    "city": "cariboo",
+    "state_province": "BC",
+    "country": "CA",
+    "latitude": 53.169827,
+    "longitude": -122.527771,
+    "timezone": "America/Vancouver"
+  },
+  {
+    "slug": "comoxvalley",
+    "city": "comox valley",
+    "state_province": "BC",
+    "country": "CA",
+    "latitude": 49.700901,
+    "longitude": -125.001999,
+    "timezone": "America/Vancouver"
+  },
+  {
+    "slug": "abbotsford",
+    "city": "fraser valley",
+    "state_province": "BC",
+    "country": "CA",
+    "latitude": 49.051399,
+    "longitude": -122.278999,
+    "timezone": "America/Vancouver"
+  },
+  {
+    "slug": "kamloops",
+    "city": "kamloops",
+    "state_province": "BC",
+    "country": "CA",
+    "latitude": 50.676701,
+    "longitude": -120.332001,
+    "timezone": "America/Vancouver"
+  },
+  {
+    "slug": "kelowna",
+    "city": "kelowna / okanagan",
+    "state_province": "BC",
+    "country": "CA",
+    "latitude": 49.890202,
+    "longitude": -119.490997,
+    "timezone": "America/Vancouver"
+  },
+  {
+    "slug": "kootenays",
+    "city": "kootenays",
+    "state_province": "BC",
+    "country": "CA",
+    "latitude": 49.511101,
+    "longitude": -115.766998,
+    "timezone": "America/Edmonton"
+  },
+  {
+    "slug": "nanaimo",
+    "city": "nanaimo",
+    "state_province": "BC",
+    "country": "CA",
+    "latitude": 49.1647,
+    "longitude": -123.938004,
+    "timezone": "America/Vancouver"
+  },
+  {
+    "slug": "princegeorge",
+    "city": "prince george",
+    "state_province": "BC",
+    "country": "CA",
+    "latitude": 53.913601,
+    "longitude": -122.75,
+    "timezone": "America/Vancouver"
+  },
+  {
+    "slug": "skeena",
+    "city": "skeena-bulkley",
+    "state_province": "BC",
+    "country": "CA",
+    "latitude": 54.2328,
+    "longitude": -129.837006,
+    "timezone": "America/Vancouver"
+  },
+  {
+    "slug": "sunshine",
+    "city": "sunshine coast",
+    "state_province": "BC",
+    "country": "CA",
+    "latitude": 49.998901,
+    "longitude": -123.753998,
+    "timezone": "America/Vancouver"
+  },
+  {
+    "slug": "vancouver",
+    "city": "vancouver",
+    "state_province": "BC",
+    "country": "CA",
+    "latitude": 49.2505,
+    "longitude": -123.112,
+    "timezone": "America/Vancouver"
+  },
+  {
+    "slug": "victoria",
+    "city": "victoria",
+    "state_province": "BC",
+    "country": "CA",
+    "latitude": 48.4328,
+    "longitude": -123.334999,
+    "timezone": "America/Vancouver"
+  },
+  {
+    "slug": "whistler",
+    "city": "whistler / squamish",
+    "state_province": "BC",
+    "country": "CA",
+    "latitude": 50.124401,
+    "longitude": -122.959999,
+    "timezone": "America/Vancouver"
+  },
+  {
+    "slug": "winnipeg",
+    "city": "winnipeg",
+    "state_province": "MB",
+    "country": "CA",
+    "latitude": 49.883301,
+    "longitude": -97.150002,
+    "timezone": "America/Winnipeg"
+  },
+  {
+    "slug": "newbrunswick",
+    "city": "new brunswick",
+    "state_province": "NB",
+    "country": "CA",
+    "latitude": 46.5,
+    "longitude": -66.75,
+    "timezone": "America/Halifax"
+  },
+  {
+    "slug": "newfoundland",
+    "city": "st john's",
+    "state_province": "NL",
+    "country": "CA",
+    "latitude": 47.5675,
+    "longitude": -52.707222,
+    "timezone": "America/St_Johns"
+  },
+  {
+    "slug": "halifax",
+    "city": "halifax",
+    "state_province": "NS",
+    "country": "CA",
+    "latitude": 44.63739,
+    "longitude": -63.588867,
+    "timezone": "America/Halifax"
+  },
+  {
+    "slug": "territories",
+    "city": "territories",
+    "state_province": "NT",
+    "country": "CA",
+    "latitude": 62.466599,
+    "longitude": -114.445,
+    "timezone": "America/Edmonton"
+  },
+  {
+    "slug": "yellowknife",
+    "city": "yellowknife",
+    "state_province": "NT",
+    "country": "CA",
+    "latitude": 62.456001,
+    "longitude": -114.352997,
+    "timezone": "America/Edmonton"
+  },
+  {
+    "slug": "barrie",
+    "city": "barrie",
+    "state_province": "ON",
+    "country": "CA",
+    "latitude": 44.394501,
+    "longitude": -79.690399,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "belleville",
+    "city": "belleville",
+    "state_province": "ON",
+    "country": "CA",
+    "latitude": 44.166698,
+    "longitude": -77.383301,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "brantford",
+    "city": "brantford-woodstock",
+    "state_province": "ON",
+    "country": "CA",
+    "latitude": 43.1334,
+    "longitude": -80.266403,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "chatham",
+    "city": "chatham-kent",
+    "state_province": "ON",
+    "country": "CA",
+    "latitude": 42.411289,
+    "longitude": -82.194214,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "cornwall",
+    "city": "cornwall",
+    "state_province": "ON",
+    "country": "CA",
+    "latitude": 45.029999,
+    "longitude": -74.739998,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "guelph",
+    "city": "guelph",
+    "state_province": "ON",
+    "country": "CA",
+    "latitude": 43.544601,
+    "longitude": -80.255096,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "hamilton",
+    "city": "hamilton-burlington",
+    "state_province": "ON",
+    "country": "CA",
+    "latitude": 43.243999,
+    "longitude": -79.869003,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "kingston",
+    "city": "kingston",
+    "state_province": "ON",
+    "country": "CA",
+    "latitude": 44.2314,
+    "longitude": -76.484703,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "kitchener",
+    "city": "kitchener-waterloo-cambridge",
+    "state_province": "ON",
+    "country": "CA",
+    "latitude": 43.452801,
+    "longitude": -80.490799,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "londonon",
+    "city": "london",
+    "state_province": "ON",
+    "country": "CA",
+    "latitude": 43.033298,
+    "longitude": -81.150002,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "niagara",
+    "city": "niagara region",
+    "state_province": "ON",
+    "country": "CA",
+    "latitude": 43.088902,
+    "longitude": -79.332298,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "ottawa",
+    "city": "ottawa-hull-gatineau",
+    "state_province": "ON",
+    "country": "CA",
+    "latitude": 45.421398,
+    "longitude": -75.691902,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "owensound",
+    "city": "owen sound",
+    "state_province": "ON",
+    "country": "CA",
+    "latitude": 44.574799,
+    "longitude": -80.952797,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "peterborough",
+    "city": "peterborough",
+    "state_province": "ON",
+    "country": "CA",
+    "latitude": 44.308998,
+    "longitude": -78.313004,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "sarnia",
+    "city": "sarnia",
+    "state_province": "ON",
+    "country": "CA",
+    "latitude": 42.966702,
+    "longitude": -82.400002,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "soo",
+    "city": "sault ste marie",
+    "state_province": "ON",
+    "country": "CA",
+    "latitude": 46.519199,
+    "longitude": -84.322098,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "sudbury",
+    "city": "sudbury",
+    "state_province": "ON",
+    "country": "CA",
+    "latitude": 46.490799,
+    "longitude": -80.991203,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "thunderbay",
+    "city": "thunder bay",
+    "state_province": "ON",
+    "country": "CA",
+    "latitude": 48.402802,
+    "longitude": -89.267998,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "toronto",
+    "city": "toronto",
+    "state_province": "ON",
+    "country": "CA",
+    "latitude": 43.648102,
+    "longitude": -79.404198,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "windsor",
+    "city": "windsor",
+    "state_province": "ON",
+    "country": "CA",
+    "latitude": 42.287498,
+    "longitude": -83.005798,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "pei",
+    "city": "prince edward island",
+    "state_province": "PE",
+    "country": "CA",
+    "latitude": 46.333302,
+    "longitude": -63.5,
+    "timezone": "America/Halifax"
+  },
+  {
+    "slug": "montreal",
+    "city": "montreal",
+    "state_province": "QC",
+    "country": "CA",
+    "latitude": 45.508099,
+    "longitude": -73.555,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "quebec",
+    "city": "quebec city",
+    "state_province": "QC",
+    "country": "CA",
+    "latitude": 46.890202,
+    "longitude": -71.218903,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "saguenay",
+    "city": "saguenay",
+    "state_province": "QC",
+    "country": "CA",
+    "latitude": 48.410099,
+    "longitude": -71.063698,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "sherbrooke",
+    "city": "sherbrooke",
+    "state_province": "QC",
+    "country": "CA",
+    "latitude": 45.399899,
+    "longitude": -71.919899,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "troisrivieres",
+    "city": "trois-rivieres",
+    "state_province": "QC",
+    "country": "CA",
+    "latitude": 46.356899,
+    "longitude": -72.546204,
+    "timezone": "America/Toronto"
+  },
+  {
+    "slug": "regina",
+    "city": "regina",
+    "state_province": "SK",
+    "country": "CA",
+    "latitude": 50.455299,
+    "longitude": -104.610001,
+    "timezone": "America/Regina"
+  },
+  {
+    "slug": "saskatoon",
+    "city": "saskatoon",
+    "state_province": "SK",
+    "country": "CA",
+    "latitude": 52.136902,
+    "longitude": -106.641998,
+    "timezone": "America/Regina"
+  },
+  {
+    "slug": "whitehorse",
+    "city": "whitehorse",
+    "state_province": "YK",
+    "country": "CA",
+    "latitude": 60.716099,
+    "longitude": -135.054001,
+    "timezone": "America/Vancouver"
+  },
+  {
+    "slug": "basel",
+    "city": "basel",
+    "state_province": null,
+    "country": "CH",
+    "latitude": 47.566002,
+    "longitude": 7.6,
+    "timezone": "Europe/Zurich"
+  },
+  {
+    "slug": "bern",
+    "city": "bern",
+    "state_province": null,
+    "country": "CH",
+    "latitude": 46.953999,
+    "longitude": 7.44736,
+    "timezone": "Europe/Zurich"
+  },
+  {
+    "slug": "geneva",
+    "city": "geneva",
+    "state_province": null,
+    "country": "CH",
+    "latitude": 46.200001,
+    "longitude": 6.15,
+    "timezone": "Europe/Zurich"
+  },
+  {
+    "slug": "lausanne",
+    "city": "lausanne",
+    "state_province": null,
+    "country": "CH",
+    "latitude": 46.518902,
+    "longitude": 6.67636,
+    "timezone": "Europe/Zurich"
+  },
+  {
+    "slug": "zurich",
+    "city": "zurich",
+    "state_province": null,
+    "country": "CH",
+    "latitude": 47.366699,
+    "longitude": 8.55,
+    "timezone": "Europe/Zurich"
+  },
+  {
+    "slug": "santiago",
+    "city": "chile",
+    "state_province": null,
+    "country": "CL",
+    "latitude": -33.462399,
+    "longitude": -70.640701,
+    "timezone": "America/Santiago"
+  },
+  {
+    "slug": "beijing",
+    "city": "beijing",
+    "state_province": null,
+    "country": "CN",
+    "latitude": 39.901299,
+    "longitude": 116.389,
+    "timezone": "Asia/Chongqing"
+  },
+  {
+    "slug": "chengdu",
+    "city": "chengdu",
+    "state_province": null,
+    "country": "CN",
+    "latitude": 30.6667,
+    "longitude": 104.067001,
+    "timezone": "Asia/Chongqing"
+  },
+  {
+    "slug": "chongqing",
+    "city": "chongqing",
+    "state_province": null,
+    "country": "CN",
+    "latitude": 29.558333,
+    "longitude": 106.566667,
+    "timezone": "Asia/Chongqing"
+  },
+  {
+    "slug": "dalian",
+    "city": "dalian",
+    "state_province": null,
+    "country": "CN",
+    "latitude": 38.912201,
+    "longitude": 121.601997,
+    "timezone": "Asia/Chongqing"
+  },
+  {
+    "slug": "guangzhou",
+    "city": "guangzhou",
+    "state_province": null,
+    "country": "CN",
+    "latitude": 23.145399,
+    "longitude": 113.334999,
+    "timezone": "Asia/Chongqing"
+  },
+  {
+    "slug": "hangzhou",
+    "city": "hangzhou",
+    "state_province": null,
+    "country": "CN",
+    "latitude": 30.2731,
+    "longitude": 120.177002,
+    "timezone": "Asia/Chongqing"
+  },
+  {
+    "slug": "nanjing",
+    "city": "nanjing",
+    "state_province": null,
+    "country": "CN",
+    "latitude": 32.05,
+    "longitude": 118.766667,
+    "timezone": "Asia/Chongqing"
+  },
+  {
+    "slug": "shanghai",
+    "city": "shanghai",
+    "state_province": null,
+    "country": "CN",
+    "latitude": 31.233299,
+    "longitude": 121.467003,
+    "timezone": "Asia/Chongqing"
+  },
+  {
+    "slug": "shenyang",
+    "city": "shenyang",
+    "state_province": null,
+    "country": "CN",
+    "latitude": 41.8038,
+    "longitude": 123.4341,
+    "timezone": "Asia/Chongqing"
+  },
+  {
+    "slug": "shenzhen",
+    "city": "shenzhen",
+    "state_province": null,
+    "country": "CN",
+    "latitude": 22.542999,
+    "longitude": 114.056999,
+    "timezone": "Asia/Chongqing"
+  },
+  {
+    "slug": "wuhan",
+    "city": "wuhan",
+    "state_province": null,
+    "country": "CN",
+    "latitude": 30.591,
+    "longitude": 114.305,
+    "timezone": "Asia/Chongqing"
+  },
+  {
+    "slug": "xian",
+    "city": "xi'an",
+    "state_province": null,
+    "country": "CN",
+    "latitude": 34.266667,
+    "longitude": 108.9,
+    "timezone": "Asia/Chongqing"
+  },
+  {
+    "slug": "colombia",
+    "city": "colombia",
+    "state_province": null,
+    "country": "CO",
+    "latitude": 5.06889,
+    "longitude": -74.526299,
+    "timezone": "America/Bogota"
+  },
+  {
+    "slug": "costarica",
+    "city": "costa rica",
+    "state_province": null,
+    "country": "CR",
+    "latitude": 9.9247,
+    "longitude": -84.078003,
+    "timezone": "America/Costa_Rica"
+  },
+  {
+    "slug": "prague",
+    "city": "prague",
+    "state_province": null,
+    "country": "CZ",
+    "latitude": 50.0783,
+    "longitude": 14.4141,
+    "timezone": "Europe/Prague"
+  },
+  {
+    "slug": "berlin",
+    "city": "berlin",
+    "state_province": null,
+    "country": "DE",
+    "latitude": 52.5233,
+    "longitude": 13.4127,
+    "timezone": "Europe/Berlin"
+  },
+  {
+    "slug": "bremen",
+    "city": "bremen",
+    "state_province": null,
+    "country": "DE",
+    "latitude": 53.0769,
+    "longitude": 8.80889,
+    "timezone": "Europe/Berlin"
+  },
+  {
+    "slug": "cologne",
+    "city": "cologne",
+    "state_province": null,
+    "country": "DE",
+    "latitude": 50.936401,
+    "longitude": 6.9595,
+    "timezone": "Europe/Berlin"
+  },
+  {
+    "slug": "dresden",
+    "city": "dresden",
+    "state_province": null,
+    "country": "DE",
+    "latitude": 51.049999,
+    "longitude": 13.7333,
+    "timezone": "Europe/Berlin"
+  },
+  {
+    "slug": "dusseldorf",
+    "city": "dusseldorf",
+    "state_province": null,
+    "country": "DE",
+    "latitude": 51.2211,
+    "longitude": 6.77925,
+    "timezone": "Europe/Berlin"
+  },
+  {
+    "slug": "essen",
+    "city": "essen / ruhr",
+    "state_province": null,
+    "country": "DE",
+    "latitude": 51.466702,
+    "longitude": 4.46667,
+    "timezone": "Europe/Brussels"
+  },
+  {
+    "slug": "frankfurt",
+    "city": "frankfurt",
+    "state_province": null,
+    "country": "DE",
+    "latitude": 50.116699,
+    "longitude": 8.68333,
+    "timezone": "Europe/Berlin"
+  },
+  {
+    "slug": "hamburg",
+    "city": "hamburg",
+    "state_province": null,
+    "country": "DE",
+    "latitude": 53.5686,
+    "longitude": 10.0386,
+    "timezone": "Europe/Berlin"
+  },
+  {
+    "slug": "hannover",
+    "city": "hannover",
+    "state_province": null,
+    "country": "DE",
+    "latitude": 52.3689,
+    "longitude": 9.7126,
+    "timezone": "Europe/Berlin"
+  },
+  {
+    "slug": "heidelberg",
+    "city": "heidelberg",
+    "state_province": null,
+    "country": "DE",
+    "latitude": 49.396702,
+    "longitude": 8.6792,
+    "timezone": "Europe/Berlin"
+  },
+  {
+    "slug": "kaiserslautern",
+    "city": "kaiserslautern",
+    "state_province": null,
+    "country": "DE",
+    "latitude": 49.450001,
+    "longitude": 7.75,
+    "timezone": "Europe/Berlin"
+  },
+  {
+    "slug": "leipzig",
+    "city": "leipzig",
+    "state_province": null,
+    "country": "DE",
+    "latitude": 51.333333,
+    "longitude": 12.383333,
+    "timezone": "Europe/Berlin"
+  },
+  {
+    "slug": "munich",
+    "city": "munich",
+    "state_province": null,
+    "country": "DE",
+    "latitude": 48.133301,
+    "longitude": 11.5667,
+    "timezone": "Europe/Berlin"
+  },
+  {
+    "slug": "nuremberg",
+    "city": "nuremberg",
+    "state_province": null,
+    "country": "DE",
+    "latitude": 49.4478,
+    "longitude": 11.0683,
+    "timezone": "Europe/Berlin"
+  },
+  {
+    "slug": "stuttgart",
+    "city": "stuttgart",
+    "state_province": null,
+    "country": "DE",
+    "latitude": 48.776699,
+    "longitude": 9.1775,
+    "timezone": "Europe/Berlin"
+  },
+  {
+    "slug": "copenhagen",
+    "city": "copenhagen",
+    "state_province": null,
+    "country": "DK",
+    "latitude": 55.674999,
+    "longitude": 12.5687,
+    "timezone": "Europe/Copenhagen"
+  },
+  {
+    "slug": "santodomingo",
+    "city": "dominican republic",
+    "state_province": null,
+    "country": "DO",
+    "latitude": 18.4667,
+    "longitude": -69.900002,
+    "timezone": "America/Santo_Domingo"
+  },
+  {
+    "slug": "quito",
+    "city": "ecuador",
+    "state_province": null,
+    "country": "EC",
+    "latitude": -0.225219,
+    "longitude": -78.519302,
+    "timezone": "America/Guayaquil"
+  },
+  {
+    "slug": "cairo",
+    "city": "egypt",
+    "state_province": null,
+    "country": "EG",
+    "latitude": 30.0667,
+    "longitude": 31.2479,
+    "timezone": "Africa/Cairo"
+  },
+  {
+    "slug": "alicante",
+    "city": "alicante",
+    "state_province": null,
+    "country": "ES",
+    "latitude": 38.349998,
+    "longitude": -0.48,
+    "timezone": "Europe/Madrid"
+  },
+  {
+    "slug": "baleares",
+    "city": "baleares",
+    "state_province": null,
+    "country": "ES",
+    "latitude": 39.605701,
+    "longitude": 2.96631,
+    "timezone": "Europe/Madrid"
+  },
+  {
+    "slug": "barcelona",
+    "city": "barcelona",
+    "state_province": null,
+    "country": "ES",
+    "latitude": 41.3857,
+    "longitude": 2.16994,
+    "timezone": "Europe/Madrid"
+  },
+  {
+    "slug": "bilbao",
+    "city": "bilbao",
+    "state_province": null,
+    "country": "ES",
+    "latitude": 43.25,
+    "longitude": -2.9667,
+    "timezone": "Europe/Madrid"
+  },
+  {
+    "slug": "cadiz",
+    "city": "cadiz",
+    "state_province": null,
+    "country": "ES",
+    "latitude": 36.532299,
+    "longitude": -6.29173,
+    "timezone": "Europe/Madrid"
+  },
+  {
+    "slug": "canarias",
+    "city": "canarias",
+    "state_province": null,
+    "country": "ES",
+    "latitude": 28.480801,
+    "longitude": -16.2738,
+    "timezone": "Atlantic/Canary"
+  },
+  {
+    "slug": "granada",
+    "city": "granada",
+    "state_province": null,
+    "country": "ES",
+    "latitude": 37.174198,
+    "longitude": -3.5975,
+    "timezone": "Europe/Madrid"
+  },
+  {
+    "slug": "madrid",
+    "city": "madrid",
+    "state_province": null,
+    "country": "ES",
+    "latitude": 40.400002,
+    "longitude": -3.6833,
+    "timezone": "Europe/Madrid"
+  },
+  {
+    "slug": "malaga",
+    "city": "malaga",
+    "state_province": null,
+    "country": "ES",
+    "latitude": 36.711899,
+    "longitude": -4.43573,
+    "timezone": "Europe/Madrid"
+  },
+  {
+    "slug": "sevilla",
+    "city": "sevilla",
+    "state_province": null,
+    "country": "ES",
+    "latitude": 37.3843,
+    "longitude": -5.97931,
+    "timezone": "Europe/Madrid"
+  },
+  {
+    "slug": "valencia",
+    "city": "valencia",
+    "state_province": null,
+    "country": "ES",
+    "latitude": 39.4767,
+    "longitude": -0.374444,
+    "timezone": "Europe/Madrid"
+  },
+  {
+    "slug": "addisababa",
+    "city": "ethiopia",
+    "state_province": null,
+    "country": "ET",
+    "latitude": 9.03333,
+    "longitude": 38.700001,
+    "timezone": "Africa/Addis_Ababa"
+  },
+  {
+    "slug": "helsinki",
+    "city": "finland",
+    "state_province": null,
+    "country": "FI",
+    "latitude": 60.182499,
+    "longitude": 24.947201,
+    "timezone": "Europe/Helsinki"
+  },
+  {
+    "slug": "bordeaux",
+    "city": "bordeaux",
+    "state_province": null,
+    "country": "FR",
+    "latitude": 44.8386,
+    "longitude": -0.578333,
+    "timezone": "Europe/Paris"
+  },
+  {
+    "slug": "rennes",
+    "city": "brittany",
+    "state_province": null,
+    "country": "FR",
+    "latitude": 48.106098,
+    "longitude": -1.6713,
+    "timezone": "Europe/Paris"
+  },
+  {
+    "slug": "grenoble",
+    "city": "grenoble",
+    "state_province": null,
+    "country": "FR",
+    "latitude": 45.189999,
+    "longitude": 5.72,
+    "timezone": "Europe/Paris"
+  },
+  {
+    "slug": "lille",
+    "city": "lille",
+    "state_province": null,
+    "country": "FR",
+    "latitude": 50.6325,
+    "longitude": 3.05833,
+    "timezone": "Europe/Paris"
+  },
+  {
+    "slug": "loire",
+    "city": "loire valley",
+    "state_province": null,
+    "country": "FR",
+    "latitude": 45.9865,
+    "longitude": 4.02512,
+    "timezone": "Europe/Paris"
+  },
+  {
+    "slug": "lyon",
+    "city": "lyon",
+    "state_province": null,
+    "country": "FR",
+    "latitude": 45.766899,
+    "longitude": 4.8342,
+    "timezone": "Europe/Paris"
+  },
+  {
+    "slug": "marseilles",
+    "city": "marseille",
+    "state_province": null,
+    "country": "FR",
+    "latitude": 43.297501,
+    "longitude": 5.3772,
+    "timezone": "Europe/Paris"
+  },
+  {
+    "slug": "montpellier",
+    "city": "montpellier",
+    "state_province": null,
+    "country": "FR",
+    "latitude": 43.6119,
+    "longitude": 3.87722,
+    "timezone": "Europe/Paris"
+  },
+  {
+    "slug": "cotedazur",
+    "city": "nice / cote d'azur",
+    "state_province": null,
+    "country": "FR",
+    "latitude": 43.702801,
+    "longitude": 7.26917,
+    "timezone": "Europe/Paris"
+  },
+  {
+    "slug": "rouen",
+    "city": "normandy",
+    "state_province": null,
+    "country": "FR",
+    "latitude": 49.436901,
+    "longitude": 1.08765,
+    "timezone": "Europe/Paris"
+  },
+  {
+    "slug": "paris",
+    "city": "paris",
+    "state_province": null,
+    "country": "FR",
+    "latitude": 48.874199,
+    "longitude": 2.34695,
+    "timezone": "Europe/Paris"
+  },
+  {
+    "slug": "strasbourg",
+    "city": "strasbourg",
+    "state_province": null,
+    "country": "FR",
+    "latitude": 48.582901,
+    "longitude": 7.74375,
+    "timezone": "Europe/Paris"
+  },
+  {
+    "slug": "toulouse",
+    "city": "toulouse",
+    "state_province": null,
+    "country": "FR",
+    "latitude": 43.605301,
+    "longitude": 1.4428,
+    "timezone": "Europe/Paris"
+  },
+  {
+    "slug": "aberdeen",
+    "city": "aberdeen",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 57.150002,
+    "longitude": -2.1,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "bath",
+    "city": "bath",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 51.383301,
+    "longitude": -2.3667,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "belfast",
+    "city": "belfast",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 54.599998,
+    "longitude": -5.91667,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "birmingham",
+    "city": "birmingham / west mids",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 52.48,
+    "longitude": -1.91,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "brighton",
+    "city": "brighton",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 50.830002,
+    "longitude": -0.155556,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "bristol",
+    "city": "bristol",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 51.459999,
+    "longitude": -2.6,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "cambridge",
+    "city": "cambridge",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 52.209999,
+    "longitude": 0.13,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "cardiff",
+    "city": "cardiff / wales",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 51.478001,
+    "longitude": -3.1771,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "coventry",
+    "city": "coventry",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 52.4081,
+    "longitude": -1.5106,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "derby",
+    "city": "derby",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 52.921902,
+    "longitude": -1.4758,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "devon",
+    "city": "devon & cornwall",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 50.5728,
+    "longitude": -4.4989,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "dundee",
+    "city": "dundee",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 56.450001,
+    "longitude": -2.98333,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "norwich",
+    "city": "east anglia",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 52.633701,
+    "longitude": 1.29261,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "eastmids",
+    "city": "east midlands",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 53.240601,
+    "longitude": -0.539703,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "edinburgh",
+    "city": "edinburgh",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 55.950001,
+    "longitude": -3.22,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "essex",
+    "city": "essex",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 51.7831,
+    "longitude": 0.666733,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "glasgow",
+    "city": "glasgow",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 55.869999,
+    "longitude": -4.27,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "hampshire",
+    "city": "hampshire",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 51.091202,
+    "longitude": -1.2188,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "kent",
+    "city": "kent",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 51.255001,
+    "longitude": 0.8638,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "leeds",
+    "city": "leeds",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 53.810001,
+    "longitude": -1.55,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "liverpool",
+    "city": "liverpool",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 53.416698,
+    "longitude": -3,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "london",
+    "city": "london",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 51.517101,
+    "longitude": -0.106196,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "manchester",
+    "city": "manchester",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 53.48,
+    "longitude": -2.24,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "newcastle",
+    "city": "newcastle / NE england",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 54.9776,
+    "longitude": -1.61362,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "nottingham",
+    "city": "nottingham",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 52.970001,
+    "longitude": -1.18,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "oxford",
+    "city": "oxford",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 51.751099,
+    "longitude": -1.25583,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "sheffield",
+    "city": "sheffield",
+    "state_province": null,
+    "country": "GB",
+    "latitude": 53.383301,
+    "longitude": -1.46667,
+    "timezone": "Europe/London"
+  },
+  {
+    "slug": "accra",
+    "city": "ghana",
+    "state_province": null,
+    "country": "GH",
+    "latitude": 5.55,
+    "longitude": -0.216667,
+    "timezone": "Africa/Accra"
+  },
+  {
+    "slug": "athens",
+    "city": "greece",
+    "state_province": null,
+    "country": "GR",
+    "latitude": 37.980999,
+    "longitude": 23.7169,
+    "timezone": "Europe/Athens"
+  },
+  {
+    "slug": "guatemala",
+    "city": "guatemala",
+    "state_province": null,
+    "country": "GT",
+    "latitude": 14.6211,
+    "longitude": -90.526901,
+    "timezone": "America/Guatemala"
+  },
+  {
+    "slug": "micronesia",
+    "city": "guam-micronesia",
+    "state_province": null,
+    "country": "GU",
+    "latitude": 13.45,
+    "longitude": 144.783005,
+    "timezone": "Pacific/Guam"
+  },
+  {
+    "slug": "hongkong",
+    "city": "hong kong",
+    "state_province": null,
+    "country": "HK",
+    "latitude": 22.299999,
+    "longitude": 114.167,
+    "timezone": "Asia/Hong_Kong"
+  },
+  {
+    "slug": "zagreb",
+    "city": "croatia",
+    "state_province": null,
+    "country": "HR",
+    "latitude": 45.813499,
+    "longitude": 15.9851,
+    "timezone": "Europe/Zagreb"
+  },
+  {
+    "slug": "budapest",
+    "city": "budapest",
+    "state_province": null,
+    "country": "HU",
+    "latitude": 47.5,
+    "longitude": 19.049999,
+    "timezone": "Europe/Budapest"
+  },
+  {
+    "slug": "jakarta",
+    "city": "indonesia",
+    "state_province": null,
+    "country": "ID",
+    "latitude": -6.267,
+    "longitude": 106.800003,
+    "timezone": "Asia/Jakarta"
+  },
+  {
+    "slug": "dublin",
+    "city": "dublin",
+    "state_province": null,
+    "country": "IE",
+    "latitude": 53.3428,
+    "longitude": -6.2661,
+    "timezone": "Europe/Dublin"
+  },
+  {
+    "slug": "haifa",
+    "city": "haifa",
+    "state_province": null,
+    "country": "IL",
+    "latitude": 32.799999,
+    "longitude": 34.983299,
+    "timezone": "Asia/Jerusalem"
+  },
+  {
+    "slug": "jerusalem",
+    "city": "jerusalem",
+    "state_province": null,
+    "country": "IL",
+    "latitude": 31.7871,
+    "longitude": 35.2048,
+    "timezone": "Asia/Jerusalem"
+  },
+  {
+    "slug": "telaviv",
+    "city": "tel aviv",
+    "state_province": null,
+    "country": "IL",
+    "latitude": 32.083302,
+    "longitude": 34.799999,
+    "timezone": "Asia/Jerusalem"
+  },
+  {
+    "slug": "ahmedabad",
+    "city": "ahmedabad",
+    "state_province": null,
+    "country": "IN",
+    "latitude": 23.0333,
+    "longitude": 72.616699,
+    "timezone": "Asia/Calcutta"
+  },
+  {
+    "slug": "bangalore",
+    "city": "bangalore",
+    "state_province": null,
+    "country": "IN",
+    "latitude": 12.9833,
+    "longitude": 77.583298,
+    "timezone": "Asia/Calcutta"
+  },
+  {
+    "slug": "bhubaneswar",
+    "city": "bhubaneswar",
+    "state_province": null,
+    "country": "IN",
+    "latitude": 20.27,
+    "longitude": 85.84,
+    "timezone": "Asia/Calcutta"
+  },
+  {
+    "slug": "chandigarh",
+    "city": "chandigarh",
+    "state_province": null,
+    "country": "IN",
+    "latitude": 30.7372,
+    "longitude": 76.787201,
+    "timezone": "Asia/Calcutta"
+  },
+  {
+    "slug": "chennai",
+    "city": "chennai (madras)",
+    "state_province": null,
+    "country": "IN",
+    "latitude": 13.081,
+    "longitude": 80.274002,
+    "timezone": "Asia/Calcutta"
+  },
+  {
+    "slug": "delhi",
+    "city": "delhi",
+    "state_province": null,
+    "country": "IN",
+    "latitude": 28.6544,
+    "longitude": 77.225601,
+    "timezone": "Asia/Calcutta"
+  },
+  {
+    "slug": "goa",
+    "city": "goa",
+    "state_province": null,
+    "country": "IN",
+    "latitude": 15.3733,
+    "longitude": 73.939201,
+    "timezone": "Asia/Calcutta"
+  },
+  {
+    "slug": "hyderabad",
+    "city": "hyderabad",
+    "state_province": null,
+    "country": "IN",
+    "latitude": 17.366699,
+    "longitude": 78.466698,
+    "timezone": "Asia/Calcutta"
+  },
+  {
+    "slug": "indore",
+    "city": "indore",
+    "state_province": null,
+    "country": "IN",
+    "latitude": 22.7236,
+    "longitude": 75.860603,
+    "timezone": "Asia/Calcutta"
+  },
+  {
+    "slug": "jaipur",
+    "city": "jaipur",
+    "state_province": null,
+    "country": "IN",
+    "latitude": 26.92,
+    "longitude": 75.82,
+    "timezone": "Asia/Calcutta"
+  },
+  {
+    "slug": "kerala",
+    "city": "kerala",
+    "state_province": null,
+    "country": "IN",
+    "latitude": 10,
+    "longitude": 76.5,
+    "timezone": "Asia/Calcutta"
+  },
+  {
+    "slug": "kolkata",
+    "city": "kolkata (calcutta)",
+    "state_province": null,
+    "country": "IN",
+    "latitude": 22.5697,
+    "longitude": 88.369698,
+    "timezone": "Asia/Calcutta"
+  },
+  {
+    "slug": "lucknow",
+    "city": "lucknow",
+    "state_province": null,
+    "country": "IN",
+    "latitude": 26.847,
+    "longitude": 80.947,
+    "timezone": "Asia/Calcutta"
+  },
+  {
+    "slug": "mumbai",
+    "city": "mumbai",
+    "state_province": null,
+    "country": "IN",
+    "latitude": 18.964701,
+    "longitude": 72.825798,
+    "timezone": "Asia/Calcutta"
+  },
+  {
+    "slug": "pune",
+    "city": "pune",
+    "state_province": null,
+    "country": "IN",
+    "latitude": 18.5236,
+    "longitude": 73.847801,
+    "timezone": "Asia/Calcutta"
+  },
+  {
+    "slug": "surat",
+    "city": "surat surat",
+    "state_province": null,
+    "country": "IN",
+    "latitude": 21.1667,
+    "longitude": 72.833298,
+    "timezone": "Asia/Calcutta"
+  },
+  {
+    "slug": "baghdad",
+    "city": "iraq",
+    "state_province": null,
+    "country": "IQ",
+    "latitude": 33.3386,
+    "longitude": 44.393902,
+    "timezone": "Asia/Baghdad"
+  },
+  {
+    "slug": "tehran",
+    "city": "iran",
+    "state_province": null,
+    "country": "IR",
+    "latitude": 35.671902,
+    "longitude": 51.4244,
+    "timezone": "Asia/Tehran"
+  },
+  {
+    "slug": "reykjavik",
+    "city": "reykjavik",
+    "state_province": null,
+    "country": "IS",
+    "latitude": 64.146004,
+    "longitude": -21.942301,
+    "timezone": "Atlantic/Reykjavik"
+  },
+  {
+    "slug": "bologna",
+    "city": "bologna",
+    "state_province": null,
+    "country": "IT",
+    "latitude": 44.5,
+    "longitude": 11.35,
+    "timezone": "Europe/Rome"
+  },
+  {
+    "slug": "florence",
+    "city": "florence / tuscany",
+    "state_province": null,
+    "country": "IT",
+    "latitude": 43.771702,
+    "longitude": 11.2536,
+    "timezone": "Europe/Rome"
+  },
+  {
+    "slug": "genoa",
+    "city": "genoa",
+    "state_province": null,
+    "country": "IT",
+    "latitude": 44.416698,
+    "longitude": 8.92389,
+    "timezone": "Europe/Rome"
+  },
+  {
+    "slug": "milan",
+    "city": "milan",
+    "state_province": null,
+    "country": "IT",
+    "latitude": 45.464001,
+    "longitude": 9.19157,
+    "timezone": "Europe/Rome"
+  },
+  {
+    "slug": "naples",
+    "city": "napoli / campania",
+    "state_province": null,
+    "country": "IT",
+    "latitude": 40.846001,
+    "longitude": 14.251,
+    "timezone": "Europe/Rome"
+  },
+  {
+    "slug": "perugia",
+    "city": "perugia",
+    "state_province": null,
+    "country": "IT",
+    "latitude": 43.116699,
+    "longitude": 12.3833,
+    "timezone": "Europe/Rome"
+  },
+  {
+    "slug": "rome",
+    "city": "rome",
+    "state_province": null,
+    "country": "IT",
+    "latitude": 41.900002,
+    "longitude": 12.5,
+    "timezone": "Europe/Rome"
+  },
+  {
+    "slug": "sardinia",
+    "city": "sardinia",
+    "state_province": null,
+    "country": "IT",
+    "latitude": 40,
+    "longitude": 9,
+    "timezone": "Europe/Rome"
+  },
+  {
+    "slug": "sicily",
+    "city": "sicilia",
+    "state_province": null,
+    "country": "IT",
+    "latitude": 37.553299,
+    "longitude": 14.1531,
+    "timezone": "Europe/Rome"
+  },
+  {
+    "slug": "torino",
+    "city": "torino",
+    "state_province": null,
+    "country": "IT",
+    "latitude": 45.069599,
+    "longitude": 7.68494,
+    "timezone": "Europe/Rome"
+  },
+  {
+    "slug": "venice",
+    "city": "venice / veneto",
+    "state_province": null,
+    "country": "IT",
+    "latitude": 45.4333,
+    "longitude": 12.3167,
+    "timezone": "Europe/Rome"
+  },
+  {
+    "slug": "fukuoka",
+    "city": "fukuoka",
+    "state_province": null,
+    "country": "JP",
+    "latitude": 33.5858,
+    "longitude": 130.403,
+    "timezone": "Asia/Tokyo"
+  },
+  {
+    "slug": "hiroshima",
+    "city": "hiroshima",
+    "state_province": null,
+    "country": "JP",
+    "latitude": 34.3848,
+    "longitude": 132.455002,
+    "timezone": "Asia/Tokyo"
+  },
+  {
+    "slug": "nagoya",
+    "city": "nagoya",
+    "state_province": null,
+    "country": "JP",
+    "latitude": 35.166698,
+    "longitude": 136.917007,
+    "timezone": "Asia/Tokyo"
+  },
+  {
+    "slug": "okinawa",
+    "city": "okinawa",
+    "state_province": null,
+    "country": "JP",
+    "latitude": 26.3333,
+    "longitude": 127.800003,
+    "timezone": "Asia/Tokyo"
+  },
+  {
+    "slug": "osaka",
+    "city": "osaka-kobe-kyoto",
+    "state_province": null,
+    "country": "JP",
+    "latitude": 34.660301,
+    "longitude": 135.522995,
+    "timezone": "Asia/Tokyo"
+  },
+  {
+    "slug": "sapporo",
+    "city": "sapporo",
+    "state_province": null,
+    "country": "JP",
+    "latitude": 43.0667,
+    "longitude": 141.350006,
+    "timezone": "Asia/Tokyo"
+  },
+  {
+    "slug": "sendai",
+    "city": "sendai",
+    "state_province": null,
+    "country": "JP",
+    "latitude": 38.266667,
+    "longitude": 140.866667,
+    "timezone": "Asia/Tokyo"
+  },
+  {
+    "slug": "tokyo",
+    "city": "tokyo",
+    "state_province": null,
+    "country": "JP",
+    "latitude": 35.6833,
+    "longitude": 139.766998,
+    "timezone": "Asia/Tokyo"
+  },
+  {
+    "slug": "kenya",
+    "city": "kenya",
+    "state_province": null,
+    "country": "KE",
+    "latitude": -1.28333,
+    "longitude": 36.8167,
+    "timezone": "Africa/Nairobi"
+  },
+  {
+    "slug": "seoul",
+    "city": "seoul",
+    "state_province": null,
+    "country": "KR",
+    "latitude": 37.583302,
+    "longitude": 127,
+    "timezone": "Asia/Seoul"
+  },
+  {
+    "slug": "kuwait",
+    "city": "kuwait",
+    "state_province": null,
+    "country": "KW",
+    "latitude": 29.369699,
+    "longitude": 47.978298,
+    "timezone": "Asia/Kuwait"
+  },
+  {
+    "slug": "beirut",
+    "city": "beirut",
+    "state_province": null,
+    "country": "LB",
+    "latitude": 33.883301,
+    "longitude": 35.5,
+    "timezone": "Asia/Beirut"
+  },
+  {
+    "slug": "luxembourg",
+    "city": "luxembourg",
+    "state_province": null,
+    "country": "LU",
+    "latitude": 49.611698,
+    "longitude": 6.13,
+    "timezone": "Europe/Luxembourg"
+  },
+  {
+    "slug": "casablanca",
+    "city": "morocco",
+    "state_province": null,
+    "country": "MA",
+    "latitude": 34.02,
+    "longitude": -6.83,
+    "timezone": "Africa/Casablanca"
+  },
+  {
+    "slug": "acapulco",
+    "city": "acapulco",
+    "state_province": null,
+    "country": "MX",
+    "latitude": 16.8517,
+    "longitude": -99.909698,
+    "timezone": "America/Mexico_City"
+  },
+  {
+    "slug": "bajasur",
+    "city": "baja california sur",
+    "state_province": null,
+    "country": "MX",
+    "latitude": 25.8461,
+    "longitude": -111.973,
+    "timezone": "America/Mazatlan"
+  },
+  {
+    "slug": "chihuahua",
+    "city": "chihuahua",
+    "state_province": null,
+    "country": "MX",
+    "latitude": 28.5,
+    "longitude": -106,
+    "timezone": "America/Mazatlan"
+  },
+  {
+    "slug": "juarez",
+    "city": "ciudad juarez",
+    "state_province": null,
+    "country": "MX",
+    "latitude": 31.7377,
+    "longitude": -106.487,
+    "timezone": "America/Mazatlan"
+  },
+  {
+    "slug": "guadalajara",
+    "city": "guadalajara",
+    "state_province": null,
+    "country": "MX",
+    "latitude": 20.6661,
+    "longitude": -103.351997,
+    "timezone": "America/Mexico_City"
+  },
+  {
+    "slug": "guanajuato",
+    "city": "guanajuato",
+    "state_province": null,
+    "country": "MX",
+    "latitude": 21.0128,
+    "longitude": -101.273003,
+    "timezone": "America/Mexico_City"
+  },
+  {
+    "slug": "hermosillo",
+    "city": "hermosillo",
+    "state_province": null,
+    "country": "MX",
+    "latitude": 29.0833,
+    "longitude": -110.949997,
+    "timezone": "America/Hermosillo"
+  },
+  {
+    "slug": "mazatlan",
+    "city": "mazatlan",
+    "state_province": null,
+    "country": "MX",
+    "latitude": 23.233101,
+    "longitude": -106.411003,
+    "timezone": "America/Mazatlan"
+  },
+  {
+    "slug": "mexicocity",
+    "city": "mexico city",
+    "state_province": null,
+    "country": "MX",
+    "latitude": 19.433333,
+    "longitude": -99.133333,
+    "timezone": "America/Mexico_City"
+  },
+  {
+    "slug": "monterrey",
+    "city": "monterrey",
+    "state_province": null,
+    "country": "MX",
+    "latitude": 25.6667,
+    "longitude": -100.300003,
+    "timezone": "America/Mexico_City"
+  },
+  {
+    "slug": "oaxaca",
+    "city": "oaxaca",
+    "state_province": null,
+    "country": "MX",
+    "latitude": 17.0833,
+    "longitude": -96.75,
+    "timezone": "America/Mexico_City"
+  },
+  {
+    "slug": "puebla",
+    "city": "puebla",
+    "state_province": null,
+    "country": "MX",
+    "latitude": 19.0469,
+    "longitude": -98.209396,
+    "timezone": "America/Mexico_City"
+  },
+  {
+    "slug": "pv",
+    "city": "puerto vallarta",
+    "state_province": null,
+    "country": "MX",
+    "latitude": 20.6031,
+    "longitude": -105.234001,
+    "timezone": "America/Mexico_City"
+  },
+  {
+    "slug": "tijuana",
+    "city": "tijuana",
+    "state_province": null,
+    "country": "MX",
+    "latitude": 32.5308,
+    "longitude": -117.019997,
+    "timezone": "America/Tijuana"
+  },
+  {
+    "slug": "veracruz",
+    "city": "veracruz",
+    "state_province": null,
+    "country": "MX",
+    "latitude": 19.187201,
+    "longitude": -96.136398,
+    "timezone": "America/Mexico_City"
+  },
+  {
+    "slug": "yucatan",
+    "city": "yucatan",
+    "state_province": null,
+    "country": "MX",
+    "latitude": 20.645599,
+    "longitude": -88.593803,
+    "timezone": "America/Mexico_City"
+  },
+  {
+    "slug": "malaysia",
+    "city": "malaysia",
+    "state_province": null,
+    "country": "MY",
+    "latitude": 3.57099,
+    "longitude": 101.991997,
+    "timezone": "Asia/Kuala_Lumpur"
+  },
+  {
+    "slug": "managua",
+    "city": "nicaragua",
+    "state_province": null,
+    "country": "NI",
+    "latitude": 12.1508,
+    "longitude": -86.268303,
+    "timezone": "America/Managua"
+  },
+  {
+    "slug": "amsterdam",
+    "city": "amsterdam / randstad",
+    "state_province": null,
+    "country": "NL",
+    "latitude": 52.369999,
+    "longitude": 4.89,
+    "timezone": "Europe/Amsterdam"
+  },
+  {
+    "slug": "oslo",
+    "city": "norway",
+    "state_province": null,
+    "country": "NO",
+    "latitude": 59.919399,
+    "longitude": 10.7457,
+    "timezone": "Europe/Oslo"
+  },
+  {
+    "slug": "auckland",
+    "city": "auckland",
+    "state_province": null,
+    "country": "NZ",
+    "latitude": -36.853001,
+    "longitude": 174.764999,
+    "timezone": "Pacific/Auckland"
+  },
+  {
+    "slug": "christchurch",
+    "city": "christchurch",
+    "state_province": null,
+    "country": "NZ",
+    "latitude": -43.5,
+    "longitude": 172.600006,
+    "timezone": "Pacific/Auckland"
+  },
+  {
+    "slug": "dunedin",
+    "city": "dunedin",
+    "state_province": null,
+    "country": "NZ",
+    "latitude": -45.891918,
+    "longitude": 170.506439,
+    "timezone": "Pacific/Auckland"
+  },
+  {
+    "slug": "wellington",
+    "city": "wellington",
+    "state_province": null,
+    "country": "NZ",
+    "latitude": -41.288898,
+    "longitude": 174.776993,
+    "timezone": "Pacific/Auckland"
+  },
+  {
+    "slug": "panama",
+    "city": "panama",
+    "state_province": null,
+    "country": "PA",
+    "latitude": 8.75154,
+    "longitude": -79.877197,
+    "timezone": "America/Panama"
+  },
+  {
+    "slug": "lima",
+    "city": "peru",
+    "state_province": null,
+    "country": "PE",
+    "latitude": -12.1038,
+    "longitude": -77.058098,
+    "timezone": "America/Lima"
+  },
+  {
+    "slug": "bacolod",
+    "city": "bacolod",
+    "state_province": null,
+    "country": "PH",
+    "latitude": 10.6311,
+    "longitude": 122.978996,
+    "timezone": "Asia/Manila"
+  },
+  {
+    "slug": "naga",
+    "city": "bicol region",
+    "state_province": null,
+    "country": "PH",
+    "latitude": 13.5,
+    "longitude": 123.5,
+    "timezone": "Asia/Manila"
+  },
+  {
+    "slug": "cdo",
+    "city": "cagayan de oro",
+    "state_province": null,
+    "country": "PH",
+    "latitude": 8.48222,
+    "longitude": 124.647003,
+    "timezone": "Asia/Manila"
+  },
+  {
+    "slug": "cebu",
+    "city": "cebu",
+    "state_province": null,
+    "country": "PH",
+    "latitude": 10.4264,
+    "longitude": 123.797997,
+    "timezone": "Asia/Manila"
+  },
+  {
+    "slug": "davaocity",
+    "city": "davao city",
+    "state_province": null,
+    "country": "PH",
+    "latitude": 7.07841,
+    "longitude": 125.612,
+    "timezone": "Asia/Manila"
+  },
+  {
+    "slug": "iloilo",
+    "city": "iloilo",
+    "state_province": null,
+    "country": "PH",
+    "latitude": 10.6969,
+    "longitude": 122.564003,
+    "timezone": "Asia/Manila"
+  },
+  {
+    "slug": "manila",
+    "city": "manila",
+    "state_province": null,
+    "country": "PH",
+    "latitude": 14.5922,
+    "longitude": 121.001999,
+    "timezone": "Asia/Manila"
+  },
+  {
+    "slug": "pampanga",
+    "city": "pampanga",
+    "state_province": null,
+    "country": "PH",
+    "latitude": 15.2233,
+    "longitude": 120.579002,
+    "timezone": "Asia/Manila"
+  },
+  {
+    "slug": "zamboanga",
+    "city": "zamboanga",
+    "state_province": null,
+    "country": "PH",
+    "latitude": 6.91028,
+    "longitude": 122.073997,
+    "timezone": "Asia/Manila"
+  },
+  {
+    "slug": "pakistan",
+    "city": "pakistan",
+    "state_province": null,
+    "country": "PK",
+    "latitude": 32.016201,
+    "longitude": 71.692596,
+    "timezone": "Asia/Karachi"
+  },
+  {
+    "slug": "warsaw",
+    "city": "poland",
+    "state_province": null,
+    "country": "PL",
+    "latitude": 52.232399,
+    "longitude": 21.001699,
+    "timezone": "Europe/Warsaw"
+  },
+  {
+    "slug": "puertorico",
+    "city": "puerto rico",
+    "state_province": "PR",
+    "country": "PR",
+    "latitude": 18.261299,
+    "longitude": -66.435997,
+    "timezone": "America/Puerto_Rico"
+  },
+  {
+    "slug": "ramallah",
+    "city": "west bank",
+    "state_province": null,
+    "country": "PS",
+    "latitude": 31.9667,
+    "longitude": 35.299999,
+    "timezone": "Asia/Gaza"
+  },
+  {
+    "slug": "faro",
+    "city": "faro / algarve",
+    "state_province": null,
+    "country": "PT",
+    "latitude": 37.02,
+    "longitude": -7.93,
+    "timezone": "Europe/Lisbon"
+  },
+  {
+    "slug": "lisbon",
+    "city": "lisbon",
+    "state_province": null,
+    "country": "PT",
+    "latitude": 38.700001,
+    "longitude": -9.1833,
+    "timezone": "Europe/Lisbon"
+  },
+  {
+    "slug": "porto",
+    "city": "porto",
+    "state_province": null,
+    "country": "PT",
+    "latitude": 41.166698,
+    "longitude": -8.58333,
+    "timezone": "Europe/Lisbon"
+  },
+  {
+    "slug": "bucharest",
+    "city": "romania",
+    "state_province": null,
+    "country": "RO",
+    "latitude": 44.4333,
+    "longitude": 26.1,
+    "timezone": "Europe/Bucharest"
+  },
+  {
+    "slug": "moscow",
+    "city": "moscow",
+    "state_province": null,
+    "country": "RU",
+    "latitude": 55.75,
+    "longitude": 37.583302,
+    "timezone": "Europe/Moscow"
+  },
+  {
+    "slug": "stpetersburg",
+    "city": "st petersburg",
+    "state_province": null,
+    "country": "RU",
+    "latitude": 59.922001,
+    "longitude": 30.3223,
+    "timezone": "Europe/Moscow"
+  },
+  {
+    "slug": "stockholm",
+    "city": "sweden",
+    "state_province": null,
+    "country": "SE",
+    "latitude": 59.337399,
+    "longitude": 18.0602,
+    "timezone": "Europe/Stockholm"
+  },
+  {
+    "slug": "singapore",
+    "city": "singapore",
+    "state_province": null,
+    "country": "SG",
+    "latitude": 1.29628,
+    "longitude": 103.843002,
+    "timezone": "Asia/Singapore"
+  },
+  {
+    "slug": "elsalvador",
+    "city": "el salvador",
+    "state_province": null,
+    "country": "SV",
+    "latitude": 13.7086,
+    "longitude": -89.203102,
+    "timezone": "America/El_Salvador"
+  },
+  {
+    "slug": "bangkok",
+    "city": "thailand",
+    "state_province": null,
+    "country": "TH",
+    "latitude": 13.9202,
+    "longitude": 101.016998,
+    "timezone": "Asia/Bangkok"
+  },
+  {
+    "slug": "tunis",
+    "city": "tunisia",
+    "state_province": null,
+    "country": "TN",
+    "latitude": 36.802799,
+    "longitude": 10.1797,
+    "timezone": "Africa/Tunis"
+  },
+  {
+    "slug": "istanbul",
+    "city": "turkey",
+    "state_province": null,
+    "country": "TR",
+    "latitude": 41.042099,
+    "longitude": 29.009399,
+    "timezone": "Europe/Istanbul"
+  },
+  {
+    "slug": "taipei",
+    "city": "taiwan",
+    "state_province": null,
+    "country": "TW",
+    "latitude": 23.766701,
+    "longitude": 121,
+    "timezone": "Asia/Taipei"
+  },
+  {
+    "slug": "ukraine",
+    "city": "ukraine",
+    "state_province": null,
+    "country": "UA",
+    "latitude": 50.4333,
+    "longitude": 30.516701,
+    "timezone": "Europe/Kiev"
+  },
+  {
+    "slug": "anchorage",
+    "city": "anchorage / mat-su",
+    "state_province": "AK",
+    "country": "US",
+    "latitude": 61.196201,
+    "longitude": -149.886002,
+    "timezone": "America/Anchorage"
+  },
+  {
+    "slug": "fairbanks",
+    "city": "fairbanks",
+    "state_province": "AK",
+    "country": "US",
+    "latitude": 64.837799,
+    "longitude": -147.716003,
+    "timezone": "America/Anchorage"
+  },
+  {
+    "slug": "kenai",
+    "city": "kenai peninsula",
+    "state_province": "AK",
+    "country": "US",
+    "latitude": 60.554401,
+    "longitude": -151.257996,
+    "timezone": "America/Anchorage"
+  },
+  {
+    "slug": "juneau",
+    "city": "southeast alaska",
+    "state_province": "AK",
+    "country": "US",
+    "latitude": 58.355629,
+    "longitude": -134.571533,
+    "timezone": "America/Anchorage"
+  },
+  {
+    "slug": "auburn",
+    "city": "auburn",
+    "state_province": "AL",
+    "country": "US",
+    "latitude": 32.609699,
+    "longitude": -85.480797,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "bham",
+    "city": "birmingham",
+    "state_province": "AL",
+    "country": "US",
+    "latitude": 33.520599,
+    "longitude": -86.802498,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "dothan",
+    "city": "dothan",
+    "state_province": "AL",
+    "country": "US",
+    "latitude": 31.223101,
+    "longitude": -85.390602,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "shoals",
+    "city": "florence / muscle shoals",
+    "state_province": "AL",
+    "country": "US",
+    "latitude": 34.799702,
+    "longitude": -87.6772,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "gadsden",
+    "city": "gadsden-anniston",
+    "state_province": "AL",
+    "country": "US",
+    "latitude": 34.014198,
+    "longitude": -86.006699,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "huntsville",
+    "city": "huntsville / decatur",
+    "state_province": "AL",
+    "country": "US",
+    "latitude": 34.730301,
+    "longitude": -86.586098,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "mobile",
+    "city": "mobile",
+    "state_province": "AL",
+    "country": "US",
+    "latitude": 30.694201,
+    "longitude": -88.043098,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "montgomery",
+    "city": "montgomery",
+    "state_province": "AL",
+    "country": "US",
+    "latitude": 32.366699,
+    "longitude": -86.300003,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "tuscaloosa",
+    "city": "tuscaloosa",
+    "state_province": "AL",
+    "country": "US",
+    "latitude": 33.209702,
+    "longitude": -87.569199,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "fayar",
+    "city": "fayetteville",
+    "state_province": "AR",
+    "country": "US",
+    "latitude": 36.0625,
+    "longitude": -94.157204,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "fortsmith",
+    "city": "fort smith",
+    "state_province": "AR",
+    "country": "US",
+    "latitude": 35.385799,
+    "longitude": -94.3983,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "jonesboro",
+    "city": "jonesboro",
+    "state_province": "AR",
+    "country": "US",
+    "latitude": 35.842201,
+    "longitude": -90.704201,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "littlerock",
+    "city": "little rock",
+    "state_province": "AR",
+    "country": "US",
+    "latitude": 34.746399,
+    "longitude": -92.289398,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "texarkana",
+    "city": "texarkana",
+    "state_province": "AR",
+    "country": "US",
+    "latitude": 33.424999,
+    "longitude": -94.047501,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "flagstaff",
+    "city": "flagstaff / sedona",
+    "state_province": "AZ",
+    "country": "US",
+    "latitude": 35.198101,
+    "longitude": -111.651001,
+    "timezone": "America/Phoenix"
+  },
+  {
+    "slug": "mohave",
+    "city": "mohave county",
+    "state_province": "AZ",
+    "country": "US",
+    "latitude": 35.285999,
+    "longitude": -114.083,
+    "timezone": "America/Phoenix"
+  },
+  {
+    "slug": "phoenix",
+    "city": "phoenix",
+    "state_province": "AZ",
+    "country": "US",
+    "latitude": 33.448299,
+    "longitude": -112.072998,
+    "timezone": "America/Phoenix"
+  },
+  {
+    "slug": "prescott",
+    "city": "prescott",
+    "state_province": "AZ",
+    "country": "US",
+    "latitude": 34.540001,
+    "longitude": -112.468002,
+    "timezone": "America/Phoenix"
+  },
+  {
+    "slug": "showlow",
+    "city": "show low",
+    "state_province": "AZ",
+    "country": "US",
+    "latitude": 34.2542,
+    "longitude": -110.029999,
+    "timezone": "America/Phoenix"
+  },
+  {
+    "slug": "sierravista",
+    "city": "sierra vista",
+    "state_province": "AZ",
+    "country": "US",
+    "latitude": 31.554399,
+    "longitude": -110.303001,
+    "timezone": "America/Phoenix"
+  },
+  {
+    "slug": "tucson",
+    "city": "tucson",
+    "state_province": "AZ",
+    "country": "US",
+    "latitude": 32.221699,
+    "longitude": -110.926003,
+    "timezone": "America/Phoenix"
+  },
+  {
+    "slug": "yuma",
+    "city": "yuma",
+    "state_province": "AZ",
+    "country": "US",
+    "latitude": 32.7253,
+    "longitude": -114.624001,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "sfbay",
+    "city": "SF bay area",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 37.5,
+    "longitude": -122.25,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "bakersfield",
+    "city": "bakersfield",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 35.373299,
+    "longitude": -119.017998,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "chico",
+    "city": "chico",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 39.7286,
+    "longitude": -121.835999,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "fresno",
+    "city": "fresno / madera",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 36.747799,
+    "longitude": -119.771004,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "goldcountry",
+    "city": "gold country",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 38.732498,
+    "longitude": -120.801003,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "hanford",
+    "city": "hanford-corcoran",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 36.3274,
+    "longitude": -119.646004,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "humboldt",
+    "city": "humboldt county",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 40.747398,
+    "longitude": -123.987999,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "imperial",
+    "city": "imperial county",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 32.9631,
+    "longitude": -115.487999,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "inlandempire",
+    "city": "inland empire",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 34.052799,
+    "longitude": -117.627998,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "losangeles",
+    "city": "los angeles",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 34.0522,
+    "longitude": -118.242996,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "mendocino",
+    "city": "mendocino county",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 39.363098,
+    "longitude": -123.43,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "merced",
+    "city": "merced",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 37.3022,
+    "longitude": -120.482002,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "modesto",
+    "city": "modesto",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 37.639198,
+    "longitude": -120.996002,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "monterey",
+    "city": "monterey bay",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 36.6003,
+    "longitude": -121.893997,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "orangecounty",
+    "city": "orange county",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 33.731499,
+    "longitude": -117.862,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "palmsprings",
+    "city": "palm springs",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 33.830299,
+    "longitude": -116.543999,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "redding",
+    "city": "redding",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 40.5867,
+    "longitude": -122.390999,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "sacramento",
+    "city": "sacramento",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 38.581699,
+    "longitude": -121.492996,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "sandiego",
+    "city": "san diego",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 32.715302,
+    "longitude": -117.155998,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "slo",
+    "city": "san luis obispo",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 35.282799,
+    "longitude": -120.658997,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "santabarbara",
+    "city": "santa barbara",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 34.420799,
+    "longitude": -119.696999,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "santamaria",
+    "city": "santa maria",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 34.963799,
+    "longitude": -120.433296,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "siskiyou",
+    "city": "siskiyou county",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 41.208199,
+    "longitude": -122.272003,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "stockton",
+    "city": "stockton",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 37.957802,
+    "longitude": -121.290001,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "susanville",
+    "city": "susanville",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 40.416302,
+    "longitude": -120.653,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "ventura",
+    "city": "ventura county",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 34.277,
+    "longitude": -119.044998,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "visalia",
+    "city": "visalia-tulare",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 36.330299,
+    "longitude": -119.291,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "yubasutter",
+    "city": "yuba-sutter",
+    "state_province": "CA",
+    "country": "US",
+    "latitude": 39.144402,
+    "longitude": -121.647003,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "boulder",
+    "city": "boulder",
+    "state_province": "CO",
+    "country": "US",
+    "latitude": 40.014999,
+    "longitude": -105.269997,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "cosprings",
+    "city": "colorado springs",
+    "state_province": "CO",
+    "country": "US",
+    "latitude": 38.8339,
+    "longitude": -104.820999,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "denver",
+    "city": "denver",
+    "state_province": "CO",
+    "country": "US",
+    "latitude": 39.739201,
+    "longitude": -104.984001,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "eastco",
+    "city": "eastern CO",
+    "state_province": "CO",
+    "country": "US",
+    "latitude": 39.232254,
+    "longitude": -102.832031,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "fortcollins",
+    "city": "fort collins / north CO",
+    "state_province": "CO",
+    "country": "US",
+    "latitude": 40.5853,
+    "longitude": -105.084,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "rockies",
+    "city": "high rockies",
+    "state_province": "CO",
+    "country": "US",
+    "latitude": 39.1917,
+    "longitude": -106.824699,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "pueblo",
+    "city": "pueblo",
+    "state_province": "CO",
+    "country": "US",
+    "latitude": 38.254398,
+    "longitude": -104.609001,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "westslope",
+    "city": "western slope",
+    "state_province": "CO",
+    "country": "US",
+    "latitude": 39.0704,
+    "longitude": -108.552002,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "newlondon",
+    "city": "eastern CT",
+    "state_province": "CT",
+    "country": "US",
+    "latitude": 41.344101,
+    "longitude": -72.1036,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "hartford",
+    "city": "hartford",
+    "state_province": "CT",
+    "country": "US",
+    "latitude": 41.763599,
+    "longitude": -72.6856,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "newhaven",
+    "city": "new haven",
+    "state_province": "CT",
+    "country": "US",
+    "latitude": 41.308102,
+    "longitude": -72.928596,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "nwct",
+    "city": "northwest CT",
+    "state_province": "CT",
+    "country": "US",
+    "latitude": 41.914501,
+    "longitude": -73.2761,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "washingtondc",
+    "city": "washington",
+    "state_province": "DC",
+    "country": "US",
+    "latitude": 38.889999,
+    "longitude": -77.029999,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "delaware",
+    "city": "delaware",
+    "state_province": "DE",
+    "country": "US",
+    "latitude": 39.145699,
+    "longitude": -75.483498,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "daytona",
+    "city": "daytona beach",
+    "state_province": "FL",
+    "country": "US",
+    "latitude": 29.2106,
+    "longitude": -81.023102,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "keys",
+    "city": "florida keys",
+    "state_province": "FL",
+    "country": "US",
+    "latitude": 24.666901,
+    "longitude": -81.544197,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "fortmyers",
+    "city": "ft myers / SW florida",
+    "state_province": "FL",
+    "country": "US",
+    "latitude": 26.629999,
+    "longitude": -81.849998,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "gainesville",
+    "city": "gainesville",
+    "state_province": "FL",
+    "country": "US",
+    "latitude": 29.6514,
+    "longitude": -82.324997,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "cfl",
+    "city": "heartland florida",
+    "state_province": "FL",
+    "country": "US",
+    "latitude": 27.5392,
+    "longitude": -81.509903,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "jacksonville",
+    "city": "jacksonville",
+    "state_province": "FL",
+    "country": "US",
+    "latitude": 30.3319,
+    "longitude": -81.6558,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "lakeland",
+    "city": "lakeland",
+    "state_province": "FL",
+    "country": "US",
+    "latitude": 28.0392,
+    "longitude": -81.949997,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "lakecity",
+    "city": "north central FL",
+    "state_province": "FL",
+    "country": "US",
+    "latitude": 30.189199,
+    "longitude": -82.639503,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "ocala",
+    "city": "ocala",
+    "state_province": "FL",
+    "country": "US",
+    "latitude": 29.186899,
+    "longitude": -82.140297,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "okaloosa",
+    "city": "okaloosa / walton",
+    "state_province": "FL",
+    "country": "US",
+    "latitude": 30.7621,
+    "longitude": -86.570503,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "orlando",
+    "city": "orlando",
+    "state_province": "FL",
+    "country": "US",
+    "latitude": 28.538099,
+    "longitude": -81.379402,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "panamacity",
+    "city": "panama city",
+    "state_province": "FL",
+    "country": "US",
+    "latitude": 30.1586,
+    "longitude": -85.660301,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "pensacola",
+    "city": "pensacola",
+    "state_province": "FL",
+    "country": "US",
+    "latitude": 30.421101,
+    "longitude": -87.216904,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "sarasota",
+    "city": "sarasota-bradenton",
+    "state_province": "FL",
+    "country": "US",
+    "latitude": 27.3361,
+    "longitude": -82.5308,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "miami",
+    "city": "south florida",
+    "state_province": "FL",
+    "country": "US",
+    "latitude": 25.773899,
+    "longitude": -80.193901,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "spacecoast",
+    "city": "space coast",
+    "state_province": "FL",
+    "country": "US",
+    "latitude": 28.613501,
+    "longitude": -80.693199,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "staugustine",
+    "city": "st augustine",
+    "state_province": "FL",
+    "country": "US",
+    "latitude": 29.8944,
+    "longitude": -81.314697,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "tallahassee",
+    "city": "tallahassee",
+    "state_province": "FL",
+    "country": "US",
+    "latitude": 30.438101,
+    "longitude": -84.2808,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "tampa",
+    "city": "tampa bay area",
+    "state_province": "FL",
+    "country": "US",
+    "latitude": 28,
+    "longitude": -82.449997,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "treasure",
+    "city": "treasure coast",
+    "state_province": "FL",
+    "country": "US",
+    "latitude": 27.230801,
+    "longitude": -80.226303,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "albanyga",
+    "city": "albany",
+    "state_province": "GA",
+    "country": "US",
+    "latitude": 31.575026,
+    "longitude": -84.159393,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "athensga",
+    "city": "athens",
+    "state_province": "GA",
+    "country": "US",
+    "latitude": 33.9608,
+    "longitude": -83.378098,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "atlanta",
+    "city": "atlanta",
+    "state_province": "GA",
+    "country": "US",
+    "latitude": 33.748901,
+    "longitude": -84.3881,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "augusta",
+    "city": "augusta",
+    "state_province": "GA",
+    "country": "US",
+    "latitude": 33.470798,
+    "longitude": -81.974998,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "brunswick",
+    "city": "brunswick",
+    "state_province": "GA",
+    "country": "US",
+    "latitude": 31.1497,
+    "longitude": -81.491699,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "columbusga",
+    "city": "columbus",
+    "state_province": "GA",
+    "country": "US",
+    "latitude": 32.4608,
+    "longitude": -84.987801,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "macon",
+    "city": "macon / warner robins",
+    "state_province": "GA",
+    "country": "US",
+    "latitude": 32.840599,
+    "longitude": -83.6325,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "nwga",
+    "city": "northwest GA",
+    "state_province": "GA",
+    "country": "US",
+    "latitude": 34.5,
+    "longitude": -84.942001,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "savannah",
+    "city": "savannah / hinesville",
+    "state_province": "GA",
+    "country": "US",
+    "latitude": 32.050701,
+    "longitude": -81.103798,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "statesboro",
+    "city": "statesboro",
+    "state_province": "GA",
+    "country": "US",
+    "latitude": 32.448799,
+    "longitude": -81.783203,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "valdosta",
+    "city": "valdosta",
+    "state_province": "GA",
+    "country": "US",
+    "latitude": 30.8325,
+    "longitude": -83.278603,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "honolulu",
+    "city": "hawaii",
+    "state_province": "HI",
+    "country": "US",
+    "latitude": 21.311399,
+    "longitude": -157.796005,
+    "timezone": "Pacific/Honolulu"
+  },
+  {
+    "slug": "ames",
+    "city": "ames",
+    "state_province": "IA",
+    "country": "US",
+    "latitude": 42.034698,
+    "longitude": -93.619698,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "cedarrapids",
+    "city": "cedar rapids",
+    "state_province": "IA",
+    "country": "US",
+    "latitude": 42.008301,
+    "longitude": -91.643898,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "desmoines",
+    "city": "des moines",
+    "state_province": "IA",
+    "country": "US",
+    "latitude": 41.600601,
+    "longitude": -93.608902,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "dubuque",
+    "city": "dubuque",
+    "state_province": "IA",
+    "country": "US",
+    "latitude": 42.500599,
+    "longitude": -90.664398,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "fortdodge",
+    "city": "fort dodge",
+    "state_province": "IA",
+    "country": "US",
+    "latitude": 42.497501,
+    "longitude": -94.167999,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "iowacity",
+    "city": "iowa city",
+    "state_province": "IA",
+    "country": "US",
+    "latitude": 41.661098,
+    "longitude": -91.529999,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "masoncity",
+    "city": "mason city",
+    "state_province": "IA",
+    "country": "US",
+    "latitude": 43.153599,
+    "longitude": -93.200996,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "quadcities",
+    "city": "quad cities",
+    "state_province": "IA",
+    "country": "US",
+    "latitude": 41.511299,
+    "longitude": -90.594398,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "siouxcity",
+    "city": "sioux city",
+    "state_province": "IA",
+    "country": "US",
+    "latitude": 42.5,
+    "longitude": -96.400002,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "ottumwa",
+    "city": "southeast IA",
+    "state_province": "IA",
+    "country": "US",
+    "latitude": 41.0075,
+    "longitude": -92.408798,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "waterloo",
+    "city": "waterloo / cedar falls",
+    "state_province": "IA",
+    "country": "US",
+    "latitude": 42.4925,
+    "longitude": -92.345802,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "boise",
+    "city": "boise",
+    "state_province": "ID",
+    "country": "US",
+    "latitude": 43.613602,
+    "longitude": -116.202003,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "eastidaho",
+    "city": "east idaho",
+    "state_province": "ID",
+    "country": "US",
+    "latitude": 43.4529,
+    "longitude": -112.782997,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "lewiston",
+    "city": "lewiston / clarkston",
+    "state_province": "ID",
+    "country": "US",
+    "latitude": 46.392399,
+    "longitude": -116.992996,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "twinfalls",
+    "city": "twin falls",
+    "state_province": "ID",
+    "country": "US",
+    "latitude": 42.563099,
+    "longitude": -114.459999,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "bn",
+    "city": "bloomington-normal",
+    "state_province": "IL",
+    "country": "US",
+    "latitude": 40.4842,
+    "longitude": -88.993599,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "chambana",
+    "city": "champaign urbana",
+    "state_province": "IL",
+    "country": "US",
+    "latitude": 40.110001,
+    "longitude": -88.25,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "chicago",
+    "city": "chicago",
+    "state_province": "IL",
+    "country": "US",
+    "latitude": 41.849998,
+    "longitude": -87.650002,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "decatur",
+    "city": "decatur",
+    "state_province": "IL",
+    "country": "US",
+    "latitude": 39.840302,
+    "longitude": -88.954697,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "lasalle",
+    "city": "la salle co",
+    "state_province": "IL",
+    "country": "US",
+    "latitude": 41.337639,
+    "longitude": -89.082642,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "mattoon",
+    "city": "mattoon-charleston",
+    "state_province": "IL",
+    "country": "US",
+    "latitude": 39.483101,
+    "longitude": -88.372803,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "peoria",
+    "city": "peoria",
+    "state_province": "IL",
+    "country": "US",
+    "latitude": 40.6936,
+    "longitude": -89.588898,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "rockford",
+    "city": "rockford",
+    "state_province": "IL",
+    "country": "US",
+    "latitude": 42.271099,
+    "longitude": -89.093903,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "carbondale",
+    "city": "southern illinois",
+    "state_province": "IL",
+    "country": "US",
+    "latitude": 37.7272,
+    "longitude": -89.216698,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "springfieldil",
+    "city": "springfield",
+    "state_province": "IL",
+    "country": "US",
+    "latitude": 39.801701,
+    "longitude": -89.6436,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "quincy",
+    "city": "western IL",
+    "state_province": "IL",
+    "country": "US",
+    "latitude": 39.935013,
+    "longitude": -91.389771,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "bloomington",
+    "city": "bloomington",
+    "state_province": "IN",
+    "country": "US",
+    "latitude": 39.165298,
+    "longitude": -86.526398,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "evansville",
+    "city": "evansville",
+    "state_province": "IN",
+    "country": "US",
+    "latitude": 37.974701,
+    "longitude": -87.555801,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "fortwayne",
+    "city": "fort wayne",
+    "state_province": "IN",
+    "country": "US",
+    "latitude": 41.1306,
+    "longitude": -85.128899,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "indianapolis",
+    "city": "indianapolis",
+    "state_province": "IN",
+    "country": "US",
+    "latitude": 39.768299,
+    "longitude": -86.158096,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "kokomo",
+    "city": "kokomo",
+    "state_province": "IN",
+    "country": "US",
+    "latitude": 40.486401,
+    "longitude": -86.133598,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "tippecanoe",
+    "city": "lafayette / west lafayette",
+    "state_province": "IN",
+    "country": "US",
+    "latitude": 40.416698,
+    "longitude": -86.875298,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "muncie",
+    "city": "muncie / anderson",
+    "state_province": "IN",
+    "country": "US",
+    "latitude": 40.193298,
+    "longitude": -85.386398,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "richmondin",
+    "city": "richmond",
+    "state_province": "IN",
+    "country": "US",
+    "latitude": 39.829632,
+    "longitude": -84.890671,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "southbend",
+    "city": "south bend / michiana",
+    "state_province": "IN",
+    "country": "US",
+    "latitude": 41.6833,
+    "longitude": -86.25,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "terrehaute",
+    "city": "terre haute",
+    "state_province": "IN",
+    "country": "US",
+    "latitude": 39.466702,
+    "longitude": -87.413902,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "lawrence",
+    "city": "lawrence",
+    "state_province": "KS",
+    "country": "US",
+    "latitude": 38.971699,
+    "longitude": -95.235001,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "ksu",
+    "city": "manhattan",
+    "state_province": "KS",
+    "country": "US",
+    "latitude": 39.183601,
+    "longitude": -96.571404,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "nwks",
+    "city": "northwest KS",
+    "state_province": "KS",
+    "country": "US",
+    "latitude": 39.095963,
+    "longitude": -100.50293,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "salina",
+    "city": "salina",
+    "state_province": "KS",
+    "country": "US",
+    "latitude": 38.825001,
+    "longitude": -97.607498,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "seks",
+    "city": "southeast KS",
+    "state_province": "KS",
+    "country": "US",
+    "latitude": 37.230328,
+    "longitude": -95.718384,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "swks",
+    "city": "southwest KS",
+    "state_province": "KS",
+    "country": "US",
+    "latitude": 37.04641,
+    "longitude": -100.931396,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "topeka",
+    "city": "topeka",
+    "state_province": "KS",
+    "country": "US",
+    "latitude": 39.048302,
+    "longitude": -95.677803,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "wichita",
+    "city": "wichita",
+    "state_province": "KS",
+    "country": "US",
+    "latitude": 37.6922,
+    "longitude": -97.337196,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "bgky",
+    "city": "bowling green",
+    "state_province": "KY",
+    "country": "US",
+    "latitude": 36.990299,
+    "longitude": -86.443604,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "eastky",
+    "city": "eastern kentucky",
+    "state_province": "KY",
+    "country": "US",
+    "latitude": 37.516998,
+    "longitude": -82.806,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "lexington",
+    "city": "lexington",
+    "state_province": "KY",
+    "country": "US",
+    "latitude": 37.988701,
+    "longitude": -84.477699,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "louisville",
+    "city": "louisville",
+    "state_province": "KY",
+    "country": "US",
+    "latitude": 38.2542,
+    "longitude": -85.759399,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "owensboro",
+    "city": "owensboro",
+    "state_province": "KY",
+    "country": "US",
+    "latitude": 37.7742,
+    "longitude": -87.113297,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "westky",
+    "city": "western KY",
+    "state_province": "KY",
+    "country": "US",
+    "latitude": 37.081474,
+    "longitude": -88.077393,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "batonrouge",
+    "city": "baton rouge",
+    "state_province": "LA",
+    "country": "US",
+    "latitude": 30.458099,
+    "longitude": -91.140198,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "cenla",
+    "city": "central louisiana",
+    "state_province": "LA",
+    "country": "US",
+    "latitude": 31.297327,
+    "longitude": -92.469177,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "houma",
+    "city": "houma",
+    "state_province": "LA",
+    "country": "US",
+    "latitude": 29.5958,
+    "longitude": -90.719498,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "lafayette",
+    "city": "lafayette",
+    "state_province": "LA",
+    "country": "US",
+    "latitude": 30.2139,
+    "longitude": -92.029404,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "lakecharles",
+    "city": "lake charles",
+    "state_province": "LA",
+    "country": "US",
+    "latitude": 30.214701,
+    "longitude": -93.208603,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "monroe",
+    "city": "monroe",
+    "state_province": "LA",
+    "country": "US",
+    "latitude": 32.5103,
+    "longitude": -92.095001,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "neworleans",
+    "city": "new orleans",
+    "state_province": "LA",
+    "country": "US",
+    "latitude": 29.972799,
+    "longitude": -90.058998,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "shreveport",
+    "city": "shreveport",
+    "state_province": "LA",
+    "country": "US",
+    "latitude": 32.468102,
+    "longitude": -93.771103,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "boston",
+    "city": "boston",
+    "state_province": "MA",
+    "country": "US",
+    "latitude": 42.358299,
+    "longitude": -71.060303,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "capecod",
+    "city": "cape cod / islands",
+    "state_province": "MA",
+    "country": "US",
+    "latitude": 41.6889,
+    "longitude": -70.296898,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "southcoast",
+    "city": "south coast",
+    "state_province": "MA",
+    "country": "US",
+    "latitude": 41.6385,
+    "longitude": -71.048599,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "westernmass",
+    "city": "western massachusetts",
+    "state_province": "MA",
+    "country": "US",
+    "latitude": 42.349998,
+    "longitude": -73,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "worcester",
+    "city": "worcester / central MA",
+    "state_province": "MA",
+    "country": "US",
+    "latitude": 42.262501,
+    "longitude": -71.802803,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "annapolis",
+    "city": "annapolis",
+    "state_province": "MD",
+    "country": "US",
+    "latitude": 38.978298,
+    "longitude": -76.4925,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "baltimore",
+    "city": "baltimore",
+    "state_province": "MD",
+    "country": "US",
+    "latitude": 39.307999,
+    "longitude": -76.616997,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "easternshore",
+    "city": "eastern shore",
+    "state_province": "MD",
+    "country": "US",
+    "latitude": 38.7701,
+    "longitude": -76.072098,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "frederick",
+    "city": "frederick",
+    "state_province": "MD",
+    "country": "US",
+    "latitude": 39.414299,
+    "longitude": -77.4105,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "smd",
+    "city": "southern maryland",
+    "state_province": "MD",
+    "country": "US",
+    "latitude": 38.534199,
+    "longitude": -76.783401,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "westmd",
+    "city": "western maryland",
+    "state_province": "MD",
+    "country": "US",
+    "latitude": 39.651699,
+    "longitude": -78.7658,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "maine",
+    "city": "maine",
+    "state_province": "ME",
+    "country": "US",
+    "latitude": 44.693199,
+    "longitude": -69.334602,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "annarbor",
+    "city": "ann arbor",
+    "state_province": "MI",
+    "country": "US",
+    "latitude": 42.270802,
+    "longitude": -83.726402,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "battlecreek",
+    "city": "battle creek",
+    "state_province": "MI",
+    "country": "US",
+    "latitude": 42.321201,
+    "longitude": -85.179703,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "centralmich",
+    "city": "central michigan",
+    "state_province": "MI",
+    "country": "US",
+    "latitude": 43.598,
+    "longitude": -84.780998,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "detroit",
+    "city": "detroit metro",
+    "state_province": "MI",
+    "country": "US",
+    "latitude": 42.331402,
+    "longitude": -83.045799,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "flint",
+    "city": "flint",
+    "state_province": "MI",
+    "country": "US",
+    "latitude": 43.012501,
+    "longitude": -83.6875,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "grandrapids",
+    "city": "grand rapids",
+    "state_province": "MI",
+    "country": "US",
+    "latitude": 42.963299,
+    "longitude": -85.668098,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "holland",
+    "city": "holland",
+    "state_province": "MI",
+    "country": "US",
+    "latitude": 42.787498,
+    "longitude": -86.108902,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "jxn",
+    "city": "jackson",
+    "state_province": "MI",
+    "country": "US",
+    "latitude": 42.2458,
+    "longitude": -84.401398,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "kalamazoo",
+    "city": "kalamazoo",
+    "state_province": "MI",
+    "country": "US",
+    "latitude": 42.291698,
+    "longitude": -85.587196,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "lansing",
+    "city": "lansing",
+    "state_province": "MI",
+    "country": "US",
+    "latitude": 42.732498,
+    "longitude": -84.555603,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "monroemi",
+    "city": "monroe",
+    "state_province": "MI",
+    "country": "US",
+    "latitude": 41.916,
+    "longitude": -83.397697,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "muskegon",
+    "city": "muskegon",
+    "state_province": "MI",
+    "country": "US",
+    "latitude": 43.2342,
+    "longitude": -86.248299,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "nmi",
+    "city": "northern michigan",
+    "state_province": "MI",
+    "country": "US",
+    "latitude": 44.459301,
+    "longitude": -84.814499,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "porthuron",
+    "city": "port huron",
+    "state_province": "MI",
+    "country": "US",
+    "latitude": 42.970798,
+    "longitude": -82.425003,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "saginaw",
+    "city": "saginaw-midland-baycity",
+    "state_province": "MI",
+    "country": "US",
+    "latitude": 43.419399,
+    "longitude": -83.950798,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "swmi",
+    "city": "southwest michigan",
+    "state_province": "MI",
+    "country": "US",
+    "latitude": 41.984001,
+    "longitude": -86.066902,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "thumb",
+    "city": "the thumb",
+    "state_province": "MI",
+    "country": "US",
+    "latitude": 43.417019,
+    "longitude": -83.092346,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "up",
+    "city": "upper peninsula",
+    "state_province": "MI",
+    "country": "US",
+    "latitude": 46.550098,
+    "longitude": -87.408302,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "bemidji",
+    "city": "bemidji",
+    "state_province": "MN",
+    "country": "US",
+    "latitude": 47.473598,
+    "longitude": -94.880302,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "brainerd",
+    "city": "brainerd",
+    "state_province": "MN",
+    "country": "US",
+    "latitude": 46.354511,
+    "longitude": -94.196777,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "duluth",
+    "city": "duluth / superior",
+    "state_province": "MN",
+    "country": "US",
+    "latitude": 46.783298,
+    "longitude": -92.1064,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "mankato",
+    "city": "mankato",
+    "state_province": "MN",
+    "country": "US",
+    "latitude": 44.163601,
+    "longitude": -93.999199,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "minneapolis",
+    "city": "minneapolis / st paul",
+    "state_province": "MN",
+    "country": "US",
+    "latitude": 44.98,
+    "longitude": -93.263603,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "rmn",
+    "city": "rochester",
+    "state_province": "MN",
+    "country": "US",
+    "latitude": 44.021702,
+    "longitude": -92.469704,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "marshall",
+    "city": "southwest MN",
+    "state_province": "MN",
+    "country": "US",
+    "latitude": 44.447201,
+    "longitude": -95.787804,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "stcloud",
+    "city": "st cloud",
+    "state_province": "MN",
+    "country": "US",
+    "latitude": 45.560799,
+    "longitude": -94.162201,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "columbiamo",
+    "city": "columbia / jeff city",
+    "state_province": "MO",
+    "country": "US",
+    "latitude": 38.951698,
+    "longitude": -92.3339,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "joplin",
+    "city": "joplin",
+    "state_province": "MO",
+    "country": "US",
+    "latitude": 37.084202,
+    "longitude": -94.5131,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "kansascity",
+    "city": "kansas city",
+    "state_province": "MO",
+    "country": "US",
+    "latitude": 39.099701,
+    "longitude": -94.5783,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "kirksville",
+    "city": "kirksville",
+    "state_province": "MO",
+    "country": "US",
+    "latitude": 40.194801,
+    "longitude": -92.583298,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "loz",
+    "city": "lake of the ozarks",
+    "state_province": "MO",
+    "country": "US",
+    "latitude": 38.202499,
+    "longitude": -92.626297,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "semo",
+    "city": "southeast missouri",
+    "state_province": "MO",
+    "country": "US",
+    "latitude": 36.879601,
+    "longitude": -89.587997,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "springfield",
+    "city": "springfield",
+    "state_province": "MO",
+    "country": "US",
+    "latitude": 37.215302,
+    "longitude": -93.298103,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "stjoseph",
+    "city": "st joseph",
+    "state_province": "MO",
+    "country": "US",
+    "latitude": 39.7686,
+    "longitude": -94.846603,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "stlouis",
+    "city": "st louis",
+    "state_province": "MO",
+    "country": "US",
+    "latitude": 38.627701,
+    "longitude": -90.242798,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "gulfport",
+    "city": "gulfport / biloxi",
+    "state_province": "MS",
+    "country": "US",
+    "latitude": 30.367201,
+    "longitude": -89.092796,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "hattiesburg",
+    "city": "hattiesburg",
+    "state_province": "MS",
+    "country": "US",
+    "latitude": 31.3269,
+    "longitude": -89.290298,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "jackson",
+    "city": "jackson",
+    "state_province": "MS",
+    "country": "US",
+    "latitude": 32.298599,
+    "longitude": -90.1847,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "meridian",
+    "city": "meridian",
+    "state_province": "MS",
+    "country": "US",
+    "latitude": 32.3643,
+    "longitude": -88.703697,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "northmiss",
+    "city": "north mississippi",
+    "state_province": "MS",
+    "country": "US",
+    "latitude": 34.358799,
+    "longitude": -89.5261,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "natchez",
+    "city": "southwest MS",
+    "state_province": "MS",
+    "country": "US",
+    "latitude": 31.554199,
+    "longitude": -91.387497,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "billings",
+    "city": "billings",
+    "state_province": "MT",
+    "country": "US",
+    "latitude": 45.783298,
+    "longitude": -108.500999,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "bozeman",
+    "city": "bozeman",
+    "state_province": "MT",
+    "country": "US",
+    "latitude": 45.679699,
+    "longitude": -111.039001,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "butte",
+    "city": "butte",
+    "state_province": "MT",
+    "country": "US",
+    "latitude": 46.004593,
+    "longitude": -112.543945,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "montana",
+    "city": "eastern montana",
+    "state_province": "MT",
+    "country": "US",
+    "latitude": 47.1,
+    "longitude": -104.7,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "greatfalls",
+    "city": "great falls",
+    "state_province": "MT",
+    "country": "US",
+    "latitude": 47.500198,
+    "longitude": -111.301003,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "helena",
+    "city": "helena",
+    "state_province": "MT",
+    "country": "US",
+    "latitude": 46.592842,
+    "longitude": -112.022095,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "kalispell",
+    "city": "kalispell",
+    "state_province": "MT",
+    "country": "US",
+    "latitude": 48.195801,
+    "longitude": -114.313004,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "missoula",
+    "city": "missoula",
+    "state_province": "MT",
+    "country": "US",
+    "latitude": 46.872101,
+    "longitude": -113.994003,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "asheville",
+    "city": "asheville",
+    "state_province": "NC",
+    "country": "US",
+    "latitude": 35.6008,
+    "longitude": -82.554199,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "boone",
+    "city": "boone",
+    "state_province": "NC",
+    "country": "US",
+    "latitude": 36.216702,
+    "longitude": -81.674698,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "charlotte",
+    "city": "charlotte",
+    "state_province": "NC",
+    "country": "US",
+    "latitude": 35.226898,
+    "longitude": -80.8433,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "eastnc",
+    "city": "eastern NC",
+    "state_province": "NC",
+    "country": "US",
+    "latitude": 35.584999,
+    "longitude": -77.372498,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "fayetteville",
+    "city": "fayetteville",
+    "state_province": "NC",
+    "country": "US",
+    "latitude": 35.052502,
+    "longitude": -78.878601,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "greensboro",
+    "city": "greensboro",
+    "state_province": "NC",
+    "country": "US",
+    "latitude": 36.072498,
+    "longitude": -79.792198,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "hickory",
+    "city": "hickory / lenoir",
+    "state_province": "NC",
+    "country": "US",
+    "latitude": 35.733101,
+    "longitude": -81.3414,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "onslow",
+    "city": "jacksonville",
+    "state_province": "NC",
+    "country": "US",
+    "latitude": 34.758801,
+    "longitude": -77.4244,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "outerbanks",
+    "city": "outer banks",
+    "state_province": "NC",
+    "country": "US",
+    "latitude": 36.031898,
+    "longitude": -75.676598,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "raleigh",
+    "city": "raleigh / durham / CH",
+    "state_province": "NC",
+    "country": "US",
+    "latitude": 35.7719,
+    "longitude": -78.638901,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "wilmington",
+    "city": "wilmington",
+    "state_province": "NC",
+    "country": "US",
+    "latitude": 34.225601,
+    "longitude": -77.945,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "winstonsalem",
+    "city": "winston-salem",
+    "state_province": "NC",
+    "country": "US",
+    "latitude": 36.099701,
+    "longitude": -80.2444,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "bismarck",
+    "city": "bismarck",
+    "state_province": "ND",
+    "country": "US",
+    "latitude": 46.807579,
+    "longitude": -100.777588,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "fargo",
+    "city": "fargo / moorhead",
+    "state_province": "ND",
+    "country": "US",
+    "latitude": 46.877201,
+    "longitude": -96.789398,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "grandforks",
+    "city": "grand forks",
+    "state_province": "ND",
+    "country": "US",
+    "latitude": 47.925301,
+    "longitude": -97.032898,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "nd",
+    "city": "north dakota",
+    "state_province": "ND",
+    "country": "US",
+    "latitude": 47.5,
+    "longitude": -100.5,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "grandisland",
+    "city": "grand island",
+    "state_province": "NE",
+    "country": "US",
+    "latitude": 40.924999,
+    "longitude": -98.341698,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "lincoln",
+    "city": "lincoln",
+    "state_province": "NE",
+    "country": "US",
+    "latitude": 40.799999,
+    "longitude": -96.666702,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "northplatte",
+    "city": "north platte",
+    "state_province": "NE",
+    "country": "US",
+    "latitude": 41.123901,
+    "longitude": -100.764999,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "omaha",
+    "city": "omaha / council bluffs",
+    "state_province": "NE",
+    "country": "US",
+    "latitude": 41.258598,
+    "longitude": -95.9375,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "scottsbluff",
+    "city": "scottsbluff / panhandle",
+    "state_province": "NE",
+    "country": "US",
+    "latitude": 41.8666,
+    "longitude": -103.667,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "nh",
+    "city": "new hampshire",
+    "state_province": "NH",
+    "country": "US",
+    "latitude": 43.654099,
+    "longitude": -71.564201,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "cnj",
+    "city": "central NJ",
+    "state_province": "NJ",
+    "country": "US",
+    "latitude": 40.363098,
+    "longitude": -74.6614,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "jerseyshore",
+    "city": "jersey shore",
+    "state_province": "NJ",
+    "country": "US",
+    "latitude": 40.2225,
+    "longitude": -74.012199,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "newjersey",
+    "city": "north jersey",
+    "state_province": "NJ",
+    "country": "US",
+    "latitude": 40.91,
+    "longitude": -74.172997,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "southjersey",
+    "city": "south jersey",
+    "state_province": "NJ",
+    "country": "US",
+    "latitude": 39.480301,
+    "longitude": -75.013901,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "albuquerque",
+    "city": "albuquerque",
+    "state_province": "NM",
+    "country": "US",
+    "latitude": 35.0844,
+    "longitude": -106.651001,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "clovis",
+    "city": "clovis / portales",
+    "state_province": "NM",
+    "country": "US",
+    "latitude": 34.40691,
+    "longitude": -103.200073,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "farmington",
+    "city": "farmington",
+    "state_province": "NM",
+    "country": "US",
+    "latitude": 36.7281,
+    "longitude": -108.218002,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "lascruces",
+    "city": "las cruces",
+    "state_province": "NM",
+    "country": "US",
+    "latitude": 32.319698,
+    "longitude": -106.764999,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "roswell",
+    "city": "roswell / carlsbad",
+    "state_province": "NM",
+    "country": "US",
+    "latitude": 33.394199,
+    "longitude": -104.522003,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "santafe",
+    "city": "santa fe / taos",
+    "state_province": "NM",
+    "country": "US",
+    "latitude": 35.686901,
+    "longitude": -105.936996,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "elko",
+    "city": "elko",
+    "state_province": "NV",
+    "country": "US",
+    "latitude": 40.832401,
+    "longitude": -115.763,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "lasvegas",
+    "city": "las vegas",
+    "state_province": "NV",
+    "country": "US",
+    "latitude": 36.174999,
+    "longitude": -115.136002,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "reno",
+    "city": "reno / tahoe",
+    "state_province": "NV",
+    "country": "US",
+    "latitude": 39.529701,
+    "longitude": -119.813004,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "albany",
+    "city": "albany",
+    "state_province": "NY",
+    "country": "US",
+    "latitude": 42.6525,
+    "longitude": -73.756699,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "binghamton",
+    "city": "binghamton",
+    "state_province": "NY",
+    "country": "US",
+    "latitude": 42.098598,
+    "longitude": -75.918297,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "buffalo",
+    "city": "buffalo",
+    "state_province": "NY",
+    "country": "US",
+    "latitude": 42.886398,
+    "longitude": -78.878601,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "catskills",
+    "city": "catskills",
+    "state_province": "NY",
+    "country": "US",
+    "latitude": 42,
+    "longitude": -74.383301,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "chautauqua",
+    "city": "chautauqua",
+    "state_province": "NY",
+    "country": "US",
+    "latitude": 42.209702,
+    "longitude": -79.466698,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "elmira",
+    "city": "elmira-corning",
+    "state_province": "NY",
+    "country": "US",
+    "latitude": 42.089699,
+    "longitude": -76.808098,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "fingerlakes",
+    "city": "finger lakes",
+    "state_province": "NY",
+    "country": "US",
+    "latitude": 42.516651,
+    "longitude": -76.816406,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "glensfalls",
+    "city": "glens falls",
+    "state_province": "NY",
+    "country": "US",
+    "latitude": 43.309502,
+    "longitude": -73.643997,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "hudsonvalley",
+    "city": "hudson valley",
+    "state_province": "NY",
+    "country": "US",
+    "latitude": 41.576698,
+    "longitude": -73.803398,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "ithaca",
+    "city": "ithaca",
+    "state_province": "NY",
+    "country": "US",
+    "latitude": 42.440601,
+    "longitude": -76.496902,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "longisland",
+    "city": "long island",
+    "state_province": "NY",
+    "country": "US",
+    "latitude": 40.822102,
+    "longitude": -73.149696,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "newyork",
+    "city": "new york city",
+    "state_province": "NY",
+    "country": "US",
+    "latitude": 40.714199,
+    "longitude": -74.006401,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "oneonta",
+    "city": "oneonta",
+    "state_province": "NY",
+    "country": "US",
+    "latitude": 42.447781,
+    "longitude": -75.06958,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "plattsburgh",
+    "city": "plattsburgh-adirondacks",
+    "state_province": "NY",
+    "country": "US",
+    "latitude": 44.699402,
+    "longitude": -73.4533,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "potsdam",
+    "city": "potsdam-canton-massena",
+    "state_province": "NY",
+    "country": "US",
+    "latitude": 44.668652,
+    "longitude": -74.998169,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "rochester",
+    "city": "rochester",
+    "state_province": "NY",
+    "country": "US",
+    "latitude": 43.154701,
+    "longitude": -77.615799,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "syracuse",
+    "city": "syracuse",
+    "state_province": "NY",
+    "country": "US",
+    "latitude": 43.0481,
+    "longitude": -76.147797,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "twintiers",
+    "city": "twin tiers NY/PA",
+    "state_province": "NY",
+    "country": "US",
+    "latitude": 41.875301,
+    "longitude": -78.875,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "utica",
+    "city": "utica-rome-oneida",
+    "state_province": "NY",
+    "country": "US",
+    "latitude": 43.1008,
+    "longitude": -75.233101,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "watertown",
+    "city": "watertown",
+    "state_province": "NY",
+    "country": "US",
+    "latitude": 43.974701,
+    "longitude": -75.911102,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "akroncanton",
+    "city": "akron / canton",
+    "state_province": "OH",
+    "country": "US",
+    "latitude": 41.081402,
+    "longitude": -81.519203,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "ashtabula",
+    "city": "ashtabula",
+    "state_province": "OH",
+    "country": "US",
+    "latitude": 41.865101,
+    "longitude": -80.789803,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "athensohio",
+    "city": "athens",
+    "state_province": "OH",
+    "country": "US",
+    "latitude": 39.329201,
+    "longitude": -82.101402,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "chillicothe",
+    "city": "chillicothe",
+    "state_province": "OH",
+    "country": "US",
+    "latitude": 39.333099,
+    "longitude": -82.982399,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "cincinnati",
+    "city": "cincinnati",
+    "state_province": "OH",
+    "country": "US",
+    "latitude": 39.1619,
+    "longitude": -84.456902,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "cleveland",
+    "city": "cleveland",
+    "state_province": "OH",
+    "country": "US",
+    "latitude": 41.499401,
+    "longitude": -81.695602,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "columbus",
+    "city": "columbus",
+    "state_province": "OH",
+    "country": "US",
+    "latitude": 39.961102,
+    "longitude": -82.998901,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "dayton",
+    "city": "dayton / springfield",
+    "state_province": "OH",
+    "country": "US",
+    "latitude": 39.7589,
+    "longitude": -84.191704,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "limaohio",
+    "city": "lima / findlay",
+    "state_province": "OH",
+    "country": "US",
+    "latitude": 40.7425,
+    "longitude": -84.105301,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "mansfield",
+    "city": "mansfield",
+    "state_province": "OH",
+    "country": "US",
+    "latitude": 40.758301,
+    "longitude": -82.515602,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "sandusky",
+    "city": "sandusky",
+    "state_province": "OH",
+    "country": "US",
+    "latitude": 41.448898,
+    "longitude": -82.708099,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "toledo",
+    "city": "toledo",
+    "state_province": "OH",
+    "country": "US",
+    "latitude": 41.663898,
+    "longitude": -83.555298,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "tuscarawas",
+    "city": "tuscarawas co",
+    "state_province": "OH",
+    "country": "US",
+    "latitude": 40.4501,
+    "longitude": -81.466499,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "youngstown",
+    "city": "youngstown",
+    "state_province": "OH",
+    "country": "US",
+    "latitude": 41.099701,
+    "longitude": -80.649696,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "zanesville",
+    "city": "zanesville / cambridge",
+    "state_province": "OH",
+    "country": "US",
+    "latitude": 39.9403,
+    "longitude": -82.013199,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "lawton",
+    "city": "lawton",
+    "state_province": "OK",
+    "country": "US",
+    "latitude": 34.608601,
+    "longitude": -98.389999,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "enid",
+    "city": "northwest OK",
+    "state_province": "OK",
+    "country": "US",
+    "latitude": 36.431702,
+    "longitude": -97.895302,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "oklahomacity",
+    "city": "oklahoma city",
+    "state_province": "OK",
+    "country": "US",
+    "latitude": 35.467499,
+    "longitude": -97.516098,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "stillwater",
+    "city": "stillwater",
+    "state_province": "OK",
+    "country": "US",
+    "latitude": 36.115601,
+    "longitude": -97.058098,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "tulsa",
+    "city": "tulsa",
+    "state_province": "OK",
+    "country": "US",
+    "latitude": 36.1539,
+    "longitude": -95.9925,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "bend",
+    "city": "bend",
+    "state_province": "OR",
+    "country": "US",
+    "latitude": 44.0583,
+    "longitude": -121.314003,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "corvallis",
+    "city": "corvallis/albany",
+    "state_province": "OR",
+    "country": "US",
+    "latitude": 44.564701,
+    "longitude": -123.261002,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "eastoregon",
+    "city": "east oregon",
+    "state_province": "OR",
+    "country": "US",
+    "latitude": 44.7565,
+    "longitude": -117.853996,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "eugene",
+    "city": "eugene",
+    "state_province": "OR",
+    "country": "US",
+    "latitude": 44.0522,
+    "longitude": -123.085999,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "klamath",
+    "city": "klamath falls",
+    "state_province": "OR",
+    "country": "US",
+    "latitude": 42.224899,
+    "longitude": -121.781998,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "medford",
+    "city": "medford-ashland",
+    "state_province": "OR",
+    "country": "US",
+    "latitude": 42.326698,
+    "longitude": -122.874001,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "oregoncoast",
+    "city": "oregon coast",
+    "state_province": "OR",
+    "country": "US",
+    "latitude": 43.396099,
+    "longitude": -124.167,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "portland",
+    "city": "portland",
+    "state_province": "OR",
+    "country": "US",
+    "latitude": 45.523602,
+    "longitude": -122.675003,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "roseburg",
+    "city": "roseburg",
+    "state_province": "OR",
+    "country": "US",
+    "latitude": 43.216702,
+    "longitude": -123.341003,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "salem",
+    "city": "salem",
+    "state_province": "OR",
+    "country": "US",
+    "latitude": 44.9431,
+    "longitude": -123.033997,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "altoona",
+    "city": "altoona-johnstown",
+    "state_province": "PA",
+    "country": "US",
+    "latitude": 40.5186,
+    "longitude": -78.394997,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "chambersburg",
+    "city": "cumberland valley",
+    "state_province": "PA",
+    "country": "US",
+    "latitude": 39.9333,
+    "longitude": -77.633301,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "erie",
+    "city": "erie",
+    "state_province": "PA",
+    "country": "US",
+    "latitude": 42.1292,
+    "longitude": -80.085297,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "harrisburg",
+    "city": "harrisburg",
+    "state_province": "PA",
+    "country": "US",
+    "latitude": 40.273602,
+    "longitude": -76.884697,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "lancaster",
+    "city": "lancaster",
+    "state_province": "PA",
+    "country": "US",
+    "latitude": 40.0378,
+    "longitude": -76.305801,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "allentown",
+    "city": "lehigh valley",
+    "state_province": "PA",
+    "country": "US",
+    "latitude": 40.599998,
+    "longitude": -75.5,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "meadville",
+    "city": "meadville",
+    "state_province": "PA",
+    "country": "US",
+    "latitude": 41.641399,
+    "longitude": -80.151497,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "philadelphia",
+    "city": "philadelphia",
+    "state_province": "PA",
+    "country": "US",
+    "latitude": 39.952202,
+    "longitude": -75.1642,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "pittsburgh",
+    "city": "pittsburgh",
+    "state_province": "PA",
+    "country": "US",
+    "latitude": 40.440601,
+    "longitude": -79.996101,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "poconos",
+    "city": "poconos",
+    "state_province": "PA",
+    "country": "US",
+    "latitude": 41.248611,
+    "longitude": -75.248611,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "reading",
+    "city": "reading",
+    "state_province": "PA",
+    "country": "US",
+    "latitude": 40.335602,
+    "longitude": -75.9272,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "scranton",
+    "city": "scranton / wilkes-barre",
+    "state_province": "PA",
+    "country": "US",
+    "latitude": 41.408901,
+    "longitude": -75.662804,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "pennstate",
+    "city": "state college",
+    "state_province": "PA",
+    "country": "US",
+    "latitude": 40.793301,
+    "longitude": -77.860298,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "williamsport",
+    "city": "williamsport",
+    "state_province": "PA",
+    "country": "US",
+    "latitude": 41.2411,
+    "longitude": -77.001404,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "york",
+    "city": "york",
+    "state_province": "PA",
+    "country": "US",
+    "latitude": 39.962502,
+    "longitude": -76.728104,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "providence",
+    "city": "rhode island",
+    "state_province": "RI",
+    "country": "US",
+    "latitude": 41.8302,
+    "longitude": -71.409103,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "charleston",
+    "city": "charleston",
+    "state_province": "SC",
+    "country": "US",
+    "latitude": 32.776402,
+    "longitude": -79.931099,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "columbia",
+    "city": "columbia",
+    "state_province": "SC",
+    "country": "US",
+    "latitude": 34.000599,
+    "longitude": -81.035004,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "florencesc",
+    "city": "florence",
+    "state_province": "SC",
+    "country": "US",
+    "latitude": 34.195301,
+    "longitude": -79.762802,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "greenville",
+    "city": "greenville / upstate",
+    "state_province": "SC",
+    "country": "US",
+    "latitude": 34.852501,
+    "longitude": -82.394203,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "hiltonhead",
+    "city": "hilton head",
+    "state_province": "SC",
+    "country": "US",
+    "latitude": 32.1917,
+    "longitude": -80.743301,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "myrtlebeach",
+    "city": "myrtle beach",
+    "state_province": "SC",
+    "country": "US",
+    "latitude": 33.6889,
+    "longitude": -78.886902,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "nesd",
+    "city": "northeast SD",
+    "state_province": "SD",
+    "country": "US",
+    "latitude": 45.3367,
+    "longitude": -97.646484,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "csd",
+    "city": "pierre / central SD",
+    "state_province": "SD",
+    "country": "US",
+    "latitude": 44.551334,
+    "longitude": -100.579834,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "rapidcity",
+    "city": "rapid city / west SD",
+    "state_province": "SD",
+    "country": "US",
+    "latitude": 44.080502,
+    "longitude": -103.231003,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "siouxfalls",
+    "city": "sioux falls / SE SD",
+    "state_province": "SD",
+    "country": "US",
+    "latitude": 43.549999,
+    "longitude": -96.700302,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "sd",
+    "city": "south dakota",
+    "state_province": "SD",
+    "country": "US",
+    "latitude": 44.296101,
+    "longitude": -99.236702,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "chattanooga",
+    "city": "chattanooga",
+    "state_province": "TN",
+    "country": "US",
+    "latitude": 35.045601,
+    "longitude": -85.3097,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "clarksville",
+    "city": "clarksville",
+    "state_province": "TN",
+    "country": "US",
+    "latitude": 36.529701,
+    "longitude": -87.359398,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "cookeville",
+    "city": "cookeville",
+    "state_province": "TN",
+    "country": "US",
+    "latitude": 36.1628,
+    "longitude": -85.501602,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "jacksontn",
+    "city": "jackson",
+    "state_province": "TN",
+    "country": "US",
+    "latitude": 35.614399,
+    "longitude": -88.813904,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "knoxville",
+    "city": "knoxville",
+    "state_province": "TN",
+    "country": "US",
+    "latitude": 35.960602,
+    "longitude": -83.920799,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "memphis",
+    "city": "memphis",
+    "state_province": "TN",
+    "country": "US",
+    "latitude": 35.149399,
+    "longitude": -90.048897,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "nashville",
+    "city": "nashville",
+    "state_province": "TN",
+    "country": "US",
+    "latitude": 36.165798,
+    "longitude": -86.784401,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "tricities",
+    "city": "tri-cities",
+    "state_province": "TN",
+    "country": "US",
+    "latitude": 36.4174,
+    "longitude": -82.440697,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "abilene",
+    "city": "abilene",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 32.448601,
+    "longitude": -99.732803,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "amarillo",
+    "city": "amarillo",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 35.221901,
+    "longitude": -101.831001,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "austin",
+    "city": "austin",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 30.266899,
+    "longitude": -97.742798,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "beaumont",
+    "city": "beaumont / port arthur",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 30.0762,
+    "longitude": -94.112999,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "brownsville",
+    "city": "brownsville",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 25.9014,
+    "longitude": -97.4972,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "collegestation",
+    "city": "college station",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 30.6278,
+    "longitude": -96.334198,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "corpuschristi",
+    "city": "corpus christi",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 27.800301,
+    "longitude": -97.396103,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "dallas",
+    "city": "dallas / fort worth",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 32.783298,
+    "longitude": -96.800003,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "nacogdoches",
+    "city": "deep east texas",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 31.604271,
+    "longitude": -94.654083,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "delrio",
+    "city": "del rio / eagle pass",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 29.372601,
+    "longitude": -100.898438,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "elpaso",
+    "city": "el paso",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 31.7586,
+    "longitude": -106.486,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "galveston",
+    "city": "galveston",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 29.281099,
+    "longitude": -94.825798,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "houston",
+    "city": "houston",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 29.7631,
+    "longitude": -95.363098,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "killeen",
+    "city": "killeen / temple / ft hood",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 31.116899,
+    "longitude": -97.727501,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "laredo",
+    "city": "laredo",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 27.5061,
+    "longitude": -99.507202,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "lubbock",
+    "city": "lubbock",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 33.577801,
+    "longitude": -101.855003,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "mcallen",
+    "city": "mcallen / edinburg",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 26.2031,
+    "longitude": -98.229698,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "odessa",
+    "city": "odessa / midland",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 31.8456,
+    "longitude": -102.366997,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "sanangelo",
+    "city": "san angelo",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 31.452999,
+    "longitude": -100.452499,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "sanantonio",
+    "city": "san antonio",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 29.423901,
+    "longitude": -98.493301,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "sanmarcos",
+    "city": "san marcos",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 29.883101,
+    "longitude": -97.941101,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "bigbend",
+    "city": "southwest TX",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 29.200123,
+    "longitude": -103.293457,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "texoma",
+    "city": "texoma",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 33.832001,
+    "longitude": -96.571098,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "easttexas",
+    "city": "tyler / east TX",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 32.351101,
+    "longitude": -95.300797,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "victoriatx",
+    "city": "victoria",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 28.805,
+    "longitude": -97.003304,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "waco",
+    "city": "waco",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 31.5492,
+    "longitude": -97.1464,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "wichitafalls",
+    "city": "wichita falls",
+    "state_province": "TX",
+    "country": "US",
+    "latitude": 33.913601,
+    "longitude": -98.493103,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "logan",
+    "city": "logan",
+    "state_province": "UT",
+    "country": "US",
+    "latitude": 41.7356,
+    "longitude": -111.834,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "ogden",
+    "city": "ogden-clearfield",
+    "state_province": "UT",
+    "country": "US",
+    "latitude": 41.223099,
+    "longitude": -111.973,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "provo",
+    "city": "provo / orem",
+    "state_province": "UT",
+    "country": "US",
+    "latitude": 40.233898,
+    "longitude": -111.657997,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "saltlakecity",
+    "city": "salt lake city",
+    "state_province": "UT",
+    "country": "US",
+    "latitude": 40.760799,
+    "longitude": -111.889999,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "stgeorge",
+    "city": "st george",
+    "state_province": "UT",
+    "country": "US",
+    "latitude": 37.095299,
+    "longitude": -113.578003,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "charlottesville",
+    "city": "charlottesville",
+    "state_province": "VA",
+    "country": "US",
+    "latitude": 38.0345,
+    "longitude": -78.486504,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "danville",
+    "city": "danville",
+    "state_province": "VA",
+    "country": "US",
+    "latitude": 36.5872,
+    "longitude": -79.404404,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "fredericksburg",
+    "city": "fredericksburg",
+    "state_province": "VA",
+    "country": "US",
+    "latitude": 38.3018,
+    "longitude": -77.470802,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "harrisonburg",
+    "city": "harrisonburg",
+    "state_province": "VA",
+    "country": "US",
+    "latitude": 38.443298,
+    "longitude": -78.872803,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "lynchburg",
+    "city": "lynchburg",
+    "state_province": "VA",
+    "country": "US",
+    "latitude": 37.403702,
+    "longitude": -79.170197,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "blacksburg",
+    "city": "new river valley",
+    "state_province": "VA",
+    "country": "US",
+    "latitude": 37.229401,
+    "longitude": -80.4142,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "norfolk",
+    "city": "norfolk / hampton roads",
+    "state_province": "VA",
+    "country": "US",
+    "latitude": 36.84,
+    "longitude": -76.269997,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "richmond",
+    "city": "richmond",
+    "state_province": "VA",
+    "country": "US",
+    "latitude": 37.5383,
+    "longitude": -77.461502,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "roanoke",
+    "city": "roanoke",
+    "state_province": "VA",
+    "country": "US",
+    "latitude": 37.274101,
+    "longitude": -79.942001,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "swva",
+    "city": "southwest VA",
+    "state_province": "VA",
+    "country": "US",
+    "latitude": 36.892803,
+    "longitude": -82.084351,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "winchester",
+    "city": "winchester",
+    "state_province": "VA",
+    "country": "US",
+    "latitude": 39.178299,
+    "longitude": -78.166603,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "vermont",
+    "city": "vermont",
+    "state_province": "VT",
+    "country": "US",
+    "latitude": 44.461201,
+    "longitude": -73.193703,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "bellingham",
+    "city": "bellingham",
+    "state_province": "WA",
+    "country": "US",
+    "latitude": 48.759701,
+    "longitude": -122.487,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "kpr",
+    "city": "kennewick-pasco-richland",
+    "state_province": "WA",
+    "country": "US",
+    "latitude": 46.211399,
+    "longitude": -119.136002,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "moseslake",
+    "city": "moses lake",
+    "state_province": "WA",
+    "country": "US",
+    "latitude": 47.1301,
+    "longitude": -119.278,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "olympic",
+    "city": "olympic peninsula",
+    "state_province": "WA",
+    "country": "US",
+    "latitude": 47.798302,
+    "longitude": -123.617996,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "pullman",
+    "city": "pullman / moscow",
+    "state_province": "WA",
+    "country": "US",
+    "latitude": 46.732498,
+    "longitude": -117.171997,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "seattle",
+    "city": "seattle-tacoma",
+    "state_province": "WA",
+    "country": "US",
+    "latitude": 47.6064,
+    "longitude": -122.331001,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "skagit",
+    "city": "skagit / island / SJI",
+    "state_province": "WA",
+    "country": "US",
+    "latitude": 48.384499,
+    "longitude": -122.357002,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "spokane",
+    "city": "spokane / coeur d'alene",
+    "state_province": "WA",
+    "country": "US",
+    "latitude": 47.658901,
+    "longitude": -117.425003,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "wenatchee",
+    "city": "wenatchee",
+    "state_province": "WA",
+    "country": "US",
+    "latitude": 47.423599,
+    "longitude": -120.308998,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "yakima",
+    "city": "yakima",
+    "state_province": "WA",
+    "country": "US",
+    "latitude": 46.6022,
+    "longitude": -120.504997,
+    "timezone": "America/Los_Angeles"
+  },
+  {
+    "slug": "appleton",
+    "city": "appleton-oshkosh-FDL",
+    "state_province": "WI",
+    "country": "US",
+    "latitude": 44.261902,
+    "longitude": -88.415298,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "eauclaire",
+    "city": "eau claire",
+    "state_province": "WI",
+    "country": "US",
+    "latitude": 44.811401,
+    "longitude": -91.498299,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "greenbay",
+    "city": "green bay",
+    "state_province": "WI",
+    "country": "US",
+    "latitude": 44.519199,
+    "longitude": -88.019699,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "janesville",
+    "city": "janesville",
+    "state_province": "WI",
+    "country": "US",
+    "latitude": 42.6828,
+    "longitude": -89.0186,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "racine",
+    "city": "kenosha-racine",
+    "state_province": "WI",
+    "country": "US",
+    "latitude": 42.584702,
+    "longitude": -87.821098,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "lacrosse",
+    "city": "la crosse",
+    "state_province": "WI",
+    "country": "US",
+    "latitude": 43.801399,
+    "longitude": -91.239403,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "madison",
+    "city": "madison",
+    "state_province": "WI",
+    "country": "US",
+    "latitude": 43.073101,
+    "longitude": -89.4011,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "milwaukee",
+    "city": "milwaukee",
+    "state_province": "WI",
+    "country": "US",
+    "latitude": 43.038898,
+    "longitude": -87.906403,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "northernwi",
+    "city": "northern WI",
+    "state_province": "WI",
+    "country": "US",
+    "latitude": 45.638901,
+    "longitude": -89.412498,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "sheboygan",
+    "city": "sheboygan",
+    "state_province": "WI",
+    "country": "US",
+    "latitude": 43.750801,
+    "longitude": -87.714401,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "wausau",
+    "city": "wausau",
+    "state_province": "WI",
+    "country": "US",
+    "latitude": 44.959202,
+    "longitude": -89.629997,
+    "timezone": "America/Chicago"
+  },
+  {
+    "slug": "charlestonwv",
+    "city": "charleston",
+    "state_province": "WV",
+    "country": "US",
+    "latitude": 38.349701,
+    "longitude": -81.632797,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "martinsburg",
+    "city": "eastern panhandle",
+    "state_province": "WV",
+    "country": "US",
+    "latitude": 39.4561,
+    "longitude": -77.964203,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "huntington",
+    "city": "huntington-ashland",
+    "state_province": "WV",
+    "country": "US",
+    "latitude": 38.419201,
+    "longitude": -82.445297,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "morgantown",
+    "city": "morgantown",
+    "state_province": "WV",
+    "country": "US",
+    "latitude": 39.629398,
+    "longitude": -79.9561,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "wheeling",
+    "city": "northern panhandle",
+    "state_province": "WV",
+    "country": "US",
+    "latitude": 40.0639,
+    "longitude": -80.7211,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "parkersburg",
+    "city": "parkersburg-marietta",
+    "state_province": "WV",
+    "country": "US",
+    "latitude": 39.266701,
+    "longitude": -81.561699,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "swv",
+    "city": "southern WV",
+    "state_province": "WV",
+    "country": "US",
+    "latitude": 37.779499,
+    "longitude": -81.183296,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "wv",
+    "city": "west virginia (old)",
+    "state_province": "WV",
+    "country": "US",
+    "latitude": 38.709999,
+    "longitude": -80.660004,
+    "timezone": "America/New_York"
+  },
+  {
+    "slug": "wyoming",
+    "city": "wyoming",
+    "state_province": "WY",
+    "country": "US",
+    "latitude": 43.004002,
+    "longitude": -108.153999,
+    "timezone": "America/Denver"
+  },
+  {
+    "slug": "montevideo",
+    "city": "montevideo",
+    "state_province": null,
+    "country": "UY",
+    "latitude": -34.866699,
+    "longitude": -56.166698,
+    "timezone": "America/Montevideo"
+  },
+  {
+    "slug": "caracas",
+    "city": "venezuela",
+    "state_province": null,
+    "country": "VE",
+    "latitude": 10.4122,
+    "longitude": -66.882004,
+    "timezone": "America/Caracas"
+  },
+  {
+    "slug": "virgin",
+    "city": "virgin islands",
+    "state_province": null,
+    "country": "VI",
+    "latitude": 18.3419,
+    "longitude": -64.930702,
+    "timezone": "America/St_Thomas"
+  },
+  {
+    "slug": "vietnam",
+    "city": "vietnam",
+    "state_province": null,
+    "country": "VN",
+    "latitude": 13.9944,
+    "longitude": 108.017998,
+    "timezone": "Asia/Saigon"
+  },
+  {
+    "slug": "capetown",
+    "city": "cape town",
+    "state_province": null,
+    "country": "ZA",
+    "latitude": -33.9767,
+    "longitude": 18.4244,
+    "timezone": "Africa/Johannesburg"
+  },
+  {
+    "slug": "durban",
+    "city": "durban",
+    "state_province": null,
+    "country": "ZA",
+    "latitude": -29.843,
+    "longitude": 30.9554,
+    "timezone": "Africa/Johannesburg"
+  },
+  {
+    "slug": "johannesburg",
+    "city": "johannesburg",
+    "state_province": null,
+    "country": "ZA",
+    "latitude": -26.194901,
+    "longitude": 28.0371,
+    "timezone": "Africa/Johannesburg"
+  },
+  {
+    "slug": "pretoria",
+    "city": "pretoria",
+    "state_province": null,
+    "country": "ZA",
+    "latitude": -25.7069,
+    "longitude": 28.229401,
+    "timezone": "Africa/Johannesburg"
+  }
+]

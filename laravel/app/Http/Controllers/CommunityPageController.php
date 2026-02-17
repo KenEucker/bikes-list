@@ -1,0 +1,169 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\City;
+use App\Models\CommunityPage;
+use App\Models\Upload;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
+use Inertia\Inertia;
+use Inertia\Response;
+
+class CommunityPageController extends Controller
+{
+    public function index(Request $request, string $citySlug): Response
+    {
+        $city = City::query()->where('slug', $citySlug)->firstOrFail();
+        $pages = CommunityPage::query()
+            ->where('city_id', $city->id)
+            ->where('state', CommunityPage::STATE_APPROVED)
+            ->orderBy('name')
+            ->paginate(20);
+
+        $cityBaseUrl = self::cityBaseUrl($request, $citySlug);
+
+        return Inertia::render('CommunityPages/Index', [
+            'city' => $city,
+            'pages' => $pages,
+            'homeUrl' => config('app.url'),
+            'cityBaseUrl' => $cityBaseUrl,
+        ]);
+    }
+
+    public function show(string $citySlug, string $slug): Response
+    {
+        $city = City::query()->where('slug', $citySlug)->firstOrFail();
+        $communityPage = CommunityPage::query()->where('city_id', $city->id)->where('slug', $slug)->firstOrFail();
+        Gate::authorize('view', $communityPage);
+        $communityPage->load(['city', 'managers', 'uploads', 'sales' => fn ($q) => $q->where('state', 'published')->limit(10), 'rides' => fn ($q) => $q->where('state', 'published')->where(function ($q2) {
+                $q2->whereNull('ends_at')->orWhere('ends_at', '>=', now());
+            })->orderBy('starts_at')->limit(10)]);
+
+        $cityBaseUrl = self::cityBaseUrl(request(), $citySlug);
+
+        return Inertia::render('CommunityPages/Show', [
+            'city' => $city,
+            'communityPage' => $communityPage,
+            'moderatorRelayEmail' => 'report-page-' . $communityPage->slug . '@' . (parse_url($cityBaseUrl, PHP_URL_HOST) ?? parse_url(config('app.url'), PHP_URL_HOST)),
+            'homeUrl' => config('app.url'),
+            'cityBaseUrl' => $cityBaseUrl,
+        ]);
+    }
+
+    public function create(Request $request, string $citySlug): Response
+    {
+        $city = City::query()->where('slug', $citySlug)->firstOrFail();
+        if (! $request->user()) {
+            abort(403, 'You must be signed in to add a community page.');
+        }
+
+        $cityBaseUrl = self::cityBaseUrl($request, $citySlug);
+
+        $errors = $request->session()->get('errors');
+        $errorBag = $errors && $errors->hasBag('default') ? $errors->getBag('default')->toArray() : [];
+
+        return Inertia::render('CommunityPages/Create', [
+            'city' => $city,
+            'homeUrl' => config('app.url'),
+            'cityBaseUrl' => $cityBaseUrl,
+            'errors' => $errorBag,
+            'old' => $request->old(),
+        ]);
+    }
+
+    public function store(Request $request, string $citySlug): \Illuminate\Http\RedirectResponse
+    {
+        $city = City::query()->where('slug', $citySlug)->firstOrFail();
+        if (! $request->user()) {
+            abort(403, 'You must be signed in to add a community page.');
+        }
+        $request->validate([
+            'type' => ['required', 'in:bike_shop,club,team,advocacy_org,co_op,informal_group,recurring_event'],
+            'name' => ['required', 'string', 'max:255'],
+            'about' => ['nullable', 'string'],
+            'event_info' => ['nullable', 'string'],
+            'sales_info' => ['nullable', 'string'],
+            'contact_address' => ['nullable', 'string', 'max:255'],
+            'contact_email' => ['nullable', 'email'],
+            'contact_phone' => ['nullable', 'string', 'max:50'],
+            'upload_ids' => ['nullable', 'array', 'max:1'],
+            'upload_ids.*' => ['uuid', 'exists:uploads,id'],
+        ]);
+        $data = $request->only(['type', 'name', 'about', 'event_info', 'sales_info', 'contact_address', 'contact_email', 'contact_phone']);
+        $data['city_id'] = $city->id;
+        $data['created_by_user_id'] = $request->user()->id;
+        $data['state'] = CommunityPage::STATE_PENDING;
+        $data['slug'] = Str::slug($data['name']) . '-' . uniqid();
+        $page = CommunityPage::create($data);
+        $page->update(['slug' => Str::slug($page->name) . '-' . $page->id]);
+        $page->managers()->attach($request->user()->id, ['role' => 'owner']);
+        $this->syncPageUploads($page, $request->input('upload_ids', []), $request->user()->id);
+        $cityBaseUrl = self::cityBaseUrl($request, $citySlug);
+        return redirect()->to($cityBaseUrl . '/community/' . $page->slug)
+            ->with('status', 'Page submitted for review. It will be approved automatically if not reviewed by a moderator.')
+            ->setStatusCode(303);
+    }
+
+    public function edit(string $citySlug, string $slug): Response
+    {
+        $city = City::query()->where('slug', $citySlug)->firstOrFail();
+        $communityPage = CommunityPage::query()->where('city_id', $city->id)->where('slug', $slug)->firstOrFail();
+        Gate::authorize('update', $communityPage);
+        $cityBaseUrl = self::cityBaseUrl(request(), $citySlug);
+
+        $communityPage->load('uploads');
+
+        return Inertia::render('CommunityPages/Edit', [
+            'city' => $city,
+            'communityPage' => $communityPage,
+            'homeUrl' => config('app.url'),
+            'cityBaseUrl' => $cityBaseUrl,
+        ]);
+    }
+
+    public function update(Request $request, string $citySlug, string $slug): \Illuminate\Http\RedirectResponse
+    {
+        $city = City::query()->where('slug', $citySlug)->firstOrFail();
+        $communityPage = CommunityPage::query()->where('city_id', $city->id)->where('slug', $slug)->firstOrFail();
+        Gate::authorize('update', $communityPage);
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'about' => ['nullable', 'string'],
+            'event_info' => ['nullable', 'string'],
+            'sales_info' => ['nullable', 'string'],
+            'contact_address' => ['nullable', 'string', 'max:255'],
+            'contact_email' => ['nullable', 'email'],
+            'contact_phone' => ['nullable', 'string', 'max:50'],
+            'upload_ids' => ['nullable', 'array', 'max:1'],
+            'upload_ids.*' => ['uuid', 'exists:uploads,id'],
+        ]);
+        // Approved pages stay approved when updated (do not touch state)
+        $communityPage->update($request->only(['name', 'about', 'event_info', 'sales_info', 'contact_address', 'contact_email', 'contact_phone']));
+        $this->syncPageUploads($communityPage, $request->input('upload_ids', []), $request->user()->id);
+        $cityBaseUrl = self::cityBaseUrl($request, $citySlug);
+        return redirect()->to($cityBaseUrl . '/community/' . $communityPage->slug)
+            ->with('status', 'Page updated.')
+            ->setStatusCode(303);
+    }
+
+    private function syncPageUploads(CommunityPage $page, array $uploadIds, int $userId): void
+    {
+        $ids = collect($uploadIds)->filter()->unique()->values()->take(1)->all();
+        $allowed = Upload::query()
+            ->where('status', Upload::STATUS_READY)
+            ->where('created_by', $userId)
+            ->whereIn('id', $ids)
+            ->pluck('id')
+            ->all();
+        $pivot = [];
+        foreach (array_values($allowed) as $i => $id) {
+            $pivot[$id] = ['position' => $i];
+        }
+        $page->uploads()->sync($pivot);
+        Upload::query()
+            ->whereIn('id', $allowed)
+            ->update(['resource_type' => 'pages', 'resource_id' => (string) $page->id]);
+    }
+}
