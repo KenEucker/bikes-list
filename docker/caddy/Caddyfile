@@ -14,10 +14,6 @@
 	encode gzip
 
 	# Try files, then fall back to index.php (Laravel front controller)
-	@notStatic {
-		not file
-		path_regexp .*
-	}
 	try_files {path} {path}/ /index.php?{query}
 
 	# PHP via FastCGI to the app container

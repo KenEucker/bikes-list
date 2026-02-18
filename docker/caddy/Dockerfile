@@ -1,6 +1,6 @@
 FROM caddy:2-builder AS builder
 
-RUN xcaddy build \
+RUN GOMEMLIMIT=512MiB xcaddy build \
     --with github.com/caddy-dns/digitalocean
 
 FROM caddy:2

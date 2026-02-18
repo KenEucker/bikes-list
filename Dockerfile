@@ -41,10 +41,10 @@ RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
 FROM base AS frontend
 
 COPY laravel/package.json laravel/package-lock.json ./
-RUN npm ci
+RUN npm ci --maxsockets 5
 
 COPY laravel/ .
-RUN npm run build
+RUN NODE_OPTIONS="--max-old-space-size=512" npm run build
 
 # Stage 4: Runtime image
 FROM base AS runtime
@@ -57,6 +57,9 @@ COPY laravel/ .
 
 # Copy built assets
 COPY --from=frontend /var/www/html/public/build ./public/build
+
+# PHP-FPM tuning — use ondemand PM to reduce idle memory on small droplets
+COPY docker/php-fpm-prod.conf /usr/local/etc/php-fpm.d/zz-prod.conf
 
 # Ensure storage directory structure exists (contents excluded by .dockerignore)
 RUN mkdir -p /var/www/html/storage/framework/{views,cache,sessions,testing} \

@@ -30,12 +30,17 @@ services:
 
       SESSION_DRIVER: database
       SESSION_DOMAIN: ${SESSION_DOMAIN:-.bikeslist.org}
+
+      # PHP-FPM tuning for small droplets (override via .env if needed)
+      PHP_FPM_PM: ${PHP_FPM_PM:-ondemand}
+      PHP_FPM_MAX_CHILDREN: ${PHP_FPM_MAX_CHILDREN:-3}
     volumes:
       - app_public:/var/www/html/public
     depends_on:
       db:
         condition: service_healthy
     restart: unless-stopped
+    mem_limit: 512m
     healthcheck:
       test: ["CMD", "php", "-r", "@fsockopen('127.0.0.1', 9000) or exit(1);"]
       interval: 10s
@@ -62,6 +67,7 @@ services:
       app:
         condition: service_healthy
     restart: unless-stopped
+    mem_limit: 128m
 
   db:
     image: postgres:17
@@ -78,6 +84,8 @@ services:
       retries: 30
       start_period: 10s
     restart: unless-stopped
+    mem_limit: 256m
+    shm_size: 64m
 
 volumes:
   pgdata:
