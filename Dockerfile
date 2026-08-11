@@ -1,6 +1,10 @@
 # Multi-stage build for Bikeslist Platform
+#
+# The Laravel application lives in the laravel/ subdirectory.
+# The build copies from laravel/ into the container's /var/www/html.
+
 # Stage 1: Base PHP image with system dependencies
-FROM php:8.3-fpm AS base
+FROM php:8.4-fpm AS base
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -12,8 +16,6 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     zip \
     unzip \
-    nginx \
-    supervisor \
     postgresql-client \
     libpq-dev \
     && docker-php-ext-install pdo_pgsql pgsql mbstring exif pcntl bcmath gd zip \
@@ -32,17 +34,17 @@ WORKDIR /var/www/html
 # Stage 2: Install Composer dependencies
 FROM base AS vendor
 
-COPY composer.json composer.lock* ./
+COPY laravel/composer.json laravel/composer.lock ./
 RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
 
 # Stage 3: Build frontend assets
 FROM base AS frontend
 
-COPY package.json package-lock.json* ./
-RUN npm ci
+COPY laravel/package.json laravel/package-lock.json ./
+RUN npm ci --maxsockets 5
 
-COPY . .
-RUN npm run build
+COPY laravel/ .
+RUN NODE_OPTIONS="--max-old-space-size=512" npm run build
 
 # Stage 4: Runtime image
 FROM base AS runtime
@@ -50,11 +52,14 @@ FROM base AS runtime
 # Copy Composer dependencies
 COPY --from=vendor /var/www/html/vendor ./vendor
 
-# Copy application code
-COPY . .
+# Copy application code from laravel/ subdirectory
+COPY laravel/ .
 
 # Copy built assets
 COPY --from=frontend /var/www/html/public/build ./public/build
+
+# PHP-FPM tuning — use ondemand PM to reduce idle memory on small droplets
+COPY docker/php-fpm-prod.conf /usr/local/etc/php-fpm.d/zz-prod.conf
 
 # Ensure storage directory structure exists (contents excluded by .dockerignore)
 RUN mkdir -p /var/www/html/storage/framework/{views,cache,sessions,testing} \
@@ -70,10 +75,7 @@ RUN chown -R www-data:www-data /var/www/html \
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Copy Nginx configuration
-COPY docker/nginx.conf /etc/nginx/sites-available/default
-
-# Expose port
-EXPOSE 80
+# Expose PHP-FPM port (Caddy reverse-proxies to this)
+EXPOSE 9000
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

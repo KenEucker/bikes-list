@@ -5,6 +5,8 @@ vendor
 .env
 .env.backup
 .phpunit.result.cache
+
+# Root-level storage/bootstrap exclusions
 storage/*.key
 storage/logs/*
 !storage/logs/.gitkeep
@@ -16,3 +18,16 @@ storage/framework/views/*
 !storage/framework/views/.gitkeep
 bootstrap/cache/*
 !bootstrap/cache/.gitkeep
+
+# Same exclusions under laravel/ (the actual app directory)
+laravel/storage/*.key
+laravel/storage/logs/*
+!laravel/storage/logs/.gitkeep
+laravel/storage/framework/cache/*
+!laravel/storage/framework/cache/.gitkeep
+laravel/storage/framework/sessions/*
+!laravel/storage/framework/sessions/.gitkeep
+laravel/storage/framework/views/*
+!laravel/storage/framework/views/.gitkeep
+laravel/bootstrap/cache/*
+!laravel/bootstrap/cache/.gitkeep

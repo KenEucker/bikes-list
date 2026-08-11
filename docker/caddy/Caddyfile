@@ -1,0 +1,37 @@
+{
+	email {$CADDY_ACME_EMAIL}
+}
+
+# Wildcard cert for *.bikeslist.org + bare domain via DNS-01 challenge
+*.bikeslist.org, bikeslist.org {
+	tls {
+		dns digitalocean {$DO_AUTH_TOKEN}
+	}
+
+	root * /var/www/html/public
+
+	# Encode responses
+	encode gzip
+
+	# Try files, then fall back to index.php (Laravel front controller)
+	try_files {path} {path}/ /index.php?{query}
+
+	# PHP via FastCGI to the app container
+	php_fastcgi app:9000 {
+		resolve_root_symlink
+	}
+
+	file_server
+
+	# Block dotfiles except .well-known
+	@dotfiles {
+		path /.*
+		not path /.well-known/*
+	}
+	respond @dotfiles 403
+
+	# Upload size limit
+	request_body {
+		max_size 10MB
+	}
+}

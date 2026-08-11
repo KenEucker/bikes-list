@@ -1,0 +1,94 @@
+# Production compose – self-contained (does NOT overlay docker-compose.yml).
+#
+# Usage:
+#   docker compose -f docker-compose.prod.yml up -d --build
+#
+# Required in .env:
+#   DO_AUTH_TOKEN   – DigitalOcean API token (for wildcard DNS-01 cert)
+#   CADDY_ACME_EMAIL – email for Let's Encrypt notifications
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - path: .env
+        required: true
+    environment:
+      APP_RUNTIME: consumer
+      LOG_CHANNEL: stderr
+
+      DB_CONNECTION: pgsql
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: ${DB_DATABASE:-laravel}
+      DB_USERNAME: ${DB_USERNAME:-laravel}
+      DB_PASSWORD: ${DB_PASSWORD:-laravel}
+
+      RUN_MIGRATIONS: "true"
+
+      SESSION_DRIVER: database
+      SESSION_DOMAIN: ${SESSION_DOMAIN:-.bikeslist.org}
+
+      # PHP-FPM tuning for small droplets (override via .env if needed)
+      PHP_FPM_PM: ${PHP_FPM_PM:-ondemand}
+      PHP_FPM_MAX_CHILDREN: ${PHP_FPM_MAX_CHILDREN:-3}
+    volumes:
+      - app_public:/var/www/html/public
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    mem_limit: 512m
+    healthcheck:
+      test: ["CMD", "php", "-r", "@fsockopen('127.0.0.1', 9000) or exit(1);"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 120s
+
+  caddy:
+    build:
+      context: ./docker/caddy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DO_AUTH_TOKEN: ${DO_AUTH_TOKEN}
+      CADDY_ACME_EMAIL: ${CADDY_ACME_EMAIL}
+    volumes:
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+      - app_public:/var/www/html/public:ro
+    depends_on:
+      app:
+        condition: service_healthy
+    restart: unless-stopped
+    mem_limit: 128m
+
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-laravel}
+      POSTGRES_USER: ${DB_USERNAME:-laravel}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-laravel}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-laravel} -d ${DB_DATABASE:-laravel}"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+      start_period: 10s
+    restart: unless-stopped
+    mem_limit: 256m
+    shm_size: 64m
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:
+  app_public:
